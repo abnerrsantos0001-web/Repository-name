@@ -50,11 +50,17 @@ Campos marcados com `(a preencher)` ainda não foram confirmados pelo usuário: 
 
 ## 6. Links e CTA
 
-- Link principal: (a preencher: WhatsApp, site ou link da bio)
+- Link principal: direct do Instagram ("Me chama no direct @ramos.scorp"). WhatsApp ou site: (a preencher)
 - Estilo de CTA: convite para conversar ou salvar o post. Ex.: "salva esse post para revisar seus anúncios no fim de semana",
   "manda para aquele amigo que vende no ML e reclama que as vendas pararam".
 
-## 7. Identidade visual
+## 7. Identidade visual (medida das artes de referência em `marca/referencia-*.png`)
 
-- Perfil atual: (a preencher: cores, fontes e logo oficiais da Ramos Corp)
-- Formato padrão das imagens: 1080×1350 (4:5), JPEG.
+- Assinatura da marca: "RAMOSCORP · GESTÃO DE MARKETPLACES & E-COMMERCE".
+- Fundo: degradê verde diagonal de `#116943` (topo) a `#053925` (base), com 2 círculos finos e transparentes no canto superior direito.
+- Destaque: verde `#48D686` nas palavras-chave do título. Etiqueta em pílula `#1F8054` com texto branco em CAIXA ALTA.
+- Fonte: Poppins (Bold nos títulos, Regular no texto), em `marca/fontes/`.
+- Logo "RC" branco no canto superior esquerdo (`marca/logo-rc-branco.png`). Slide final claro com o logo colorido.
+- Carrossel: "Arrasta para o lado →" em verde no slide 1 e pontinhos de paginação embaixo.
+- Gerar as imagens com `marca/layout.py` (função `slide`). Nunca usar outro visual sem o usuário pedir.
+- Formato: 1080×1350 (feed, 4:5) e 1080×1920 (stories), JPEG.
