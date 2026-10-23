@@ -23,3 +23,8 @@ servem só para **criar** conteúdo da Ramos Corp (gestão de contas no Mercado 
 
 Referências compartilhadas (voz, perfil da marca, fórmulas, hashtags, algoritmo) ficam em `.claude/skills/_referencias/`.
 Não usar Publora nem outro serviço de publicação: publicar é sempre pelo `publicar.py`, seguindo as duas aprovações acima.
+
+## Site e vídeo
+
+- Site: usar a skill `taste-skill` (design-taste-frontend) para criar, revisar e tirar a "cara de IA". Arquivos de trabalho dela ficam em `.taste-skill/` (fora do git).
+- Vídeo/Reels: skills `hyperframes` e `hyperframes-cli`. O `publicar.py` ainda não publica vídeo.

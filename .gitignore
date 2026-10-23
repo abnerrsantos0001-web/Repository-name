@@ -1,2 +1,5 @@
 .env
 __pycache__/
+.taste-skill/
+.hyperframes/
+node_modules/
