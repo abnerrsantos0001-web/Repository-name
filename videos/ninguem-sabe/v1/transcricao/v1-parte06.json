@@ -1,0 +1,337 @@
+{
+ "audio": "assets/audio/v1-parte06.mp3",
+ "duracao": 28.526,
+ "inicioNaNarracao": 197.511,
+ "palavras": [
+  {
+   "id": "p06w0",
+   "text": "ver.",
+   "start": 0.279,
+   "end": 0.429
+  },
+  {
+   "id": "p06w1",
+   "text": "Na",
+   "start": 0.619,
+   "end": 0.749
+  },
+  {
+   "id": "p06w2",
+   "text": "décima",
+   "start": 0.749,
+   "end": 1.289
+  },
+  {
+   "id": "p06w3",
+   "text": "noite",
+   "start": 1.289,
+   "end": 1.739
+  },
+  {
+   "id": "p06w4",
+   "text": "você",
+   "start": 1.739,
+   "end": 1.949
+  },
+  {
+   "id": "p06w5",
+   "text": "sobe",
+   "start": 2.119,
+   "end": 2.479
+  },
+  {
+   "id": "p06w6",
+   "text": "no",
+   "start": 2.599,
+   "end": 2.659
+  },
+  {
+   "id": "p06w7",
+   "text": "telhado.",
+   "start": 2.659,
+   "end": 3.559
+  },
+  {
+   "id": "p06w8",
+   "text": "A",
+   "start": 3.559,
+   "end": 3.649
+  },
+  {
+   "id": "p06w9",
+   "text": "cidade",
+   "start": 3.649,
+   "end": 4.169
+  },
+  {
+   "id": "p06w10",
+   "text": "inteira",
+   "start": 4.199,
+   "end": 4.839
+  },
+  {
+   "id": "p06w11",
+   "text": "está",
+   "start": 5.149,
+   "end": 5.209
+  },
+  {
+   "id": "p06w12",
+   "text": "escura.",
+   "start": 5.209,
+   "end": 6.419
+  },
+  {
+   "id": "p06w13",
+   "text": "Menos",
+   "start": 6.419,
+   "end": 7.079
+  },
+  {
+   "id": "p06w14",
+   "text": "para",
+   "start": 7.419,
+   "end": 7.609
+  },
+  {
+   "id": "p06w15",
+   "text": "nela.",
+   "start": 7.739,
+   "end": 8.389
+  },
+  {
+   "id": "p06w16",
+   "text": "Lá",
+   "start": 8.429,
+   "end": 8.609
+  },
+  {
+   "id": "p06w17",
+   "text": "longe,",
+   "start": 8.909,
+   "end": 9.329
+  },
+  {
+   "id": "p06w18",
+   "text": "no",
+   "start": 9.329,
+   "end": 9.469
+  },
+  {
+   "id": "p06w19",
+   "text": "vigésimo",
+   "start": 9.619,
+   "end": 10.329
+  },
+  {
+   "id": "p06w20",
+   "text": "andar",
+   "start": 10.329,
+   "end": 10.629
+  },
+  {
+   "id": "p06w21",
+   "text": "de",
+   "start": 10.869,
+   "end": 11.029
+  },
+  {
+   "id": "p06w22",
+   "text": "um",
+   "start": 11.029,
+   "end": 11.279
+  },
+  {
+   "id": "p06w23",
+   "text": "prédio",
+   "start": 11.279,
+   "end": 11.829
+  },
+  {
+   "id": "p06w24",
+   "text": "no",
+   "start": 11.829,
+   "end": 12.029
+  },
+  {
+   "id": "p06w25",
+   "text": "centro,",
+   "start": 12.029,
+   "end": 12.829
+  },
+  {
+   "id": "p06w26",
+   "text": "uma",
+   "start": 12.829,
+   "end": 12.909
+  },
+  {
+   "id": "p06w27",
+   "text": "luz",
+   "start": 13.069,
+   "end": 13.429
+  },
+  {
+   "id": "p06w28",
+   "text": "acesa.",
+   "start": 13.429,
+   "end": 14.229
+  },
+  {
+   "id": "p06w29",
+   "text": "Seu",
+   "start": 14.229,
+   "end": 14.529
+  },
+  {
+   "id": "p06w30",
+   "text": "coração",
+   "start": 14.529,
+   "end": 15.289
+  },
+  {
+   "id": "p06w31",
+   "text": "dispara.",
+   "start": 15.289,
+   "end": 16.129
+  },
+  {
+   "id": "p06w32",
+   "text": "Alguém",
+   "start": 16.219,
+   "end": 16.669
+  },
+  {
+   "id": "p06w33",
+   "text": "sobreviveu.",
+   "start": 16.669,
+   "end": 17.879
+  },
+  {
+   "id": "p06w34",
+   "text": "Você",
+   "start": 17.879,
+   "end": 18.249
+  },
+  {
+   "id": "p06w35",
+   "text": "corre",
+   "start": 18.249,
+   "end": 18.719
+  },
+  {
+   "id": "p06w36",
+   "text": "a",
+   "start": 18.719,
+   "end": 18.809
+  },
+  {
+   "id": "p06w37",
+   "text": "madrugada",
+   "start": 18.809,
+   "end": 19.449
+  },
+  {
+   "id": "p06w38",
+   "text": "inteira.",
+   "start": 20.009,
+   "end": 20.519
+  },
+  {
+   "id": "p06w39",
+   "text": "Sobe",
+   "start": 20.609,
+   "end": 20.929
+  },
+  {
+   "id": "p06w40",
+   "text": "vinte",
+   "start": 20.929,
+   "end": 21.369
+  },
+  {
+   "id": "p06w41",
+   "text": "andares",
+   "start": 21.499,
+   "end": 21.709
+  },
+  {
+   "id": "p06w42",
+   "text": "de",
+   "start": 22.019,
+   "end": 22.219
+  },
+  {
+   "id": "p06w43",
+   "text": "escada",
+   "start": 22.219,
+   "end": 22.709
+  },
+  {
+   "id": "p06w44",
+   "text": "no",
+   "start": 22.829,
+   "end": 23.129
+  },
+  {
+   "id": "p06w45",
+   "text": "escuro.",
+   "start": 23.129,
+   "end": 23.329
+  },
+  {
+   "id": "p06w46",
+   "text": "Bate",
+   "start": 23.329,
+   "end": 24.549
+  },
+  {
+   "id": "p06w47",
+   "text": "na",
+   "start": 24.549,
+   "end": 24.859
+  },
+  {
+   "id": "p06w48",
+   "text": "porta.",
+   "start": 24.859,
+   "end": 25.599
+  },
+  {
+   "id": "p06w49",
+   "text": "Ea",
+   "start": 25.599,
+   "end": 25.809
+  },
+  {
+   "id": "p06w50",
+   "text": "porta",
+   "start": 25.809,
+   "end": 26.339
+  },
+  {
+   "id": "p06w51",
+   "text": "se",
+   "start": 26.399,
+   "end": 26.549
+  },
+  {
+   "id": "p06w52",
+   "text": "abre",
+   "start": 26.549,
+   "end": 26.909
+  },
+  {
+   "id": "p06w53",
+   "text": "sozinha.",
+   "start": 27.059,
+   "end": 27.999
+  },
+  {
+   "id": "p06w54",
+   "text": "Dentro",
+   "start": 27.999,
+   "end": 28.526
+  }
+ ]
+}

@@ -1,0 +1,583 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 1 · Parte 01 (0 a 40.93 s da narração)
+  "Você acorda... Todo mundo da Terra sumiu. Menos você."
+  Uma cena Three.js só (um contexto WebGL por parte); os cortes são trocas de câmera e de cenário
+  dentro dela, nos tempos de PLANOS. Tudo é render(t), puxado por um relógio GSAP linear.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Parte 01</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #p01-raiz {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background: #0c0d0f;
+      }
+      #p01-tela {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        display: block;
+      }
+      #p01-vinheta {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 72% 68% at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.6) 100%);
+      }
+      #p01-escuro {
+        position: absolute;
+        inset: 0;
+        background: #000;
+        opacity: 0;
+      }
+      #p01-fonte {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        font-family: Inter;
+        font-weight: 700;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="p01-raiz" data-composition-id="parte01" data-width="1920" data-height="1080" data-duration="40.93">
+      <canvas id="p01-tela" width="1920" height="1080"></canvas>
+      <div id="p01-vinheta"></div>
+      <div id="p01-escuro"></div>
+      <div id="p01-fonte" data-layout-ignore>Aa 0123456789</div>
+    </div>
+
+    <script>
+      (function () {
+        var raiz = document.getElementById("p01-raiz");
+        var duracao = parseFloat(raiz.dataset.duration) || 40.93;
+        var relogio = { t: 0 };
+        var cena = { relogio: relogio, duracao: duracao, render: null };
+        window.__p01 = cena;
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady["parte01"] = new Promise(function (resolve) {
+          cena.pronto = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, {
+          t: duracao,
+          duration: duracao,
+          ease: "none",
+          onUpdate: function () {
+            if (cena.render) cena.render(relogio.t);
+          },
+        });
+        window.__timelines = window.__timelines || {};
+        window.__timelines["parte01"] = tl;
+      })();
+    </script>
+
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { DESLOCAMENTO, criarQuarto, criarBairro, criarCidade, rng } from "./assets/js/mundo.js";
+      import { criarPersonagem, poseBoneco, pontosDoBoneco, MEDIDAS } from "./assets/js/personagem.js";
+
+      const host = window.__p01;
+
+      // ------------------------------------------------------------ curvas e chaves
+      const CURVA = {
+        linear: (k) => k,
+        suave: (k) => k * k * (3 - 2 * k),
+        entra: (k) => k * k * k,
+        sai: (k) => 1 - Math.pow(1 - k, 3),
+        ambos: (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2),
+        longa: (k) => 1 - Math.pow(1 - k, 4),
+      };
+      // chaves: [[t, valor, curva?], ...]; valor é número ou lista. Duas chaves no mesmo t = corte seco.
+      function trilha(chaves, t) {
+        if (t <= chaves[0][0]) return chaves[0][1];
+        for (let i = 1; i < chaves.length; i++) {
+          const [t1, v1, nome = "suave"] = chaves[i];
+          if (t <= t1) {
+            const [t0, v0] = chaves[i - 1];
+            const k = CURVA[nome]((t - t0) / (t1 - t0));
+            return Array.isArray(v0) ? v0.map((a, j) => a + (v1[j] - a) * k) : v0 + (v1 - v0) * k;
+          }
+        }
+        return chaves[chaves.length - 1][1];
+      }
+      function degrau(chaves, t) {
+        let v = chaves[0][1];
+        for (const [ti, vi] of chaves) if (t >= ti) v = vi;
+        return v;
+      }
+      // tremor de câmera na mão: soma de senos com fases fixas
+      const fase = rng(91);
+      const F = Array.from({ length: 6 }, () => fase() * Math.PI * 2);
+      const tremor = (t, a) => [
+        a * (Math.sin(1.1 * t + F[0]) + 0.5 * Math.sin(2.7 * t + F[1]) + 0.25 * Math.sin(5.3 * t + F[2])),
+        a * (Math.sin(0.9 * t + F[3]) + 0.5 * Math.sin(2.3 * t + F[4]) + 0.25 * Math.sin(4.9 * t + F[5])),
+      ];
+
+      // ------------------------------------------------------------ cena
+      const renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("p01-tela"),
+        antialias: true,
+        preserveDrawingBuffer: true,
+      });
+      renderer.setPixelRatio(1);
+      renderer.setSize(1920, 1080, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFShadowMap;
+
+      const cena = new THREE.Scene();
+      cena.fog = new THREE.Fog(0x000000, 10, 100);
+      const camera = new THREE.PerspectiveCamera(40, 1920 / 1080, 0.03, 900);
+      const luzDaCamera = new THREE.PointLight(0xc8ccd2, 0, 14, 1.6);
+      cena.add(luzDaCamera);
+      const PREENCHIMENTO = { quarto: 1.6, bairro: 0, cidade: 2.5 };
+
+      const cenarios = { quarto: criarQuarto(cena), bairro: criarBairro(cena), cidade: criarCidade(cena) };
+      const boneco = criarPersonagem();
+      cena.add(boneco);
+      const quarto = cenarios.quarto;
+      const celular = quarto.celular;
+      const W = (nome, x, y, z) => new THREE.Vector3(x, y, z).add(DESLOCAMENTO[nome]);
+
+      // ------------------------------------------------------------ tempos (narração alinhada)
+      // Cada plano começa na pausa antes da frase que ele ilustra.
+      const PLANOS = [
+        { de: 0.0, cenario: "quarto", nome: "acorda" }, //          Você acorda.
+        { de: 1.4, cenario: "quarto", nome: "relogio" }, //         São 7h12 da manhã.
+        { de: 3.7, cenario: "quarto", nome: "senta" }, //           O despertador não tocou.
+        { de: 6.3, cenario: "quarto", nome: "rosto" }, //           E tem alguma coisa errada.
+        { de: 9.0, cenario: "bairro", nome: "janela" }, //          Não tem barulho.
+        { de: 10.7, cenario: "bairro", nome: "rua" }, //            Nenhum carro.
+        { de: 12.2, cenario: "bairro", nome: "casinha" }, //        Nenhum cachorro latindo.
+        { de: 14.5, cenario: "bairro", nome: "vizinhos" }, //       Nenhum vizinho.
+        { de: 16.15, cenario: "quarto", nome: "pega" }, //          Você pega o celular.
+        { de: 18.05, cenario: "quarto", nome: "tela" }, //          Zero mensagens. Zero notificações.
+        { de: 22.05, cenario: "quarto", nome: "feed" }, //          O último post ... às 3h33 da madrugada.
+        { de: 29.4, cenario: "quarto", nome: "grito" }, //          Você grita o nome da sua mãe.
+        { de: 32.4, cenario: "quarto", nome: "nada" }, //           Nada.
+        { de: 33.7, cenario: "cidade", nome: "avenida" }, //        E é aí que você descobre. Todo mundo da Terra sumiu. Menos você.
+      ];
+      // escurece 4 quadros antes de trocar de mundo (o corte fica intencional)
+      const ESCURECE = [9.0, 16.15, 33.7];
+      const planoEm = (t) => PLANOS.reduce((a, p) => (t >= p.de ? p : a), PLANOS[0]);
+
+      // ------------------------------------------------------------ câmera por plano
+      // [t, posição, alvo, fov] no espaço do cenário do plano
+      const CAMERA = {
+        acorda: { k: [[0.0, [0.3, 2.05, -0.75], [-0.62, 0.62, -1.78], 40], [1.4, [0.12, 1.86, -0.95], [-0.62, 0.62, -1.82], 39]], tremor: 0.004 },
+        relogio: { k: [[1.4, [0.2, 0.6, -1.2], [0.47, 0.5, -1.62], 30], [3.7, [0.27, 0.56, -1.33], [0.47, 0.5, -1.63], 30]], tremor: 0.002 },
+        senta: { k: [[3.7, [0.95, 1.0, 0.85], [-0.45, 0.85, -1.45], 42], [6.3, [0.85, 1.0, 0.65], [-0.45, 0.88, -1.45], 41]], tremor: 0.005 },
+        rosto: { k: [[6.3, [0.6, 1.42, -0.38], [-0.6, 1.27, -1.22], 30], [9.0, [0.38, 1.4, -0.55], [-0.6, 1.27, -1.22], 30]], tremor: 0.003 },
+        janela: { k: [[9.0, [2.6, 1.65, 6.2], [0.0, 4.2, -11.3], 27], [10.7, [2.45, 1.68, 5.6], [0.0, 4.55, -11.3], 17, "linear"]], tremor: 0.003 },
+        rua: { k: [[10.7, [-12.5, 0.6, 2.7], [10, 1.3, 0.4], 42], [12.2, [-11.6, 0.62, 2.7], [10, 1.3, 0.4], 42]], tremor: 0.004 },
+        casinha: { k: [[12.2, [-5.0, 0.8, -6.1], [-6.9, 0.3, -8.4], 40], [14.5, [-5.6, 0.75, -5.8], [-7.0, 0.3, -8.4], 40]], tremor: 0.004 },
+        vizinhos: { k: [[14.5, [2.0, 1.7, -7.6], [-4.0, 2.6, 14], 50], [16.15, [2.2, 1.7, -7.6], [3.0, 2.6, 14], 50]], tremor: 0.004 },
+        pega: { k: [[16.15, [1.8, 1.05, -0.3], [0.22, 0.72, -1.25], 38], [18.05, [1.62, 1.08, -0.42], [0.18, 0.86, -1.18], 37]], tremor: 0.004 },
+        grito: { k: [[29.4, [1.05, 1.55, 6.8], [1.05, 1.45, 2.3], 30], [32.4, [1.05, 1.52, 5.9], [1.05, 1.47, 2.3], 30]], tremor: 0.004 },
+        nada: { k: [[32.4, [1.05, 1.58, 2.35], [0.98, 1.15, 8.6], 40], [33.7, [1.05, 1.57, 2.75], [0.98, 1.15, 8.6], 40]], tremor: 0.003 },
+        // um plano só: atrás dele na avenida (a torre com a janela acesa no fundo), depois sobe até ficar de cima
+        avenida: {
+          k: [
+            [33.7, [2.4, 1.1, 11.0], [0.2, 2.6, -40], 40],
+            [36.4, [2.0, 1.4, 9.3], [0.2, 3.4, -40], 40],
+            [38.0, [2.6, 6.0, 12.2], [0.5, 1.0, -4], 42, "entra"],
+            [39.75, [2.3, 12.0, 11.4], [0.6, 0.2, 4.6], 40, "sai"],
+            [40.93, [2.35, 12.4, 11.6], [0.6, 0.2, 4.6], 40, "linear"],
+          ],
+          tremor: 0.003,
+        },
+      };
+
+      // ------------------------------------------------------------ personagem
+      const ALT = MEDIDAS.quadrilEmPe;
+      const DEITADO_Y = quarto.cama.colchao + MEDIDAS.raioTronco;
+      const SENTADO_Y = quarto.cama.colchao + 0.08;
+      const PI = Math.PI;
+
+      // em que cenário ele está e onde (espaço do cenário)
+      const ONDE = [
+        [0, "quarto"],
+        [9.0, "bairro"],
+        [16.15, "quarto"],
+        [33.7, "cidade"],
+      ];
+      const POS = [
+        [0, [-0.6, DEITADO_Y, -1.22]],
+        [3.85, [-0.6, DEITADO_Y, -1.22]],
+        [4.75, [-0.6, SENTADO_Y, -1.22], "ambos"],
+        [8.99, [-0.6, SENTADO_Y, -1.22]],
+        [9.0, [0, 3.1 + ALT, -11.45]],
+        [16.14, [0, 3.1 + ALT, -11.45]],
+        [16.15, [0.0, SENTADO_Y - 0.05, -0.95]],
+        [29.39, [0.0, SENTADO_Y - 0.05, -0.95]],
+        [29.4, [1.05, ALT, 2.15]],
+        [33.69, [1.05, ALT, 2.15]],
+        [33.7, [0.6, ALT, 7.0]],
+        [35.3, [0.6, ALT, 5.3], "linear"],
+        [35.9, [0.6, ALT, 4.95], "sai"],
+      ];
+      // parâmetros da pose; cada linha é uma trilha de chaves (cortes secos nos tempos repetidos)
+      const P = {
+        giro: [[0, 0], [4.9, 0], [5.4, 0.45], [8.99, 0.45], [9.0, 0], [16.14, 0], [16.15, PI / 2], [29.39, PI / 2], [29.4, 0], [33.69, 0], [33.7, PI]],
+        deitar: [[0, -PI / 2], [3.85, -PI / 2], [4.75, 0, "ambos"]],
+        inclinar: [[0, 0], [3.8, 0], [3.95, -0.06], [4.4, 0.16], [4.9, 0.04], [9.0, 0], [16.15, 0.05], [16.5, 0.05], [16.85, 0.26], [17.3, 0.12], [17.8, 0.06], [29.4, 0.0], [29.85, -0.06], [30.1, 0.14, "sai"], [32.3, 0.1], [32.4, 0.02], [33.7, 0.04]],
+        cabecaGiro: [[0, 0.22], [3.85, 0.22], [4.75, 0.0], [5.0, 0.0], [5.45, 1.2, "sai"], [6.9, 1.2], [7.55, 0.9, "ambos"], [9.0, -0.28], [9.6, -0.28], [10.6, 0.22, "ambos"], [16.15, 0.42], [17.1, 0.42], [17.6, 0.0], [29.4, 0.0], [32.4, 0.08], [33.7, -0.45], [34.7, 0.4, "ambos"], [35.6, 0.05, "ambos"], [36.3, 0.0], [38.6, -0.15, "ambos"]],
+        cabecaInclina: [[0, 0.35], [3.85, 0.35], [4.3, 0.3], [4.75, 0.0], [5.45, 0.32, "sai"], [6.9, 0.32], [7.55, -0.05, "ambos"], [9.0, 0.18], [16.15, 0.5], [17.1, 0.5], [17.6, 0.42], [29.4, -0.05], [29.85, 0.08], [30.1, -0.18, "sai"], [31.3, -0.12], [31.5, -0.2], [32.4, 0.12], [33.7, 0.05], [36.3, 0.0], [38.4, -0.22, "ambos"]],
+        cabecaTomba: [[0, 0], [7.7, 0], [8.2, 0.12, "sai"], [9.0, 0], [32.4, 0.05], [33.7, 0]],
+        quadril: [[0, 0], [3.85, 0], [4.75, -PI / 2, "ambos"], [8.99, -PI / 2], [9.0, 0], [16.14, 0], [16.15, -PI / 2], [29.39, -PI / 2], [29.4, 0]],
+        joelho: [[0, 0], [16.14, 0], [16.15, 1.5], [29.39, 1.5], [29.4, 0]],
+        ombro: [[0, 0.1], [3.85, 0.1], [4.0, 0.35], [4.6, 0.2], [5.0, -0.45], [9.0, 0], [16.15, -0.55], [29.4, 0], [33.7, 0]],
+        abertura: [[0, 0.02], [3.85, 0.02], [4.3, 0.3], [5.0, 0.15], [9.0, 0.1], [16.15, 0.12], [29.4, 0.1]],
+        cotovelo: [[0, 0.0], [3.85, 0.0], [4.3, 0.5], [5.0, 0.7], [9.0, 0.15], [16.15, 0.9], [29.4, 0.15]],
+        olhos: [[0, 0], [0.5, 0], [0.62, 0.35], [0.95, 0.35], [1.1, 1], [6.95, 1], [7.02, 0.05], [7.1, 1], [12, 1], [17.55, 1], [17.62, 0.05], [17.7, 1], [32.9, 1], [32.97, 0.05], [33.05, 1], [37.5, 1], [37.57, 0.05], [37.65, 1]],
+        apertar: [[0, 0], [7.7, 0], [8.1, 0.65, "sai"], [9.0, 0.2], [16.15, 0.15], [22.05, 0.15], [29.4, 0], [32.4, 0.25], [33.7, 0.2], [37.0, 0.35]],
+        boca: [[0, 0], [29.8, 0], [30.05, 1, "sai"], [31.15, 0.85], [31.35, 0.25], [31.5, 0.95, "sai"], [32.05, 0.8], [32.35, 0.0]],
+      };
+      // mãos: celular (esquerda) e mãos em concha no grito
+      const MAOS = {
+        pesoE: [[0, 0], [16.4, 0], [16.95, 1, "ambos"], [29.39, 1], [29.4, 0], [29.7, 0], [29.95, 1, "sai"], [32.2, 1], [32.4, 0]],
+        pesoD: [[0, 0], [29.7, 0], [29.95, 1, "sai"], [32.2, 1], [32.4, 0]],
+      };
+      const PEGA_CELULAR = 17.0;
+
+      function caminhada(t) {
+        // fase do passo pela distância andada (o pé não escorrega): meio passo = 0.62 m
+        if (t < 33.7) return { andar: 0, passo: 0 };
+        const z0 = 7.0;
+        const z = trilha(POS, t)[2];
+        const passo = trilha([[33.7, 1], [35.3, 1], [35.9, 0, "sai"]], t);
+        return { andar: (Math.PI * (z0 - z)) / 0.62, passo };
+      }
+
+      function poseEm(t) {
+        const p = {};
+        for (const [k, chaves] of Object.entries(P)) p[k] = trilha(chaves, t);
+        const [x, y, z] = trilha(POS, t);
+        const onde = degrau(ONDE, t);
+        const o = DESLOCAMENTO[onde];
+        const pose = {
+          x: x + o.x,
+          y: y + o.y,
+          z: z + o.z,
+          giro: p.giro,
+          deitar: trilha(P.deitar, t),
+          inclinar: p.inclinar,
+          cabecaGiro: p.cabecaGiro,
+          cabecaInclina: p.cabecaInclina,
+          cabecaTomba: p.cabecaTomba,
+          quadrilE: p.quadril,
+          quadrilD: p.quadril,
+          joelhoE: p.joelho,
+          joelhoD: p.joelho,
+          ombroE: p.ombro,
+          ombroD: p.ombro * 0.9,
+          aberturaE: p.abertura,
+          aberturaD: p.abertura * 1.1,
+          cotoveloE: p.cotovelo,
+          cotoveloD: p.cotovelo * 0.95,
+          olhos: p.olhos,
+          apertar: p.apertar,
+          boca: p.boca,
+          respirar: t * 1.9,
+          ...caminhada(t),
+        };
+        return { pose, onde };
+      }
+
+      // alvos das mãos dependem da cabeça, então a pose sai em duas passadas
+      const alvoE = new THREE.Vector3();
+      const alvoD = new THREE.Vector3();
+      function aplicarBoneco(t) {
+        const { pose, onde } = poseEm(t);
+        poseBoneco(boneco, pose);
+        const pts = pontosDoBoneco(boneco);
+        const pesoE = trilha(MAOS.pesoE, t);
+        const pesoD = trilha(MAOS.pesoD, t);
+        if (t >= 16.15 && t < 29.4) {
+          // pegar o celular no criado-mudo e trazer para a frente do rosto
+          const noMovel = W("quarto", quarto.celularNoMovel.pos.x, quarto.celularNoMovel.pos.y + 0.03, quarto.celularNoMovel.pos.z);
+          const frente = pts.cabeca.clone().add(new THREE.Vector3(0.27, -0.2, -0.06));
+          const k = trilha([[PEGA_CELULAR, 0], [17.85, 1, "ambos"]], t);
+          alvoE.copy(noMovel).lerp(frente, k);
+        } else if (t >= 29.4 && t < 32.4) {
+          // mãos em concha ao lado da boca
+          alvoE.copy(pts.cabeca).add(new THREE.Vector3(0.1, -0.12, 0.2));
+          alvoD.copy(pts.cabeca).add(new THREE.Vector3(-0.1, -0.12, 0.2));
+        }
+        if (pesoE > 0 || pesoD > 0) {
+          poseBoneco(boneco, { ...pose, alvoE, pesoE, alvoD, pesoD });
+        }
+        return onde;
+      }
+
+      // ------------------------------------------------------------ celular
+      const tela = celular.userData.tela;
+      const ctx = tela.getContext("2d");
+      const TW = tela.width;
+      const TH = tela.height;
+      const C = { fundo: "#0d0e10", texto: "#e9e7e3", sec: "#8a8c90", barra: "#2a2c30", barra2: "#3a3c41", vermelho: "#e01b22" };
+      const fonte = (peso, px) => `${peso} ${px}px Inter, "Helvetica Neue", Arial, sans-serif`;
+      const POSTS = ["03:33", "03:31", "03:29", "03:26", "03:22", "03:19"];
+      const largura = rng(7);
+      const LINHAS = POSTS.map(() => [0.92, 0.84, 0.55].map((w) => w - largura() * 0.25));
+      const NOMES = POSTS.map(() => 150 + largura() * 120);
+
+      function barraDeStatus() {
+        ctx.fillStyle = C.texto;
+        ctx.font = fonte(600, 30);
+        ctx.textAlign = "left";
+        ctx.fillText("7:12", 46, 62);
+        ctx.fillStyle = C.sec;
+        for (let i = 0; i < 4; i++) ctx.fillRect(452 + i * 14, 58 - (i + 1) * 7, 9, (i + 1) * 7);
+        ctx.strokeStyle = C.sec;
+        ctx.lineWidth = 3;
+        ctx.strokeRect(516, 38, 46, 24);
+        ctx.fillRect(520, 42, 26, 16);
+      }
+      function vazio(titulo, desenharIcone, frase, x) {
+        ctx.save();
+        ctx.translate(x, 0);
+        ctx.fillStyle = C.texto;
+        ctx.textAlign = "left";
+        ctx.font = fonte(700, 66);
+        ctx.fillText(titulo, 40, 190);
+        ctx.fillStyle = "#1a1b1f";
+        ctx.beginPath();
+        ctx.roundRect(40, 228, TW - 80, 64, 32);
+        ctx.fill();
+        ctx.strokeStyle = C.barra2;
+        ctx.lineWidth = 10;
+        desenharIcone(TW / 2, 610);
+        ctx.fillStyle = C.sec;
+        ctx.textAlign = "center";
+        ctx.font = fonte(600, 40);
+        ctx.fillText(frase, TW / 2, 800);
+        ctx.restore();
+      }
+      const balao = (cx, cy) => {
+        ctx.beginPath();
+        ctx.roundRect(cx - 110, cy - 85, 220, 150, 40);
+        ctx.moveTo(cx - 50, cy + 65);
+        ctx.lineTo(cx - 80, cy + 115);
+        ctx.lineTo(cx - 10, cy + 65);
+        ctx.stroke();
+      };
+      const sino = (cx, cy) => {
+        ctx.beginPath();
+        ctx.moveTo(cx - 90, cy + 70);
+        ctx.quadraticCurveTo(cx - 70, cy + 40, cx - 70, cy - 10);
+        ctx.quadraticCurveTo(cx - 65, cy - 95, cx, cy - 100);
+        ctx.quadraticCurveTo(cx + 65, cy - 95, cx + 70, cy - 10);
+        ctx.quadraticCurveTo(cx + 70, cy + 40, cx + 90, cy + 70);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(cx, cy + 95, 22, 0, Math.PI);
+        ctx.stroke();
+      };
+      // posição do horário do primeiro post (px da tela), para a câmera chegar nele
+      const HORA_X = TW - 46;
+      const HORA_Y0 = 330;
+      function feed(t) {
+        const puxa = trilha([[23.2, 0], [23.55, 130, "sai"], [24.75, 130], [25.1, 0, "ambos"]], t);
+        ctx.fillStyle = C.texto;
+        ctx.textAlign = "left";
+        ctx.font = fonte(700, 66);
+        ctx.fillText("Recentes", 40, 190);
+        if (puxa > 6) {
+          ctx.save();
+          ctx.translate(TW / 2, 200 + puxa * 0.55);
+          ctx.rotate(t * 7);
+          ctx.strokeStyle = C.sec;
+          ctx.lineWidth = 6;
+          ctx.globalAlpha = Math.min(1, puxa / 80);
+          ctx.beginPath();
+          ctx.arc(0, 0, 26, 0, Math.PI * 1.5);
+          ctx.stroke();
+          ctx.restore();
+        }
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 220, TW, TH - 220);
+        ctx.clip();
+        POSTS.forEach((hora, i) => {
+          const y = 250 + puxa + i * 300;
+          ctx.fillStyle = C.barra2;
+          ctx.beginPath();
+          ctx.arc(80, y + 70, 38, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#55575c";
+          ctx.beginPath();
+          ctx.roundRect(138, y + 46, NOMES[i], 24, 12);
+          ctx.fill();
+          ctx.fillStyle = C.barra2;
+          ctx.beginPath();
+          ctx.roundRect(138, y + 84, 110, 18, 9);
+          ctx.fill();
+          ctx.textAlign = "right";
+          ctx.font = fonte(i === 0 ? 700 : 600, i === 0 ? 34 : 30);
+          ctx.fillStyle = i === 0 ? C.vermelho : C.sec;
+          ctx.fillText(hora, HORA_X, y + 80);
+          LINHAS[i].forEach((w, j) => {
+            ctx.fillStyle = C.barra;
+            ctx.beginPath();
+            ctx.roundRect(40, y + 140 + j * 38, (TW - 80) * w, 20, 10);
+            ctx.fill();
+          });
+          ctx.fillStyle = "#1c1d21";
+          ctx.fillRect(40, y + 276, TW - 80, 2);
+        });
+        // sublinhado vermelho no horário quando a voz diz "3h33"
+        const risco = trilha([[26.55, 0], [26.95, 1, "sai"]], t);
+        if (risco > 0) {
+          ctx.fillStyle = C.vermelho;
+          ctx.fillRect(HORA_X - 104 * risco, 250 + puxa + 92, 104 * risco, 5);
+        }
+        ctx.restore();
+        // aviso de "nada novo" depois de atualizar
+        const aviso = trilha([[25.1, 0], [25.3, 1], [26.4, 1], [26.6, 0]], t);
+        if (aviso > 0) {
+          ctx.globalAlpha = aviso;
+          ctx.fillStyle = "#24262a";
+          ctx.beginPath();
+          ctx.roundRect(70, TH - 190, TW - 140, 84, 42);
+          ctx.fill();
+          ctx.fillStyle = C.texto;
+          ctx.textAlign = "center";
+          ctx.font = fonte(600, 32);
+          ctx.fillText("Nenhuma publicação nova", TW / 2, TH - 136);
+          ctx.globalAlpha = 1;
+        }
+      }
+      let ultimaTela = "";
+      function desenharCelular(t) {
+        // a tela só muda entre 18.05 e 29.4; fora disso fica apagada
+        const chave = t < 18.05 || t >= 29.4 ? "apagada" : (Math.round(t * 30) / 30).toFixed(3);
+        if (chave === ultimaTela) return;
+        ultimaTela = chave;
+        ctx.fillStyle = chave === "apagada" ? "#050506" : C.fundo;
+        ctx.fillRect(0, 0, TW, TH);
+        if (chave !== "apagada") {
+          barraDeStatus();
+          if (t < 22.05) {
+            const k = trilha([[19.9, 0], [20.25, 1, "sai"]], t);
+            vazio("Mensagens", balao, "Nenhuma mensagem nova", -TW * k);
+            vazio("Notificações", sino, "Nenhuma notificação", TW * (1 - k));
+          } else {
+            feed(t);
+          }
+        }
+        celular.userData.textura.needsUpdate = true;
+      }
+      const pontoNaTela = (px, py) =>
+        celular.localToWorld(new THREE.Vector3((px / TW - 0.5) * 0.07, (0.5 - py / TH) * 0.152, 0.005));
+
+      // ------------------------------------------------------------ render(t)
+      const escuro = document.getElementById("p01-escuro");
+      const cabecaDoBoneco = boneco.userData.rig.cabeca;
+      const _a = new THREE.Vector3();
+      const _b = new THREE.Vector3();
+
+      function render(t) {
+        const plano = planoEm(t);
+        const atual = cenarios[plano.cenario];
+        for (const [nome, c] of Object.entries(cenarios)) c.grupo.visible = nome === plano.cenario;
+        cena.fog.color.setHex(atual.nevoa[0]);
+        cena.fog.near = atual.nevoa[1];
+        cena.fog.far = atual.nevoa[2];
+        renderer.setClearColor(atual.fundo);
+        quarto.cobertor(t < 3.7 ? 0 : 1);
+
+        const onde = aplicarBoneco(t);
+        boneco.visible = onde === plano.cenario && plano.nome !== "nada";
+        cabecaDoBoneco.visible = !(plano.nome === "tela" || plano.nome === "feed");
+
+        // celular: no criado-mudo até ser pego, depois na mão esquerda virado para o rosto
+        const rig = boneco.userData.rig;
+        if (t >= PEGA_CELULAR && t < 29.4) {
+          rig.bracoE.pega.getWorldPosition(_a);
+          celular.position.copy(quarto.grupo.worldToLocal(_a.clone()));
+          const olhar = pontosDoBoneco(boneco).cabeca;
+          celular.lookAt(olhar);
+          celular.translateY(0.055);
+          celular.translateZ(0.035);
+        } else {
+          celular.position.copy(quarto.celularNoMovel.pos);
+          celular.rotation.copy(quarto.celularNoMovel.rot);
+        }
+        desenharCelular(t);
+
+        // câmera
+        const o = DESLOCAMENTO[plano.cenario];
+        if (plano.nome === "tela" || plano.nome === "feed") {
+          // ponto de vista dele: dos olhos para o celular
+          const { cabeca } = pontosDoBoneco(boneco);
+          celular.updateMatrixWorld(true);
+          const centro = celular.localToWorld(new THREE.Vector3(0, -0.036, 0));
+          let alvo = centro;
+          let dist = 0.42;
+          if (plano.nome === "feed") {
+            const k = trilha([[26.0, 0], [27.6, 1, "ambos"]], t);
+            const hora = pontoNaTela(HORA_X - 50, HORA_Y0);
+            alvo = centro.clone().lerp(hora, k);
+            dist = 0.42 + (0.15 - 0.42) * k;
+          }
+          const dir = _b.copy(alvo).sub(cabeca).normalize();
+          camera.position.copy(alvo).addScaledVector(dir, -dist);
+          camera.fov = 34;
+          const [dx, dy] = tremor(t, 0.0035);
+          camera.up.set(0, 1, 0);
+          camera.lookAt(alvo.clone().add(new THREE.Vector3(dx * dist, dy * dist, 0)));
+        } else {
+          const cam = CAMERA[plano.nome];
+          const chaves = cam.k;
+          const pos = trilha(chaves.map(([ti, p, , , c]) => [ti, p, c ?? "suave"]), t);
+          const alvo = trilha(chaves.map(([ti, , a, , c]) => [ti, a, c ?? "suave"]), t);
+          const fov = trilha(chaves.map(([ti, , , f, c]) => [ti, f, c ?? "suave"]), t);
+          camera.position.set(pos[0] + o.x, pos[1] + o.y, pos[2] + o.z);
+          const d = Math.hypot(alvo[0] - pos[0], alvo[1] - pos[1], alvo[2] - pos[2]);
+          const grito = plano.nome === "grito" ? trilha([[29.95, 0], [30.1, 1], [30.6, 0.3], [32.0, 0.3], [32.4, 0]], t) : 0;
+          const [dx, dy] = tremor(t * (1 + grito * 2.5), cam.tremor * (1 + grito * 2));
+          camera.fov = fov;
+          camera.up.set(0, 1, 0);
+          camera.lookAt(alvo[0] + o.x + dx * d, alvo[1] + o.y + dy * d, alvo[2] + o.z);
+        }
+        camera.updateProjectionMatrix();
+        luzDaCamera.position.copy(camera.position).add(new THREE.Vector3(0, 0.3, 0));
+        luzDaCamera.intensity = PREENCHIMENTO[plano.cenario];
+
+        for (const c of Object.values(cenarios)) c.atualizar(t);
+
+        const corte = ESCURECE.find((c) => t >= c - 0.14 && t < c);
+        escuro.style.opacity = corte ? (0.55 * (t - (corte - 0.14))) / 0.14 : 0;
+
+        renderer.render(cena, camera);
+      }
+
+      // compila os shaders de cada cenário antes do primeiro quadro
+      async function preparar() {
+        try {
+          await Promise.all([document.fonts.load(fonte(700, 66)), document.fonts.load(fonte(600, 30))]);
+        } catch (e) {
+          /* sem a fonte, o canvas usa a substituta */
+        }
+        for (const t of [0.5, 2, 9.5, 11, 13, 15, 17, 20, 25, 30, 33, 35, 38]) render(t);
+        host.render = render;
+        render(host.relogio.t);
+        host.pronto();
+      }
+      preparar();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,493 @@
+{
+ "audio": "assets/audio/v1-parte03.mp3",
+ "duracao": 38.008,
+ "inicioNaNarracao": 79.908,
+ "palavras": [
+  {
+   "id": "p03w0",
+   "text": "Nas",
+   "start": 0.0,
+   "end": 0.172
+  },
+  {
+   "id": "p03w1",
+   "text": "primeiras",
+   "start": 0.302,
+   "end": 0.962
+  },
+  {
+   "id": "p03w2",
+   "text": "horas",
+   "start": 1.472,
+   "end": 1.722
+  },
+  {
+   "id": "p03w3",
+   "text": "o",
+   "start": 1.722,
+   "end": 1.862
+  },
+  {
+   "id": "p03w4",
+   "text": "medo",
+   "start": 1.862,
+   "end": 2.262
+  },
+  {
+   "id": "p03w5",
+   "text": "vira",
+   "start": 2.262,
+   "end": 2.682
+  },
+  {
+   "id": "p03w6",
+   "text": "outra",
+   "start": 2.682,
+   "end": 3.152
+  },
+  {
+   "id": "p03w7",
+   "text": "coisa.",
+   "start": 3.152,
+   "end": 4.062
+  },
+  {
+   "id": "p03w8",
+   "text": "Liberdade.",
+   "start": 4.162,
+   "end": 5.462
+  },
+  {
+   "id": "p03w9",
+   "text": "Você",
+   "start": 5.482,
+   "end": 5.492
+  },
+  {
+   "id": "p03w10",
+   "text": "entra",
+   "start": 6.392,
+   "end": 6.412
+  },
+  {
+   "id": "p03w11",
+   "text": "no",
+   "start": 6.412,
+   "end": 6.612
+  },
+  {
+   "id": "p03w12",
+   "text": "shopping.",
+   "start": 6.612,
+   "end": 7.772
+  },
+  {
+   "id": "p03w13",
+   "text": "Todas",
+   "start": 7.772,
+   "end": 8.772
+  },
+  {
+   "id": "p03w14",
+   "text": "as",
+   "start": 9.062,
+   "end": 9.092
+  },
+  {
+   "id": "p03w15",
+   "text": "lojas",
+   "start": 9.092,
+   "end": 9.322
+  },
+  {
+   "id": "p03w16",
+   "text": "abertas.",
+   "start": 9.502,
+   "end": 10.312
+  },
+  {
+   "id": "p03w17",
+   "text": "Todas",
+   "start": 10.312,
+   "end": 10.582
+  },
+  {
+   "id": "p03w18",
+   "text": "as",
+   "start": 10.912,
+   "end": 10.942
+  },
+  {
+   "id": "p03w19",
+   "text": "luzes",
+   "start": 11.042,
+   "end": 11.392
+  },
+  {
+   "id": "p03w20",
+   "text": "acesas.",
+   "start": 11.392,
+   "end": 12.202
+  },
+  {
+   "id": "p03w21",
+   "text": "Eninguém",
+   "start": 12.202,
+   "end": 12.692
+  },
+  {
+   "id": "p03w22",
+   "text": "para",
+   "start": 12.692,
+   "end": 13.362
+  },
+  {
+   "id": "p03w23",
+   "text": "te",
+   "start": 13.362,
+   "end": 13.462
+  },
+  {
+   "id": "p03w24",
+   "text": "impedir.",
+   "start": 13.462,
+   "end": 14.362
+  },
+  {
+   "id": "p03w25",
+   "text": "Você",
+   "start": 14.362,
+   "end": 14.652
+  },
+  {
+   "id": "p03w26",
+   "text": "pega",
+   "start": 14.782,
+   "end": 14.982
+  },
+  {
+   "id": "p03w27",
+   "text": "o",
+   "start": 14.982,
+   "end": 15.172
+  },
+  {
+   "id": "p03w28",
+   "text": "tênis",
+   "start": 15.172,
+   "end": 15.612
+  },
+  {
+   "id": "p03w29",
+   "text": "que",
+   "start": 15.912,
+   "end": 15.972
+  },
+  {
+   "id": "p03w30",
+   "text": "sempre",
+   "start": 15.972,
+   "end": 16.452
+  },
+  {
+   "id": "p03w31",
+   "text": "quis.",
+   "start": 16.452,
+   "end": 16.812
+  },
+  {
+   "id": "p03w32",
+   "text": "O",
+   "start": 16.812,
+   "end": 17.412
+  },
+  {
+   "id": "p03w33",
+   "text": "celular",
+   "start": 17.502,
+   "end": 17.952
+  },
+  {
+   "id": "p03w34",
+   "text": "mais",
+   "start": 18.102,
+   "end": 18.272
+  },
+  {
+   "id": "p03w35",
+   "text": "caro",
+   "start": 18.272,
+   "end": 18.512
+  },
+  {
+   "id": "p03w36",
+   "text": "da",
+   "start": 18.512,
+   "end": 18.932
+  },
+  {
+   "id": "p03w37",
+   "text": "vitrine.",
+   "start": 18.932,
+   "end": 19.492
+  },
+  {
+   "id": "p03w38",
+   "text": "Come",
+   "start": 19.492,
+   "end": 19.802
+  },
+  {
+   "id": "p03w39",
+   "text": "tudo",
+   "start": 19.802,
+   "end": 20.102
+  },
+  {
+   "id": "p03w40",
+   "text": "que",
+   "start": 20.112,
+   "end": 20.342
+  },
+  {
+   "id": "p03w41",
+   "text": "dá",
+   "start": 20.342,
+   "end": 20.492
+  },
+  {
+   "id": "p03w42",
+   "text": "vontade",
+   "start": 20.492,
+   "end": 20.712
+  },
+  {
+   "id": "p03w43",
+   "text": "na",
+   "start": 21.042,
+   "end": 21.192
+  },
+  {
+   "id": "p03w44",
+   "text": "praça",
+   "start": 21.362,
+   "end": 21.562
+  },
+  {
+   "id": "p03w45",
+   "text": "de",
+   "start": 21.682,
+   "end": 21.722
+  },
+  {
+   "id": "p03w46",
+   "text": "alimentação.",
+   "start": 21.722,
+   "end": 22.932
+  },
+  {
+   "id": "p03w47",
+   "text": "Você",
+   "start": 22.932,
+   "end": 22.992
+  },
+  {
+   "id": "p03w48",
+   "text": "entra",
+   "start": 23.912,
+   "end": 24.212
+  },
+  {
+   "id": "p03w49",
+   "text": "em",
+   "start": 24.302,
+   "end": 24.382
+  },
+  {
+   "id": "p03w50",
+   "text": "uma",
+   "start": 24.382,
+   "end": 24.632
+  },
+  {
+   "id": "p03w51",
+   "text": "concessionária.",
+   "start": 24.632,
+   "end": 25.992
+  },
+  {
+   "id": "p03w52",
+   "text": "Pega",
+   "start": 26.132,
+   "end": 26.352
+  },
+  {
+   "id": "p03w53",
+   "text": "a",
+   "start": 26.352,
+   "end": 26.502
+  },
+  {
+   "id": "p03w54",
+   "text": "chave",
+   "start": 26.502,
+   "end": 26.882
+  },
+  {
+   "id": "p03w55",
+   "text": "do",
+   "start": 26.882,
+   "end": 27.032
+  },
+  {
+   "id": "p03w56",
+   "text": "carro",
+   "start": 27.052,
+   "end": 27.462
+  },
+  {
+   "id": "p03w57",
+   "text": "mais",
+   "start": 27.462,
+   "end": 27.532
+  },
+  {
+   "id": "p03w58",
+   "text": "bonito",
+   "start": 28.162,
+   "end": 28.302
+  },
+  {
+   "id": "p03w59",
+   "text": "e",
+   "start": 28.302,
+   "end": 28.372
+  },
+  {
+   "id": "p03w60",
+   "text": "dirige",
+   "start": 28.482,
+   "end": 28.882
+  },
+  {
+   "id": "p03w61",
+   "text": "a",
+   "start": 28.882,
+   "end": 28.962
+  },
+  {
+   "id": "p03w62",
+   "text": "200",
+   "start": 28.962,
+   "end": 29.712
+  },
+  {
+   "id": "p03w63",
+   "text": "por",
+   "start": 29.712,
+   "end": 29.792
+  },
+  {
+   "id": "p03w64",
+   "text": "hora",
+   "start": 29.952,
+   "end": 30.302
+  },
+  {
+   "id": "p03w65",
+   "text": "pela",
+   "start": 30.302,
+   "end": 30.712
+  },
+  {
+   "id": "p03w66",
+   "text": "avenida.",
+   "start": 30.712,
+   "end": 31.642
+  },
+  {
+   "id": "p03w67",
+   "text": "Sem",
+   "start": 31.812,
+   "end": 32.092
+  },
+  {
+   "id": "p03w68",
+   "text": "semáforo.",
+   "start": 32.182,
+   "end": 33.152
+  },
+  {
+   "id": "p03w69",
+   "text": "Sem",
+   "start": 33.152,
+   "end": 33.722
+  },
+  {
+   "id": "p03w70",
+   "text": "multa.",
+   "start": 33.722,
+   "end": 34.232
+  },
+  {
+   "id": "p03w71",
+   "text": "Sem",
+   "start": 34.382,
+   "end": 34.592
+  },
+  {
+   "id": "p03w72",
+   "text": "ninguém.",
+   "start": 34.592,
+   "end": 35.412
+  },
+  {
+   "id": "p03w73",
+   "text": "Por",
+   "start": 35.632,
+   "end": 35.902
+  },
+  {
+   "id": "p03w74",
+   "text": "um",
+   "start": 36.042,
+   "end": 36.102
+  },
+  {
+   "id": "p03w75",
+   "text": "dia",
+   "start": 36.102,
+   "end": 36.402
+  },
+  {
+   "id": "p03w76",
+   "text": "inteiro",
+   "start": 36.402,
+   "end": 37.112
+  },
+  {
+   "id": "p03w77",
+   "text": "o",
+   "start": 37.112,
+   "end": 37.162
+  },
+  {
+   "id": "p03w78",
+   "text": "mundo",
+   "start": 37.242,
+   "end": 37.662
+  },
+  {
+   "id": "p03w79",
+   "text": "é",
+   "start": 37.662,
+   "end": 37.812
+  },
+  {
+   "id": "p03w80",
+   "text": "seu.",
+   "start": 37.812,
+   "end": 38.008
+  }
+ ]
+}

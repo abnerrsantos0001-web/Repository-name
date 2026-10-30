@@ -1,0 +1,525 @@
+{
+ "audio": "assets/audio/v1-parte01.mp3",
+ "duracao": 40.934,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   1.065
+  ],
+  [
+   1.547,
+   3.308
+  ],
+  [
+   3.959,
+   5.531
+  ],
+  [
+   6.504,
+   8.428
+  ],
+  [
+   9.175,
+   10.196
+  ],
+  [
+   10.859,
+   11.809
+  ],
+  [
+   12.343,
+   14.093
+  ],
+  [
+   14.672,
+   15.701
+  ],
+  [
+   16.348,
+   17.6
+  ],
+  [
+   18.208,
+   19.608
+  ],
+  [
+   20.084,
+   21.765
+  ],
+  [
+   22.27,
+   25.611
+  ],
+  [
+   26.039,
+   26.384
+  ],
+  [
+   26.552,
+   28.85
+  ],
+  [
+   29.639,
+   31.839
+  ],
+  [
+   32.586,
+   33.132
+  ],
+  [
+   33.934,
+   35.782
+  ],
+  [
+   36.498,
+   37.528
+  ],
+  [
+   37.696,
+   38.143
+  ],
+  [
+   38.353,
+   38.978
+  ],
+  [
+   39.659,
+   40.675
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p01w0",
+   "text": "Você",
+   "start": 0.0,
+   "end": 0.346
+  },
+  {
+   "id": "p01w1",
+   "text": "acorda.",
+   "start": 0.346,
+   "end": 1.065
+  },
+  {
+   "id": "p01w2",
+   "text": "São",
+   "start": 1.547,
+   "end": 1.776
+  },
+  {
+   "id": "p01w3",
+   "text": "7",
+   "start": 1.776,
+   "end": 2.183
+  },
+  {
+   "id": "p01w4",
+   "text": "e",
+   "start": 2.183,
+   "end": 2.281
+  },
+  {
+   "id": "p01w5",
+   "text": "12",
+   "start": 2.281,
+   "end": 2.526
+  },
+  {
+   "id": "p01w6",
+   "text": "da",
+   "start": 2.526,
+   "end": 2.77
+  },
+  {
+   "id": "p01w7",
+   "text": "manhã.",
+   "start": 2.77,
+   "end": 3.308
+  },
+  {
+   "id": "p01w8",
+   "text": "O",
+   "start": 3.959,
+   "end": 4.118
+  },
+  {
+   "id": "p01w9",
+   "text": "despertador",
+   "start": 4.118,
+   "end": 4.58
+  },
+  {
+   "id": "p01w10",
+   "text": "não",
+   "start": 4.58,
+   "end": 4.791
+  },
+  {
+   "id": "p01w11",
+   "text": "tocou.",
+   "start": 4.791,
+   "end": 5.531
+  },
+  {
+   "id": "p01w12",
+   "text": "E",
+   "start": 6.504,
+   "end": 6.672
+  },
+  {
+   "id": "p01w13",
+   "text": "tem",
+   "start": 6.672,
+   "end": 6.906
+  },
+  {
+   "id": "p01w14",
+   "text": "alguma",
+   "start": 6.906,
+   "end": 7.407
+  },
+  {
+   "id": "p01w15",
+   "text": "coisa",
+   "start": 7.407,
+   "end": 7.692
+  },
+  {
+   "id": "p01w16",
+   "text": "errada.",
+   "start": 7.692,
+   "end": 8.428
+  },
+  {
+   "id": "p01w17",
+   "text": "Não",
+   "start": 9.175,
+   "end": 9.367
+  },
+  {
+   "id": "p01w18",
+   "text": "tem",
+   "start": 9.367,
+   "end": 9.53
+  },
+  {
+   "id": "p01w19",
+   "text": "barulho.",
+   "start": 9.9,
+   "end": 10.196
+  },
+  {
+   "id": "p01w20",
+   "text": "Nenhum",
+   "start": 10.859,
+   "end": 11.283
+  },
+  {
+   "id": "p01w21",
+   "text": "carro.",
+   "start": 11.283,
+   "end": 11.809
+  },
+  {
+   "id": "p01w22",
+   "text": "Nenhum",
+   "start": 12.343,
+   "end": 12.697
+  },
+  {
+   "id": "p01w23",
+   "text": "cachorro",
+   "start": 12.697,
+   "end": 13.322
+  },
+  {
+   "id": "p01w24",
+   "text": "latindo.",
+   "start": 13.322,
+   "end": 14.093
+  },
+  {
+   "id": "p01w25",
+   "text": "Nenhum",
+   "start": 14.672,
+   "end": 15.131
+  },
+  {
+   "id": "p01w26",
+   "text": "vizinho.",
+   "start": 15.131,
+   "end": 15.701
+  },
+  {
+   "id": "p01w27",
+   "text": "Você",
+   "start": 16.348,
+   "end": 16.72
+  },
+  {
+   "id": "p01w28",
+   "text": "pega",
+   "start": 16.72,
+   "end": 16.974
+  },
+  {
+   "id": "p01w29",
+   "text": "o",
+   "start": 16.974,
+   "end": 17.228
+  },
+  {
+   "id": "p01w30",
+   "text": "celular.",
+   "start": 17.228,
+   "end": 17.6
+  },
+  {
+   "id": "p01w31",
+   "text": "Zero",
+   "start": 18.208,
+   "end": 18.605
+  },
+  {
+   "id": "p01w32",
+   "text": "mensagens.",
+   "start": 18.605,
+   "end": 19.608
+  },
+  {
+   "id": "p01w33",
+   "text": "Zero",
+   "start": 20.084,
+   "end": 20.545
+  },
+  {
+   "id": "p01w34",
+   "text": "notificações.",
+   "start": 20.545,
+   "end": 21.766
+  },
+  {
+   "id": "p01w35",
+   "text": "O",
+   "start": 22.27,
+   "end": 22.586
+  },
+  {
+   "id": "p01w36",
+   "text": "último",
+   "start": 22.586,
+   "end": 23.002
+  },
+  {
+   "id": "p01w37",
+   "text": "post",
+   "start": 23.002,
+   "end": 23.436
+  },
+  {
+   "id": "p01w38",
+   "text": "de",
+   "start": 23.436,
+   "end": 23.772
+  },
+  {
+   "id": "p01w39",
+   "text": "qualquer",
+   "start": 23.772,
+   "end": 24.326
+  },
+  {
+   "id": "p01w40",
+   "text": "pessoa",
+   "start": 24.326,
+   "end": 24.919
+  },
+  {
+   "id": "p01w41",
+   "text": "no",
+   "start": 24.919,
+   "end": 25.215
+  },
+  {
+   "id": "p01w42",
+   "text": "mundo.",
+   "start": 25.215,
+   "end": 25.611
+  },
+  {
+   "id": "p01w43",
+   "text": "Foi",
+   "start": 26.039,
+   "end": 26.143
+  },
+  {
+   "id": "p01w44",
+   "text": "às",
+   "start": 26.143,
+   "end": 26.384
+  },
+  {
+   "id": "p01w45",
+   "text": "3",
+   "start": 26.552,
+   "end": 26.9
+  },
+  {
+   "id": "p01w46",
+   "text": "e",
+   "start": 26.9,
+   "end": 27.074
+  },
+  {
+   "id": "p01w47",
+   "text": "33",
+   "start": 27.074,
+   "end": 27.672
+  },
+  {
+   "id": "p01w48",
+   "text": "da",
+   "start": 27.672,
+   "end": 28.02
+  },
+  {
+   "id": "p01w49",
+   "text": "a",
+   "start": 28.02,
+   "end": 28.02
+  },
+  {
+   "id": "p01w50",
+   "text": "madrugada.",
+   "start": 28.02,
+   "end": 28.85
+  },
+  {
+   "id": "p01w51",
+   "text": "Você",
+   "start": 29.639,
+   "end": 29.985
+  },
+  {
+   "id": "p01w52",
+   "text": "grita",
+   "start": 29.985,
+   "end": 30.515
+  },
+  {
+   "id": "p01w53",
+   "text": "o",
+   "start": 30.515,
+   "end": 30.779
+  },
+  {
+   "id": "p01w54",
+   "text": "nome",
+   "start": 30.779,
+   "end": 31.004
+  },
+  {
+   "id": "p01w55",
+   "text": "da",
+   "start": 31.004,
+   "end": 31.329
+  },
+  {
+   "id": "p01w56",
+   "text": "sua",
+   "start": 31.329,
+   "end": 31.574
+  },
+  {
+   "id": "p01w57",
+   "text": "mãe.",
+   "start": 31.574,
+   "end": 31.839
+  },
+  {
+   "id": "p01w58",
+   "text": "Nada.",
+   "start": 32.586,
+   "end": 33.132
+  },
+  {
+   "id": "p01w59",
+   "text": "E",
+   "start": 33.934,
+   "end": 34.129
+  },
+  {
+   "id": "p01w60",
+   "text": "é",
+   "start": 34.129,
+   "end": 34.291
+  },
+  {
+   "id": "p01w61",
+   "text": "aí",
+   "start": 34.291,
+   "end": 34.485
+  },
+  {
+   "id": "p01w62",
+   "text": "que",
+   "start": 34.485,
+   "end": 34.728
+  },
+  {
+   "id": "p01w63",
+   "text": "você",
+   "start": 34.728,
+   "end": 35.02
+  },
+  {
+   "id": "p01w64",
+   "text": "descobre.",
+   "start": 35.02,
+   "end": 35.782
+  },
+  {
+   "id": "p01w65",
+   "text": "Todo",
+   "start": 36.498,
+   "end": 36.87
+  },
+  {
+   "id": "p01w66",
+   "text": "mundo",
+   "start": 36.87,
+   "end": 37.241
+  },
+  {
+   "id": "p01w67",
+   "text": "da",
+   "start": 37.241,
+   "end": 37.528
+  },
+  {
+   "id": "p01w68",
+   "text": "terra",
+   "start": 37.696,
+   "end": 38.143
+  },
+  {
+   "id": "p01w69",
+   "text": "sumiu.",
+   "start": 38.353,
+   "end": 38.978
+  },
+  {
+   "id": "p01w70",
+   "text": "Menos",
+   "start": 39.659,
+   "end": 40.215
+  },
+  {
+   "id": "p01w71",
+   "text": "você.",
+   "start": 40.215,
+   "end": 40.675
+  }
+ ]
+}

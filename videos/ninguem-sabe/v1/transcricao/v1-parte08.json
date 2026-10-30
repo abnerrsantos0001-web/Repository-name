@@ -1,0 +1,217 @@
+{
+ "audio": "assets/audio/v1-parte08.mp3",
+ "duracao": 19.2,
+ "inicioNaNarracao": 252.525,
+ "palavras": [
+  {
+   "id": "p08w0",
+   "text": "lado.",
+   "start": 0.025,
+   "end": 0.385
+  },
+  {
+   "id": "p08w1",
+   "text": "Eontem",
+   "start": 0.645,
+   "end": 1.195
+  },
+  {
+   "id": "p08w2",
+   "text": "todos",
+   "start": 1.295,
+   "end": 1.755
+  },
+  {
+   "id": "p08w3",
+   "text": "voltaram.",
+   "start": 1.755,
+   "end": 2.355
+  },
+  {
+   "id": "p08w4",
+   "text": "Todos.",
+   "start": 2.445,
+   "end": 3.425
+  },
+  {
+   "id": "p08w5",
+   "text": "Menos",
+   "start": 3.875,
+   "end": 4.145
+  },
+  {
+   "id": "p08w6",
+   "text": "uma",
+   "start": 4.325,
+   "end": 4.495
+  },
+  {
+   "id": "p08w7",
+   "text": "pessoa.",
+   "start": 4.645,
+   "end": 5.655
+  },
+  {
+   "id": "p08w8",
+   "text": "Você.",
+   "start": 6.305,
+   "end": 6.745
+  },
+  {
+   "id": "p08w9",
+   "text": "Você",
+   "start": 6.835,
+   "end": 7.395
+  },
+  {
+   "id": "p08w10",
+   "text": "não",
+   "start": 7.395,
+   "end": 7.815
+  },
+  {
+   "id": "p08w11",
+   "text": "ficou",
+   "start": 7.815,
+   "end": 7.945
+  },
+  {
+   "id": "p08w12",
+   "text": "num",
+   "start": 8.855,
+   "end": 8.935
+  },
+  {
+   "id": "p08w13",
+   "text": "mundo",
+   "start": 9.055,
+   "end": 9.635
+  },
+  {
+   "id": "p08w14",
+   "text": "vazio.",
+   "start": 9.635,
+   "end": 10.715
+  },
+  {
+   "id": "p08w15",
+   "text": "Você",
+   "start": 10.715,
+   "end": 10.815
+  },
+  {
+   "id": "p08w16",
+   "text": "ficou",
+   "start": 11.525,
+   "end": 11.785
+  },
+  {
+   "id": "p08w17",
+   "text": "preso",
+   "start": 11.875,
+   "end": 12.265
+  },
+  {
+   "id": "p08w18",
+   "text": "num",
+   "start": 12.265,
+   "end": 12.475
+  },
+  {
+   "id": "p08w19",
+   "text": "mundo",
+   "start": 12.475,
+   "end": 12.575
+  },
+  {
+   "id": "p08w20",
+   "text": "paralelo.",
+   "start": 12.845,
+   "end": 13.705
+  },
+  {
+   "id": "p08w21",
+   "text": "Eela",
+   "start": 13.715,
+   "end": 13.855
+  },
+  {
+   "id": "p08w22",
+   "text": "é",
+   "start": 14.035,
+   "end": 14.125
+  },
+  {
+   "id": "p08w23",
+   "text": "a",
+   "start": 14.125,
+   "end": 14.385
+  },
+  {
+   "id": "p08w24",
+   "text": "única",
+   "start": 14.385,
+   "end": 14.535
+  },
+  {
+   "id": "p08w25",
+   "text": "que",
+   "start": 14.725,
+   "end": 14.895
+  },
+  {
+   "id": "p08w26",
+   "text": "consegue",
+   "start": 15.045,
+   "end": 15.615
+  },
+  {
+   "id": "p08w27",
+   "text": "te",
+   "start": 15.615,
+   "end": 15.785
+  },
+  {
+   "id": "p08w28",
+   "text": "ver.",
+   "start": 15.785,
+   "end": 16.085
+  },
+  {
+   "id": "p08w29",
+   "text": "Porque",
+   "start": 16.705,
+   "end": 16.835
+  },
+  {
+   "id": "p08w30",
+   "text": "está",
+   "start": 16.835,
+   "end": 17.145
+  },
+  {
+   "id": "p08w31",
+   "text": "entre",
+   "start": 17.235,
+   "end": 17.625
+  },
+  {
+   "id": "p08w32",
+   "text": "os",
+   "start": 17.625,
+   "end": 17.795
+  },
+  {
+   "id": "p08w33",
+   "text": "dois",
+   "start": 17.795,
+   "end": 18.125
+  },
+  {
+   "id": "p08w34",
+   "text": "lados.",
+   "start": 18.125,
+   "end": 18.935
+  }
+ ]
+}
