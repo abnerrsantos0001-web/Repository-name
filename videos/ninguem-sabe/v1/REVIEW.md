@@ -40,12 +40,14 @@ O final (partes 09 e 10) e o encerramento (11) ficam só no vídeo completo do Y
 ## Áudio (tudo por código, sem MusicGen e sem IA)
 - `tools/audio.py` (numpy/scipy). A trilha soma um drone grave (55/82/110 Hz), um pad filtrado e vento em ruído de banda com rajadas, com intensidade por parte. Nas partes 07 e 08 entra um tom fino com tremolo. A trilha da parte 01 foi refeita do mesmo jeito.
 - Efeitos sintetizados: tique-taque, coração, vibração do celular, despertador e notificação. Também foram feitos chamada e linha caindo, batidas na porta, baque, estalos da lâmpada e carro passando. Todos entraram.
-- Na mixagem, a trilha baixa sob a voz (ducking). O resultado medido ficou em −15,7 LUFS, com pico de −1,5 dBTP. A cauda do cartão dos cortes ficou em −34,8 LUFS.
+- Na mixagem, a trilha baixa sob a voz (ducking). As faixas de `assets/audio/mix/` medem −15,5 a −15,9 LUFS, com pico de −1,5 dBTP. A cauda do cartão dos cortes ficou em −34,8 LUFS.
+- O `v1-completo.mp4` usa a faixa contínua do filme e mede −15,7 LUFS, com pico de −1,3 dBTP.
+- Nos MP4 que o HyperFrames renderiza (partes e cortes), o áudio sai normalizado e limitado pelo próprio render: −12 a −13 LUFS, com pico de −1,2 dBTP. Para Reels e Shorts isso está na faixa usual. Se quiser os cortes no mesmo volume do filme, dá para trocar o áudio deles pela faixa `corteN.flac` com ffmpeg, sem renderizar de novo.
 
 ## O que foi medido e o que foi só olhado
 - O som foi medido, não ouvido: volume, pico e posição de cada efeito em relação à palavra. Nenhum efeito foi escutado por alguém. Se algum soar artificial, ele sai em `tools/audio.py` (lista `por(...)`).
 - Conferi quadros de cada parte em snapshots, de 4 a 14 por parte, nos planos que mudam. Na vertical, conferi folhas dos 4 cortes antes do render.
-- Cada MP4 foi conferido no ffprobe: resolução, 30 fps e número de quadros igual ao da parte. A parte 02 saiu com um quadro a mais (1170 em vez de 1169), e o vídeo completo corta cada parte no quadro exato.
+- Cada MP4 foi conferido no ffprobe: resolução, 30 fps e número de quadros igual ao da parte. A parte 02 saiu com um quadro a mais (1170 em vez de 1169), e o vídeo completo corta cada parte no quadro exato: são 10.908 quadros, a soma das 11 partes, em 64,7 MB.
 - O `hyperframes check` completo (com amostragem de layout) não rodou em todas as partes, porque leva mais de 10 min por parte com o WebGL em software. Rodei no corte 1 e na parte 01 vertical, e os dois erros que ele achou foram corrigidos.
 
 ## Planos mais fracos
