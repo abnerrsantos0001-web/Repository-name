@@ -42,6 +42,13 @@
           render: null,
         };
         window["__" + id] = host;
+        // no corte vertical a raiz da cena ocupa o quadro 1080x1920 inteiro
+        if (host.vars.formato === "vertical") {
+          raiz.dataset.width = "1080";
+          raiz.dataset.height = "1920";
+          raiz.style.width = "1080px";
+          raiz.style.height = "1920px";
+        }
         window.__hf = window.__hf || {};
         window.__hf.buildReady = window.__hf.buildReady || {};
         window.__hf.buildReady[id] = new Promise(function (resolve) {

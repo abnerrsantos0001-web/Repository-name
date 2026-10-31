@@ -22,8 +22,8 @@
         position: absolute;
         left: 0;
         top: 0;
-        width: 1920px;
-        height: 1080px;
+        width: 100%;
+        height: 100%;
         display: block;
       }
       #p01-vinheta {
@@ -59,6 +59,13 @@
     <script>
       (function () {
         var raiz = document.getElementById("p01-raiz");
+        // no corte vertical a raiz da cena ocupa o quadro 1080x1920 inteiro
+        if (raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width)) {
+          raiz.dataset.width = "1080";
+          raiz.dataset.height = "1920";
+          raiz.style.width = "1080px";
+          raiz.style.height = "1920px";
+        }
         var duracao = parseFloat(raiz.dataset.duration) || 40.93;
         var relogio = { t: 0 };
         var cena = { relogio: relogio, duracao: duracao, render: null };
@@ -88,6 +95,11 @@
       import { criarPersonagem, poseBoneco, pontosDoBoneco, MEDIDAS } from "./assets/js/personagem.js";
 
       const host = window.__p01;
+      // nos cortes verticais o host tem 1080x1920: mesmo quadro, câmera com campo vertical mais aberto
+      const hostEl = document.getElementById("p01-tela").parentElement.parentElement;
+      const VERTICAL = !!hostEl && Number(hostEl.dataset.height) > Number(hostEl.dataset.width);
+      const LARG = VERTICAL ? 1080 : 1920;
+      const ALTU = VERTICAL ? 1920 : 1080;
 
       // ------------------------------------------------------------ curvas e chaves
       const CURVA = {
@@ -131,14 +143,14 @@
         preserveDrawingBuffer: true,
       });
       renderer.setPixelRatio(1);
-      renderer.setSize(1920, 1080, false);
+      renderer.setSize(LARG, ALTU, false);
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFShadowMap;
 
       const cena = new THREE.Scene();
       cena.fog = new THREE.Fog(0x000000, 10, 100);
-      const camera = new THREE.PerspectiveCamera(40, 1920 / 1080, 0.03, 900);
+      const camera = new THREE.PerspectiveCamera(40, LARG / ALTU, 0.03, 900);
       const luzDaCamera = new THREE.PointLight(0xc8ccd2, 0, 14, 1.6);
       cena.add(luzDaCamera);
       const PREENCHIMENTO = { quarto: 1.6, bairro: 0, cidade: 2.5 };
@@ -553,6 +565,7 @@
           camera.up.set(0, 1, 0);
           camera.lookAt(alvo[0] + o.x + dx * d, alvo[1] + o.y + dy * d, alvo[2] + o.z);
         }
+        if (VERTICAL) camera.fov = Math.min(84, (2 * Math.atan(Math.tan((camera.fov * Math.PI) / 360) / 0.5625) * 180) / Math.PI);
         camera.updateProjectionMatrix();
         luzDaCamera.position.copy(camera.position).add(new THREE.Vector3(0, 0.3, 0));
         luzDaCamera.intensity = PREENCHIMENTO[plano.cenario];

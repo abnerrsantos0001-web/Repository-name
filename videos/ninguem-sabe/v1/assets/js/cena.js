@@ -73,6 +73,8 @@ export function tempos(palavras) {
 // tremor de câmera na mão: soma de senos com fases fixas
 const fase = rng(91);
 const F = Array.from({ length: 6 }, () => fase() * Math.PI * 2);
+// campo vertical no 9:16 que mostra na largura o mesmo ângulo que a altura do 16:9 (o miolo 1080x1080)
+export const fovVertical = (fov) => Math.min(84, (2 * Math.atan(Math.tan((fov * Math.PI) / 360) / 0.5625) * 180) / Math.PI);
 export const tremor = (t, a) => [
   a * (Math.sin(1.1 * t + F[0]) + 0.5 * Math.sin(2.7 * t + F[1]) + 0.25 * Math.sin(5.3 * t + F[2])),
   a * (Math.sin(0.9 * t + F[3]) + 0.5 * Math.sin(2.3 * t + F[4]) + 0.25 * Math.sin(4.9 * t + F[5])),
@@ -321,8 +323,8 @@ function montarParte(cfg, host) {
       camera.up.set(0, 1, 0);
       camera.lookAt(alvo[0] + o.x + dx * d, alvo[1] + o.y + dy * d, alvo[2] + o.z);
     }
-    // na vertical o quadro é estreito: abre o campo vertical para manter o assunto inteiro
-    camera.fov = vertical && !(cam.v) ? Math.min(78, fov * 1.3) : fov;
+    // na vertical o quadro é estreito: abre o campo vertical até a largura mostrar o miolo quadrado do 16:9
+    camera.fov = vertical && !(cam.v) ? fovVertical(fov) : fov;
     camera.aspect = W / H;
     camera.updateProjectionMatrix();
     luzDaCamera.position.copy(camera.position).add(_b.set(0, 0.3, 0));
