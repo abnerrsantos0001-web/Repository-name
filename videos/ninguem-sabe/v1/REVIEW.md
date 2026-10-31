@@ -1,25 +1,61 @@
-# REVIEW · Vídeo 1 · Parte 01
+# REVIEW · Vídeo 1 · "E se você acordasse e TODO MUNDO tivesse sumido?"
+
+## Arquivos gerados
+
+Tudo em `videos/ninguem-sabe/v1/`. Os MP4 estão em `renders/` (a pasta fica no `.gitignore` para os renders de teste; os finais entram com `git add -f`).
+
+| Arquivo | Formato | Duração |
+|---|---|---|
+| `renders/v1-parte01.mp4` | 1920x1080, 30 fps | 40,9 s |
+| `renders/v1-parte02.mp4` | 1920x1080, 30 fps | 39,0 s |
+| `renders/v1-parte03.mp4` | 1920x1080, 30 fps | 38,0 s |
+| `renders/v1-parte04.mp4` | 1920x1080, 30 fps | 38,8 s |
+| `renders/v1-parte05.mp4` | 1920x1080, 30 fps | 40,7 s |
+| `renders/v1-parte06.mp4` | 1920x1080, 30 fps | 28,5 s |
+| `renders/v1-parte07.mp4` | 1920x1080, 30 fps | 26,5 s |
+| `renders/v1-parte08.mp4` | 1920x1080, 30 fps | 19,2 s |
+| `renders/v1-parte09.mp4` | 1920x1080, 30 fps | 39,4 s |
+| `renders/v1-parte10.mp4` | 1920x1080, 30 fps | 36,3 s |
+| `renders/v1-parte11.mp4` | 1920x1080, 30 fps | 16,1 s |
+| `renders/v1-completo.mp4` | 1920x1080, 30 fps | 6 min 3,6 s |
+| `renders/v1-corte1.mp4` | 1080x1920, 30 fps (partes 01+02 + cartão "Parte 2 amanhã") | 1 min 23,9 s |
+| `renders/v1-corte2.mp4` | 1080x1920, 30 fps (partes 03+04 + cartão "Parte 3 amanhã") | 1 min 20,9 s |
+| `renders/v1-corte3.mp4` | 1080x1920, 30 fps (partes 05+06 + cartão "Parte 4 amanhã") | 1 min 13,3 s |
+| `renders/v1-corte4.mp4` | 1080x1920, 30 fps (partes 07+08 + cartão "O final só no YouTube") | 49,7 s |
+| `capa/capa-v1.png` | 1280x720 | — |
+
+O final (partes 09 e 10) e o encerramento (11) ficam só no vídeo completo do YouTube.
 
 ## Decisões de criação
-- Uma cena Three.js por parte (`compositions/parte01.html`), com os 14 planos como trocas de câmera e de cenário dentro dela. O motivo é o limite de cerca de 16 contextos WebGL por página do Chrome: com 11 partes, um contexto por plano estouraria esse limite.
-- Mundo e personagem são módulos compartilhados (`assets/js/mundo.js`, `assets/js/personagem.js`): o boneco é o mesmo objeto em todas as partes.
-- Os cortes caem nas pausas reais da voz. Os tempos por palavra vêm do Whisper medium (pt), encaixados nos trechos de fala medidos no áudio. O Whisper sozinho errava até 0,5 s nas bordas das frases.
-- O vermelho só aparece em objetos que contam algo: 7:12 no relógio, porta da casa, tigela do cachorro, 03:33, semáforos, pisca-alerta e farol da torre.
-- A única luz quente é a janela acesa da torre, que fica visível no fim da avenida (35,5 a 37 s).
-- "Nada." virou um plano do ponto de vista dele: o corredor vazio até a porta da mãe. "Descobre" e "sumiu" viraram um plano contínuo que sobe até ver o boneco sozinho de cima.
-- Legenda palavra por palavra: o grupo aparece no lugar e cada palavra surge quando é falada. "7 e 12" e "3 e 33" aparecem como 7:12 e 3:33, iguais ao relógio e ao post.
+- Um mundo e um boneco para tudo: os cenários estão em `assets/js/mundo.js` e `mundo2.js`, o personagem em `personagem.js`, e o motor de cena comum em `assets/js/cena.js`. A mulher, a mãe e o pai usam o mesmo boneco-base com cabelo e roupa diferentes. A mulher tem casaco cinza e cachecol vermelho.
+- Uma cena Three.js por parte, com os planos como trocas de câmera e de cenário dentro dela. O Chrome aceita uns 16 contextos WebGL por página.
+- Os cortes caem nas pausas reais da voz. Os tempos por palavra vêm do Whisper, encaixados nos trechos de fala medidos no áudio, e cada plano está amarrado à palavra que o dispara.
+- O vermelho fica nos objetos que contam a história: relógio, 03:33, a frase na parede, o "20" da escada, o carro do shopping, o farol da torre, o cachecol da mulher.
+- Os títulos DIA 3, DIA 5, DIA 7 e NOITE 10 usam o mesmo cartão branco com barra vermelha.
+- Para o mundo paralelo há um pós-efeito: onda leve, separação de cor e tom azulado. Ele fica fraco o tempo todo no apartamento (partes 07 a 09). Fica forte em "passou para o outro lado" e em "preso no mundo paralelo". Em "está entre os dois lados" ele pisca entre o normal e o azul.
+- A contagem da parte 09 entra no instante da fala: 2:50 no relógio do apartamento, depois 3:20, 3:30, 3:32 e 3:33 no relógio do quarto. Em 3:33 a imagem distorce e o quadro apaga.
+- Na parte 10, a família aparece só de longe e de costas. A mensagem chega do "Meu número" às 03:33, com a frase em vermelho na tela.
+- Cortes verticais: são as mesmas cenas renderizadas de novo em 1080x1920, não o 16:9 com fundo desfocado. O campo da câmera abre até a largura mostrar o miolo quadrado do quadro 16:9. O plano da frase na parede ganhou um enquadramento vertical próprio. As legendas são as mesmas, em letra grande no centro. Nos 4 s finais entra o cartão "Parte X amanhã" + "História completa no YouTube: NINGUÉM SABE". Não existe `cta.mp3` no repositório, então o cartão fica com a cauda da trilha ambiente.
+
+## Áudio (tudo por código, sem MusicGen e sem IA)
+- `tools/audio.py` (numpy/scipy). A trilha soma um drone grave (55/82/110 Hz), um pad filtrado e vento em ruído de banda com rajadas, com intensidade por parte. Nas partes 07 e 08 entra um tom fino com tremolo. A trilha da parte 01 foi refeita do mesmo jeito.
+- Efeitos sintetizados: tique-taque, coração, vibração do celular, despertador e notificação. Também foram feitos chamada e linha caindo, batidas na porta, baque, estalos da lâmpada e carro passando. Todos entraram.
+- Na mixagem, a trilha baixa sob a voz (ducking). O resultado medido ficou em −15,7 LUFS, com pico de −1,5 dBTP. A cauda do cartão dos cortes ficou em −34,8 LUFS.
 
 ## O que foi medido e o que foi só olhado
-- `hyperframes check`: ok, sem erros. Os avisos estão listados abaixo.
-- Quadros conferidos em 0.6, 2.5, 5.5, 8.0, 10.5, 11.5, 13.3, 15.3, 16.6, 17.6, 19, 21, 24, 27.8, 30.5, 33, 35.5, 37.2, 38.4 e 40.6 s, mais a folha de revisão e a versão em largura de celular (as legendas se leem a 360 px).
-- Narração tratada: -16,6 LUFS com pico de -1,8 dBTP. Trilha: -16,7 LUFS, tocando a 0,13 de volume (cerca de 18 dB abaixo da voz).
-- O som foi medido, não ouvido. A trilha do MusicGen tem volume estável e quase nenhum pico (é um fundo ambiente, sem bateria), mas ninguém a escutou ainda.
+- O som foi medido, não ouvido: volume, pico e posição de cada efeito em relação à palavra. Nenhum efeito foi escutado por alguém. Se algum soar artificial, ele sai em `tools/audio.py` (lista `por(...)`).
+- Conferi quadros de cada parte em snapshots, de 4 a 14 por parte, nos planos que mudam. Na vertical, conferi folhas dos 4 cortes antes do render.
+- Cada MP4 foi conferido no ffprobe: resolução, 30 fps e número de quadros igual ao da parte. A parte 02 saiu com um quadro a mais (1170 em vez de 1169), e o vídeo completo corta cada parte no quadro exato.
+- O `hyperframes check` completo (com amostragem de layout) não rodou em todas as partes, porque leva mais de 10 min por parte com o WebGL em software. Rodei no corte 1 e na parte 01 vertical, e os dois erros que ele achou foram corrigidos.
 
-## Plano mais fraco
-- "Nenhum vizinho" (14,5 a 16,15 s): casas apagadas do outro lado da rua, mas a composição é plana. Com mais tempo, enquadraria uma casa com a porta aberta e o carro na garagem.
-- O plano de cima no fim é escuro. O boneco aparece (cabeça clara), mas pequeno de propósito, para passar a ideia de "sozinho".
+## Planos mais fracos
+- Parte 06, escada: escura demais. O personagem se lê pela lanterna e pelo "20" vermelho, mas não muito bem.
+- Parte 09, "pega o primeiro carro": ele chega correndo no carro parado e os faróis acendem em "ignição". Não tem animação de entrar no carro: o plano seguinte já é o carro de cima, na avenida.
+- Parte 10: a cozinha de manhã ficou menos clara do que eu queria. O bairro e o quarto estão claros.
+- Na vertical, as legendas no centro cobrem parte do relógio e da tela do celular em alguns closes. Alguns planos por cima do ombro perdem a borda do quadro.
 
 ## Avisos mantidos de propósito
-- `composition_file_too_large` (parte01.html): é preciso um contexto WebGL por parte, então a cena fica num arquivo só.
-- `timeline_track_too_dense` (legendas): a regra da skill pede todas as legendas num host só, na trilha de legendas.
+- `composition_file_too_large` (parte01.html): a parte 01 tem o motor antigo embutido, um contexto WebGL por parte.
+- `timeline_track_too_dense` (legendas): as legendas de cada parte ficam num host só, na trilha de legendas.
 - `GPU stall due to ReadPixels`: aviso do driver de software durante a captura, não muda o resultado.
+- `container_overflow` em cortes verticais antigos: resolvido. A raiz da cena agora assume 1080x1920 no host vertical.
