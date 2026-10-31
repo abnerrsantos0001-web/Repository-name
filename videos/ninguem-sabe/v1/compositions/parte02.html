@@ -1,0 +1,186 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 1 · Parte 02: a escada, a cama dos pais, o café de ontem, a avenida parada,
+  o ônibus vazio e as ligações que ninguém atende. Motor em assets/js/cena.js.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Parte 02</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #p02-raiz { position: absolute; inset: 0; overflow: hidden; background: #0c0d0f; }
+      #p02-tela { position: absolute; left: 0; top: 0; display: block; }
+      #p02-vinheta { position: absolute; inset: 0; background: radial-gradient(ellipse 72% 68% at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.6) 100%); }
+      #p02-escuro { position: absolute; inset: 0; background: #000; opacity: 0; }
+      #p02-fonte { position: absolute; left: 0; top: 0; opacity: 0; font-family: Inter; font-weight: 700; font-size: 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="p02-raiz" data-composition-id="parte02" data-width="1920" data-height="1080" data-duration="38.9667">
+      <canvas id="p02-tela" width="1920" height="1080"></canvas>
+      <div id="p02-vinheta"></div>
+      <div id="p02-escuro"></div>
+      <div id="p02-fonte" data-layout-ignore>Aa 0123456789</div>
+    </div>
+    <script>
+      (function () {
+        // relógio da parte: tween linear que chama host.render(t); o motor (cena.js) pendura a cena nele
+        var id = "parte02";
+        var raiz = document.getElementById("p02-raiz");
+        // dentro do HyperFrames o data-duration da raiz pode não estar mais no elemento: usa o valor da parte
+        var duracao = parseFloat(raiz.dataset.duration) || 38.9667;
+        var relogio = { t: 0 };
+        var host = {
+          relogio: relogio,
+          duracao: duracao,
+          tela: document.getElementById("p02-tela"),
+          escuro: document.getElementById("p02-escuro"),
+          // vertical quando o host que monta a cena é mais alto que largo (cortes 9:16)
+          vars: { formato: raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width) ? "vertical" : "horizontal" },
+          render: null,
+        };
+        window["__" + id] = host;
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) {
+          host.pronto = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: duracao, duration: duracao, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } });
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+        if (window.__aoHost && window.__aoHost[id]) window.__aoHost[id](host);
+      })();
+    </script>
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { chamada } from "./assets/js/telas.js";
+      import { PALAVRAS } from "./assets/js/tempos/v1-parte02.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      // altura do degrau sob o pé na escada do térreo (sobe rumo a z-)
+      const degrau = (z) => Math.min(2.66, Math.max(0, 0.19 * (1 + (2.2 - z) / 0.35)));
+      const naEscada = (z) => [-3.55, degrau(z) + ALT, z];
+
+      const t = {
+        cama: T("A cama") - 0.2,
+        travesseiro: T("como") - 0.15,
+        cafe: T("O café") - 0.2,
+        sai: T("Você sai") - 0.2,
+        avenida: T("Os carros") - 0.2,
+        motor: T("com") - 0.15,
+        onibus: T("Um ônibus") - 0.2,
+        dentro: T("Dentro") - 0.2,
+        liga: T("você liga") - 0.2,
+        tela190: T("chama") - 0.1,
+        amigo: T("você liga", 2) - 0.15,
+        cai: T("cai") - 0.12,
+      };
+
+      const POV = ["tela190", "telaCai"];
+      // ponto de vista dele: dos olhos para o celular na mão
+      function cameraPOV(tt, ctx) {
+        const { cabeca } = pontosDoBoneco(ctx.boneco);
+        ctx.celular.updateMatrixWorld(true);
+        const alvo = ctx.celular.localToWorld(new THREE.Vector3(0, -0.03, 0));
+        const dir = alvo.clone().sub(cabeca).normalize();
+        const balanco = Math.sin(tt * 1.3) * 0.004;
+        return { pos: alvo.clone().addScaledVector(dir, -0.42).add(new THREE.Vector3(balanco, 0.01, 0)), alvo, fov: 34 };
+      }
+
+      iniciarParte({
+        host: "__parte02",
+        cenarios: ["terreo", "quarto", "bairro", "cidade"],
+        planos: [
+          { de: 0, cenario: "terreo", nome: "escada" }, //            Você desce as escadas.
+          { de: t.cama, cenario: "quarto", nome: "camaPais" }, //    A cama dos seus pais está desarrumada, como se eles tivessem levantado no meio da noite.
+          { de: t.cafe, cenario: "terreo", nome: "cafe" }, //         O café de ontem ainda está na mesa.
+          { de: t.sai, cenario: "bairro", nome: "sai" }, //           Você sai na rua.
+          { de: t.avenida, cenario: "cidade", nome: "avenida" }, //   Os carros estão parados no meio da avenida,
+          { de: t.motor, cenario: "cidade", nome: "motor" }, //       com as portas abertas e os motores ligados.
+          { de: t.onibus, cenario: "cidade", nome: "onibus" }, //     Um ônibus está atravessado no cruzamento.
+          { de: t.dentro, cenario: "cidade", nome: "dentro" }, //     Dentro dele, ninguém.
+          { de: t.liga, cenario: "cidade", nome: "liga" }, //         você liga para a polícia
+          { de: t.tela190, cenario: "cidade", nome: "tela190" }, //   chama chama chama ninguém atende
+          { de: t.amigo, cenario: "cidade", nome: "amigo" }, //       você liga para o seu melhor amigo chama e então a ligação
+          { de: t.cai, cenario: "cidade", nome: "telaCai" }, //       cai sozinha
+        ],
+        cortesEscuros: [t.cama, t.cafe, t.avenida],
+        cameras: {
+          escada: { k: [[0, [-2.2, 0.9, 3.4], [-3.5, 1.9, 0.0], 42], [t.cama, [-2.35, 0.95, 3.05], [-3.5, 1.7, 0.4], 41]], tremor: 0.004 },
+          camaPais: { k: [[t.cama, [2.05, 1.7, 8.95], [0.9, 0.35, 10.6], 50], [t.cafe, [1.75, 1.45, 9.25], [1.0, 0.3, 10.4], 46]], tremor: 0.003 },
+          cafe: { k: [[t.cafe, [0.12, 1.0, 0.88], [0.62, 0.83, 0.18], 30], [t.sai, [0.26, 0.95, 0.7], [0.62, 0.83, 0.18], 28]], tremor: 0.002 },
+          sai: { k: [[t.sai, [4.6, 1.4, -1.6], [0.0, 1.3, -8.8], 40], [t.avenida, [4.3, 1.45, -2.2], [0.0, 1.3, -8.0], 40]], tremor: 0.004 },
+          avenida: { k: [[t.avenida, [2.6, 0.5, 14.5], [-1.0, 1.0, -30], 40], [t.motor, [2.3, 0.55, 12.8], [-1.0, 1.0, -30], 40]], tremor: 0.004 },
+          motor: { k: [[t.motor, [-0.4, 0.75, 3.6], [-2.6, 0.55, -0.3], 38], [t.onibus, [-0.7, 0.7, 3.2], [-2.6, 0.55, -0.4], 37]], tremor: 0.004 },
+          onibus: { k: [[t.onibus, [8.5, 2.4, -13.5], [-2.0, 1.6, -31.0], 40], [t.dentro, [8.0, 2.3, -15.0], [-2.0, 1.6, -31.0], 39]], tremor: 0.003 },
+          dentro: { k: [[t.dentro, [-2.0, 2.35, -28.3], [-2.3, 1.7, -31.4], 46], [t.liga, [-0.1, 2.35, -29.3], [-1.6, 1.7, -32.0], 46, "linear"]], tremor: 0.002 },
+          liga: { k: [[t.liga, [0.2, 1.45, -25.6], [1.5, 1.35, -22.0], 34], [t.tela190, [0.4, 1.45, -25.1], [1.5, 1.35, -22.0], 34]], tremor: 0.004 },
+          tela190: cameraPOV,
+          amigo: { k: [[t.amigo, [9.5, 6.5, -11.5], [1.5, 1.0, -22.0], 40], [t.cai, [9.0, 7.0, -11.0], [1.5, 1.0, -22.0], 40]], tremor: 0.003 },
+          telaCai: cameraPOV,
+        },
+        personagem: {
+          onde: [[0, "terreo"], [t.sai, "bairro"], [t.avenida, "cidade"]],
+          pos: [
+            [0, naEscada(-0.7)],
+            [0.6, naEscada(-0.05), "linear"],
+            [1.2, naEscada(0.65), "linear"],
+            [t.cama, naEscada(1.45), "linear"],
+            [t.sai, [0, ALT, -9.9]],
+            [t.avenida - 0.01, [0, ALT, -7.3], "linear"],
+            [t.avenida, [1.5, ALT, -22]],
+          ],
+          passos: [[0, t.cama, 0.85], [t.sai, t.avenida - 0.05, 1]],
+          visivel: (tt, p) => ["escada", "sai", "liga", "tela190", "amigo", "telaCai"].includes(p.nome),
+          pose: {
+            giro: [[0, 0], [t.avenida - 0.01, 0], [t.avenida, PI]],
+            cabecaInclina: [[0, 0.28], [t.sai, 0.05], [t.avenida, 0.0], [t.liga, 0.05], [t.tela190, 0.4], [t.amigo, 0.12], [t.cai, 0.4]],
+            cabecaGiro: [[0, 0.1], [t.sai, -0.2], [t.avenida - 0.5, 0.25], [t.liga, 0.0], [t.amigo, 0.0], [t.cai - 0.5, -0.15]],
+            ombro: [[0, 0.05], [t.liga, 0.0]],
+            olhos: [[0, 1], [t.amigo + 1.0, 1], [t.amigo + 1.07, 0.05], [t.amigo + 1.15, 1]],
+            apertar: [[0, 0.1], [t.liga, 0.15], [T("ninguém"), 0.45], [t.amigo, 0.3]],
+          },
+          // celular: sobe até a orelha (planos abertos) ou fica na frente do rosto (ponto de vista)
+          maos: (tt, pts, ctx) => {
+            if (tt < t.liga) return null;
+            const ouvido = pts.cabeca.clone().add(new THREE.Vector3(-0.15, -0.03, -0.02));
+            const frente = pts.cabeca.clone().add(new THREE.Vector3(-0.06, -0.2, -0.28));
+            const pov = tt >= t.tela190 && tt < t.amigo || tt >= t.cai;
+            const peso = Math.min(1, Math.max(0, (tt - t.liga) / 0.7));
+            return { alvoE: pov ? frente : ouvido, pesoE: pov ? 1 : peso * peso * (3 - 2 * peso) };
+          },
+        },
+        semCabeca: (tt, p) => POV.includes(p.nome),
+        celular: (tt) => (tt >= t.liga + 0.15 ? "mao" : null),
+        tela: (ctx2d, tt, desenhar) => {
+          let estado = "chamando";
+          let nome = "Polícia";
+          let detalhe = "190";
+          if (tt >= T("ninguém") && tt < t.amigo) estado = "sem resposta";
+          if (tt >= t.amigo) [nome, detalhe] = ["Melhor amigo", "celular"];
+          if (tt >= T("cai")) estado = "encerrada";
+          const chave = nome + estado + Math.floor(tt * 2.5);
+          if (desenhar) chamada(ctx2d, 600, 1302, { nome, detalhe, estado, t: tt });
+          return chave;
+        },
+        chacoalhar: (tt) => (tt >= T("cai") && tt < T("cai") + 0.5 ? 1 : 0),
+        quadro: (tt, plano, ctx) => {
+          const c = ctx.cenarios;
+          c.cidade.fumaca(plano.cenario === "cidade");
+          c.terreo.cafe(true);
+          c.terreo.lampada(0);
+          c.quarto.cobertor(1);
+          c.quarto.escrita(null);
+          c.quarto.luzCorredor(0.3);
+        },
+      });
+    </script>
+  </body>
+</html>

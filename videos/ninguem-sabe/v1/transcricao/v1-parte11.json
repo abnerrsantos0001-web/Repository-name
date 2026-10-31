@@ -1,211 +1,263 @@
 {
  "audio": "assets/audio/v1-parte11.mp3",
  "duracao": 16.091,
- "inicioNaNarracao": 347.506,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   2.089
+  ],
+  [
+   2.359,
+   4.638
+  ],
+  [
+   5.226,
+   7.7
+  ],
+  [
+   8.542,
+   10.149
+  ],
+  [
+   10.395,
+   10.646
+  ],
+  [
+   10.809,
+   11.702
+  ],
+  [
+   11.869,
+   13.026
+  ],
+  [
+   13.656,
+   15.636
+  ]
+ ],
  "palavras": [
   {
    "id": "p11w0",
-   "text": "aqui",
-   "start": 0.064,
-   "end": 0.434
+   "text": "Então",
+   "start": 0.0,
+   "end": 0.491
   },
   {
    "id": "p11w1",
-   "text": "nos",
-   "start": 0.434,
-   "end": 0.874
+   "text": "me",
+   "start": 0.491,
+   "end": 0.758
   },
   {
    "id": "p11w2",
-   "text": "comentários.",
-   "start": 0.874,
-   "end": 2.204
+   "text": "diz",
+   "start": 0.758,
+   "end": 0.922
   },
   {
    "id": "p11w3",
-   "text": "Se",
-   "start": 2.204,
-   "end": 2.794
+   "text": "aqui",
+   "start": 0.922,
+   "end": 1.167
   },
   {
    "id": "p11w4",
-   "text": "você",
-   "start": 2.964,
-   "end": 3.254
+   "text": "nos",
+   "start": 1.167,
+   "end": 1.413
   },
   {
    "id": "p11w5",
-   "text": "acordasse",
-   "start": 3.344,
-   "end": 3.974
+   "text": "comentários,",
+   "start": 1.413,
+   "end": 2.089
   },
   {
    "id": "p11w6",
-   "text": "sozinho",
-   "start": 3.974,
-   "end": 4.324
+   "text": "se",
+   "start": 2.359,
+   "end": 2.518
   },
   {
    "id": "p11w7",
-   "text": "no",
-   "start": 4.324,
-   "end": 4.884
+   "text": "você",
+   "start": 2.518,
+   "end": 2.836
   },
   {
    "id": "p11w8",
-   "text": "mundo,",
-   "start": 4.884,
-   "end": 5.254
+   "text": "acordasse",
+   "start": 2.836,
+   "end": 3.401
   },
   {
    "id": "p11w9",
-   "text": "qual",
-   "start": 5.254,
-   "end": 5.574
+   "text": "sozinho",
+   "start": 3.401,
+   "end": 3.896
   },
   {
    "id": "p11w10",
-   "text": "seria",
-   "start": 5.574,
-   "end": 5.974
+   "text": "no",
+   "start": 3.896,
+   "end": 4.09
   },
   {
    "id": "p11w11",
-   "text": "a",
-   "start": 5.974,
-   "end": 6.054
+   "text": "mundo,",
+   "start": 4.09,
+   "end": 4.638
   },
   {
    "id": "p11w12",
-   "text": "primeira",
-   "start": 6.054,
-   "end": 6.534
+   "text": "qual",
+   "start": 5.226,
+   "end": 5.319
   },
   {
    "id": "p11w13",
-   "text": "coisa",
-   "start": 6.914,
-   "end": 6.994
+   "text": "seria",
+   "start": 5.319,
+   "end": 5.669
   },
   {
    "id": "p11w14",
-   "text": "que",
-   "start": 7.204,
-   "end": 7.344
+   "text": "a",
+   "start": 5.669,
+   "end": 5.946
   },
   {
    "id": "p11w15",
-   "text": "você",
-   "start": 7.524,
-   "end": 7.644
+   "text": "primeira",
+   "start": 5.946,
+   "end": 6.223
   },
   {
    "id": "p11w16",
-   "text": "faria?",
-   "start": 7.734,
-   "end": 8.304
+   "text": "coisa",
+   "start": 6.223,
+   "end": 6.537
   },
   {
    "id": "p11w17",
-   "text": "Se",
-   "start": 8.304,
-   "end": 8.464
+   "text": "que",
+   "start": 6.537,
+   "end": 6.795
   },
   {
    "id": "p11w18",
-   "text": "inscreve",
-   "start": 8.464,
-   "end": 9.114
+   "text": "você",
+   "start": 6.795,
+   "end": 7.072
   },
   {
    "id": "p11w19",
-   "text": "no",
-   "start": 9.114,
-   "end": 9.274
+   "text": "faria?",
+   "start": 7.072,
+   "end": 7.7
   },
   {
    "id": "p11w20",
-   "text": "Ninguém",
-   "start": 9.274,
-   "end": 9.974
+   "text": "Se",
+   "start": 8.542,
+   "end": 8.752
   },
   {
    "id": "p11w21",
-   "text": "Sabe,",
-   "start": 9.974,
-   "end": 10.494
+   "text": "inscreve",
+   "start": 8.752,
+   "end": 9.154
   },
   {
    "id": "p11w22",
-   "text": "porque",
-   "start": 10.584,
-   "end": 11.034
+   "text": "no",
+   "start": 9.154,
+   "end": 9.307
   },
   {
    "id": "p11w23",
-   "text": "toda",
-   "start": 11.184,
-   "end": 11.404
+   "text": "Ninguém",
+   "start": 9.307,
+   "end": 9.69
   },
   {
    "id": "p11w24",
-   "text": "semana",
-   "start": 11.404,
-   "end": 11.564
+   "text": "Sabe,",
+   "start": 9.69,
+   "end": 10.149
   },
   {
    "id": "p11w25",
-   "text": "tem",
-   "start": 12.124,
-   "end": 12.224
+   "text": "porque",
+   "start": 10.394,
+   "end": 10.646
   },
   {
    "id": "p11w26",
-   "text": "uma",
-   "start": 12.224,
-   "end": 12.494
+   "text": "toda",
+   "start": 10.809,
+   "end": 11.154
   },
   {
    "id": "p11w27",
-   "text": "história",
-   "start": 12.494,
-   "end": 13.224
+   "text": "semana",
+   "start": 11.154,
+   "end": 11.702
   },
   {
    "id": "p11w28",
-   "text": "nova.",
-   "start": 13.224,
-   "end": 13.774
+   "text": "tem",
+   "start": 11.869,
+   "end": 12.134
   },
   {
    "id": "p11w29",
-   "text": "Que",
-   "start": 13.774,
-   "end": 14.444
+   "text": "uma",
+   "start": 12.134,
+   "end": 12.332
   },
   {
    "id": "p11w30",
-   "text": "ninguém",
-   "start": 14.444,
-   "end": 14.664
+   "text": "história",
+   "start": 12.332,
+   "end": 12.646
   },
   {
    "id": "p11w31",
-   "text": "sabe",
-   "start": 14.764,
-   "end": 15.124
+   "text": "nova,",
+   "start": 12.646,
+   "end": 13.026
   },
   {
    "id": "p11w32",
-   "text": "como",
-   "start": 15.124,
-   "end": 15.484
+   "text": "que",
+   "start": 13.656,
+   "end": 13.83
   },
   {
    "id": "p11w33",
+   "text": "ninguém",
+   "start": 13.83,
+   "end": 14.316
+  },
+  {
+   "id": "p11w34",
+   "text": "sabe",
+   "start": 14.316,
+   "end": 14.704
+  },
+  {
+   "id": "p11w35",
+   "text": "como",
+   "start": 14.704,
+   "end": 15.111
+  },
+  {
+   "id": "p11w36",
    "text": "termina.",
-   "start": 15.484,
-   "end": 16.091
+   "start": 15.111,
+   "end": 15.636
   }
  ]
 }

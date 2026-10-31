@@ -92,9 +92,19 @@ export const MEDIDAS = {
   raioTronco: 0.29 * ESCALA,
 };
 
-export function criarPersonagem() {
+// Variações do mesmo boneco-base para os outros personagens (a mulher, a família).
+// Só mudam roupa e cabelo; o rig e as poses são os mesmos.
+const VARIANTES = {
+  ele: {},
+  mulher: { moletom: 0x6b6e75, moletomSombra: 0x55585e, calca: 0x24252a, cabelo: "comprido", cachecol: 0x7a1418, capuz: false },
+  mae: { moletom: 0x5b5e66, moletomSombra: 0x4a4d54, calca: 0x2e3036, cabelo: "coque", capuz: false },
+  pai: { moletom: 0x3d4048, moletomSombra: 0x30333a, calca: 0x26282d, cabelo: "curto", capuz: false },
+};
+
+export function criarPersonagem(variante = "ele") {
+  const V = { ...COR_PERSONAGEM, capuz: true, ...VARIANTES[variante] };
   const raiz = new THREE.Group();
-  raiz.name = "personagem";
+  raiz.name = "personagem-" + variante;
   const corpo = new THREE.Group(); // pivô no quadril
   raiz.add(corpo);
   corpo.scale.setScalar(ESCALA);
@@ -103,13 +113,13 @@ export function criarPersonagem() {
   function perna(lado) {
     const quadril = new THREE.Group();
     quadril.position.set(lado * 0.12, 0, 0);
-    const coxa = malha(new THREE.CylinderGeometry(0.095, 0.085, M.coxa, 7), COR_PERSONAGEM.calca);
+    const coxa = malha(new THREE.CylinderGeometry(0.095, 0.085, M.coxa, 7), V.calca);
     coxa.position.y = -M.coxa / 2;
     quadril.add(coxa);
     const joelho = new THREE.Group();
     joelho.position.y = -M.coxa;
     quadril.add(joelho);
-    const canela = malha(new THREE.CylinderGeometry(0.085, 0.075, M.canela, 7), COR_PERSONAGEM.calca);
+    const canela = malha(new THREE.CylinderGeometry(0.085, 0.075, M.canela, 7), V.calca);
     canela.position.y = -M.canela / 2;
     joelho.add(canela);
     const tenis = malha(new THREE.BoxGeometry(0.15, 0.09, 0.27), COR_PERSONAGEM.tenis);
@@ -127,32 +137,48 @@ export function criarPersonagem() {
   // ---- tronco: o moletom
   const tronco = new THREE.Group();
   corpo.add(tronco);
-  const moletom = malha(new THREE.CylinderGeometry(0.25, 0.29, M.tronco, 8), COR_PERSONAGEM.moletom);
+  const moletom = malha(new THREE.CylinderGeometry(0.25, 0.29, M.tronco, 8), V.moletom);
   moletom.position.y = M.tronco / 2 - 0.02;
   tronco.add(moletom);
-  const barra = malha(new THREE.CylinderGeometry(0.295, 0.295, 0.07, 8), COR_PERSONAGEM.moletomSombra);
+  const barra = malha(new THREE.CylinderGeometry(0.295, 0.295, 0.07, 8), V.moletomSombra);
   barra.position.y = 0.0;
   tronco.add(barra);
-  const bolso = malha(new THREE.BoxGeometry(0.3, 0.15, 0.04), COR_PERSONAGEM.moletomSombra, false);
+  const bolso = malha(new THREE.BoxGeometry(0.3, 0.15, 0.04), V.moletomSombra, false);
   bolso.position.set(0, 0.13, 0.265);
   bolso.rotation.x = -0.07;
   tronco.add(bolso);
   for (const lado of [1, -1]) {
-    const ombro = malha(new THREE.SphereGeometry(0.12, 7, 5), COR_PERSONAGEM.moletom);
+    const ombro = malha(new THREE.SphereGeometry(0.12, 7, 5), V.moletom);
     ombro.position.set(lado * M.ombroX * 0.92, M.tronco - 0.08, 0);
     tronco.add(ombro);
   }
-  // capuz caído atrás do pescoço
-  const capuz = malha(new THREE.SphereGeometry(0.24, 8, 6), COR_PERSONAGEM.moletom);
-  capuz.scale.set(1.05, 0.62, 0.78);
-  capuz.position.set(0, M.tronco - 0.02, -0.1);
-  tronco.add(capuz);
-  // cordões do capuz
-  for (const lado of [1, -1]) {
-    const cordao = malha(new THREE.CylinderGeometry(0.011, 0.011, 0.2, 4), COR_PERSONAGEM.cordao, false);
-    cordao.position.set(lado * 0.06, M.tronco - 0.14, 0.235);
-    cordao.rotation.x = -0.12;
-    tronco.add(cordao);
+  if (V.capuz) {
+    // capuz caído atrás do pescoço
+    const capuz = malha(new THREE.SphereGeometry(0.24, 8, 6), V.moletom);
+    capuz.scale.set(1.05, 0.62, 0.78);
+    capuz.position.set(0, M.tronco - 0.02, -0.1);
+    tronco.add(capuz);
+    // cordões do capuz
+    for (const lado of [1, -1]) {
+      const cordao = malha(new THREE.CylinderGeometry(0.011, 0.011, 0.2, 4), COR_PERSONAGEM.cordao, false);
+      cordao.position.set(lado * 0.06, M.tronco - 0.14, 0.235);
+      cordao.rotation.x = -0.12;
+      tronco.add(cordao);
+    }
+  } else {
+    const gola = malha(new THREE.CylinderGeometry(0.15, 0.2, 0.08, 8), V.moletomSombra);
+    gola.position.y = M.tronco - 0.01;
+    tronco.add(gola);
+  }
+  if (V.cachecol) {
+    const cachecol = malha(new THREE.TorusGeometry(0.13, 0.05, 5, 10), V.cachecol);
+    cachecol.rotation.x = Math.PI / 2;
+    cachecol.position.y = M.tronco + 0.02;
+    tronco.add(cachecol);
+    const ponta = malha(new THREE.BoxGeometry(0.09, 0.26, 0.04), V.cachecol);
+    ponta.position.set(0.08, M.tronco - 0.12, 0.2);
+    ponta.rotation.z = 0.1;
+    tronco.add(ponta);
   }
 
   // ---- cabeça
@@ -176,22 +202,46 @@ export function criarPersonagem() {
   const boca = malha(new THREE.SphereGeometry(0.05, 8, 6), COR_PERSONAGEM.boca, false);
   boca.position.set(0, M.cabeca * 0.6, M.cabeca * 0.9);
   cabeca.add(boca);
+  // cabelo das variantes (o personagem principal é careca, como na parte 01)
+  const corCabelo = 0x1c1c1e;
+  if (V.cabelo) {
+    const topo = malha(new THREE.IcosahedronGeometry(M.cabeca * 1.06, 1), corCabelo);
+    topo.scale.set(1.02, 0.62, 1.0);
+    topo.position.set(0, M.cabeca * 1.28, -0.03);
+    cabeca.add(topo);
+  }
+  if (V.cabelo === "comprido") {
+    const costas = malha(new THREE.CylinderGeometry(0.27, 0.22, 0.62, 8, 1, true), corCabelo);
+    costas.position.set(0, M.cabeca * 0.55, -0.1);
+    costas.scale.set(1.05, 1, 0.8);
+    cabeca.add(costas);
+    for (const lado of [1, -1]) {
+      const mecha = malha(new THREE.BoxGeometry(0.07, 0.42, 0.1), corCabelo);
+      mecha.position.set(lado * 0.26, M.cabeca * 0.62, 0.08);
+      cabeca.add(mecha);
+    }
+  }
+  if (V.cabelo === "coque") {
+    const coque = malha(new THREE.IcosahedronGeometry(0.12, 0), corCabelo);
+    coque.position.set(0, M.cabeca * 1.55, -0.18);
+    cabeca.add(coque);
+  }
 
   // ---- braços
   function braco(lado) {
     const ombro = new THREE.Group();
     ombro.position.set(lado * M.ombroX, M.tronco - 0.1, 0);
     tronco.add(ombro);
-    const manga = malha(new THREE.CylinderGeometry(0.078, 0.07, M.braco, 7), COR_PERSONAGEM.moletom);
+    const manga = malha(new THREE.CylinderGeometry(0.078, 0.07, M.braco, 7), V.moletom);
     manga.position.y = -M.braco / 2;
     ombro.add(manga);
     const cotovelo = new THREE.Group();
     cotovelo.position.y = -M.braco;
     ombro.add(cotovelo);
-    const anteb = malha(new THREE.CylinderGeometry(0.07, 0.066, M.antebraco, 7), COR_PERSONAGEM.moletom);
+    const anteb = malha(new THREE.CylinderGeometry(0.07, 0.066, M.antebraco, 7), V.moletom);
     anteb.position.y = -M.antebraco / 2;
     cotovelo.add(anteb);
-    const punho = malha(new THREE.CylinderGeometry(0.068, 0.068, 0.04, 7), COR_PERSONAGEM.moletomSombra, false);
+    const punho = malha(new THREE.CylinderGeometry(0.068, 0.068, 0.04, 7), V.moletomSombra, false);
     punho.position.y = -M.antebraco + 0.01;
     cotovelo.add(punho);
     const mao = malha(new THREE.IcosahedronGeometry(0.068, 0), COR_PERSONAGEM.pele);

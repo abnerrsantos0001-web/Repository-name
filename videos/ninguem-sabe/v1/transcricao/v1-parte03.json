@@ -1,493 +1,581 @@
 {
  "audio": "assets/audio/v1-parte03.mp3",
  "duracao": 38.008,
- "inicioNaNarracao": 79.908,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   1.377
+  ],
+  [
+   1.708,
+   3.604
+  ],
+  [
+   4.323,
+   5.226
+  ],
+  [
+   6.007,
+   7.525
+  ],
+  [
+   8.039,
+   9.67
+  ],
+  [
+   10.003,
+   11.605
+  ],
+  [
+   12.069,
+   13.665
+  ],
+  [
+   14.21,
+   16.02
+  ],
+  [
+   16.173,
+   16.404
+  ],
+  [
+   16.857,
+   18.991
+  ],
+  [
+   19.477,
+   19.75
+  ],
+  [
+   19.966,
+   22.807
+  ],
+  [
+   23.062,
+   25.03
+  ],
+  [
+   25.552,
+   27.808
+  ],
+  [
+   28.162,
+   30.931
+  ],
+  [
+   31.437,
+   32.41
+  ],
+  [
+   32.675,
+   33.423
+  ],
+  [
+   33.694,
+   34.384
+  ],
+  [
+   35.025,
+   36.29
+  ],
+  [
+   36.577,
+   37.795
+  ]
+ ],
  "palavras": [
   {
    "id": "p03w0",
    "text": "Nas",
    "start": 0.0,
-   "end": 0.172
+   "end": 0.321
   },
   {
    "id": "p03w1",
    "text": "primeiras",
-   "start": 0.302,
-   "end": 0.962
+   "start": 0.321,
+   "end": 0.886
   },
   {
    "id": "p03w2",
-   "text": "horas",
-   "start": 1.472,
-   "end": 1.722
+   "text": "horas,",
+   "start": 0.886,
+   "end": 1.377
   },
   {
    "id": "p03w3",
    "text": "o",
-   "start": 1.722,
-   "end": 1.862
+   "start": 1.708,
+   "end": 1.9
   },
   {
    "id": "p03w4",
    "text": "medo",
-   "start": 1.862,
-   "end": 2.262
+   "start": 1.9,
+   "end": 2.149
   },
   {
    "id": "p03w5",
    "text": "vira",
-   "start": 2.262,
-   "end": 2.682
+   "start": 2.149,
+   "end": 2.685
   },
   {
    "id": "p03w6",
    "text": "outra",
-   "start": 2.682,
-   "end": 3.152
+   "start": 2.685,
+   "end": 3.125
   },
   {
    "id": "p03w7",
-   "text": "coisa.",
-   "start": 3.152,
-   "end": 4.062
+   "text": "coisa,",
+   "start": 3.125,
+   "end": 3.604
   },
   {
    "id": "p03w8",
-   "text": "Liberdade.",
-   "start": 4.162,
-   "end": 5.462
+   "text": "liberdade.",
+   "start": 4.323,
+   "end": 5.226
   },
   {
    "id": "p03w9",
    "text": "Você",
-   "start": 5.482,
-   "end": 5.492
+   "start": 6.007,
+   "end": 6.401
   },
   {
    "id": "p03w10",
    "text": "entra",
-   "start": 6.392,
-   "end": 6.412
+   "start": 6.401,
+   "end": 6.813
   },
   {
    "id": "p03w11",
    "text": "no",
-   "start": 6.412,
-   "end": 6.612
+   "start": 6.813,
+   "end": 7.056
   },
   {
    "id": "p03w12",
-   "text": "shopping.",
-   "start": 6.612,
-   "end": 7.772
+   "text": "shopping,",
+   "start": 7.056,
+   "end": 7.525
   },
   {
    "id": "p03w13",
-   "text": "Todas",
-   "start": 7.772,
-   "end": 8.772
+   "text": "todas",
+   "start": 8.039,
+   "end": 8.198
   },
   {
    "id": "p03w14",
    "text": "as",
-   "start": 9.062,
-   "end": 9.092
+   "start": 8.198,
+   "end": 8.456
   },
   {
    "id": "p03w15",
    "text": "lojas",
-   "start": 9.092,
-   "end": 9.322
+   "start": 8.456,
+   "end": 8.854
   },
   {
    "id": "p03w16",
-   "text": "abertas.",
-   "start": 9.502,
-   "end": 10.312
+   "text": "abertas,",
+   "start": 8.854,
+   "end": 9.67
   },
   {
    "id": "p03w17",
-   "text": "Todas",
-   "start": 10.312,
-   "end": 10.582
+   "text": "todas",
+   "start": 10.003,
+   "end": 10.206
   },
   {
    "id": "p03w18",
    "text": "as",
-   "start": 10.912,
-   "end": 10.942
+   "start": 10.206,
+   "end": 10.5
   },
   {
    "id": "p03w19",
    "text": "luzes",
-   "start": 11.042,
-   "end": 11.392
+   "start": 10.5,
+   "end": 10.905
   },
   {
    "id": "p03w20",
-   "text": "acesas.",
-   "start": 11.392,
-   "end": 12.202
+   "text": "acesas",
+   "start": 10.905,
+   "end": 11.605
   },
   {
    "id": "p03w21",
-   "text": "Eninguém",
-   "start": 12.202,
-   "end": 12.692
+   "text": "e",
+   "start": 12.07,
+   "end": 12.291
   },
   {
    "id": "p03w22",
-   "text": "para",
-   "start": 12.692,
-   "end": 13.362
+   "text": "ninguém",
+   "start": 12.291,
+   "end": 12.675
   },
   {
    "id": "p03w23",
-   "text": "te",
-   "start": 13.362,
-   "end": 13.462
+   "text": "para",
+   "start": 12.675,
+   "end": 12.852
   },
   {
    "id": "p03w24",
-   "text": "impedir.",
-   "start": 13.462,
-   "end": 14.362
+   "text": "te",
+   "start": 12.852,
+   "end": 13.059
   },
   {
    "id": "p03w25",
-   "text": "Você",
-   "start": 14.362,
-   "end": 14.652
+   "text": "impedir.",
+   "start": 13.059,
+   "end": 13.665
   },
   {
    "id": "p03w26",
-   "text": "pega",
-   "start": 14.782,
-   "end": 14.982
+   "text": "Você",
+   "start": 14.21,
+   "end": 14.549
   },
   {
    "id": "p03w27",
-   "text": "o",
-   "start": 14.982,
-   "end": 15.172
+   "text": "pega",
+   "start": 14.549,
+   "end": 14.776
   },
   {
    "id": "p03w28",
-   "text": "tênis",
-   "start": 15.172,
-   "end": 15.612
+   "text": "o",
+   "start": 14.776,
+   "end": 15.039
   },
   {
    "id": "p03w29",
-   "text": "que",
-   "start": 15.912,
-   "end": 15.972
+   "text": "tênis",
+   "start": 15.039,
+   "end": 15.36
   },
   {
    "id": "p03w30",
-   "text": "sempre",
-   "start": 15.972,
-   "end": 16.452
+   "text": "que",
+   "start": 15.36,
+   "end": 15.567
   },
   {
    "id": "p03w31",
-   "text": "quis.",
-   "start": 16.452,
-   "end": 16.812
+   "text": "sempre",
+   "start": 15.567,
+   "end": 16.02
   },
   {
    "id": "p03w32",
-   "text": "O",
-   "start": 16.812,
-   "end": 17.412
+   "text": "quis,",
+   "start": 16.173,
+   "end": 16.404
   },
   {
    "id": "p03w33",
-   "text": "celular",
-   "start": 17.502,
-   "end": 17.952
+   "text": "o",
+   "start": 16.857,
+   "end": 17.037
   },
   {
    "id": "p03w34",
-   "text": "mais",
-   "start": 18.102,
-   "end": 18.272
+   "text": "celular",
+   "start": 17.037,
+   "end": 17.436
   },
   {
    "id": "p03w35",
-   "text": "caro",
-   "start": 18.272,
-   "end": 18.512
+   "text": "mais",
+   "start": 17.436,
+   "end": 17.994
   },
   {
    "id": "p03w36",
-   "text": "da",
-   "start": 18.512,
-   "end": 18.932
+   "text": "caro",
+   "start": 17.994,
+   "end": 18.273
   },
   {
    "id": "p03w37",
-   "text": "vitrine.",
-   "start": 18.932,
-   "end": 19.492
+   "text": "da",
+   "start": 18.273,
+   "end": 18.472
   },
   {
    "id": "p03w38",
-   "text": "Come",
-   "start": 19.492,
-   "end": 19.802
+   "text": "vitrine,",
+   "start": 18.472,
+   "end": 18.99
   },
   {
    "id": "p03w39",
-   "text": "tudo",
-   "start": 19.802,
-   "end": 20.102
+   "text": "come",
+   "start": 19.477,
+   "end": 19.75
   },
   {
    "id": "p03w40",
-   "text": "que",
-   "start": 20.112,
-   "end": 20.342
+   "text": "tudo",
+   "start": 19.966,
+   "end": 20.446
   },
   {
    "id": "p03w41",
-   "text": "dá",
-   "start": 20.342,
-   "end": 20.492
+   "text": "que",
+   "start": 20.446,
+   "end": 20.667
   },
   {
    "id": "p03w42",
-   "text": "vontade",
-   "start": 20.492,
-   "end": 20.712
+   "text": "dá",
+   "start": 20.667,
+   "end": 20.814
   },
   {
    "id": "p03w43",
-   "text": "na",
-   "start": 21.042,
-   "end": 21.192
+   "text": "vontade",
+   "start": 20.814,
+   "end": 21.331
   },
   {
    "id": "p03w44",
-   "text": "praça",
-   "start": 21.362,
-   "end": 21.562
+   "text": "na",
+   "start": 21.331,
+   "end": 21.645
   },
   {
    "id": "p03w45",
-   "text": "de",
-   "start": 21.682,
-   "end": 21.722
+   "text": "praça",
+   "start": 21.645,
+   "end": 21.977
   },
   {
    "id": "p03w46",
-   "text": "alimentação.",
-   "start": 21.722,
-   "end": 22.932
+   "text": "de",
+   "start": 21.977,
+   "end": 22.161
   },
   {
    "id": "p03w47",
-   "text": "Você",
-   "start": 22.932,
-   "end": 22.992
+   "text": "alimentação.",
+   "start": 22.161,
+   "end": 22.807
   },
   {
    "id": "p03w48",
-   "text": "entra",
-   "start": 23.912,
-   "end": 24.212
+   "text": "Você",
+   "start": 23.062,
+   "end": 23.438
   },
   {
    "id": "p03w49",
-   "text": "em",
-   "start": 24.302,
-   "end": 24.382
+   "text": "entra",
+   "start": 23.438,
+   "end": 23.724
   },
   {
    "id": "p03w50",
-   "text": "uma",
-   "start": 24.382,
-   "end": 24.632
+   "text": "em",
+   "start": 23.724,
+   "end": 23.76
   },
   {
    "id": "p03w51",
-   "text": "concessionária.",
-   "start": 24.632,
-   "end": 25.992
+   "text": "uma",
+   "start": 23.76,
+   "end": 23.939
   },
   {
    "id": "p03w52",
-   "text": "Pega",
-   "start": 26.132,
-   "end": 26.352
+   "text": "concessionária,",
+   "start": 23.939,
+   "end": 25.03
   },
   {
    "id": "p03w53",
-   "text": "a",
-   "start": 26.352,
-   "end": 26.502
+   "text": "pega",
+   "start": 25.552,
+   "end": 25.683
   },
   {
    "id": "p03w54",
-   "text": "chave",
-   "start": 26.502,
-   "end": 26.882
+   "text": "a",
+   "start": 25.683,
+   "end": 25.815
   },
   {
    "id": "p03w55",
-   "text": "do",
-   "start": 26.882,
-   "end": 27.032
+   "text": "chave",
+   "start": 25.815,
+   "end": 26.209
   },
   {
    "id": "p03w56",
-   "text": "carro",
-   "start": 27.052,
-   "end": 27.462
+   "text": "do",
+   "start": 26.209,
+   "end": 26.45
   },
   {
    "id": "p03w57",
-   "text": "mais",
-   "start": 27.462,
-   "end": 27.532
+   "text": "carro",
+   "start": 26.45,
+   "end": 26.8
   },
   {
    "id": "p03w58",
-   "text": "bonito",
-   "start": 28.162,
-   "end": 28.302
+   "text": "mais",
+   "start": 26.8,
+   "end": 27.239
   },
   {
    "id": "p03w59",
-   "text": "e",
-   "start": 28.302,
-   "end": 28.372
+   "text": "bonito",
+   "start": 27.239,
+   "end": 27.808
   },
   {
    "id": "p03w60",
-   "text": "dirige",
-   "start": 28.482,
-   "end": 28.882
+   "text": "e",
+   "start": 28.162,
+   "end": 28.671
   },
   {
    "id": "p03w61",
-   "text": "a",
-   "start": 28.882,
-   "end": 28.962
+   "text": "dirige",
+   "start": 28.671,
+   "end": 28.973
   },
   {
    "id": "p03w62",
-   "text": "200",
-   "start": 28.962,
-   "end": 29.712
+   "text": "a",
+   "start": 28.973,
+   "end": 29.133
   },
   {
    "id": "p03w63",
-   "text": "por",
-   "start": 29.712,
-   "end": 29.792
+   "text": "200",
+   "start": 29.133,
+   "end": 29.53
   },
   {
    "id": "p03w64",
-   "text": "hora",
-   "start": 29.952,
-   "end": 30.302
+   "text": "por",
+   "start": 29.53,
+   "end": 29.833
   },
   {
    "id": "p03w65",
-   "text": "pela",
-   "start": 30.302,
-   "end": 30.712
+   "text": "hora",
+   "start": 29.833,
+   "end": 30.04
   },
   {
    "id": "p03w66",
-   "text": "avenida.",
-   "start": 30.712,
-   "end": 31.642
+   "text": "pela",
+   "start": 30.04,
+   "end": 30.247
   },
   {
    "id": "p03w67",
-   "text": "Sem",
-   "start": 31.812,
-   "end": 32.092
+   "text": "avenida,",
+   "start": 30.247,
+   "end": 30.931
   },
   {
    "id": "p03w68",
-   "text": "semáforo.",
-   "start": 32.182,
-   "end": 33.152
+   "text": "sem",
+   "start": 31.437,
+   "end": 31.594
   },
   {
    "id": "p03w69",
-   "text": "Sem",
-   "start": 33.152,
-   "end": 33.722
+   "text": "semáforo,",
+   "start": 31.594,
+   "end": 32.41
   },
   {
    "id": "p03w70",
-   "text": "multa.",
-   "start": 33.722,
-   "end": 34.232
+   "text": "sem",
+   "start": 32.675,
+   "end": 32.839
   },
   {
    "id": "p03w71",
-   "text": "Sem",
-   "start": 34.382,
-   "end": 34.592
+   "text": "multa,",
+   "start": 32.839,
+   "end": 33.423
   },
   {
    "id": "p03w72",
-   "text": "ninguém.",
-   "start": 34.592,
-   "end": 35.412
+   "text": "sem",
+   "start": 33.694,
+   "end": 33.861
   },
   {
    "id": "p03w73",
-   "text": "Por",
-   "start": 35.632,
-   "end": 35.902
+   "text": "ninguém.",
+   "start": 33.861,
+   "end": 34.384
   },
   {
    "id": "p03w74",
-   "text": "um",
-   "start": 36.042,
-   "end": 36.102
+   "text": "Por",
+   "start": 35.025,
+   "end": 35.262
   },
   {
    "id": "p03w75",
-   "text": "dia",
-   "start": 36.102,
-   "end": 36.402
+   "text": "um",
+   "start": 35.262,
+   "end": 35.499
   },
   {
    "id": "p03w76",
-   "text": "inteiro",
-   "start": 36.402,
-   "end": 37.112
+   "text": "dia",
+   "start": 35.499,
+   "end": 35.716
   },
   {
    "id": "p03w77",
-   "text": "o",
-   "start": 37.112,
-   "end": 37.162
+   "text": "inteiro,",
+   "start": 35.716,
+   "end": 36.29
   },
   {
    "id": "p03w78",
-   "text": "mundo",
-   "start": 37.242,
-   "end": 37.662
+   "text": "o",
+   "start": 36.577,
+   "end": 36.751
   },
   {
    "id": "p03w79",
-   "text": "é",
-   "start": 37.662,
-   "end": 37.812
+   "text": "mundo",
+   "start": 36.751,
+   "end": 37.186
   },
   {
    "id": "p03w80",
+   "text": "é",
+   "start": 37.186,
+   "end": 37.643
+  },
+  {
+   "id": "p03w81",
    "text": "seu.",
-   "start": 37.812,
-   "end": 38.008
+   "start": 37.643,
+   "end": 37.795
   }
  ]
 }

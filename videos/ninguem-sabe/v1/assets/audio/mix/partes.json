@@ -1,0 +1,474 @@
+{
+ "fps": 30,
+ "taxa": 48000,
+ "partes": [
+  {
+   "parte": 1,
+   "quadro_inicial": 0,
+   "quadros": 1228,
+   "duracao": 40.9333,
+   "inicio_global": 0.0,
+   "voz_inicio_global": 0.0
+  },
+  {
+   "parte": 2,
+   "quadro_inicial": 1228,
+   "quadros": 1169,
+   "duracao": 38.9667,
+   "inicio_global": 40.9333,
+   "voz_inicio_global": 40.9339
+  },
+  {
+   "parte": 3,
+   "quadro_inicial": 2397,
+   "quadros": 1141,
+   "duracao": 38.0333,
+   "inicio_global": 79.9,
+   "voz_inicio_global": 79.9086
+  },
+  {
+   "parte": 4,
+   "quadro_inicial": 3538,
+   "quadros": 1165,
+   "duracao": 38.8333,
+   "inicio_global": 117.9333,
+   "voz_inicio_global": 117.9168
+  },
+  {
+   "parte": 5,
+   "quadro_inicial": 4703,
+   "quadros": 1222,
+   "duracao": 40.7333,
+   "inicio_global": 156.7667,
+   "voz_inicio_global": 156.7609
+  },
+  {
+   "parte": 6,
+   "quadro_inicial": 5925,
+   "quadros": 856,
+   "duracao": 28.5333,
+   "inicio_global": 197.5,
+   "voz_inicio_global": 197.5119
+  },
+  {
+   "parte": 7,
+   "quadro_inicial": 6781,
+   "quadros": 795,
+   "duracao": 26.5,
+   "inicio_global": 226.0333,
+   "voz_inicio_global": 226.0376
+  },
+  {
+   "parte": 8,
+   "quadro_inicial": 7576,
+   "quadros": 576,
+   "duracao": 19.2,
+   "inicio_global": 252.5333,
+   "voz_inicio_global": 252.5258
+  },
+  {
+   "parte": 9,
+   "quadro_inicial": 8152,
+   "quadros": 1183,
+   "duracao": 39.4333,
+   "inicio_global": 271.7333,
+   "voz_inicio_global": 271.7258
+  },
+  {
+   "parte": 10,
+   "quadro_inicial": 9335,
+   "quadros": 1090,
+   "duracao": 36.3333,
+   "inicio_global": 311.1667,
+   "voz_inicio_global": 311.1707
+  },
+  {
+   "parte": 11,
+   "quadro_inicial": 10425,
+   "quadros": 483,
+   "duracao": 16.1,
+   "inicio_global": 347.5,
+   "voz_inicio_global": 347.507
+  }
+ ],
+ "efeitos": [
+  {
+   "t": 69.13,
+   "efeito": "toque de chamada"
+  },
+  {
+   "t": 69.887,
+   "efeito": "toque de chamada"
+  },
+  {
+   "t": 70.458,
+   "efeito": "toque de chamada"
+  },
+  {
+   "t": 75.454,
+   "efeito": "toque de chamada"
+  },
+  {
+   "t": 78.557,
+   "efeito": "ligação caindo"
+  },
+  {
+   "t": 140.139,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 141.139,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 142.139,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 143.139,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 144.139,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 145.139,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 145.692,
+   "efeito": "baque no andar de baixo"
+  },
+  {
+   "t": 190.046,
+   "efeito": "estalo da luz"
+  },
+  {
+   "t": 193.058,
+   "efeito": "coração"
+  },
+  {
+   "t": 194.008,
+   "efeito": "coração"
+  },
+  {
+   "t": 194.958,
+   "efeito": "coração"
+  },
+  {
+   "t": 195.908,
+   "efeito": "coração"
+  },
+  {
+   "t": 196.858,
+   "efeito": "coração"
+  },
+  {
+   "t": 211.674,
+   "efeito": "coração"
+  },
+  {
+   "t": 212.224,
+   "efeito": "coração"
+  },
+  {
+   "t": 212.774,
+   "efeito": "coração"
+  },
+  {
+   "t": 213.324,
+   "efeito": "coração"
+  },
+  {
+   "t": 213.874,
+   "efeito": "coração"
+  },
+  {
+   "t": 214.424,
+   "efeito": "coração"
+  },
+  {
+   "t": 214.974,
+   "efeito": "coração"
+  },
+  {
+   "t": 221.226,
+   "efeito": "batida na porta"
+  },
+  {
+   "t": 221.466,
+   "efeito": "batida na porta"
+  },
+  {
+   "t": 221.706,
+   "efeito": "batida na porta"
+  },
+  {
+   "t": 283.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 284.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 285.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 286.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 287.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 288.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 289.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 290.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 291.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 292.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 293.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 294.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 295.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 296.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 297.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 298.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 299.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 300.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 301.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 302.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 303.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 304.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 305.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 306.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 307.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 308.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 309.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 310.154,
+   "efeito": "tique-taque"
+  },
+  {
+   "t": 298.781,
+   "efeito": "coração"
+  },
+  {
+   "t": 299.581,
+   "efeito": "coração"
+  },
+  {
+   "t": 300.301,
+   "efeito": "coração"
+  },
+  {
+   "t": 300.949,
+   "efeito": "coração"
+  },
+  {
+   "t": 301.532,
+   "efeito": "coração"
+  },
+  {
+   "t": 302.057,
+   "efeito": "coração"
+  },
+  {
+   "t": 302.529,
+   "efeito": "coração"
+  },
+  {
+   "t": 302.954,
+   "efeito": "coração"
+  },
+  {
+   "t": 303.374,
+   "efeito": "coração"
+  },
+  {
+   "t": 303.794,
+   "efeito": "coração"
+  },
+  {
+   "t": 304.214,
+   "efeito": "coração"
+  },
+  {
+   "t": 304.634,
+   "efeito": "coração"
+  },
+  {
+   "t": 305.054,
+   "efeito": "coração"
+  },
+  {
+   "t": 305.474,
+   "efeito": "coração"
+  },
+  {
+   "t": 305.894,
+   "efeito": "coração"
+  },
+  {
+   "t": 306.314,
+   "efeito": "coração"
+  },
+  {
+   "t": 306.734,
+   "efeito": "coração"
+  },
+  {
+   "t": 307.154,
+   "efeito": "coração"
+  },
+  {
+   "t": 307.574,
+   "efeito": "coração"
+  },
+  {
+   "t": 307.994,
+   "efeito": "coração"
+  },
+  {
+   "t": 308.414,
+   "efeito": "coração"
+  },
+  {
+   "t": 308.834,
+   "efeito": "coração"
+  },
+  {
+   "t": 309.254,
+   "efeito": "coração"
+  },
+  {
+   "t": 309.674,
+   "efeito": "coração"
+  },
+  {
+   "t": 310.094,
+   "efeito": "coração"
+  },
+  {
+   "t": 310.514,
+   "efeito": "coração"
+  },
+  {
+   "t": 311.191,
+   "efeito": "despertador"
+  },
+  {
+   "t": 314.562,
+   "efeito": "carro passando"
+  },
+  {
+   "t": 333.964,
+   "efeito": "celular vibrando"
+  },
+  {
+   "t": 335.204,
+   "efeito": "notificação"
+  }
+ ],
+ "cortes": [
+  {
+   "corte": 1,
+   "partes": [
+    1,
+    2
+   ],
+   "quadros": 2517
+  },
+  {
+   "corte": 2,
+   "partes": [
+    3,
+    4
+   ],
+   "quadros": 2426
+  },
+  {
+   "corte": 3,
+   "partes": [
+    5,
+    6
+   ],
+   "quadros": 2198
+  },
+  {
+   "corte": 4,
+   "partes": [
+    7,
+    8
+   ],
+   "quadros": 1491
+  }
+ ]
+}

@@ -1,337 +1,397 @@
 {
  "audio": "assets/audio/v1-parte06.mp3",
  "duracao": 28.526,
- "inicioNaNarracao": 197.511,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   1.387
+  ],
+  [
+   1.677,
+   2.912
+  ],
+  [
+   3.562,
+   4.272
+  ],
+  [
+   4.438,
+   5.563
+  ],
+  [
+   6.39,
+   7.718
+  ],
+  [
+   8.47,
+   9.17
+  ],
+  [
+   9.37,
+   11.929
+  ],
+  [
+   12.36,
+   13.459
+  ],
+  [
+   14.162,
+   15.592
+  ],
+  [
+   16.09,
+   17.423
+  ],
+  [
+   18.091,
+   20.109
+  ],
+  [
+   20.564,
+   23.21
+  ],
+  [
+   23.714,
+   24.879
+  ],
+  [
+   25.357,
+   25.553
+  ],
+  [
+   25.723,
+   26.239
+  ],
+  [
+   26.749,
+   28.295
+  ]
+ ],
  "palavras": [
   {
    "id": "p06w0",
-   "text": "ver.",
-   "start": 0.279,
-   "end": 0.429
+   "text": "Na",
+   "start": 0.0,
+   "end": 0.352
   },
   {
    "id": "p06w1",
-   "text": "Na",
-   "start": 0.619,
-   "end": 0.749
+   "text": "décima",
+   "start": 0.352,
+   "end": 0.899
   },
   {
    "id": "p06w2",
-   "text": "décima",
-   "start": 0.749,
-   "end": 1.289
+   "text": "noite,",
+   "start": 0.899,
+   "end": 1.387
   },
   {
    "id": "p06w3",
-   "text": "noite",
-   "start": 1.289,
-   "end": 1.739
+   "text": "você",
+   "start": 1.677,
+   "end": 1.893
   },
   {
    "id": "p06w4",
-   "text": "você",
-   "start": 1.739,
-   "end": 1.949
+   "text": "sobe",
+   "start": 1.893,
+   "end": 2.14
   },
   {
    "id": "p06w5",
-   "text": "sobe",
-   "start": 2.119,
-   "end": 2.479
+   "text": "no",
+   "start": 2.14,
+   "end": 2.294
   },
   {
    "id": "p06w6",
-   "text": "no",
-   "start": 2.599,
-   "end": 2.659
+   "text": "telhado.",
+   "start": 2.294,
+   "end": 2.912
   },
   {
    "id": "p06w7",
-   "text": "telhado.",
-   "start": 2.659,
-   "end": 3.559
+   "text": "A",
+   "start": 3.562,
+   "end": 3.739
   },
   {
    "id": "p06w8",
-   "text": "A",
-   "start": 3.559,
-   "end": 3.649
+   "text": "cidade",
+   "start": 3.739,
+   "end": 4.272
   },
   {
    "id": "p06w9",
-   "text": "cidade",
-   "start": 3.649,
-   "end": 4.169
+   "text": "inteira",
+   "start": 4.438,
+   "end": 4.784
   },
   {
    "id": "p06w10",
-   "text": "inteira",
-   "start": 4.199,
-   "end": 4.839
+   "text": "está",
+   "start": 4.784,
+   "end": 4.914
   },
   {
    "id": "p06w11",
-   "text": "está",
-   "start": 5.149,
-   "end": 5.209
+   "text": "escura.",
+   "start": 4.914,
+   "end": 5.563
   },
   {
    "id": "p06w12",
-   "text": "escura.",
-   "start": 5.209,
-   "end": 6.419
+   "text": "Menos",
+   "start": 6.39,
+   "end": 6.81
   },
   {
    "id": "p06w13",
-   "text": "Menos",
-   "start": 6.419,
-   "end": 7.079
+   "text": "uma",
+   "start": 6.81,
+   "end": 6.978
   },
   {
    "id": "p06w14",
-   "text": "para",
-   "start": 7.419,
-   "end": 7.609
+   "text": "janela.",
+   "start": 6.978,
+   "end": 7.718
   },
   {
    "id": "p06w15",
-   "text": "nela.",
-   "start": 7.739,
-   "end": 8.389
+   "text": "Lá",
+   "start": 8.47,
+   "end": 8.755
   },
   {
    "id": "p06w16",
-   "text": "Lá",
-   "start": 8.429,
-   "end": 8.609
+   "text": "longe,",
+   "start": 8.755,
+   "end": 9.17
   },
   {
    "id": "p06w17",
-   "text": "longe,",
-   "start": 8.909,
-   "end": 9.329
+   "text": "no",
+   "start": 9.37,
+   "end": 9.491
   },
   {
    "id": "p06w18",
-   "text": "no",
-   "start": 9.329,
-   "end": 9.469
+   "text": "vigésimo",
+   "start": 9.491,
+   "end": 10.141
   },
   {
    "id": "p06w19",
-   "text": "vigésimo",
-   "start": 9.619,
-   "end": 10.329
+   "text": "andar",
+   "start": 10.141,
+   "end": 10.548
   },
   {
    "id": "p06w20",
-   "text": "andar",
-   "start": 10.329,
-   "end": 10.629
+   "text": "de",
+   "start": 10.548,
+   "end": 10.71
   },
   {
    "id": "p06w21",
-   "text": "de",
-   "start": 10.869,
-   "end": 11.029
+   "text": "um",
+   "start": 10.71,
+   "end": 10.954
   },
   {
    "id": "p06w22",
-   "text": "um",
-   "start": 11.029,
-   "end": 11.279
+   "text": "prédio",
+   "start": 10.954,
+   "end": 11.238
   },
   {
    "id": "p06w23",
-   "text": "prédio",
-   "start": 11.279,
-   "end": 11.829
+   "text": "no",
+   "start": 11.238,
+   "end": 11.502
   },
   {
    "id": "p06w24",
-   "text": "no",
-   "start": 11.829,
-   "end": 12.029
+   "text": "centro,",
+   "start": 11.502,
+   "end": 11.929
   },
   {
    "id": "p06w25",
-   "text": "centro,",
-   "start": 12.029,
-   "end": 12.829
+   "text": "uma",
+   "start": 12.36,
+   "end": 12.524
   },
   {
    "id": "p06w26",
-   "text": "uma",
-   "start": 12.829,
-   "end": 12.909
+   "text": "luz",
+   "start": 12.524,
+   "end": 12.737
   },
   {
    "id": "p06w27",
-   "text": "luz",
-   "start": 13.069,
-   "end": 13.429
+   "text": "acesa.",
+   "start": 12.737,
+   "end": 13.459
   },
   {
    "id": "p06w28",
-   "text": "acesa.",
-   "start": 13.429,
-   "end": 14.229
+   "text": "Seu",
+   "start": 14.162,
+   "end": 14.387
   },
   {
    "id": "p06w29",
-   "text": "Seu",
-   "start": 14.229,
-   "end": 14.529
+   "text": "coração",
+   "start": 14.387,
+   "end": 14.801
   },
   {
    "id": "p06w30",
-   "text": "coração",
-   "start": 14.529,
-   "end": 15.289
+   "text": "dispara.",
+   "start": 14.801,
+   "end": 15.592
   },
   {
    "id": "p06w31",
-   "text": "dispara.",
-   "start": 15.289,
-   "end": 16.129
+   "text": "Alguém",
+   "start": 16.09,
+   "end": 16.546
   },
   {
    "id": "p06w32",
-   "text": "Alguém",
-   "start": 16.219,
-   "end": 16.669
+   "text": "sobreviveu.",
+   "start": 16.546,
+   "end": 17.423
   },
   {
    "id": "p06w33",
-   "text": "sobreviveu.",
-   "start": 16.669,
-   "end": 17.879
+   "text": "Você",
+   "start": 18.091,
+   "end": 18.452
   },
   {
    "id": "p06w34",
-   "text": "Você",
-   "start": 17.879,
-   "end": 18.249
+   "text": "corre",
+   "start": 18.452,
+   "end": 18.722
   },
   {
    "id": "p06w35",
-   "text": "corre",
-   "start": 18.249,
-   "end": 18.719
+   "text": "a",
+   "start": 18.722,
+   "end": 18.866
   },
   {
    "id": "p06w36",
-   "text": "a",
-   "start": 18.719,
-   "end": 18.809
+   "text": "madrugada",
+   "start": 18.866,
+   "end": 19.442
   },
   {
    "id": "p06w37",
-   "text": "madrugada",
-   "start": 18.809,
-   "end": 19.449
+   "text": "inteira.",
+   "start": 19.442,
+   "end": 20.109
   },
   {
    "id": "p06w38",
-   "text": "inteira.",
-   "start": 20.009,
-   "end": 20.519
+   "text": "Sobe",
+   "start": 20.564,
+   "end": 20.876
   },
   {
    "id": "p06w39",
-   "text": "Sobe",
-   "start": 20.609,
-   "end": 20.929
+   "text": "20",
+   "start": 20.876,
+   "end": 21.244
   },
   {
    "id": "p06w40",
-   "text": "vinte",
-   "start": 20.929,
-   "end": 21.369
+   "text": "andares",
+   "start": 21.244,
+   "end": 21.703
   },
   {
    "id": "p06w41",
-   "text": "andares",
-   "start": 21.499,
-   "end": 21.709
+   "text": "de",
+   "start": 21.703,
+   "end": 21.979
   },
   {
    "id": "p06w42",
-   "text": "de",
-   "start": 22.019,
-   "end": 22.219
+   "text": "escada",
+   "start": 21.979,
+   "end": 22.273
   },
   {
    "id": "p06w43",
-   "text": "escada",
-   "start": 22.219,
-   "end": 22.709
+   "text": "no",
+   "start": 22.273,
+   "end": 22.475
   },
   {
    "id": "p06w44",
-   "text": "no",
-   "start": 22.829,
-   "end": 23.129
+   "text": "escuro.",
+   "start": 22.475,
+   "end": 23.21
   },
   {
    "id": "p06w45",
-   "text": "escuro.",
-   "start": 23.129,
-   "end": 23.329
+   "text": "Bate",
+   "start": 23.714,
+   "end": 24.043
   },
   {
    "id": "p06w46",
-   "text": "Bate",
-   "start": 23.329,
-   "end": 24.549
+   "text": "na",
+   "start": 24.043,
+   "end": 24.347
   },
   {
    "id": "p06w47",
-   "text": "na",
-   "start": 24.549,
-   "end": 24.859
+   "text": "porta.",
+   "start": 24.347,
+   "end": 24.879
   },
   {
    "id": "p06w48",
-   "text": "porta.",
-   "start": 24.859,
-   "end": 25.599
+   "text": "E",
+   "start": 25.357,
+   "end": 25.553
   },
   {
    "id": "p06w49",
-   "text": "Ea",
-   "start": 25.599,
-   "end": 25.809
+   "text": "a",
+   "start": 25.723,
+   "end": 25.87
   },
   {
    "id": "p06w50",
    "text": "porta",
-   "start": 25.809,
-   "end": 26.339
+   "start": 25.87,
+   "end": 26.239
   },
   {
    "id": "p06w51",
    "text": "se",
-   "start": 26.399,
-   "end": 26.549
+   "start": 26.749,
+   "end": 27.193
   },
   {
    "id": "p06w52",
    "text": "abre",
-   "start": 26.549,
-   "end": 26.909
+   "start": 27.193,
+   "end": 27.588
   },
   {
    "id": "p06w53",
    "text": "sozinha.",
-   "start": 27.059,
-   "end": 27.999
-  },
-  {
-   "id": "p06w54",
-   "text": "Dentro",
-   "start": 27.999,
-   "end": 28.526
+   "start": 27.588,
+   "end": 28.295
   }
  ]
 }

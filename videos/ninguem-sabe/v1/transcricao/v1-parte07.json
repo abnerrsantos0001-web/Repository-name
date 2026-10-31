@@ -1,343 +1,399 @@
 {
  "audio": "assets/audio/v1-parte07.mp3",
  "duracao": 26.488,
- "inicioNaNarracao": 226.037,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   2.324
+  ],
+  [
+   2.933,
+   5.89
+  ],
+  [
+   6.504,
+   7.443
+  ],
+  [
+   7.98,
+   9.241
+  ],
+  [
+   9.802,
+   10.879
+  ],
+  [
+   11.089,
+   11.681
+  ],
+  [
+   12.228,
+   13.816
+  ],
+  [
+   14.266,
+   15.743
+  ],
+  [
+   15.924,
+   16.11
+  ],
+  [
+   16.769,
+   18.099
+  ],
+  [
+   18.409,
+   19.193
+  ],
+  [
+   19.654,
+   21.379
+  ],
+  [
+   21.61,
+   23.19
+  ],
+  [
+   23.595,
+   24.227
+  ],
+  [
+   24.381,
+   26.336
+  ]
+ ],
  "palavras": [
   {
    "id": "p07w0",
-   "text": "do",
-   "start": 0.193,
-   "end": 0.323
+   "text": "Dentro",
+   "start": 0.0,
+   "end": 0.503
   },
   {
    "id": "p07w1",
-   "text": "apartamento",
-   "start": 0.323,
-   "end": 1.473
+   "text": "do",
+   "start": 0.503,
+   "end": 0.678
   },
   {
    "id": "p07w2",
-   "text": "tem",
-   "start": 1.473,
-   "end": 1.773
+   "text": "apartamento",
+   "start": 0.678,
+   "end": 1.452
   },
   {
    "id": "p07w3",
-   "text": "uma",
-   "start": 1.793,
-   "end": 1.823
+   "text": "tem",
+   "start": 1.452,
+   "end": 1.685
   },
   {
    "id": "p07w4",
-   "text": "mulher.",
-   "start": 2.733,
-   "end": 3.043
+   "text": "uma",
+   "start": 1.685,
+   "end": 1.917
   },
   {
    "id": "p07w5",
-   "text": "Ela",
-   "start": 3.043,
-   "end": 3.343
+   "text": "mulher.",
+   "start": 1.917,
+   "end": 2.324
   },
   {
    "id": "p07w6",
-   "text": "te",
-   "start": 3.353,
-   "end": 3.563
+   "text": "Ela",
+   "start": 2.933,
+   "end": 3.168
   },
   {
    "id": "p07w7",
-   "text": "olha",
-   "start": 3.563,
-   "end": 4.123
+   "text": "te",
+   "start": 3.168,
+   "end": 3.501
   },
   {
    "id": "p07w8",
-   "text": "como",
-   "start": 4.123,
-   "end": 4.363
+   "text": "olha",
+   "start": 3.501,
+   "end": 3.717
   },
   {
    "id": "p07w9",
-   "text": "se",
-   "start": 4.363,
-   "end": 4.553
+   "text": "como",
+   "start": 3.717,
+   "end": 4.01
   },
   {
    "id": "p07w10",
-   "text": "tivesse",
-   "start": 4.653,
-   "end": 5.103
+   "text": "se",
+   "start": 4.01,
+   "end": 4.285
   },
   {
    "id": "p07w11",
-   "text": "visto",
-   "start": 5.253,
-   "end": 5.623
+   "text": "tivesse",
+   "start": 4.285,
+   "end": 4.657
   },
   {
    "id": "p07w12",
-   "text": "um",
-   "start": 5.623,
-   "end": 5.663
+   "text": "visto",
+   "start": 4.657,
+   "end": 4.95
   },
   {
    "id": "p07w13",
-   "text": "fantasma.",
-   "start": 6.143,
-   "end": 6.703
+   "text": "um",
+   "start": 4.95,
+   "end": 5.342
   },
   {
    "id": "p07w14",
-   "text": "Você",
-   "start": 6.853,
-   "end": 7.173
+   "text": "fantasma.",
+   "start": 5.342,
+   "end": 5.89
   },
   {
    "id": "p07w15",
-   "text": "pergunta.",
-   "start": 7.173,
-   "end": 7.893
+   "text": "Você",
+   "start": 6.504,
+   "end": 6.824
   },
   {
    "id": "p07w16",
-   "text": "Onde",
-   "start": 8.143,
-   "end": 8.523
+   "text": "pergunta,",
+   "start": 6.824,
+   "end": 7.443
   },
   {
    "id": "p07w17",
-   "text": "estão",
-   "start": 8.523,
-   "end": 8.953
+   "text": "onde",
+   "start": 7.98,
+   "end": 8.316
   },
   {
    "id": "p07w18",
-   "text": "todos?",
-   "start": 9.043,
-   "end": 9.633
+   "text": "estão",
+   "start": 8.316,
+   "end": 8.695
   },
   {
    "id": "p07w19",
-   "text": "Eela",
-   "start": 9.723,
-   "end": 10.053
+   "text": "todos?",
+   "start": 8.695,
+   "end": 9.241
   },
   {
    "id": "p07w20",
-   "text": "responde",
-   "start": 10.053,
-   "end": 10.763
+   "text": "E",
+   "start": 9.802,
+   "end": 10.027
   },
   {
    "id": "p07w21",
-   "text": "tremendo.",
-   "start": 11.063,
-   "end": 11.843
+   "text": "ela",
+   "start": 10.027,
+   "end": 10.22
   },
   {
    "id": "p07w22",
-   "text": "Todo",
-   "start": 11.843,
-   "end": 12.873
+   "text": "responde,",
+   "start": 10.22,
+   "end": 10.879
   },
   {
    "id": "p07w23",
-   "text": "mundo",
-   "start": 12.873,
-   "end": 13.013
+   "text": "tremendo.",
+   "start": 11.089,
+   "end": 11.681
   },
   {
    "id": "p07w24",
-   "text": "voltou",
-   "start": 13.333,
-   "end": 13.783
+   "text": "Todo",
+   "start": 12.228,
+   "end": 12.482
   },
   {
    "id": "p07w25",
-   "text": "ontem.",
-   "start": 13.933,
-   "end": 14.343
+   "text": "mundo",
+   "start": 12.482,
+   "end": 12.735
   },
   {
    "id": "p07w26",
-   "text": "Por",
-   "start": 14.803,
-   "end": 14.813
+   "text": "voltou",
+   "start": 12.735,
+   "end": 13.191
   },
   {
    "id": "p07w27",
-   "text": "que",
-   "start": 14.873,
-   "end": 15.023
+   "text": "ontem.",
+   "start": 13.191,
+   "end": 13.816
   },
   {
    "id": "p07w28",
-   "text": "você",
-   "start": 15.213,
-   "end": 15.383
+   "text": "Por",
+   "start": 14.266,
+   "end": 14.599
   },
   {
    "id": "p07w29",
-   "text": "ainda",
-   "start": 15.533,
-   "end": 15.943
+   "text": "que",
+   "start": 14.599,
+   "end": 14.724
   },
   {
    "id": "p07w30",
-   "text": "está",
-   "start": 15.953,
-   "end": 16.333
+   "text": "você",
+   "start": 14.724,
+   "end": 15.161
   },
   {
    "id": "p07w31",
-   "text": "aqui?",
-   "start": 16.333,
-   "end": 16.993
+   "text": "ainda",
+   "start": 15.161,
+   "end": 15.535
   },
   {
    "id": "p07w32",
-   "text": "Você",
-   "start": 17.193,
-   "end": 17.373
+   "text": "está",
+   "start": 15.535,
+   "end": 15.743
   },
   {
    "id": "p07w33",
-   "text": "não",
-   "start": 17.513,
-   "end": 17.633
+   "text": "aqui?",
+   "start": 15.924,
+   "end": 16.11
   },
   {
    "id": "p07w34",
-   "text": "entende.",
-   "start": 17.723,
-   "end": 18.483
+   "text": "Você",
+   "start": 16.769,
+   "end": 17.168
   },
   {
    "id": "p07w35",
-   "text": "Ela",
-   "start": 18.603,
-   "end": 18.813
+   "text": "não",
+   "start": 17.168,
+   "end": 17.624
   },
   {
    "id": "p07w36",
-   "text": "explica.",
-   "start": 19.243,
-   "end": 19.803
+   "text": "entende.",
+   "start": 17.624,
+   "end": 18.099
   },
   {
    "id": "p07w37",
-   "text": "Na",
-   "start": 19.803,
-   "end": 19.993
+   "text": "Ela",
+   "start": 18.409,
+   "end": 18.617
   },
   {
    "id": "p07w38",
-   "text": "noite",
-   "start": 19.993,
-   "end": 20.563
+   "text": "explica,",
+   "start": 18.617,
+   "end": 19.193
   },
   {
    "id": "p07w39",
-   "text": "em",
-   "start": 20.563,
-   "end": 20.673
+   "text": "na",
+   "start": 19.654,
+   "end": 19.811
   },
   {
    "id": "p07w40",
-   "text": "que",
-   "start": 20.673,
-   "end": 20.843
+   "text": "noite",
+   "start": 19.811,
+   "end": 20.105
   },
   {
    "id": "p07w41",
-   "text": "todos",
-   "start": 20.843,
-   "end": 21.283
+   "text": "em",
+   "start": 20.105,
+   "end": 20.301
   },
   {
    "id": "p07w42",
-   "text": "sumiram,",
-   "start": 21.373,
-   "end": 22.093
+   "text": "que",
+   "start": 20.301,
+   "end": 20.458
   },
   {
    "id": "p07w43",
-   "text": "às",
-   "start": 22.093,
-   "end": 22.233
+   "text": "todos",
+   "start": 20.458,
+   "end": 20.791
   },
   {
    "id": "p07w44",
-   "text": "três",
-   "start": 22.273,
-   "end": 22.373
+   "text": "sumiram,",
+   "start": 20.791,
+   "end": 21.379
   },
   {
    "id": "p07w45",
-   "text": "e",
-   "start": 22.373,
-   "end": 22.903
+   "text": "às",
+   "start": 21.61,
+   "end": 21.853
   },
   {
    "id": "p07w46",
-   "text": "trinta",
-   "start": 22.903,
-   "end": 23.263
+   "text": "3h33",
+   "start": 21.853,
+   "end": 22.582
   },
   {
    "id": "p07w47",
-   "text": "e",
-   "start": 23.263,
-   "end": 23.353
+   "text": "o",
+   "start": 22.582,
+   "end": 23.19
   },
   {
    "id": "p07w48",
-   "text": "três,",
-   "start": 23.353,
-   "end": 23.893
+   "text": "mundo",
+   "start": 23.595,
+   "end": 24.227
   },
   {
    "id": "p07w49",
-   "text": "o",
-   "start": 23.893,
-   "end": 23.973
+   "text": "inteiro",
+   "start": 24.381,
+   "end": 24.861
   },
   {
    "id": "p07w50",
-   "text": "mundo",
-   "start": 23.983,
-   "end": 24.433
+   "text": "passou",
+   "start": 24.861,
+   "end": 25.285
   },
   {
    "id": "p07w51",
-   "text": "inteiro",
-   "start": 24.433,
-   "end": 24.603
+   "text": "para",
+   "start": 25.285,
+   "end": 25.58
   },
   {
    "id": "p07w52",
-   "text": "passou",
-   "start": 25.233,
-   "end": 25.613
+   "text": "o",
+   "start": 25.58,
+   "end": 25.82
   },
   {
    "id": "p07w53",
-   "text": "para",
-   "start": 25.613,
-   "end": 25.973
+   "text": "outro",
+   "start": 25.82,
+   "end": 26.078
   },
   {
    "id": "p07w54",
-   "text": "o",
-   "start": 25.973,
-   "end": 26.063
-  },
-  {
-   "id": "p07w55",
-   "text": "outro",
-   "start": 26.063,
-   "end": 26.488
+   "text": "lado.",
+   "start": 26.078,
+   "end": 26.336
   }
  ]
 }
