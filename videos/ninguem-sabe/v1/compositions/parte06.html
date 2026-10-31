@@ -1,0 +1,248 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 1 · Parte 06: a décima noite no telhado, a única janela acesa, a corrida e os 20 andares até a porta
+  Motor em assets/js/cena.js; esqueleto gerado por tools/nova_parte.py.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Parte 06</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #p06-raiz { position: absolute; inset: 0; overflow: hidden; background: #0c0d0f; }
+      #p06-tela { position: absolute; left: 0; top: 0; display: block; }
+      #p06-vinheta { position: absolute; inset: 0; background: radial-gradient(ellipse 72% 68% at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.6) 100%); }
+      #p06-escuro { position: absolute; inset: 0; background: #000; opacity: 0; }
+      #p06-fonte { position: absolute; left: 0; top: 0; opacity: 0; font-family: Inter; font-weight: 700; font-size: 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="p06-raiz" data-composition-id="parte06" data-width="1920" data-height="1080" data-duration="28.5333">
+      <canvas id="p06-tela" width="1920" height="1080"></canvas>
+      <div id="p06-vinheta"></div>
+      <div id="p06-noite" data-layout-ignore>NOITE 10</div>
+      <style>
+        #p06-noite { position: absolute; left: 0; right: 0; top: 120px; text-align: center; font-family: Montserrat; font-weight: 800; font-size: 120px; letter-spacing: 0.12em; color: #f4f2ee; text-shadow: 0 6px 0 rgba(0, 0, 0, 0.55); opacity: 0; pointer-events: none; }
+        #p06-noite::after { content: ""; display: block; width: 140px; height: 8px; margin: 18px auto 0; background: #c4161c; }
+      </style>
+      <script>
+        // "Na décima noite": o mesmo título dos dias da parte 5
+        window.__extras = window.__extras || {};
+        window.__extras["parte06"] = function (tl, raiz) {
+          var el = raiz.querySelector("#p06-noite");
+          tl.fromTo(el, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out" }, 0.15);
+          tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.25, ease: "power2.in", immediateRender: false }, 3.1);
+        };
+      </script>
+      <div id="p06-escuro"></div>
+      <div id="p06-fonte" data-layout-ignore>Aa 0123456789</div>
+    </div>
+    <script>
+      (function () {
+        // relógio da parte: tween linear que chama host.render(t); o motor (cena.js) pendura a cena nele.
+        // O HyperFrames roda este script mais de uma vez (cópia escondida e cópia visível): cada passada avisa o motor.
+        var id = "parte06";
+        var raiz = document.getElementById("p06-raiz");
+        var duracao = parseFloat(raiz.dataset.duration) || 28.5333;
+        var relogio = { t: 0 };
+        var host = {
+          relogio: relogio,
+          duracao: duracao,
+          tela: document.getElementById("p06-tela"),
+          escuro: document.getElementById("p06-escuro"),
+          // vertical quando o host que monta a cena é mais alto que largo (cortes 9:16)
+          vars: { formato: raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width) ? "vertical" : "horizontal" },
+          render: null,
+        };
+        window["__" + id] = host;
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) {
+          host.pronto = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: duracao, duration: duracao, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } });
+        host.tl = tl;
+        if (window.__extras && window.__extras[id]) window.__extras[id](tl, raiz);
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+        if (window.__aoHost && window.__aoHost[id]) window.__aoHost[id](host);
+      })();
+    </script>
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS, trilha, DESLOCAMENTO } from "./assets/js/cena.js";
+      import { lanterna as telaLanterna } from "./assets/js/telas.js";
+      import { PALAVRAS } from "./assets/js/tempos/v1-parte06.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      const FIM = 28.5333;
+      const TETO = 28.4; // piso do telhado do prédio do começo da avenida
+      const t = {
+        escura: T("A cidade") - 0.15,
+        janela: T("Menos") - 0.15,
+        vigesimo: T("Lá") - 0.15,
+        coracao: T("Seu") - 0.15,
+        sobreviveu: T("Alguém") - 0.15,
+        corre: T("Você corre") - 0.15,
+        escadaA: T("Sobe", 2) - 0.15,
+        escadaB: T("escada") - 0.05,
+        bate: T("Bate") - 0.2,
+        abre: T("E a") - 0.15,
+      };
+      const BATIDAS = [0, 1, 2].map((k) => T("Bate") + k * 0.24);
+
+      // a janela acesa da torre, no espaço do mundo
+      const _j = new THREE.Vector3();
+      function janela(ctx) {
+        const torre = ctx.cenarios.cidade.torre;
+        const g = torre.userData.grade;
+        torre.updateMatrixWorld(true);
+        return torre.localToWorld(_j.set(g.x0 + 2 * g.passoX, 5.2 + 10 * g.passoY, 8.07)).clone();
+      }
+      const C = DESLOCAMENTO.cidade;
+      const noMundo = (x, y, z) => new THREE.Vector3(x + C.x, y + C.y, z + C.z);
+      // teleobjetiva do telhado: do prédio inteiro (fov alto) até a janela (fov baixo)
+      function tele(fov0, fov1, t0, t1, mira0) {
+        return (tt, ctx) => {
+          const k = trilha([[t0, 0], [t1, 1, "linear"]], tt);
+          const j = janela(ctx);
+          const alvo = j.clone();
+          if (mira0) alvo.lerp(new THREE.Vector3(j.x, mira0 + C.y, j.z), 1 - k);
+          return { pos: noMundo(0.9, TETO + 1.75, 74.0), alvo, fov: fov0 + (fov1 - fov0) * k };
+        };
+      }
+      // escada: p em andares subidos (caminho do cenário) -> chaves de posição
+      function subida(ctx0, p0, p1, t0, t1, n = 10) {
+        return Array.from({ length: n + 1 }, (_, i) => {
+          const p = p0 + ((p1 - p0) * i) / n;
+          return [t0 + ((t1 - t0) * i) / n, p, "linear"];
+        });
+      }
+      const ESC_A = subida(null, 2.75, 3.45, t.escadaA, t.escadaB - 0.02);
+      const ESC_B = subida(null, 4.55, 4.99, t.escadaB, t.escadaB + 0.95, 5);
+      // o mesmo caminho do cenário da escadaria (mundo2.js), para montar as chaves sem depender da cena
+      function caminho(p) {
+        const a = Math.floor(p);
+        const f = p - a;
+        const y0 = a * 3;
+        if (f < 0.5) {
+          const k = f / 0.5;
+          return [-1.15, y0 + 1.5 * k, 1.5 - 3.2 * k, PI];
+        }
+        const k = (f - 0.5) / 0.5;
+        return [1.15, y0 + 1.5 + 1.5 * k, -1.7 + 3.2 * k, 0];
+      }
+      const posEscada = (lista) => lista.map(([tt, p, c]) => { const [x, y, z] = caminho(p); return [tt, [x, y + ALT, z], c]; });
+      const giroEscada = (lista) => lista.map(([tt, p, c]) => [tt, caminho(p)[3], c]);
+
+      iniciarParte({
+        host: "__parte06",
+        cenarios: ["cidade", "escadaria", "apartamento"],
+        planos: [
+          { de: 0, cenario: "cidade", nome: "telhado", modo: "noite" }, //                  Na décima noite, você sobe no telhado.
+          { de: t.escura, cenario: "cidade", nome: "escura", modo: "noite" }, //            A cidade inteira está escura.
+          { de: t.janela, cenario: "cidade", nome: "janela", modo: "noite" }, //            Menos uma janela.
+          { de: t.vigesimo, cenario: "cidade", nome: "vigesimo", modo: "noite" }, //        Lá longe, no vigésimo andar ... uma luz acesa.
+          { de: t.coracao, cenario: "cidade", nome: "coracao", modo: "noite" }, //          Seu coração dispara.
+          { de: t.sobreviveu, cenario: "cidade", nome: "sobreviveu", modo: "noite" }, //    Alguém sobreviveu.
+          { de: t.corre, cenario: "cidade", nome: "corre", modo: "noite" }, //              Você corre a madrugada inteira.
+          { de: t.escadaA, cenario: "escadaria", nome: "escadaA", preenchimento: 1.3 }, //                      Sobe 20 andares
+          { de: t.escadaB, cenario: "escadaria", nome: "escadaB", preenchimento: 2.2 }, //                      de escada no escuro.
+          { de: t.bate, cenario: "apartamento", nome: "bate", preenchimento: 1.8 }, //                          Bate na porta.
+          { de: t.abre, cenario: "apartamento", nome: "abre" }, //                          E a porta se abre sozinha.
+        ],
+        cortesEscuros: [t.corre, t.escadaA, t.bate],
+        cameras: {
+          telhado: { k: [[0, [-1.6, TETO + 0.6, 71.7], [2.5, TETO + 0.9, 74.3], 46], [t.escura, [-1.4, TETO + 0.65, 71.8], [1.2, TETO + 0.95, 73.0], 44]], tremor: 0.003 },
+          escura: { k: [[t.escura, [2.0, TETO + 2.1, 75.8], [-1.5, 17, 20], 54], [t.janela, [1.85, TETO + 2.0, 75.2], [-1.5, 17, 20], 52]], tremor: 0.002 },
+          janela: tele(15, 11, t.janela, t.vigesimo, 30),
+          vigesimo: tele(5.5, 3.6, t.vigesimo, t.coracao),
+          coracao: { k: [[t.coracao, [0.3, TETO + 1.62, 71.45], [0.6, TETO + 1.45, 72.4], 40], [t.sobreviveu, [0.35, TETO + 1.6, 71.55], [0.6, TETO + 1.45, 72.4], 33]], tremor: 0.004 },
+          sobreviveu: (tt, ctx) => {
+            const k = trilha([[t.sobreviveu, 0], [t.corre, 1, "linear"]], tt);
+            return { pos: noMundo(1.1 - 0.05 * k, TETO + 1.75, 74.6 - 0.3 * k), alvo: janela(ctx).add(new THREE.Vector3(0, -5, 0)), fov: 24 - 3 * k };
+          },
+          corre: (tt, ctx) => {
+            const b = ctx.boneco.position;
+            const bob = 0.035 * Math.sin(tt * 15);
+            return { pos: b.clone().add(new THREE.Vector3(1.15, 0.7 + bob, 3.3)), alvo: b.clone().add(new THREE.Vector3(-0.4, 5.5, -14)), fov: 52 };
+          },
+          escadaA: { k: [[t.escadaA, [-2.2, 12.3, -2.35], [0.6, 9.6, 1.0], 58], [t.escadaB, [-2.15, 12.25, -2.3], [-0.4, 10.4, 0.0], 56]], tremor: 0.005 },
+          escadaB: { k: [[t.escadaB, [-1.6, 16.35, 0.85], [0.9, 15.3, 1.2], 62], [t.bate, [-1.55, 16.3, 0.95], [0.3, 15.8, 2.2], 56]], tremor: 0.005 },
+          bate: { k: [[t.bate, [0.75, 1.55, 2.2], [-0.25, 1.25, 0.0], 44], [t.abre, [0.7, 1.55, 2.0], [-0.25, 1.25, 0.0], 42]], tremor: 0.004 },
+          abre: { k: [[t.abre, [0.35, 1.65, 3.3], [-0.05, 1.15, -2.0], 46], [FIM, [0.3, 1.6, 2.45], [-0.05, 1.15, -2.0], 42, "linear"]], tremor: 0.004 },
+        },
+        personagem: {
+          onde: [[0, "cidade"], [t.escadaA, "escadaria"], [t.bate, "apartamento"]],
+          pos: [
+            [0, [4.0, TETO + ALT, 74.9]],
+            [0.25, [4.0, TETO + ALT, 74.9]],
+            [3.0, [0.6, TETO + ALT, 72.4], "linear"],
+            [t.corre - 0.01, [0.6, TETO + ALT, 72.4]],
+            [t.corre, [0.6, ALT, -42.5]],
+            [t.escadaA - 0.01, [0.6, ALT, -51.5], "linear"],
+            ...posEscada(ESC_A),
+            ...posEscada(ESC_B),
+            [t.escadaB + 1.4, [0.6, 15 + ALT, 1.85]],
+            [t.bate - 0.01, [0.6, 15 + ALT, 1.85]],
+            [t.bate, [-0.5, ALT, 0.62]],
+          ],
+          passos: [[0.25, 3.0, 1, 0.62], [t.corre, t.escadaA - 0.02, 1.8, 0.95], [t.escadaA, t.escadaB - 0.05, 1.3, 0.55], [t.escadaB, t.escadaB + 1.4, 1.2, 0.55]],
+          visivel: (tt, p) => !["janela", "vigesimo"].includes(p.nome),
+          pose: {
+            giro: [
+              [0, -2.2], [2.7, -2.2], [3.3, -PI], [t.corre, PI, "corte"],
+              ...giroEscada(ESC_A).map(([tt, g], i) => [tt, g, i ? "linear" : "corte"]),
+              ...giroEscada(ESC_B).map(([tt, g], i) => [tt, g, i ? "linear" : "corte"]),
+              [t.escadaB + 1.4, -0.97], [t.bate, PI, "corte"],
+            ],
+            cabecaInclina: [[0, 0.1], [t.escura, -0.05], [t.janela, -0.12], [t.coracao, -0.1], [t.corre, -0.05], [t.escadaA, 0.1], [t.escadaB + 1.2, -0.12], [t.bate, 0.0], [t.abre, 0.05]],
+            cabecaGiro: [[0, 0], [t.escadaB + 1.2, 0.0], [t.escadaB + 1.6, 0.3], [t.bate, 0]],
+            olhos: [[0, 1], [t.coracao, 1], [T("dispara."), 1.35, "sai"], [t.corre, 1], [t.abre, 1], [T("abre"), 1.3, "sai"]],
+            apertar: [[0, 0], [t.coracao, 0], [T("dispara."), -0.3, "sai"], [t.corre, 0.2], [t.bate, 0.0], [T("abre"), -0.3, "sai"]],
+            boca: [[0, 0], [T("dispara."), 0.25, "sai"], [t.sobreviveu, 0.1], [t.corre, 0.3], [t.escadaA, 0.4], [t.bate, 0.1], [T("abre"), 0.35, "sai"]],
+            inclinar: [[0, 0], [t.corre - 0.01, 0], [t.corre, 0.28], [t.escadaA, 0.18], [t.bate, 0], [T("abre"), -0.06, "sai"]],
+            cotovelo: [[0, 0.15], [t.corre - 0.01, 0.15], [t.corre, 1.35], [t.escadaA, 0.6], [t.bate, 0.15]],
+          },
+          maos: (tt, pts, ctx) => {
+            const r = {};
+            const giro = ctx.boneco.rotation.y;
+            const frente = new THREE.Vector3(Math.sin(giro), 0, Math.cos(giro));
+            // celular-lanterna na mão esquerda na escada e no corredor
+            if (tt >= t.escadaA) {
+              r.alvoE = pts.cabeca.clone().addScaledVector(frente, 0.34).add(new THREE.Vector3(0, -0.32, 0));
+              r.pesoE = 1;
+            }
+            // três batidas na porta com a mão direita
+            if (tt >= t.bate && tt < t.abre) {
+              const pulso = Math.max(...BATIDAS.map((b) => Math.exp(-(((tt - b) / 0.07) ** 2))));
+              r.alvoD = new THREE.Vector3(-0.12, 1.38, 0.05 + 0.14 * (1 - pulso)).add(ctx.cenarios.apartamento.grupo.position);
+              r.pesoD = trilha([[t.bate, 0], [BATIDAS[0] - 0.12, 1, "ambos"], [BATIDAS[2] + 0.35, 1], [t.abre, 0, "ambos"]], tt);
+            }
+            return r.alvoE || r.alvoD ? r : null;
+          },
+        },
+        celular: (tt) => (tt >= t.escadaA ? "mao" : null),
+        tela: (ctx2d, tt, desenhar) => {
+          if (desenhar) telaLanterna(ctx2d, 600, 1302);
+          return "lanterna";
+        },
+        lanterna: (tt) => (tt >= t.escadaA ? 0.8 : 0),
+        chacoalhar: (tt) => (tt >= T("dispara.") && tt < T("dispara.") + 0.5 ? 1 : 0),
+        quadro: (tt, plano, ctx) => {
+          const c = ctx.cenarios;
+          c.cidade.luzes(0);
+          c.cidade.semaforos(false);
+          c.cidade.fumaca(false);
+          c.escadaria.andares(15);
+          c.apartamento.porta(trilha([[T("porta", 2) - 0.1, 0], [T("porta", 2) + 0.6, 0.07, "sai"], [T("abre") - 0.15, 0.07], [FIM, 1.2, "sai"]], tt));
+        },
+      });
+
+    </script>
+  </body>
+</html>
