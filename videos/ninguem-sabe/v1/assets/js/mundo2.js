@@ -86,14 +86,19 @@ export function criarTerreo(cena) {
   // café de ontem: xícara, pires, garrafa térmica
   const xicara = new THREE.Group();
   xicara.position.set(0.62, 0.79, 0.18);
-  cilindro(xicara, 0.05, 0.04, 0.09, 12, 0xd6d6d2, 0, 0.045, 0);
-  const alca = new THREE.Mesh(new THREE.TorusGeometry(0.025, 0.008, 5, 10), mat(0xd6d6d2));
+  // xícara aberta (parede dupla), para ver de cima se está cheia ou vazia
+  const corpoXicara = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.09, 14, 1, true), mat(0xb8b8b2, { lado: THREE.DoubleSide }));
+  corpoXicara.position.y = 0.045;
+  corpoXicara.castShadow = true;
+  xicara.add(corpoXicara);
+  cilindro(xicara, 0.04, 0.04, 0.006, 14, 0xa8a8a2, 0, 0.003, 0);
+  const alca = new THREE.Mesh(new THREE.TorusGeometry(0.025, 0.008, 5, 10), mat(0xb8b8b2));
   alca.position.set(0.055, 0.05, 0);
   xicara.add(alca);
   const cafe = cilindro(xicara, 0.044, 0.044, 0.005, 12, 0x2e1d12, 0, 0.083, 0, { sombra: false });
-  const fundoVazio = cilindro(xicara, 0.04, 0.04, 0.004, 12, 0x5a3a26, 0, 0.012, 0, { sombra: false });
+  const fundoVazio = cilindro(xicara, 0.03, 0.03, 0.003, 12, 0x7a6658, 0, 0.008, 0, { sombra: false });
   fundoVazio.visible = false;
-  cilindro(xicara, 0.075, 0.075, 0.008, 14, 0xd6d6d2, 0, 0.004, 0);
+  cilindro(xicara, 0.075, 0.075, 0.008, 14, 0xb8b8b2, 0, 0.004, 0);
   g.add(xicara);
   cilindro(g, 0.06, 0.07, 0.3, 10, 0x2a2b2e, 1.2, 0.94, 0.12);
   caixa(g, 0.3, 0.02, 0.22, 0xc9c6bf, 1.0, 0.8, 0.45);
@@ -125,7 +130,7 @@ export function criarTerreo(cena) {
 
   const MODOS = {
     dia: { sol: [3.4, 0xb4bac3], hemi: [2.2, 0x80858d, 0x1c1c1c], preench: [3, 0xa0a6ae], matFora: 0x8d9196 },
-    noite: { sol: [0.5, 0x55627e], hemi: [0.45, 0x3a4256, 0x08080a], preench: [0.5, 0x5d6678], matFora: 0x12151b },
+    noite: { sol: [0.9, 0x55627e], hemi: [0.7, 0x3a4256, 0x08080a], preench: [0.6, 0x5d6678], matFora: 0x12151b },
     manha: { sol: [6, 0xf0e6d4], hemi: [3.0, 0xb6b4b0, 0x2a2826], preench: [4, 0xd8d4cc], matFora: 0xe2e4e8 },
   };
   const ret = {
@@ -218,7 +223,7 @@ export function criarShopping(cena) {
   caixa(vitrine, 0.7, 0.7, 0.7, 0xc8d0d8, 0, 1.36, 0, { opacidade: 0.18, aspereza: 0.05, sombra: false });
   const celVitrine = new THREE.Group();
   caixa(celVitrine, 0.09, 0.18, 0.012, 0x16171a, 0, 0, 0, { aspereza: 0.3, metal: 0.4 });
-  caixa(celVitrine, 0.08, 0.165, 0.002, 0x2c3a52, 0, 0, 0.007, { material: luzPropria(0x2c3a52), sombra: false });
+  caixa(celVitrine, 0.08, 0.165, 0.002, 0x6a7f9f, 0, 0, 0.007, { material: luzPropria(0x6a7f9f), sombra: false });
   celVitrine.position.set(0, 1.2, 0);
   celVitrine.rotation.set(-0.15, -0.5, 0);
   vitrine.add(celVitrine);

@@ -796,23 +796,27 @@ export function criarQuarto(cena) {
   telaParede.height = 500;
   const texParede = new THREE.CanvasTexture(telaParede);
   texParede.colorSpace = THREE.SRGBColorSpace;
-  const escrita = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 1.0), new THREE.MeshStandardMaterial({ map: texParede, transparent: true, roughness: 0.8 }));
-  escrita.position.set(-2.38, 1.55, -0.35);
+  // tinta legível mesmo com pouca luz (material que não depende da iluminação)
+  const escrita = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 1.0), new THREE.MeshBasicMaterial({ map: texParede, transparent: true, color: 0xd8d8d8 }));
+  escrita.position.set(-2.38, 1.55, -0.8);
   escrita.rotation.y = Math.PI / 2;
   escrita.visible = false;
   g.add(escrita);
-  function escrever(linhas) {
+  // escreve só os primeiros `ate` caracteres (a frase aparece enquanto ele escreve)
+  function escrever(linhas, ate = Infinity) {
     const c = telaParede.getContext("2d");
     c.clearRect(0, 0, 1300, 500);
     const r = rng(5);
     c.fillStyle = "#a8141a";
     c.textBaseline = "middle";
+    let n = 0;
     linhas.forEach((linha, li) => {
       let x = 40;
       const y = 130 + li * 220;
       for (const ch of linha) {
+        if (n++ >= ate) break;
         c.save();
-        c.font = `800 ${118 + r() * 18}px Montserrat, Arial, sans-serif`;
+        c.font = `800 ${96 + r() * 12}px Montserrat, Arial, sans-serif`;
         c.translate(x, y + (r() - 0.5) * 14);
         c.rotate((r() - 0.5) * 0.16);
         c.fillText(ch, 0, 0);
@@ -820,7 +824,7 @@ export function criarQuarto(cena) {
         // escorrido de tinta
         if (ch !== " " && r() < 0.28) c.fillRect(w * (0.2 + r() * 0.5), 40, 6, 20 + r() * 70);
         c.restore();
-        x += c.measureText(ch).width * 0.86 + 6;
+        x += w * 0.9 + 4;
       }
     });
     texParede.needsUpdate = true;
@@ -860,13 +864,18 @@ export function criarQuarto(cena) {
     portaLateral(abertura) {
       dobLateral.rotation.y = abertura;
     },
-    escrita(linhas) {
-      if (linhas && !escrita.userData.feita) {
-        escrever(linhas);
-        escrita.userData.feita = true;
-      }
+    // frase na parede; k de 0 a 1 = quanto dela já foi escrito
+    escrita(linhas, k = 1) {
       escrita.visible = !!linhas;
+      if (!linhas) return;
+      const total = linhas.join("").length;
+      const ate = Math.round(total * Math.min(1, Math.max(0, k)));
+      if (escrita.userData.ate !== ate) {
+        escrever(linhas, ate);
+        escrita.userData.ate = ate;
+      }
     },
+    escritaPos: new THREE.Vector3(-2.38, 1.55, -0.8),
     atualizar() {},
   };
 }
@@ -1212,7 +1221,7 @@ export function criarCidade(cena) {
   const MODOS = {
     dia: { hemiC: [2.6, 0x8a8f96, 0x1e1f21], sol: [1.7, 0xb8bdc5], brilhoJanela: [8, COR.janelaAcesa] },
     entardecer: { hemiC: [1.5, 0x8a6a62, 0x1a1414], sol: [1.6, 0xd27a5a], brilhoJanela: [8, COR.janelaAcesa] },
-    noite: { hemiC: [0.5, 0x2c3548, 0x050506], sol: [0.3, 0x7d8cab], brilhoJanela: [10, COR.janelaAcesa] },
+    noite: { hemiC: [0.85, 0x2c3548, 0x050506], sol: [0.45, 0x7d8cab], brilhoJanela: [10, COR.janelaAcesa] },
   };
   const ESTILO = {
     dia: { fundo: 0x484c52, nevoa: [0x4c5056, 40, 300], ceu: [0x24272b, 0x4d5157], sol: [-18, 90, 30] },

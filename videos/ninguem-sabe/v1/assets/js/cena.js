@@ -27,6 +27,8 @@ export const CURVA = {
   sai: (k) => 1 - Math.pow(1 - k, 3),
   ambos: (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2),
   longa: (k) => 1 - Math.pow(1 - k, 4),
+  // corte seco: segura o valor anterior e salta no instante da chave (mudança de plano)
+  corte: (k) => (k < 1 ? 0 : 1),
 };
 // chaves: [[t, valor, curva?], ...]; valor é número ou lista. Duas chaves no mesmo t = corte seco.
 export function trilha(chaves, t) {
@@ -173,6 +175,7 @@ function montarParte(cfg, host) {
   const cameraPos = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
   const ctx = { THREE, cena, camera, cenarios, boneco, outros, celular, lanterna, vertical, W, H, trilha, degrau, pisca };
+  window.__cenaAtual = ctx; // para inspecionar no console
   if (cfg.montar) cfg.montar(ctx);
 
   const planos = cfg.planos;
