@@ -1,0 +1,296 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 1 · Parte 09: a instrução, a contagem até as 3:33, a volta para casa e a cama
+  Motor em assets/js/cena.js; esqueleto gerado por tools/nova_parte.py.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Parte 09</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #p09-raiz { position: absolute; inset: 0; overflow: hidden; background: #0c0d0f; }
+      #p09-tela { position: absolute; left: 0; top: 0; display: block; }
+      #p09-vinheta { position: absolute; inset: 0; background: radial-gradient(ellipse 72% 68% at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.6) 100%); }
+      #p09-escuro { position: absolute; inset: 0; background: #000; opacity: 0; }
+      #p09-fonte { position: absolute; left: 0; top: 0; opacity: 0; font-family: Inter; font-weight: 700; font-size: 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="p09-raiz" data-composition-id="parte09" data-width="1920" data-height="1080" data-duration="39.4333">
+      <canvas id="p09-tela" width="1920" height="1080"></canvas>
+      <div id="p09-vinheta"></div>
+      <div id="p09-fim" data-layout-ignore></div>
+      <style>
+        #p09-fim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+      </style>
+      <script>
+        // 3:33: o quadro apaga no fim da parte (a parte 10 abre com o despertador)
+        window.__extras = window.__extras || {};
+        window.__extras["parte09"] = function (tl, raiz) {
+          tl.fromTo(raiz.querySelector("#p09-fim"), { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.in" }, 38.7);
+        };
+      </script>
+      <div id="p09-escuro"></div>
+      <div id="p09-fonte" data-layout-ignore>Aa 0123456789</div>
+    </div>
+    <script>
+      (function () {
+        // relógio da parte: tween linear que chama host.render(t); o motor (cena.js) pendura a cena nele.
+        // O HyperFrames roda este script mais de uma vez (cópia escondida e cópia visível): cada passada avisa o motor.
+        var id = "parte09";
+        var raiz = document.getElementById("p09-raiz");
+        var duracao = parseFloat(raiz.dataset.duration) || 39.4333;
+        var relogio = { t: 0 };
+        var host = {
+          relogio: relogio,
+          duracao: duracao,
+          tela: document.getElementById("p09-tela"),
+          escuro: document.getElementById("p09-escuro"),
+          // vertical quando o host que monta a cena é mais alto que largo (cortes 9:16)
+          vars: { formato: raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width) ? "vertical" : "horizontal" },
+          render: null,
+        };
+        window["__" + id] = host;
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) {
+          host.pronto = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: duracao, duration: duracao, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } });
+        host.tl = tl;
+        if (window.__extras && window.__extras[id]) window.__extras[id](tl, raiz);
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+        if (window.__aoHost && window.__aoHost[id]) window.__aoHost[id](host);
+      })();
+    </script>
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS, trilha } from "./assets/js/cena.js";
+      import { criarCarro } from "./assets/js/mundo.js";
+      import { lanterna as telaLanterna } from "./assets/js/telas.js";
+      import { PALAVRAS } from "./assets/js/tempos/v1-parte09.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      const DEITADO_Y = 0.4 + MEDIDAS.raioTronco;
+      const FIM = 39.4333;
+      const t = {
+        passagem: T("A passagem") - 0.15,
+        lugar: T("no mesmo") - 0.15,
+        olha: T("Você olha") - 0.15,
+        rel250: T("São") - 0.15,
+        desce: T("Você corre,") - 0.15,
+        pega: T("pega") - 0.15,
+        acelera: T("e acelera") - 0.15,
+        rel320: T("3h20.") - 0.2,
+        chega: T("Você chega") - 0.15,
+        rel330: T("3 e 30") - 0.15,
+        sobe: T("você sobe") - 0.15,
+        rel332: T("3 e 32") - 0.15,
+        deita: T("você deita") - 0.15,
+        rel333: T("3 e 33") - 0.15,
+      };
+      const ELE = [0.2, ALT, -1.3];
+      const ELA = [1.45, ALT, -3.9];
+      const GIRO_ELE = Math.atan2(ELA[0] - ELE[0], ELA[2] - ELE[2]);
+      const GIRO_ELA = Math.atan2(ELE[0] - ELA[0], ELE[2] - ELA[2]);
+      const fala = (t0, t1, abre = 0.3) => {
+        const n = Math.max(2, Math.round((t1 - t0) / 0.1));
+        return [[t0 - 0.05, 0], ...Array.from({ length: n }, (_, i) => [t0 + i * 0.1, i % 3 === 2 ? 0.05 : abre * (0.6 + 0.4 * (((i * 7) % 5) / 4))]), [t1 + 0.1, 0]];
+      };
+      // o mesmo caminho da escadaria (mundo2.js); descendo, o giro é o contrário
+      function caminho(p) {
+        const a = Math.floor(p);
+        const f = p - a;
+        const y0 = a * 3;
+        if (f < 0.5) {
+          const k = f / 0.5;
+          return [-1.15, y0 + 1.5 * k, 1.5 - 3.2 * k, PI];
+        }
+        const k = (f - 0.5) / 0.5;
+        return [1.15, y0 + 1.5 + 1.5 * k, -1.7 + 3.2 * k, 0];
+      }
+      const DESCIDA = Array.from({ length: 11 }, (_, i) => [t.desce + ((t.pega - 0.05 - t.desce) * i) / 10, 4.45 - (0.9 * i) / 10]);
+      const degrau = (z) => Math.min(2.66, Math.max(0, 0.19 * (1 + (2.2 - z) / 0.35)));
+      const naEscada = (z) => [-3.55, degrau(z) + ALT, z];
+      // o carro da fuga: parado com a porta aberta, faróis acendem na ignição, depois a avenida inteira
+      let carro = null;
+      const posCarro = (tt) => (tt < t.acelera ? [5.6, 1.0] : [5.6, trilha([[t.acelera, 1.0], [t.acelera + 0.5, -0.5, "entra"], [t.rel320, -68, "linear"]], tt)]);
+      // relógio do quarto na contagem
+      const hora = (tt) => (tt < t.rel320 ? "2:47" : tt < t.rel330 ? "3:20" : tt < t.rel332 ? "3:30" : tt < T("33") ? "3:32" : "3:33");
+
+      iniciarParte({
+        host: "__parte09",
+        cenarios: ["apartamento", "quarto", "escadaria", "cidade", "terreo"],
+        planos: [
+          { de: 0, cenario: "apartamento", nome: "instrucao" }, //                        Ela te dá uma única instrução.
+          { de: t.passagem, cenario: "apartamento", nome: "passagem" }, //                A passagem abre de novo hoje, às 3h33,
+          { de: t.lugar, cenario: "quarto", nome: "lugar", modo: "noite" }, //            no mesmo lugar onde você estava quando tudo começou.
+          { de: t.olha, cenario: "apartamento", nome: "olha" }, //                        Você olha o relógio.
+          { de: t.rel250, cenario: "apartamento", nome: "rel250", preenchimento: 0.2 }, // São 2h50.
+          { de: t.desce, cenario: "escadaria", nome: "desce", preenchimento: 1.6 }, //    Você corre, desce os 20 andares,
+          { de: t.pega, cenario: "cidade", nome: "pega", modo: "noite" }, //              pega o primeiro carro com a chave na ignição
+          { de: t.acelera, cenario: "cidade", nome: "acelera", modo: "noite" }, //        e acelera pela cidade escura.
+          { de: t.rel320, cenario: "quarto", nome: "relogio", modo: "noite" }, //         3h20.
+          { de: t.chega, cenario: "terreo", nome: "chega", modo: "noite" }, //            Você chega em casa
+          { de: t.rel330, cenario: "quarto", nome: "relogio2", modo: "noite" }, //        3 e 30
+          { de: t.sobe, cenario: "terreo", nome: "sobe", modo: "noite", preenchimento: 0.9 }, // você sobe as escadas
+          { de: t.rel332, cenario: "quarto", nome: "relogio3", modo: "noite" }, //        3 e 32
+          { de: t.deita, cenario: "quarto", nome: "deita", modo: "noite" }, //            você deita na sua cama, feche os olhos e torce
+          { de: t.rel333, cenario: "quarto", nome: "relogio4", modo: "noite" }, //        3 e 33
+        ],
+        cortesEscuros: [t.lugar, t.desce, t.chega, t.deita],
+        cameras: {
+          instrucao: { k: [[0, [1.06, 1.64, -2.77], [1.45, 1.52, -3.9], 32], [t.passagem, [1.1, 1.63, -2.9], [1.45, 1.52, -3.9], 28]], tremor: 0.003 },
+          passagem: { k: [[t.passagem, [-2.7, 1.9, -0.8], [0.8, 1.1, -2.6], 50], [t.lugar, [-2.45, 1.85, -1.15], [0.8, 1.1, -2.6], 44]], tremor: 0.003 },
+          lugar: { k: [[t.lugar, [0.95, 1.95, 0.7], [-0.6, 0.6, -1.4], 46], [t.olha, [0.5, 1.75, 0.0], [-0.6, 0.6, -1.4], 40]], tremor: 0.003 },
+          olha: { k: [[t.olha, [0.75, 1.62, -2.35], [0.2, 1.55, -1.3], 36], [t.rel250, [0.7, 1.62, -2.25], [0.2, 1.56, -1.3], 32]], tremor: 0.003 },
+          rel250: { k: [[t.rel250, [2.6, 1.98, -5.2], [2.6, 1.955, -5.68], 26], [t.desce, [2.6, 1.97, -5.3], [2.6, 1.955, -5.68], 21]], tremor: 0.002 },
+          desce: { k: [[t.desce, [-2.2, 15.3, -2.35], [0.4, 12.6, 1.0], 58], [t.pega, [-2.15, 15.2, -2.3], [0.6, 11.4, 0.4], 56]], tremor: 0.006 },
+          pega: { k: [[t.pega, [1.6, 1.25, -6.0], [4.6, 1.0, 4.0], 46], [t.acelera, [1.8, 1.2, -5.6], [4.6, 1.0, 3.0], 42]], tremor: 0.004 },
+          acelera: (tt, ctx) => {
+            const [x, z] = posCarro(tt);
+            const o = ctx.cenarios.cidade.grupo.position;
+            return { pos: new THREE.Vector3(o.x + x + 2.5, 20, o.z + z + 15), alvo: new THREE.Vector3(o.x + x, 0, o.z + z - 5), fov: 46 };
+          },
+          relogio: { k: [[t.rel320, [0.24, 0.57, -1.22], [0.454, 0.505, -1.617], 30], [t.chega, [0.29, 0.555, -1.31], [0.454, 0.505, -1.617], 28]], tremor: 0.002 },
+          chega: { k: [[t.chega, [-0.8, 1.7, -0.8], [1.9, 1.2, 3.4], 50], [t.rel330, [-0.6, 1.65, -0.5], [1.7, 1.2, 3.0], 46]], tremor: 0.006 },
+          relogio2: { k: [[t.rel330, [0.24, 0.57, -1.22], [0.454, 0.505, -1.617], 28], [t.sobe, [0.29, 0.555, -1.31], [0.454, 0.505, -1.617], 26]], tremor: 0.003 },
+          sobe: { k: [[t.sobe, [-3.4, 3.3, -2.3], [-3.5, 1.0, 1.8], 52], [t.rel332, [-3.4, 3.25, -2.1], [-3.5, 1.6, 1.0], 50]], tremor: 0.006 },
+          relogio3: { k: [[t.rel332, [0.24, 0.57, -1.22], [0.454, 0.505, -1.617], 26], [t.deita, [0.29, 0.555, -1.31], [0.454, 0.505, -1.617], 24]], tremor: 0.004 },
+          deita: { k: [[t.deita, [0.45, 2.15, -0.45], [-0.62, 0.62, -1.75], 42], [t.rel333, [0.2, 1.9, -0.85], [-0.62, 0.66, -1.8], 34]], tremor: 0.003 },
+          relogio4: { k: [[t.rel333, [0.26, 0.565, -1.26], [0.454, 0.505, -1.617], 26], [FIM, [0.33, 0.54, -1.4], [0.454, 0.505, -1.617], 20, "linear"]], tremor: 0.003 },
+        },
+        personagem: {
+          onde: [[0, "apartamento"], [t.desce, "escadaria"], [t.pega, "cidade"], [t.chega, "terreo"], [t.deita, "quarto"]],
+          pos: [
+            [0, ELE],
+            [t.desce - 0.01, ELE],
+            ...DESCIDA.map(([tt, p], i) => { const [x, y, z] = caminho(p); return [tt, [x, y + ALT, z], i ? "linear" : "corte"]; }),
+            [t.pega, [4.1, ALT, 10.5], "corte"],
+            [t.pega + 1.9, [4.1, ALT, 1.8], "linear"],
+            [t.chega - 0.01, [4.1, ALT, 1.8]],
+            [t.chega, [1.9, ALT, 4.3], "corte"],
+            [t.chega + 0.25, [1.9, ALT, 4.3]],
+            [t.rel330, [1.3, ALT, 1.6], "linear"],
+            [t.sobe - 0.01, [1.3, ALT, 1.6]],
+            [t.sobe, naEscada(2.6), "corte"],
+            ...Array.from({ length: 6 }, (_, i) => [t.sobe + 0.2 + (i * (t.rel332 - t.sobe - 0.2)) / 5, naEscada(2.6 - (2.0 * i) / 5), "linear"]),
+            [t.deita - 0.01, naEscada(0.6)],
+            [t.deita, [-0.6, DEITADO_Y, -1.22], "corte"],
+          ],
+          passos: [[t.desce, t.pega - 0.05, 1.3, 0.55], [t.pega, t.pega + 1.9, 1.8, 0.95], [t.chega + 0.25, t.rel330, 1.6, 0.85], [t.sobe, t.rel332 - 0.05, 1.3, 0.5]],
+          visivel: (tt, p) => !["rel250", "lugar", "acelera"].includes(p.nome),
+          pose: {
+            giro: [
+              [0, GIRO_ELE],
+              ...DESCIDA.map(([tt, p], i) => [tt, caminho(p)[3] + PI, i ? "linear" : "corte"]),
+              [t.pega, PI, "corte"],
+              [t.chega, PI, "corte"],
+              [t.sobe, PI, "corte"],
+              [t.deita, 0, "corte"],
+            ],
+            deitar: [[0, 0], [t.deita, -PI / 2, "corte"]],
+            inclinar: [[0, 0], [t.desce, 0.1, "corte"], [t.pega, 0.26, "corte"], [t.chega, 0.15, "corte"], [t.deita, 0, "corte"]],
+            cotovelo: [[0, 0.15], [t.pega, 1.3, "corte"], [t.chega, 0.6, "corte"], [t.deita, 0.3, "corte"]],
+            cabecaInclina: [[0, 0.05], [t.olha, 0.05], [t.olha + 0.5, -0.12, "ambos"], [t.desce, 0.25, "corte"], [t.pega, -0.05, "corte"], [t.deita, 0.0, "corte"]],
+            cabecaGiro: [[0, 0], [t.deita, 0.25, "corte"]],
+            olhos: [[0, 1], [t.olha, 1], [T("2h50."), 1.3, "sai"], [t.desce, 1.1], [t.deita, 1], [T("feche"), 1], [T("olhos"), 0, "ambos"]],
+            apertar: [[0, 0], [t.olha, 0], [T("2h50."), 0.3, "sai"], [t.deita, 0.2], [T("torce"), 0.45, "ambos"]],
+            boca: [[0, 0], [t.desce, 0.35, "corte"], [t.deita, 0.0, "corte"]],
+          },
+          maos: (tt, pts, ctx) => {
+            const giro = ctx.boneco.rotation.y;
+            const frente = new THREE.Vector3(Math.sin(giro), 0, Math.cos(giro));
+            if ((tt >= t.desce && tt < t.pega) || (tt >= t.chega && tt < t.deita)) {
+              return { alvoE: pts.cabeca.clone().addScaledVector(frente, 0.34).add(new THREE.Vector3(0, -0.32, 0)), pesoE: 1 };
+            }
+            if (tt < t.desce) return { alvoE: pts.cabeca.clone().addScaledVector(frente, 0.24).add(new THREE.Vector3(0, -0.77, 0)), pesoE: 0.4 };
+            return null;
+          },
+        },
+        outros: [
+          {
+            id: "mulher",
+            variante: "mulher",
+            onde: [[0, "apartamento"]],
+            pos: [[0, ELA]],
+            pose: {
+              giro: [[0, GIRO_ELA]],
+              olhos: [[0, 1.1]],
+              inclinar: [[0, -0.03]],
+              cabecaInclina: [[0, 0.05], [T("3h33,") , -0.05]],
+              boca: fala(0.05, T.fim("começou."), 0.3),
+            },
+          },
+        ],
+        celular: (tt) => ((tt >= t.desce && tt < t.pega) || (tt >= t.chega && tt < t.deita) || tt < t.desce ? "mao" : null),
+        tela: (ctx2d, tt, desenhar) => {
+          if (desenhar) telaLanterna(ctx2d, 600, 1302);
+          return "lanterna";
+        },
+        lanterna: (tt) => ((tt >= t.desce && tt < t.pega) || (tt >= t.chega && tt < t.deita) ? 0.8 : 0),
+        chacoalhar: (tt) => (tt >= T("33") && tt < T("33") + 0.5 ? 1 : 0),
+        pos: (tt, plano) => {
+          if (plano.cenario === "apartamento") {
+            const k = plano.nome === "passagem" ? trilha([[T("abre"), 0], [T("3h33,"), 1, "ambos"], [t.lugar, 0.6]], tt) : 0;
+            return { onda: 0.4 + 1.2 * k, tom: 0.35 + 0.3 * k };
+          }
+          if (plano.nome === "relogio4") {
+            const k = trilha([[T("33") - 0.05, 0], [T("33") + 0.05, 1], [T("33") + 0.6, 0.35, "sai"]], tt);
+            return { onda: 2.6 * k, tom: 0.5 * k };
+          }
+          return null;
+        },
+        montar: (ctx) => {
+          carro = criarCarro(11, { portaAberta: 0.9, cor: 0x4a4c51 });
+          carro.rotation.y = PI / 2;
+          const farois = [];
+          for (const lado of [-1, 1]) {
+            const f = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.14, 0.32), new THREE.MeshBasicMaterial({ color: 0x3a3a38 }));
+            f.position.set(2.12, 0.66, lado * 0.58);
+            carro.add(f);
+            farois.push(f);
+          }
+          const luz = new THREE.SpotLight(0xfff2d8, 0, 60, 0.42, 0.5, 1.2);
+          luz.position.set(2.3, 0.7, 0);
+          luz.target.position.set(14, 0, 0);
+          carro.add(luz);
+          carro.add(luz.target);
+          carro.userData.farois = (on) => {
+            luz.intensity = on ? 220 : 0;
+            for (const f of farois) f.material.color.setHex(on ? 0xfff4dc : 0x3a3a38);
+          };
+          ctx.cenarios.cidade.grupo.add(carro);
+        },
+        quadro: (tt, plano, ctx) => {
+          const c = ctx.cenarios;
+          c.cidade.luzes(0);
+          c.cidade.semaforos(false);
+          c.cidade.fumaca(false);
+          const [x, z] = posCarro(tt);
+          carro.position.set(x, 0, z);
+          carro.visible = plano.cenario === "cidade";
+          carro.userData.farois(tt >= T("ignição"));
+          c.apartamento.porta(1.2);
+          c.apartamento.relogio.userData.mostrar("2:50");
+          c.escadaria.andares(15);
+          c.terreo.cafe(false);
+          c.terreo.lampada(0);
+          c.terreo.trancar(0);
+          c.terreo.porta(trilha([[T("chega") - 0.1, 0], [T("chega") + 0.35, 1.3, "sai"]], tt));
+          c.quarto.cobertor(1);
+          c.quarto.escrita(["SE ALGUÉM LER ISSO,", "EU ESTOU VIVO."], 1);
+          c.quarto.luzCorredor(0);
+          c.quarto.relogio.userData.mostrar(hora(tt));
+        },
+      });
+
+    </script>
+  </body>
+</html>
