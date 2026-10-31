@@ -123,6 +123,9 @@ if __name__ == "__main__":
     saida = Path(sys.argv[sys.argv.index("--saida") + 1]) if "--saida" in sys.argv else RAIZ
     if alvo == "todas":
         html = filme([n for n in PARTES if existe(n)])
+    elif alvo == "capa":
+        corpo = host("partecapa", "compositions/partecapa.html", 0, 2.0, 1, "graphics", 1920, 1080, 1)
+        html = CABECA.format(descricao="Capa do vídeo 1 (quadro em t=1 s).", resolucao="landscape", w=1920, h=1080, dur="2.0000", corpo=corpo)
     elif alvo.startswith("corte"):
         html = corte(int(alvo[5:]))
     else:

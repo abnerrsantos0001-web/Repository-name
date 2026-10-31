@@ -13,7 +13,8 @@ n = sys.argv[1].zfill(2)
 descricao = sys.argv[2]
 miolo = Path(sys.argv[3]).read_text()
 extra = Path(sys.argv[4]).read_text() if len(sys.argv) > 4 else ""
-dur = next(p["duracao"] for p in json.loads((RAIZ / "assets/audio/mix/partes.json").read_text())["partes"] if p["parte"] == int(n))
+# partes numeradas pegam a duração do áudio; outras cenas (ex.: "capa") usam 2 s
+dur = next(p["duracao"] for p in json.loads((RAIZ / "assets/audio/mix/partes.json").read_text())["partes"] if p["parte"] == int(n)) if n.isdigit() else 2.0
 
 html = f"""<!doctype html>
 <!--
