@@ -1,6 +1,6 @@
 # SPEC · Ninguém Sabe · Vídeo 1
 
-"E se você acordasse e TODO MUNDO tivesse sumido?" Narração em 11 partes (`assets/audio/v1-parte01..11.mp3`, 6 min 3 s no total). Cada parte vira um trecho de até 1 minuto; a parte 01 está pronta para aprovação.
+"E se você acordasse e TODO MUNDO tivesse sumido?" Narração em 11 partes (`assets/audio/v1-parte01..11.mp3`, 6 min 3 s no total). Cada parte vira um trecho de até 1 minuto (`compositions/parteNN.html`); o filme inteiro, os 4 cortes verticais e a capa saem das mesmas cenas. A tabela SHOTS abaixo é a da parte 01; os planos das outras partes estão comentados no próprio arquivo de cada uma, linha a linha com a fala.
 
 ```text
 GOAL:    o espectador sente o silêncio de um mundo vazio e fica para saber por que só ele sobrou
@@ -42,9 +42,14 @@ SHOTS:   cortes nas pausas reais da voz (transcricao/v1-parte01.json)
          32.40 nada      ponto de vista: corredor vazio até a porta da mãe
          33.70 avenida   (escurece) atrás dele andando na avenida vazia, torre com a janela acesa
                          no fundo; ele para em "descobre"; a câmera sobe e termina de cima, ele sozinho
-SOUND:   narração tratada a −16 LUFS (assets/audio/tratado/), trilha ambiente sombria gerada
-         localmente (MusicGen, semente fixa) a −16.7 LUFS tocando em volume 0.13 (~18 dB abaixo da voz).
-         Efeitos sonoros: vêm depois, do autor.
+SOUND:   tudo gerado por código (tools/audio.py, numpy/scipy), sem música de terceiros nem IA:
+         trilha = drone grave (55/82/110 Hz) + pad filtrado + vento (ruído em banda 220–900 Hz com rajadas),
+         intensidade por parte; nas partes 07–08 um tom fino (880 Hz) com tremolo para o "outro lado".
+         Efeitos sintetizados nos momentos-chave: chamada caindo (02), tique-taque e baque (04),
+         estalos da lâmpada e coração (05), coração e 3 batidas na porta (06), tique-taque e coração
+         acelerando (09), despertador, carro passando, vibração e notificação (10).
+         Mix: voz + trilha com ducking + efeitos, normalizado a −15 LUFS (pico −1,5 dBTP), fatiado no
+         grid de 30 fps por parte (assets/audio/mix/), mais a faixa contínua do filme e a de cada corte.
 BANNED:  vazio escuro com coisas pequenas flutuando; brilho/bloom/partículas; degradês roxos;
          títulos que deslizam; tudo entrando com fade + subida; logo no canto;
          vermelho como decoração (só em objeto que conta algo); câmera dentro da cabeça do personagem;
@@ -55,10 +60,18 @@ QA:      0.6 olhos abrindo · 2.5 relógio legível · 8.0 rosto inteiro no quad
          40.6 ele visível de cima, sozinho
 ```
 
-## Como as partes seguintes entram
+## Como tudo é montado
 
-- `tools/alinhar_parte.py NN` gera os tempos por palavra da parte (Whisper + pausas reais do áudio).
-- `tools/gerar_legendas.py NN` gera `compositions/legendas-pNN.html` a partir dos grupos escritos em `PARTES`.
-- `tools/tratar_voz.sh NN` e `tools/montar_trilha.sh` preparam o áudio.
-- Cada parte é uma cena `compositions/parteNN.html` que importa `assets/js/mundo.js` e `assets/js/personagem.js`,
-  montada em sequência no `index.html`.
+- `tools/alinhar_parte.py NN` gera os tempos por palavra da parte (Whisper + pausas reais do áudio);
+  `tools/gerar_tempos.py` exporta para `assets/js/tempos/v1-parteNN.js`.
+- `tools/gerar_legendas.py NN [--vertical]` gera `compositions/legendas-pNN.html` (16:9) e `legendas-pNN-v.html`
+  (9:16, letras grandes no centro) a partir dos grupos escritos em `PARTES`.
+- `tools/audio.py` gera trilha, efeitos e mixagens (`assets/audio/mix/`, com `partes.json`: duração e quadros de cada parte).
+- Cada cena `compositions/parteNN.html` (02–11) é o esqueleto de `tools/nova_parte.py` com o roteiro de planos,
+  câmeras e poses; o motor comum é `assets/js/cena.js` (cenários de `mundo.js`/`mundo2.js`, personagem de `personagem.js`).
+  A parte 01 tem o motor antigo embutido, com o mesmo resultado, e também aceita o formato vertical.
+- `tools/gerar_raizes.py NN|todas|corteN|capa` escreve o `index.html` (uma parte, o filme, um corte ou a capa);
+  `tools/renderizar.sh` renderiza a partir de uma cópia do projeto; `tools/fila.sh` enfileira os renders.
+- Vertical (cortes): a mesma cena com o host em 1080x1920; o campo da câmera abre até a largura mostrar o miolo
+  quadrado do quadro 16:9 (`fovVertical` em cena.js), e um plano pode ter enquadramento próprio (`v`).
+- `tools/montar_completo.sh` junta as 11 partes (vídeo cortado no quadro exato) com a faixa contínua do filme.
