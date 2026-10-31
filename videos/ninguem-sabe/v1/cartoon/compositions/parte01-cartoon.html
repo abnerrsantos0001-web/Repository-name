@@ -1,0 +1,358 @@
+<!--
+  Ninguém Sabe · Vídeo 1 · Parte 01 em cartoon (teste ao lado da versão 3D).
+  Sete ilustrações com zoom e panorâmica lentos, nos mesmos tempos de fala da versão 3D
+  (../../transcricao/v1-parte01.json). Na cena 5, a tela do celular é desenhada por cima da imagem.
+-->
+<template id="parte01-cartoon-template">
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #111214;
+    }
+    .cena {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .tremor,
+    .quadro {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    .quadro img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      object-fit: contain;
+    }
+    #ct-escuro {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      background: #000;
+      opacity: 0;
+    }
+
+    /* tela do celular da cena 5: área clara da ilustração (x 812–1108, y 668–1080) */
+    #ct-tela {
+      position: absolute;
+      left: 812px;
+      top: 668px;
+      width: 296px;
+      height: 412px;
+      border-radius: 28px 28px 0 0;
+      overflow: hidden;
+      font-family: Inter;
+      color: #1b1c20;
+    }
+    #ct-tela .camada {
+      position: absolute;
+      inset: 0;
+    }
+    .ct-status {
+      position: absolute;
+      top: 13px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    #ct-status-hora {
+      left: 24px;
+    }
+    #ct-status-icones {
+      right: 22px;
+      top: 15px;
+      display: flex;
+      gap: 3px;
+      align-items: flex-end;
+    }
+    #ct-status-icones i {
+      display: block;
+      width: 3px;
+      background: #1b1c20;
+      border-radius: 1px;
+    }
+    #ct-status-icones b {
+      display: block;
+      width: 20px;
+      height: 10px;
+      margin-left: 5px;
+      border: 2px solid #1b1c20;
+      border-radius: 3px;
+    }
+    #ct-bloqueio {
+      top: 52px;
+      text-align: center;
+      font-size: 76px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .ct-cartao {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      height: 62px;
+      border-radius: 16px;
+      background: #dfe3ea;
+      border: 2px solid #1b1c20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px;
+    }
+    .ct-cartao strong {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .ct-cartao span {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    #ct-msg {
+      top: 44px;
+    }
+    #ct-notif {
+      top: 116px;
+    }
+    #ct-feed-titulo {
+      position: absolute;
+      left: 20px;
+      top: 40px;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    #ct-post {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 76px;
+      height: 128px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 2px solid #1b1c20;
+    }
+    #ct-post .avatar {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #8d929b;
+      border: 2px solid #1b1c20;
+    }
+    #ct-post .barra {
+      position: absolute;
+      height: 10px;
+      border-radius: 5px;
+      background: #b9bec7;
+    }
+    #ct-post-nome {
+      left: 60px;
+      top: 18px;
+      width: 96px;
+      background: #6f747d !important;
+    }
+    #ct-post-arroba {
+      left: 60px;
+      top: 36px;
+      width: 62px;
+    }
+    #ct-post-l1 {
+      left: 14px;
+      top: 66px;
+      width: 236px;
+    }
+    #ct-post-l2 {
+      left: 14px;
+      top: 84px;
+      width: 204px;
+    }
+    #ct-post-l3 {
+      left: 14px;
+      top: 102px;
+      width: 132px;
+    }
+    #ct-hora {
+      position: absolute;
+      right: 12px;
+      top: 14px;
+      font-size: 26px;
+      font-weight: 800;
+      color: #d4161c;
+      line-height: 1;
+    }
+    #ct-hora-risco {
+      position: absolute;
+      right: 12px;
+      top: 42px;
+      width: 66px;
+      height: 4px;
+      border-radius: 2px;
+      background: #d4161c;
+      transform-origin: right center;
+    }
+  </style>
+
+  <div id="root" data-composition-id="parte01-cartoon" data-width="1920" data-height="1080">
+    <!-- 1 · Você acorda. -->
+    <div id="ct-c01" class="cena clip" data-start="0" data-duration="1.4" data-track-index="0">
+      <div id="ct-q01" class="quadro"><img src="cena01.png" alt="Ele acorda deitado no travesseiro" /></div>
+    </div>
+    <!-- 2 · São 7h12 da manhã. -->
+    <div id="ct-c02" class="cena clip" data-start="1.4" data-duration="2.3" data-track-index="0">
+      <div id="ct-q02" class="quadro"><img src="cena02.png" alt="Rádio-relógio marcando 7:12" /></div>
+    </div>
+    <!-- 3 · O despertador não tocou. E tem alguma coisa errada. -->
+    <div id="ct-c03" class="cena clip" data-start="3.7" data-duration="5.3" data-track-index="0">
+      <div id="ct-q03" class="quadro"><img src="cena03.png" alt="Ele sentado na cama olhando a janela" /></div>
+    </div>
+    <!-- 4 · Não tem barulho. Nenhum carro. Nenhum cachorro latindo. Nenhum vizinho. -->
+    <div id="ct-c04" class="cena clip" data-start="9" data-duration="7.15" data-track-index="0">
+      <div id="ct-q04" class="quadro"><img src="cena04.png" alt="A rua vazia vista pela janela" /></div>
+    </div>
+    <!-- 5 · Você pega o celular ... foi às 3h33 da madrugada. -->
+    <div id="ct-c05" class="cena clip" data-start="16.15" data-duration="13.25" data-track-index="0">
+      <div id="ct-q05" class="quadro">
+        <img src="cena05.png" alt="Ele segurando o celular" />
+        <div id="ct-tela">
+          <div id="ct-status-hora" class="ct-status" data-layout-ignore>7:12</div>
+          <div id="ct-status-icones" class="ct-status" data-layout-ignore>
+            <i style="height: 4px"></i><i style="height: 6px"></i><i style="height: 8px"></i><i style="height: 10px"></i><b></b>
+          </div>
+          <div id="ct-bloqueio" class="camada">7:12</div>
+          <div id="ct-msg" class="ct-cartao"><strong>0</strong><span>mensagens</span></div>
+          <div id="ct-notif" class="ct-cartao"><strong>0</strong><span>notificações</span></div>
+          <div id="ct-feed" class="camada">
+            <div id="ct-feed-titulo">Último post</div>
+            <div id="ct-post">
+              <div class="avatar"></div>
+              <div id="ct-post-nome" class="barra"></div>
+              <div id="ct-post-arroba" class="barra"></div>
+              <div id="ct-post-l1" class="barra"></div>
+              <div id="ct-post-l2" class="barra"></div>
+              <div id="ct-post-l3" class="barra"></div>
+              <div id="ct-hora">03:33</div>
+              <div id="ct-hora-risco"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 6 · Você grita o nome da sua mãe. Nada. -->
+    <div id="ct-c06" class="cena clip" data-start="29.4" data-duration="4.3" data-track-index="0">
+      <div id="ct-q06" class="quadro"><img src="cena06.png" alt="Ele grita no corredor escuro" /></div>
+    </div>
+    <!-- 7 · E é aí que você descobre. Todo mundo da Terra sumiu. Menos você. -->
+    <div id="ct-c07" class="cena clip" data-start="33.7" data-duration="7.23" data-track-index="0">
+      <div id="ct-t07" class="tremor">
+        <div id="ct-q07" class="quadro"><img src="cena07.png" alt="Ele sozinho na avenida vazia" /></div>
+      </div>
+    </div>
+    <div id="ct-escuro"></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // só o primeiro fromTo de cada elemento aplica o estado inicial na hora; os seguintes esperam a vez,
+      // senão o último criado (ex.: o escuro em opacidade 1) valeria desde o começo
+      const jaUsado = new Set();
+      function fromTo(id, de, para, t) {
+        const primeiro = !jaUsado.has(id);
+        jaUsado.add(id);
+        return tl.fromTo(id, de, { ...para, immediateRender: primeiro }, t);
+      }
+      // zoom e panorâmica: chaves [t, escala, x, y] por quadro (origem no centro; nenhum valor mostra a borda da imagem).
+      // Cada trecho entre duas chaves é um fromTo explícito, então qualquer quadro sai igual em qualquer ordem.
+      function camera(id, chaves, ease) {
+        for (let i = 1; i < chaves.length; i++) {
+          const [t0, s0, x0, y0] = chaves[i - 1];
+          const [t1, s1, x1, y1, e] = chaves[i];
+          fromTo(id, { scale: s0, x: x0, y: y0 }, { scale: s1, x: x1, y: y1, duration: t1 - t0, ease: e || ease }, t0);
+        }
+      }
+      // 1 · rosto no travesseiro: aproxima devagar
+      camera("#ct-q01", [[0, 1.03, 0, 0], [1.4, 1.1, -10, 6]], "none");
+      // 2 · relógio: centraliza o 7:12 e aproxima
+      camera("#ct-q02", [[1.4, 1.1, 60, 0], [3.7, 1.16, 100, -20]], "sine.inOut");
+      // 3 · do quarto inteiro até o rosto dele
+      camera("#ct-q03", [[3.7, 1.05, 0, 0], [9.0, 1.22, -60, 115]], "sine.inOut");
+      // 4 · pela janela: a rua; o carro ("nenhum carro"); a casinha ("nenhum cachorro"); as casas ("nenhum vizinho")
+      camera(
+        "#ct-q04",
+        [
+          [9.0, 1.08, 0, 0],
+          [10.8, 1.1, 0, -8, "none"],
+          [12.1, 1.18, 30, -90],
+          [12.3, 1.18, 30, -90, "none"],
+          [13.8, 1.25, 235, -40],
+          [14.6, 1.25, 235, -40, "none"],
+          [16.1, 1.18, -168, 0],
+        ],
+        "power2.inOut",
+      );
+      // 5 · celular: chega perto da tela e entra de vez no 03:33
+      camera(
+        "#ct-q05",
+        [
+          [16.15, 1.0, 0, 0],
+          [17.3, 1.02, 0, -10, "none"],
+          [18.15, 1.35, 0, -189, "power2.inOut"],
+          [22.2, 1.38, 0, -200, "none"],
+          [26.3, 1.39, -10, -205, "none"],
+          [27.6, 1.6, -150, -300, "power2.inOut"],
+          [29.4, 1.62, -155, -306, "none"],
+        ],
+      );
+      // 6 · grito: aproxima do rosto
+      camera("#ct-q06", [[29.4, 1.0, 0, 0], [32.6, 1.1, 0, 20]], "sine.inOut");
+      // 7 · avenida: começa nele e abre para a rua vazia
+      camera("#ct-q07", [[33.7, 1.22, 0, -115], [39.9, 1.02, 0, -5]], "sine.inOut");
+
+      // tela do celular, no ritmo da fala
+      const aparece = (id, t, de, para, dur, ease) => fromTo(id, de, { ...para, duration: dur, ease }, t);
+      aparece("#ct-bloqueio", 18.1, { opacity: 1 }, { opacity: 0 }, 0.18, "power2.in");
+      aparece("#ct-msg", 18.21, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.25, "power3.out"); // "Zero mensagens"
+      aparece("#ct-notif", 20.08, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.25, "power3.out"); // "Zero notificações"
+      aparece("#ct-msg", 22.1, { opacity: 1 }, { opacity: 0 }, 0.15, "power2.in");
+      aparece("#ct-notif", 22.1, { opacity: 1 }, { opacity: 0 }, 0.15, "power2.in");
+      aparece("#ct-feed", 22.27, { opacity: 0 }, { opacity: 1 }, 0.25, "power2.out"); // "O último post"
+      aparece("#ct-post", 22.27, { y: 14 }, { y: 0 }, 0.35, "power3.out");
+      aparece("#ct-hora", 26.55, { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1 }, 0.25, "back.out(2)"); // "3h33"
+      aparece("#ct-hora-risco", 26.75, { scaleX: 0 }, { scaleX: 1 }, 0.3, "power2.out");
+
+      // "Nada.": a tela escurece; a avenida volta do escuro
+      aparece("#ct-escuro", 32.59, { opacity: 0 }, { opacity: 0.85 }, 0.55, "power1.in");
+      aparece("#ct-escuro", 33.15, { opacity: 0.85 }, { opacity: 1 }, 0.45, "none");
+      aparece("#ct-escuro", 33.7, { opacity: 1 }, { opacity: 0 }, 0.6, "power2.out");
+
+      // "sumiu": tremor curto que some (no invólucro de fora, para não brigar com o zoom do quadro)
+      const tremor = [
+        [0, 0],
+        [14, -8],
+        [-12, 9],
+        [10, -6],
+        [-7, 5],
+        [5, -3],
+        [-2, 2],
+        [0, 0],
+      ];
+      for (let i = 1; i < tremor.length; i++) {
+        const [x0, y0] = tremor[i - 1];
+        const [x1, y1] = tremor[i];
+        fromTo("#ct-t07", { x: x0, y: y0 }, { x: x1, y: y1, duration: 0.06, ease: "none" }, 38.35 + (i - 1) * 0.06);
+      }
+
+      window.__timelines["parte01-cartoon"] = tl;
+    })();
+  </script>
+</template>
