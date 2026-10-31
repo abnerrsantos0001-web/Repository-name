@@ -46,7 +46,7 @@ O final (partes 09 e 10) e o encerramento (11) ficam só no vídeo completo do Y
 
 ## O que foi medido e o que foi só olhado
 - O som foi medido, não ouvido: volume, pico e posição de cada efeito em relação à palavra. Nenhum efeito foi escutado por alguém. Se algum soar artificial, ele sai em `tools/audio.py` (lista `por(...)`).
-- Conferi quadros de cada parte em snapshots, de 4 a 14 por parte, nos planos que mudam. Na vertical, conferi folhas dos 4 cortes antes do render.
+- Conferi quadros de cada parte em snapshots, de 4 a 14 por parte, nos planos que mudam. Na vertical, conferi folhas dos 4 cortes antes do render. Depois do render, olhei uma folha de quadros de cada MP4, incluindo o cartão final de cada corte.
 - Cada MP4 foi conferido no ffprobe: resolução, 30 fps e número de quadros igual ao da parte. A parte 02 saiu com um quadro a mais (1170 em vez de 1169), e o vídeo completo corta cada parte no quadro exato: são 10.908 quadros, a soma das 11 partes, em 64,7 MB.
 - O `hyperframes check` completo (com amostragem de layout) não rodou em todas as partes, porque leva mais de 10 min por parte com o WebGL em software. Rodei no corte 1 e na parte 01 vertical, e os dois erros que ele achou foram corrigidos.
 
