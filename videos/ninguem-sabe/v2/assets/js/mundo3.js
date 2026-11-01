@@ -414,6 +414,11 @@ export function criarBanheiro(cena) {
     caixa(batente, 0.05, 2.08, 0.14, 0xc8c4bb, -0.125, 1.04, 1.53);
     caixa(batente, 0.05, 2.08, 0.14, 0xc8c4bb, 0.775, 1.04, 1.53);
     caixa(batente, 0.95, 0.05, 0.14, 0xc8c4bb, 0.325, 2.075, 1.53);
+    // interruptor ao lado da porta (parte 3: acende e apaga a luz)
+    const inter = passavel(obj(g, "interruptor", -0.35, 1.25, 1.494));
+    caixa(inter, 0.08, 0.12, 0.012, 0xe9e8e4, 0, 0, 0, { sombra: false });
+    const tecla = caixa(inter, 0.03, 0.05, 0.012, 0xd5d3ce, 0, 0, -0.008, { sombra: false });
+    api.tecla = (ligada) => (tecla.rotation.x = ligada ? -0.25 : 0.25);
     const corredor = obj(g, "corredor", 0, 0, 2.6);
     caixa(corredor, 2.6, 0.1, 2.0, 0x3d3a36, -0.3, -0.05, 0);
     caixa(corredor, 2.6, 0.1, 2.0, 0x2a2b2e, -0.3, H + 0.05, 0);
@@ -557,6 +562,7 @@ export function criarBanheiro(cena) {
     porta: ambos("porta"),
     torneira: ambos("torneira"),
     corredor: ambos("corredor"),
+    tecla: ambos("tecla"),
     lencol: ambos("lencol"),
     derrubar: (k, soReal = false) => {
       a.derrubar(k);
@@ -575,7 +581,7 @@ export function criarBanheiro(cena) {
         dia: { teto: 1, espelho: 1, janela: 0.6, ambiente: 0.5 },
         noiteAcesa: { teto: 1, espelho: 1, lua: 0.2, ambiente: 0.35 },
         noite: { lua: 1, ambiente: 0.12 },
-        apagada: { lua: 0.35, ambiente: 0.04 },
+        apagada: { lua: 0.75, ambiente: 0.12 },
       }[nome] || {};
       ret.luz(L);
     },
