@@ -1,0 +1,986 @@
+{
+ "fps": 30,
+ "taxa": 48000,
+ "partes": [
+  {
+   "parte": 1,
+   "quadro_inicial": 0,
+   "quadros": 1462,
+   "duracao": 48.7333,
+   "inicio_global": 0.0,
+   "voz_inicio_global": 0.0
+  },
+  {
+   "parte": 2,
+   "quadro_inicial": 1462,
+   "quadros": 1327,
+   "duracao": 44.2333,
+   "inicio_global": 48.7333,
+   "voz_inicio_global": 48.735
+  },
+  {
+   "parte": 3,
+   "quadro_inicial": 2789,
+   "quadros": 1336,
+   "duracao": 44.5333,
+   "inicio_global": 92.9667,
+   "voz_inicio_global": 92.967
+  },
+  {
+   "parte": 4,
+   "quadro_inicial": 4125,
+   "quadros": 1295,
+   "duracao": 43.1667,
+   "inicio_global": 137.5,
+   "voz_inicio_global": 137.494
+  },
+  {
+   "parte": 5,
+   "quadro_inicial": 5420,
+   "quadros": 1194,
+   "duracao": 39.8,
+   "inicio_global": 180.6667,
+   "voz_inicio_global": 180.681
+  },
+  {
+   "parte": 6,
+   "quadro_inicial": 6614,
+   "quadros": 1227,
+   "duracao": 40.9,
+   "inicio_global": 220.4667,
+   "voz_inicio_global": 220.453
+  },
+  {
+   "parte": 7,
+   "quadro_inicial": 7841,
+   "quadros": 1236,
+   "duracao": 41.2,
+   "inicio_global": 261.3667,
+   "voz_inicio_global": 261.38
+  },
+  {
+   "parte": 8,
+   "quadro_inicial": 9077,
+   "quadros": 1122,
+   "duracao": 37.4,
+   "inicio_global": 302.5667,
+   "voz_inicio_global": 302.553
+  },
+  {
+   "parte": 9,
+   "quadro_inicial": 10199,
+   "quadros": 1150,
+   "duracao": 38.3333,
+   "inicio_global": 339.9667,
+   "voz_inicio_global": 339.9729
+  },
+  {
+   "parte": 10,
+   "quadro_inicial": 11349,
+   "quadros": 1251,
+   "duracao": 41.7,
+   "inicio_global": 378.3,
+   "voz_inicio_global": 378.3139
+  }
+ ],
+ "efeitos": [
+  {
+   "t": 0.02,
+   "efeito": "despertador"
+  },
+  {
+   "t": 7.425,
+   "efeito": "torneira"
+  },
+  {
+   "t": 21.006,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 43.11,
+   "efeito": "coração"
+  },
+  {
+   "t": 43.91,
+   "efeito": "coração"
+  },
+  {
+   "t": 44.654,
+   "efeito": "coração"
+  },
+  {
+   "t": 45.346,
+   "efeito": "coração"
+  },
+  {
+   "t": 45.989,
+   "efeito": "coração"
+  },
+  {
+   "t": 46.588,
+   "efeito": "coração"
+  },
+  {
+   "t": 47.144,
+   "efeito": "coração"
+  },
+  {
+   "t": 47.662,
+   "efeito": "coração"
+  },
+  {
+   "t": 48.143,
+   "efeito": "coração"
+  },
+  {
+   "t": 60.884,
+   "efeito": "rua"
+  },
+  {
+   "t": 68.043,
+   "efeito": "ônibus"
+  },
+  {
+   "t": 78.45,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 85.535,
+   "efeito": "rua"
+  },
+  {
+   "t": 98.631,
+   "efeito": "porta fechando"
+  },
+  {
+   "t": 99.867,
+   "efeito": "interruptor"
+  },
+  {
+   "t": 119.874,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 121.562,
+   "efeito": "coração"
+  },
+  {
+   "t": 122.362,
+   "efeito": "coração"
+  },
+  {
+   "t": 123.106,
+   "efeito": "coração"
+  },
+  {
+   "t": 123.798,
+   "efeito": "coração"
+  },
+  {
+   "t": 124.441,
+   "efeito": "coração"
+  },
+  {
+   "t": 125.04,
+   "efeito": "coração"
+  },
+  {
+   "t": 125.596,
+   "efeito": "coração"
+  },
+  {
+   "t": 126.114,
+   "efeito": "coração"
+  },
+  {
+   "t": 126.595,
+   "efeito": "coração"
+  },
+  {
+   "t": 127.045,
+   "efeito": "coração"
+  },
+  {
+   "t": 127.495,
+   "efeito": "coração"
+  },
+  {
+   "t": 127.945,
+   "efeito": "coração"
+  },
+  {
+   "t": 128.395,
+   "efeito": "coração"
+  },
+  {
+   "t": 128.845,
+   "efeito": "coração"
+  },
+  {
+   "t": 129.295,
+   "efeito": "coração"
+  },
+  {
+   "t": 129.745,
+   "efeito": "coração"
+  },
+  {
+   "t": 130.195,
+   "efeito": "coração"
+  },
+  {
+   "t": 130.645,
+   "efeito": "coração"
+  },
+  {
+   "t": 131.095,
+   "efeito": "coração"
+  },
+  {
+   "t": 131.545,
+   "efeito": "coração"
+  },
+  {
+   "t": 131.995,
+   "efeito": "coração"
+  },
+  {
+   "t": 132.445,
+   "efeito": "coração"
+  },
+  {
+   "t": 132.895,
+   "efeito": "coração"
+  },
+  {
+   "t": 133.345,
+   "efeito": "coração"
+  },
+  {
+   "t": 133.795,
+   "efeito": "coração"
+  },
+  {
+   "t": 134.245,
+   "efeito": "coração"
+  },
+  {
+   "t": 134.695,
+   "efeito": "coração"
+  },
+  {
+   "t": 134.852,
+   "efeito": "interruptor"
+  },
+  {
+   "t": 136.018,
+   "efeito": "passos"
+  },
+  {
+   "t": 145.66,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 146.595,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 147.54,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 151.87,
+   "efeito": "lanterna"
+  },
+  {
+   "t": 157.051,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 161.0,
+   "efeito": "coração"
+  },
+  {
+   "t": 161.75,
+   "efeito": "coração"
+  },
+  {
+   "t": 162.447,
+   "efeito": "coração"
+  },
+  {
+   "t": 163.096,
+   "efeito": "coração"
+  },
+  {
+   "t": 163.699,
+   "efeito": "coração"
+  },
+  {
+   "t": 164.26,
+   "efeito": "coração"
+  },
+  {
+   "t": 164.782,
+   "efeito": "coração"
+  },
+  {
+   "t": 165.267,
+   "efeito": "coração"
+  },
+  {
+   "t": 165.719,
+   "efeito": "coração"
+  },
+  {
+   "t": 166.139,
+   "efeito": "coração"
+  },
+  {
+   "t": 166.559,
+   "efeito": "coração"
+  },
+  {
+   "t": 166.979,
+   "efeito": "coração"
+  },
+  {
+   "t": 167.399,
+   "efeito": "coração"
+  },
+  {
+   "t": 167.819,
+   "efeito": "coração"
+  },
+  {
+   "t": 168.239,
+   "efeito": "coração"
+  },
+  {
+   "t": 168.659,
+   "efeito": "coração"
+  },
+  {
+   "t": 169.079,
+   "efeito": "coração"
+  },
+  {
+   "t": 169.499,
+   "efeito": "coração"
+  },
+  {
+   "t": 169.919,
+   "efeito": "coração"
+  },
+  {
+   "t": 170.339,
+   "efeito": "coração"
+  },
+  {
+   "t": 170.759,
+   "efeito": "coração"
+  },
+  {
+   "t": 171.179,
+   "efeito": "coração"
+  },
+  {
+   "t": 171.599,
+   "efeito": "coração"
+  },
+  {
+   "t": 172.019,
+   "efeito": "coração"
+  },
+  {
+   "t": 172.439,
+   "efeito": "coração"
+  },
+  {
+   "t": 172.859,
+   "efeito": "coração"
+  },
+  {
+   "t": 173.279,
+   "efeito": "coração"
+  },
+  {
+   "t": 173.699,
+   "efeito": "coração"
+  },
+  {
+   "t": 174.119,
+   "efeito": "coração"
+  },
+  {
+   "t": 174.539,
+   "efeito": "coração"
+  },
+  {
+   "t": 174.959,
+   "efeito": "coração"
+  },
+  {
+   "t": 175.379,
+   "efeito": "coração"
+  },
+  {
+   "t": 175.799,
+   "efeito": "coração"
+  },
+  {
+   "t": 176.219,
+   "efeito": "coração"
+  },
+  {
+   "t": 176.639,
+   "efeito": "coração"
+  },
+  {
+   "t": 177.059,
+   "efeito": "coração"
+  },
+  {
+   "t": 177.479,
+   "efeito": "coração"
+  },
+  {
+   "t": 177.899,
+   "efeito": "coração"
+  },
+  {
+   "t": 178.319,
+   "efeito": "coração"
+  },
+  {
+   "t": 178.739,
+   "efeito": "coração"
+  },
+  {
+   "t": 179.159,
+   "efeito": "coração"
+  },
+  {
+   "t": 179.579,
+   "efeito": "coração"
+  },
+  {
+   "t": 179.999,
+   "efeito": "coração"
+  },
+  {
+   "t": 171.102,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 171.76,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 172.446,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 174.827,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 176.395,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 177.714,
+   "efeito": "toc no vidro"
+  },
+  {
+   "t": 184.031,
+   "efeito": "lençol"
+  },
+  {
+   "t": 217.674,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 224.052,
+   "efeito": "lençol"
+  },
+  {
+   "t": 235.754,
+   "efeito": "mão no vidro"
+  },
+  {
+   "t": 249.415,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 249.415,
+   "efeito": "coração"
+  },
+  {
+   "t": 250.115,
+   "efeito": "coração"
+  },
+  {
+   "t": 250.766,
+   "efeito": "coração"
+  },
+  {
+   "t": 251.371,
+   "efeito": "coração"
+  },
+  {
+   "t": 251.934,
+   "efeito": "coração"
+  },
+  {
+   "t": 252.458,
+   "efeito": "coração"
+  },
+  {
+   "t": 252.945,
+   "efeito": "coração"
+  },
+  {
+   "t": 253.398,
+   "efeito": "coração"
+  },
+  {
+   "t": 253.819,
+   "efeito": "coração"
+  },
+  {
+   "t": 254.219,
+   "efeito": "coração"
+  },
+  {
+   "t": 254.619,
+   "efeito": "coração"
+  },
+  {
+   "t": 255.019,
+   "efeito": "coração"
+  },
+  {
+   "t": 255.419,
+   "efeito": "coração"
+  },
+  {
+   "t": 255.819,
+   "efeito": "coração"
+  },
+  {
+   "t": 256.219,
+   "efeito": "coração"
+  },
+  {
+   "t": 256.619,
+   "efeito": "coração"
+  },
+  {
+   "t": 257.019,
+   "efeito": "coração"
+  },
+  {
+   "t": 257.419,
+   "efeito": "coração"
+  },
+  {
+   "t": 257.819,
+   "efeito": "coração"
+  },
+  {
+   "t": 258.219,
+   "efeito": "coração"
+  },
+  {
+   "t": 258.619,
+   "efeito": "coração"
+  },
+  {
+   "t": 259.019,
+   "efeito": "coração"
+  },
+  {
+   "t": 259.419,
+   "efeito": "coração"
+  },
+  {
+   "t": 259.819,
+   "efeito": "coração"
+  },
+  {
+   "t": 260.219,
+   "efeito": "coração"
+  },
+  {
+   "t": 260.619,
+   "efeito": "coração"
+  },
+  {
+   "t": 261.019,
+   "efeito": "coração"
+  },
+  {
+   "t": 262.776,
+   "efeito": "água"
+  },
+  {
+   "t": 268.647,
+   "efeito": "água"
+  },
+  {
+   "t": 272.184,
+   "efeito": "baque na pia"
+  },
+  {
+   "t": 273.739,
+   "efeito": "objeto caindo"
+  },
+  {
+   "t": 273.959,
+   "efeito": "objeto caindo"
+  },
+  {
+   "t": 274.179,
+   "efeito": "objeto caindo"
+  },
+  {
+   "t": 269.841,
+   "efeito": "coração"
+  },
+  {
+   "t": 270.391,
+   "efeito": "coração"
+  },
+  {
+   "t": 270.902,
+   "efeito": "coração"
+  },
+  {
+   "t": 271.378,
+   "efeito": "coração"
+  },
+  {
+   "t": 271.821,
+   "efeito": "coração"
+  },
+  {
+   "t": 272.232,
+   "efeito": "coração"
+  },
+  {
+   "t": 272.615,
+   "efeito": "coração"
+  },
+  {
+   "t": 272.975,
+   "efeito": "coração"
+  },
+  {
+   "t": 273.335,
+   "efeito": "coração"
+  },
+  {
+   "t": 273.695,
+   "efeito": "coração"
+  },
+  {
+   "t": 274.055,
+   "efeito": "coração"
+  },
+  {
+   "t": 274.415,
+   "efeito": "coração"
+  },
+  {
+   "t": 274.775,
+   "efeito": "coração"
+  },
+  {
+   "t": 275.135,
+   "efeito": "coração"
+  },
+  {
+   "t": 275.495,
+   "efeito": "coração"
+  },
+  {
+   "t": 275.855,
+   "efeito": "coração"
+  },
+  {
+   "t": 276.215,
+   "efeito": "coração"
+  },
+  {
+   "t": 276.575,
+   "efeito": "coração"
+  },
+  {
+   "t": 276.935,
+   "efeito": "coração"
+  },
+  {
+   "t": 277.295,
+   "efeito": "coração"
+  },
+  {
+   "t": 277.655,
+   "efeito": "coração"
+  },
+  {
+   "t": 278.015,
+   "efeito": "coração"
+  },
+  {
+   "t": 278.375,
+   "efeito": "coração"
+  },
+  {
+   "t": 278.735,
+   "efeito": "coração"
+  },
+  {
+   "t": 279.095,
+   "efeito": "coração"
+  },
+  {
+   "t": 279.455,
+   "efeito": "coração"
+  },
+  {
+   "t": 279.815,
+   "efeito": "coração"
+  },
+  {
+   "t": 280.175,
+   "efeito": "coração"
+  },
+  {
+   "t": 280.535,
+   "efeito": "coração"
+  },
+  {
+   "t": 280.895,
+   "efeito": "coração"
+  },
+  {
+   "t": 281.255,
+   "efeito": "coração"
+  },
+  {
+   "t": 281.615,
+   "efeito": "coração"
+  },
+  {
+   "t": 281.975,
+   "efeito": "coração"
+  },
+  {
+   "t": 282.335,
+   "efeito": "coração"
+  },
+  {
+   "t": 282.695,
+   "efeito": "coração"
+  },
+  {
+   "t": 283.055,
+   "efeito": "coração"
+  },
+  {
+   "t": 283.415,
+   "efeito": "coração"
+  },
+  {
+   "t": 283.775,
+   "efeito": "coração"
+  },
+  {
+   "t": 284.135,
+   "efeito": "coração"
+  },
+  {
+   "t": 284.495,
+   "efeito": "coração"
+  },
+  {
+   "t": 284.855,
+   "efeito": "coração"
+  },
+  {
+   "t": 285.215,
+   "efeito": "coração"
+  },
+  {
+   "t": 285.575,
+   "efeito": "coração"
+  },
+  {
+   "t": 285.935,
+   "efeito": "coração"
+  },
+  {
+   "t": 286.295,
+   "efeito": "coração"
+  },
+  {
+   "t": 286.655,
+   "efeito": "coração"
+  },
+  {
+   "t": 287.015,
+   "efeito": "coração"
+  },
+  {
+   "t": 287.375,
+   "efeito": "coração"
+  },
+  {
+   "t": 287.735,
+   "efeito": "coração"
+  },
+  {
+   "t": 288.095,
+   "efeito": "coração"
+  },
+  {
+   "t": 288.455,
+   "efeito": "coração"
+  },
+  {
+   "t": 288.815,
+   "efeito": "coração"
+  },
+  {
+   "t": 289.175,
+   "efeito": "coração"
+  },
+  {
+   "t": 289.535,
+   "efeito": "coração"
+  },
+  {
+   "t": 289.895,
+   "efeito": "coração"
+  },
+  {
+   "t": 290.255,
+   "efeito": "coração"
+  },
+  {
+   "t": 290.615,
+   "efeito": "coração"
+  },
+  {
+   "t": 290.975,
+   "efeito": "coração"
+  },
+  {
+   "t": 291.335,
+   "efeito": "coração"
+  },
+  {
+   "t": 291.695,
+   "efeito": "coração"
+  },
+  {
+   "t": 292.055,
+   "efeito": "coração"
+  },
+  {
+   "t": 292.415,
+   "efeito": "coração"
+  },
+  {
+   "t": 292.91,
+   "efeito": "vidro estourando"
+  },
+  {
+   "t": 299.504,
+   "efeito": "respiração"
+  },
+  {
+   "t": 329.632,
+   "efeito": "rádio"
+  },
+  {
+   "t": 330.032,
+   "efeito": "cafeteira"
+  },
+  {
+   "t": 351.768,
+   "efeito": "ônibus passando"
+  },
+  {
+   "t": 360.741,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 373.573,
+   "efeito": "coração"
+  },
+  {
+   "t": 374.373,
+   "efeito": "coração"
+  },
+  {
+   "t": 375.117,
+   "efeito": "coração"
+  },
+  {
+   "t": 375.809,
+   "efeito": "coração"
+  },
+  {
+   "t": 376.452,
+   "efeito": "coração"
+  },
+  {
+   "t": 377.051,
+   "efeito": "coração"
+  },
+  {
+   "t": 377.607,
+   "efeito": "coração"
+  },
+  {
+   "t": 410.795,
+   "efeito": "toc no vidro"
+  }
+ ],
+ "cortes": [
+  {
+   "corte": 1,
+   "partes": [
+    1,
+    2
+   ],
+   "quadros": 2909
+  },
+  {
+   "corte": 2,
+   "partes": [
+    3,
+    4
+   ],
+   "quadros": 2751
+  },
+  {
+   "corte": 3,
+   "partes": [
+    5,
+    6
+   ],
+   "quadros": 2541
+  },
+  {
+   "corte": 4,
+   "partes": [
+    7,
+    8
+   ],
+   "quadros": 2478
+  }
+ ]
+}
