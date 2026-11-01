@@ -45,7 +45,7 @@ Os 20 trechos foram transcritos com Whisper e organizados pela história. As 10 
 - Parte 07: a mão do reflexo segura a dele no plano da água. Como a cabeça do boneco é grande, quando ele se debruça o rosto fica a poucos centímetros do vidro. Por isso o secador bate no canto direito do espelho, por baixo do queixo, e são dois golpes: o primeiro solta o braço, o segundo estoura o vidro no instante do som.
 - Partes 08 e 09 (do lado de dentro do espelho): a cozinha é construída ao contrário. O relógio, a caixa de leite, o caderno e o letreiro do ônibus saem espelhados. Pelo espelho da cozinha aparece a casa de verdade, onde as letras ficam certas, já que são invertidas duas vezes. Lá estão o sósia e a mãe tomando café, e as cadeiras do lado de cá ficam vazias.
 - Parte 10: a câmera passa para o lado de dentro do espelho. "Você" é o reflexo, que atrasa 1 s quando o sósia vira a cabeça e depois encara a câmera. O cartão "COMENTA AQUI" e o cartão "NINGUÉM SABE / INSCREVA-SE" seguem o padrão do vídeo 1. No silêncio final o cartão sai e fica só o reflexo sorrindo.
-- Cortes verticais: são as mesmas cenas renderizadas de novo em 1080x1920, com as legendas grandes no centro e o cartão de 4 s no fim. Os relógios das partes 01 e 04 ganharam enquadramento vertical próprio.
+- Cortes verticais: são as mesmas cenas renderizadas de novo em 1080x1920, com as legendas grandes no centro e o cartão de 4 s no fim. Os relógios das partes 01 e 04 ganharam enquadramento vertical próprio. Na parte 05, onde as telas do celular ficam em primeiro plano, a legenda vertical desce para não cobrir o texto da tela.
 
 ## Áudio (tudo por código, sem MusicGen)
 - `tools/audio.py` (numpy/scipy) faz a trilha (drone, pad, ar do cômodo e uma camada de vidro) e 216 efeitos presos às palavras, entre eles:
@@ -73,8 +73,7 @@ Os 20 trechos foram transcritos com Whisper e organizados pela história. As 10 
 - **Parte 04:** em "de novo" o rosto aparece de perfil, e o plano da tela do celular é escuro.
 - **Parte 05:**
   - "vira o celular" é visto pelas costas, sem o rosto;
-  - o lençol do guarda-roupa parece uma porta clara;
-  - no corte vertical, a legenda cobre parte do texto das telas do celular.
+  - o lençol do guarda-roupa parece uma porta clara.
 - **Parte 06:** o reflexo alcança o vidro no limite, bem debruçado sobre a pia. A entrada no corredor escuro tem pouca leitura.
 - **Parte 07:**
   - a luta aparece mais pela cabeça e pelo braço, porque a cabeça grande esconde as mãos em alguns ângulos;
