@@ -1,0 +1,639 @@
+{
+ "audio": "assets/audio/v2-parte06.flac",
+ "duracao": 40.487,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   1.283
+  ],
+  [
+   1.589,
+   2.99
+  ],
+  [
+   3.599,
+   5.652
+  ],
+  [
+   6.231,
+   6.91
+  ],
+  [
+   7.252,
+   7.912
+  ],
+  [
+   8.504,
+   10.436
+  ],
+  [
+   11.152,
+   13.056
+  ],
+  [
+   13.236,
+   14.48
+  ],
+  [
+   15.054,
+   16.623
+  ],
+  [
+   16.933,
+   17.633
+  ],
+  [
+   18.917,
+   20.844
+  ],
+  [
+   21.378,
+   23.182
+  ],
+  [
+   24.002,
+   25.489
+  ],
+  [
+   25.703,
+   28.213
+  ],
+  [
+   28.962,
+   29.768
+  ],
+  [
+   30.214,
+   31.057
+  ],
+  [
+   31.727,
+   34.001
+  ],
+  [
+   34.177,
+   35.473
+  ],
+  [
+   35.931,
+   36.739
+  ],
+  [
+   37.135,
+   37.978
+  ],
+  [
+   38.497,
+   40.127
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p06w0",
+   "text": "Na",
+   "start": 0.0,
+   "end": 0.353
+  },
+  {
+   "id": "p06w1",
+   "text": "sétima",
+   "start": 0.353,
+   "end": 0.837
+  },
+  {
+   "id": "p06w2",
+   "text": "noite,",
+   "start": 0.837,
+   "end": 1.283
+  },
+  {
+   "id": "p06w3",
+   "text": "você",
+   "start": 1.589,
+   "end": 1.817
+  },
+  {
+   "id": "p06w4",
+   "text": "não",
+   "start": 1.817,
+   "end": 2.082
+  },
+  {
+   "id": "p06w5",
+   "text": "aguenta",
+   "start": 2.082,
+   "end": 2.479
+  },
+  {
+   "id": "p06w6",
+   "text": "mais.",
+   "start": 2.479,
+   "end": 2.99
+  },
+  {
+   "id": "p06w7",
+   "text": "Tira",
+   "start": 3.599,
+   "end": 3.821
+  },
+  {
+   "id": "p06w8",
+   "text": "o",
+   "start": 3.821,
+   "end": 3.962
+  },
+  {
+   "id": "p06w9",
+   "text": "lençol",
+   "start": 3.962,
+   "end": 4.364
+  },
+  {
+   "id": "p06w10",
+   "text": "do",
+   "start": 4.364,
+   "end": 4.545
+  },
+  {
+   "id": "p06w11",
+   "text": "espelho",
+   "start": 4.545,
+   "end": 4.968
+  },
+  {
+   "id": "p06w12",
+   "text": "do",
+   "start": 4.968,
+   "end": 5.149
+  },
+  {
+   "id": "p06w13",
+   "text": "banheiro.",
+   "start": 5.149,
+   "end": 5.652
+  },
+  {
+   "id": "p06w14",
+   "text": "Ele",
+   "start": 6.231,
+   "end": 6.469
+  },
+  {
+   "id": "p06w15",
+   "text": "está",
+   "start": 6.469,
+   "end": 6.672
+  },
+  {
+   "id": "p06w16",
+   "text": "lá,",
+   "start": 6.672,
+   "end": 6.91
+  },
+  {
+   "id": "p06w17",
+   "text": "esperando,",
+   "start": 7.252,
+   "end": 7.912
+  },
+  {
+   "id": "p06w18",
+   "text": "como",
+   "start": 8.504,
+   "end": 8.679
+  },
+  {
+   "id": "p06w19",
+   "text": "se",
+   "start": 8.679,
+   "end": 8.922
+  },
+  {
+   "id": "p06w20",
+   "text": "soubesse",
+   "start": 8.922,
+   "end": 9.409
+  },
+  {
+   "id": "p06w21",
+   "text": "que",
+   "start": 9.409,
+   "end": 9.583
+  },
+  {
+   "id": "p06w22",
+   "text": "você",
+   "start": 9.583,
+   "end": 9.879
+  },
+  {
+   "id": "p06w23",
+   "text": "viria.",
+   "start": 9.879,
+   "end": 10.436
+  },
+  {
+   "id": "p06w24",
+   "text": "E",
+   "start": 11.152,
+   "end": 11.405
+  },
+  {
+   "id": "p06w25",
+   "text": "pela",
+   "start": 11.405,
+   "end": 11.569
+  },
+  {
+   "id": "p06w26",
+   "text": "primeira",
+   "start": 11.569,
+   "end": 12.004
+  },
+  {
+   "id": "p06w27",
+   "text": "vez,",
+   "start": 12.004,
+   "end": 12.457
+  },
+  {
+   "id": "p06w28",
+   "text": "ele",
+   "start": 12.494,
+   "end": 12.711
+  },
+  {
+   "id": "p06w29",
+   "text": "não",
+   "start": 12.711,
+   "end": 13.056
+  },
+  {
+   "id": "p06w30",
+   "text": "finge",
+   "start": 13.236,
+   "end": 13.561
+  },
+  {
+   "id": "p06w31",
+   "text": "mais",
+   "start": 13.561,
+   "end": 13.813
+  },
+  {
+   "id": "p06w32",
+   "text": "te",
+   "start": 13.813,
+   "end": 14.011
+  },
+  {
+   "id": "p06w33",
+   "text": "copiar.",
+   "start": 14.011,
+   "end": 14.48
+  },
+  {
+   "id": "p06w34",
+   "text": "Ele",
+   "start": 15.054,
+   "end": 15.301
+  },
+  {
+   "id": "p06w35",
+   "text": "encosta",
+   "start": 15.301,
+   "end": 15.671
+  },
+  {
+   "id": "p06w36",
+   "text": "a",
+   "start": 15.671,
+   "end": 15.83
+  },
+  {
+   "id": "p06w37",
+   "text": "mão",
+   "start": 15.83,
+   "end": 15.936
+  },
+  {
+   "id": "p06w38",
+   "text": "no",
+   "start": 15.936,
+   "end": 16.147
+  },
+  {
+   "id": "p06w39",
+   "text": "vidro,",
+   "start": 16.147,
+   "end": 16.623
+  },
+  {
+   "id": "p06w40",
+   "text": "do",
+   "start": 16.933,
+   "end": 17.062
+  },
+  {
+   "id": "p06w41",
+   "text": "lado",
+   "start": 17.062,
+   "end": 17.32
+  },
+  {
+   "id": "p06w42",
+   "text": "dele.",
+   "start": 17.32,
+   "end": 17.633
+  },
+  {
+   "id": "p06w43",
+   "text": "E",
+   "start": 18.917,
+   "end": 19.147
+  },
+  {
+   "id": "p06w44",
+   "text": "você",
+   "start": 19.147,
+   "end": 19.536
+  },
+  {
+   "id": "p06w45",
+   "text": "escuta",
+   "start": 19.536,
+   "end": 19.837
+  },
+  {
+   "id": "p06w46",
+   "text": "sua",
+   "start": 19.837,
+   "end": 20.102
+  },
+  {
+   "id": "p06w47",
+   "text": "própria",
+   "start": 20.102,
+   "end": 20.438
+  },
+  {
+   "id": "p06w48",
+   "text": "voz,",
+   "start": 20.438,
+   "end": 20.844
+  },
+  {
+   "id": "p06w49",
+   "text": "só",
+   "start": 21.378,
+   "end": 21.596
+  },
+  {
+   "id": "p06w50",
+   "text": "que",
+   "start": 21.596,
+   "end": 21.797
+  },
+  {
+   "id": "p06w51",
+   "text": "vindo",
+   "start": 21.797,
+   "end": 21.979
+  },
+  {
+   "id": "p06w52",
+   "text": "de",
+   "start": 21.979,
+   "end": 22.252
+  },
+  {
+   "id": "p06w53",
+   "text": "dentro",
+   "start": 22.252,
+   "end": 22.526
+  },
+  {
+   "id": "p06w54",
+   "text": "do",
+   "start": 22.526,
+   "end": 22.726
+  },
+  {
+   "id": "p06w55",
+   "text": "espelho.",
+   "start": 22.726,
+   "end": 23.182
+  },
+  {
+   "id": "p06w56",
+   "text": "Você",
+   "start": 24.002,
+   "end": 24.342
+  },
+  {
+   "id": "p06w57",
+   "text": "nunca",
+   "start": 24.342,
+   "end": 24.629
+  },
+  {
+   "id": "p06w58",
+   "text": "se",
+   "start": 24.629,
+   "end": 25.005
+  },
+  {
+   "id": "p06w59",
+   "text": "perguntou",
+   "start": 25.005,
+   "end": 25.489
+  },
+  {
+   "id": "p06w60",
+   "text": "porque",
+   "start": 25.703,
+   "end": 26.109
+  },
+  {
+   "id": "p06w61",
+   "text": "é",
+   "start": 26.109,
+   "end": 26.398
+  },
+  {
+   "id": "p06w62",
+   "text": "sempre",
+   "start": 26.398,
+   "end": 26.746
+  },
+  {
+   "id": "p06w63",
+   "text": "você",
+   "start": 26.746,
+   "end": 27.248
+  },
+  {
+   "id": "p06w64",
+   "text": "que",
+   "start": 27.248,
+   "end": 27.46
+  },
+  {
+   "id": "p06w65",
+   "text": "está",
+   "start": 27.46,
+   "end": 27.614
+  },
+  {
+   "id": "p06w66",
+   "text": "desse",
+   "start": 27.614,
+   "end": 27.923
+  },
+  {
+   "id": "p06w67",
+   "text": "lado?",
+   "start": 27.923,
+   "end": 28.213
+  },
+  {
+   "id": "p06w68",
+   "text": "Você",
+   "start": 28.962,
+   "end": 29.449
+  },
+  {
+   "id": "p06w69",
+   "text": "recua.",
+   "start": 29.449,
+   "end": 29.768
+  },
+  {
+   "id": "p06w70",
+   "text": "Ele",
+   "start": 30.214,
+   "end": 30.467
+  },
+  {
+   "id": "p06w71",
+   "text": "continua.",
+   "start": 30.467,
+   "end": 31.057
+  },
+  {
+   "id": "p06w72",
+   "text": "Eu",
+   "start": 31.727,
+   "end": 31.898
+  },
+  {
+   "id": "p06w73",
+   "text": "fiquei",
+   "start": 31.898,
+   "end": 32.239
+  },
+  {
+   "id": "p06w74",
+   "text": "a",
+   "start": 32.239,
+   "end": 32.504
+  },
+  {
+   "id": "p06w75",
+   "text": "vida",
+   "start": 32.504,
+   "end": 32.751
+  },
+  {
+   "id": "p06w76",
+   "text": "inteira",
+   "start": 32.751,
+   "end": 33.3
+  },
+  {
+   "id": "p06w77",
+   "text": "repetindo",
+   "start": 33.3,
+   "end": 34.001
+  },
+  {
+   "id": "p06w78",
+   "text": "tudo",
+   "start": 34.177,
+   "end": 34.424
+  },
+  {
+   "id": "p06w79",
+   "text": "que",
+   "start": 34.424,
+   "end": 34.594
+  },
+  {
+   "id": "p06w80",
+   "text": "você",
+   "start": 34.594,
+   "end": 34.887
+  },
+  {
+   "id": "p06w81",
+   "text": "fazia.",
+   "start": 34.887,
+   "end": 35.473
+  },
+  {
+   "id": "p06w82",
+   "text": "Cada",
+   "start": 35.931,
+   "end": 36.234
+  },
+  {
+   "id": "p06w83",
+   "text": "passo.",
+   "start": 36.234,
+   "end": 36.738
+  },
+  {
+   "id": "p06w84",
+   "text": "Cada",
+   "start": 37.135,
+   "end": 37.33
+  },
+  {
+   "id": "p06w85",
+   "text": "careta.",
+   "start": 37.33,
+   "end": 37.978
+  },
+  {
+   "id": "p06w86",
+   "text": "Agora",
+   "start": 38.497,
+   "end": 38.992
+  },
+  {
+   "id": "p06w87",
+   "text": "é",
+   "start": 38.992,
+   "end": 39.467
+  },
+  {
+   "id": "p06w88",
+   "text": "a",
+   "start": 39.467,
+   "end": 39.57
+  },
+  {
+   "id": "p06w89",
+   "text": "sua",
+   "start": 39.57,
+   "end": 39.735
+  },
+  {
+   "id": "p06w90",
+   "text": "vez.",
+   "start": 39.735,
+   "end": 40.127
+  }
+ ]
+}

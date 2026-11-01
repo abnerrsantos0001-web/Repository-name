@@ -1,0 +1,105 @@
+{
+ "partes": [
+  {
+   "parte": 1,
+   "cena": "7:12 no banheiro: o reflexo passa a mão no cabelo um segundo atrasado",
+   "trechos": [
+    "v2 p14.mp3",
+    "eu-2026-11-01-07-50-Levanta-a-mão-de-novo,-devagar.-Ele-levanta-junt.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 48.141
+  },
+  {
+   "parte": 2,
+   "cena": "dia normal: celular, vitrine da padaria e a janela do ônibus",
+   "trechos": [
+    "v2 p9.mp3",
+    "eu-2026-11-01-07-52-Até-que,-no-ônibus,-encostado-na-janela,-você-ol.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 43.83
+  },
+  {
+   "parte": 3,
+   "cena": "o teste no espelho à noite e o sorriso grande demais",
+   "trechos": [
+    "v2 p15.mp3",
+    "v2 p11.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 44.039
+  },
+  {
+   "parte": 4,
+   "cena": "3:33, toc toc no vidro: o espelho vazio e o barulho em todo vidro",
+   "trechos": [
+    "eu-2026-11-01-07-53-Você-não-dorme.-Às-3-e-33-da-madrugada,-você-esc.mp3",
+    "v2 p1.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 42.655
+  },
+  {
+   "parte": 5,
+   "cena": "espelhos cobertos, a mãe preocupada e os relatos no mundo todo",
+   "trechos": [
+    "v2 p3.mp3",
+    "v2 p13.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 39.546
+  },
+  {
+   "parte": 6,
+   "cena": "sétima noite: tira o lençol, a mão no vidro e a sua voz",
+   "trechos": [
+    "v2 p6.mp3",
+    "eu-2026-11-01-07-56-E-você-escuta-a-sua-própria-voz,-só-que-vindo-de.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 40.487
+  },
+  {
+   "parte": 7,
+   "cena": "o vidro vira água, a luta na pia e o secador quebra o espelho",
+   "trechos": [
+    "eu-2026-11-01-07-56-O-vidro-começa-a-ficar-mole,-como-água.-A-mão-de.mp3",
+    "v2 p2.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 40.905
+  },
+  {
+   "parte": 8,
+   "cena": "acorda às 7:12: espelho inteiro, mãe fazendo café, rádio ligado",
+   "trechos": [
+    "v2 p4.mp3",
+    "v2 p7.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 36.882
+  },
+  {
+   "parte": 9,
+   "cena": "o mundo espelhado e o sósia tomando café no seu lugar",
+   "trechos": [
+    "v2 p5.mp3",
+    "v2 p10.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 38.214
+  },
+  {
+   "parte": 10,
+   "cena": "preso no espelho, copiando ele; pergunta e cartão do canal",
+   "trechos": [
+    "v2 p8.mp3",
+    "v2 p12.mp3"
+   ],
+   "pausaInserida": 0.65,
+   "duracao": 39.964
+  }
+ ],
+ "naoUsados": []
+}

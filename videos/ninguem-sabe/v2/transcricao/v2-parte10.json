@@ -1,0 +1,639 @@
+{
+ "audio": "assets/audio/v2-parte10.flac",
+ "duracao": 39.964,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   1.254
+  ],
+  [
+   1.473,
+   2.416
+  ],
+  [
+   2.843,
+   4.751
+  ],
+  [
+   5.336,
+   7.363
+  ],
+  [
+   7.59,
+   10.251
+  ],
+  [
+   10.919,
+   11.793
+  ],
+  [
+   11.949,
+   13.377
+  ],
+  [
+   13.835,
+   15.8
+  ],
+  [
+   16.289,
+   17.811
+  ],
+  [
+   19.239,
+   20.671
+  ],
+  [
+   21.333,
+   23.78
+  ],
+  [
+   24.2,
+   24.936
+  ],
+  [
+   25.112,
+   27.469
+  ],
+  [
+   28.04,
+   28.704
+  ],
+  [
+   29.202,
+   33.704
+  ],
+  [
+   34.396,
+   35.959
+  ],
+  [
+   36.365,
+   37.731
+  ],
+  [
+   38.177,
+   39.491
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p10w0",
+   "text": "Desde",
+   "start": 0.0,
+   "end": 0.399
+  },
+  {
+   "id": "p10w1",
+   "text": "aquele",
+   "start": 0.399,
+   "end": 0.817
+  },
+  {
+   "id": "p10w2",
+   "text": "dia,",
+   "start": 0.817,
+   "end": 1.254
+  },
+  {
+   "id": "p10w3",
+   "text": "você",
+   "start": 1.473,
+   "end": 1.654
+  },
+  {
+   "id": "p10w4",
+   "text": "vive",
+   "start": 1.654,
+   "end": 1.836
+  },
+  {
+   "id": "p10w5",
+   "text": "aqui,",
+   "start": 1.836,
+   "end": 2.416
+  },
+  {
+   "id": "p10w6",
+   "text": "copiando",
+   "start": 2.843,
+   "end": 3.36
+  },
+  {
+   "id": "p10w7",
+   "text": "cada",
+   "start": 3.36,
+   "end": 3.717
+  },
+  {
+   "id": "p10w8",
+   "text": "movimento",
+   "start": 3.717,
+   "end": 4.274
+  },
+  {
+   "id": "p10w9",
+   "text": "dele.",
+   "start": 4.274,
+   "end": 4.751
+  },
+  {
+   "id": "p10w10",
+   "text": "Toda",
+   "start": 5.336,
+   "end": 5.603
+  },
+  {
+   "id": "p10w11",
+   "text": "vez",
+   "start": 5.603,
+   "end": 5.814
+  },
+  {
+   "id": "p10w12",
+   "text": "que",
+   "start": 5.814,
+   "end": 5.967
+  },
+  {
+   "id": "p10w13",
+   "text": "ele",
+   "start": 5.967,
+   "end": 6.139
+  },
+  {
+   "id": "p10w14",
+   "text": "passa",
+   "start": 6.139,
+   "end": 6.426
+  },
+  {
+   "id": "p10w15",
+   "text": "por",
+   "start": 6.426,
+   "end": 6.674
+  },
+  {
+   "id": "p10w16",
+   "text": "um",
+   "start": 6.674,
+   "end": 6.923
+  },
+  {
+   "id": "p10w17",
+   "text": "espelho,",
+   "start": 6.923,
+   "end": 7.363
+  },
+  {
+   "id": "p10w18",
+   "text": "você",
+   "start": 7.59,
+   "end": 7.78
+  },
+  {
+   "id": "p10w19",
+   "text": "é",
+   "start": 7.78,
+   "end": 7.971
+  },
+  {
+   "id": "p10w20",
+   "text": "obrigado",
+   "start": 7.971,
+   "end": 8.368
+  },
+  {
+   "id": "p10w21",
+   "text": "a",
+   "start": 8.368,
+   "end": 8.575
+  },
+  {
+   "id": "p10w22",
+   "text": "aparecer",
+   "start": 8.575,
+   "end": 9.093
+  },
+  {
+   "id": "p10w23",
+   "text": "e",
+   "start": 9.093,
+   "end": 9.422
+  },
+  {
+   "id": "p10w24",
+   "text": "repetir.",
+   "start": 9.422,
+   "end": 10.251
+  },
+  {
+   "id": "p10w25",
+   "text": "Mas",
+   "start": 10.919,
+   "end": 11.111
+  },
+  {
+   "id": "p10w26",
+   "text": "às",
+   "start": 11.111,
+   "end": 11.373
+  },
+  {
+   "id": "p10w27",
+   "text": "vezes,",
+   "start": 11.373,
+   "end": 11.793
+  },
+  {
+   "id": "p10w28",
+   "text": "quando",
+   "start": 11.949,
+   "end": 12.166
+  },
+  {
+   "id": "p10w29",
+   "text": "ele",
+   "start": 12.166,
+   "end": 12.437
+  },
+  {
+   "id": "p10w30",
+   "text": "está",
+   "start": 12.437,
+   "end": 12.564
+  },
+  {
+   "id": "p10w31",
+   "text": "distraído,",
+   "start": 12.564,
+   "end": 13.378
+  },
+  {
+   "id": "p10w32",
+   "text": "você",
+   "start": 13.835,
+   "end": 14.183
+  },
+  {
+   "id": "p10w33",
+   "text": "atrasa",
+   "start": 14.183,
+   "end": 14.613
+  },
+  {
+   "id": "p10w34",
+   "text": "só",
+   "start": 14.613,
+   "end": 14.838
+  },
+  {
+   "id": "p10w35",
+   "text": "um",
+   "start": 14.838,
+   "end": 15.206
+  },
+  {
+   "id": "p10w36",
+   "text": "segundinho,",
+   "start": 15.206,
+   "end": 15.8
+  },
+  {
+   "id": "p10w37",
+   "text": "só",
+   "start": 16.289,
+   "end": 16.534
+  },
+  {
+   "id": "p10w38",
+   "text": "pra",
+   "start": 16.534,
+   "end": 16.726
+  },
+  {
+   "id": "p10w39",
+   "text": "ver",
+   "start": 16.726,
+   "end": 16.849
+  },
+  {
+   "id": "p10w40",
+   "text": "se",
+   "start": 16.849,
+   "end": 17.041
+  },
+  {
+   "id": "p10w41",
+   "text": "ele",
+   "start": 17.041,
+   "end": 17.321
+  },
+  {
+   "id": "p10w42",
+   "text": "percebe.",
+   "start": 17.321,
+   "end": 17.811
+  },
+  {
+   "id": "p10w43",
+   "text": "E",
+   "start": 19.239,
+   "end": 19.522
+  },
+  {
+   "id": "p10w44",
+   "text": "agora",
+   "start": 19.522,
+   "end": 19.771
+  },
+  {
+   "id": "p10w45",
+   "text": "me",
+   "start": 19.771,
+   "end": 20.005
+  },
+  {
+   "id": "p10w46",
+   "text": "fala",
+   "start": 20.005,
+   "end": 20.138
+  },
+  {
+   "id": "p10w47",
+   "text": "uma",
+   "start": 20.138,
+   "end": 20.404
+  },
+  {
+   "id": "p10w48",
+   "text": "coisa,",
+   "start": 20.404,
+   "end": 20.67
+  },
+  {
+   "id": "p10w49",
+   "text": "da",
+   "start": 21.333,
+   "end": 21.57
+  },
+  {
+   "id": "p10w50",
+   "text": "última",
+   "start": 21.57,
+   "end": 21.885
+  },
+  {
+   "id": "p10w51",
+   "text": "vez",
+   "start": 21.885,
+   "end": 22.241
+  },
+  {
+   "id": "p10w52",
+   "text": "que",
+   "start": 22.241,
+   "end": 22.497
+  },
+  {
+   "id": "p10w53",
+   "text": "você",
+   "start": 22.497,
+   "end": 22.754
+  },
+  {
+   "id": "p10w54",
+   "text": "se",
+   "start": 22.754,
+   "end": 22.912
+  },
+  {
+   "id": "p10w55",
+   "text": "olhou",
+   "start": 22.912,
+   "end": 23.109
+  },
+  {
+   "id": "p10w56",
+   "text": "no",
+   "start": 23.109,
+   "end": 23.227
+  },
+  {
+   "id": "p10w57",
+   "text": "espelho,",
+   "start": 23.227,
+   "end": 23.78
+  },
+  {
+   "id": "p10w58",
+   "text": "você",
+   "start": 24.2,
+   "end": 24.568
+  },
+  {
+   "id": "p10w59",
+   "text": "tem",
+   "start": 24.568,
+   "end": 24.936
+  },
+  {
+   "id": "p10w60",
+   "text": "certeza",
+   "start": 25.112,
+   "end": 25.693
+  },
+  {
+   "id": "p10w61",
+   "text": "que",
+   "start": 25.693,
+   "end": 25.956
+  },
+  {
+   "id": "p10w62",
+   "text": "ele",
+   "start": 25.956,
+   "end": 26.167
+  },
+  {
+   "id": "p10w63",
+   "text": "te",
+   "start": 26.167,
+   "end": 26.396
+  },
+  {
+   "id": "p10w64",
+   "text": "copiou",
+   "start": 26.396,
+   "end": 26.73
+  },
+  {
+   "id": "p10w65",
+   "text": "na",
+   "start": 26.73,
+   "end": 26.888
+  },
+  {
+   "id": "p10w66",
+   "text": "hora",
+   "start": 26.888,
+   "end": 27.135
+  },
+  {
+   "id": "p10w67",
+   "text": "certa?",
+   "start": 27.135,
+   "end": 27.469
+  },
+  {
+   "id": "p10w68",
+   "text": "Comenta",
+   "start": 28.04,
+   "end": 28.355
+  },
+  {
+   "id": "p10w69",
+   "text": "aqui,",
+   "start": 28.355,
+   "end": 28.704
+  },
+  {
+   "id": "p10w70",
+   "text": "Você",
+   "start": 29.202,
+   "end": 29.823
+  },
+  {
+   "id": "p10w71",
+   "text": "teria",
+   "start": 29.823,
+   "end": 30.191
+  },
+  {
+   "id": "p10w72",
+   "text": "coragem",
+   "start": 30.191,
+   "end": 30.871
+  },
+  {
+   "id": "p10w73",
+   "text": "de",
+   "start": 30.871,
+   "end": 31.142
+  },
+  {
+   "id": "p10w74",
+   "text": "encarar",
+   "start": 31.142,
+   "end": 31.569
+  },
+  {
+   "id": "p10w75",
+   "text": "o",
+   "start": 31.569,
+   "end": 31.686
+  },
+  {
+   "id": "p10w76",
+   "text": "seu",
+   "start": 31.686,
+   "end": 31.88
+  },
+  {
+   "id": "p10w77",
+   "text": "reflexo",
+   "start": 31.88,
+   "end": 32.481
+  },
+  {
+   "id": "p10w78",
+   "text": "às",
+   "start": 32.481,
+   "end": 32.753
+  },
+  {
+   "id": "p10w79",
+   "text": "3h33?",
+   "start": 32.753,
+   "end": 33.704
+  },
+  {
+   "id": "p10w80",
+   "text": "Se",
+   "start": 34.396,
+   "end": 34.657
+  },
+  {
+   "id": "p10w81",
+   "text": "inscreve",
+   "start": 34.657,
+   "end": 35.021
+  },
+  {
+   "id": "p10w82",
+   "text": "no",
+   "start": 35.021,
+   "end": 35.16
+  },
+  {
+   "id": "p10w83",
+   "text": "Ninguém",
+   "start": 35.16,
+   "end": 35.507
+  },
+  {
+   "id": "p10w84",
+   "text": "Sabe,",
+   "start": 35.507,
+   "end": 35.959
+  },
+  {
+   "id": "p10w85",
+   "text": "porque",
+   "start": 36.365,
+   "end": 36.586
+  },
+  {
+   "id": "p10w86",
+   "text": "a",
+   "start": 36.586,
+   "end": 36.79
+  },
+  {
+   "id": "p10w87",
+   "text": "próxima",
+   "start": 36.79,
+   "end": 37.104
+  },
+  {
+   "id": "p10w88",
+   "text": "história",
+   "start": 37.104,
+   "end": 37.731
+  },
+  {
+   "id": "p10w89",
+   "text": "pode",
+   "start": 38.177,
+   "end": 38.604
+  },
+  {
+   "id": "p10w90",
+   "text": "ser",
+   "start": 38.604,
+   "end": 38.877
+  },
+  {
+   "id": "p10w91",
+   "text": "sobre",
+   "start": 38.877,
+   "end": 39.15
+  },
+  {
+   "id": "p10w92",
+   "text": "você.",
+   "start": 39.15,
+   "end": 39.491
+  }
+ ]
+}

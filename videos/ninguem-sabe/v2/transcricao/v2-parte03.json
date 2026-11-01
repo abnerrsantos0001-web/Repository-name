@@ -1,0 +1,675 @@
+{
+ "audio": "assets/audio/v2-parte03.flac",
+ "duracao": 44.039,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   0.0,
+   0.685
+  ],
+  [
+   0.885,
+   4.583
+  ],
+  [
+   5.364,
+   6.689
+  ],
+  [
+   6.9,
+   9.585
+  ],
+  [
+   10.21,
+   11.509
+  ],
+  [
+   11.98,
+   12.749
+  ],
+  [
+   13.09,
+   13.725
+  ],
+  [
+   14.021,
+   14.652
+  ],
+  [
+   15.297,
+   16.62
+  ],
+  [
+   16.922,
+   17.439
+  ],
+  [
+   18.162,
+   19.073
+  ],
+  [
+   19.363,
+   20.061
+  ],
+  [
+   20.631,
+   22.087
+  ],
+  [
+   22.583,
+   23.289
+  ],
+  [
+   24.624,
+   25.666
+  ],
+  [
+   26.907,
+   27.904
+  ],
+  [
+   28.595,
+   29.67
+  ],
+  [
+   29.939,
+   30.392
+  ],
+  [
+   30.988,
+   33.452
+  ],
+  [
+   34.204,
+   36.04
+  ],
+  [
+   36.383,
+   37.059
+  ],
+  [
+   37.658,
+   39.269
+  ],
+  [
+   39.858,
+   40.975
+  ],
+  [
+   41.463,
+   43.727
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p03w0",
+   "text": "À",
+   "start": 0.0,
+   "end": 0.298
+  },
+  {
+   "id": "p03w1",
+   "text": "noite,",
+   "start": 0.298,
+   "end": 0.685
+  },
+  {
+   "id": "p03w2",
+   "text": "você",
+   "start": 0.885,
+   "end": 1.084
+  },
+  {
+   "id": "p03w3",
+   "text": "decide",
+   "start": 1.084,
+   "end": 1.426
+  },
+  {
+   "id": "p03w4",
+   "text": "provar",
+   "start": 1.426,
+   "end": 1.968
+  },
+  {
+   "id": "p03w5",
+   "text": "pra",
+   "start": 1.968,
+   "end": 2.256
+  },
+  {
+   "id": "p03w6",
+   "text": "você",
+   "start": 2.256,
+   "end": 2.581
+  },
+  {
+   "id": "p03w7",
+   "text": "mesmo",
+   "start": 2.581,
+   "end": 2.906
+  },
+  {
+   "id": "p03w8",
+   "text": "que",
+   "start": 2.906,
+   "end": 3.14
+  },
+  {
+   "id": "p03w9",
+   "text": "está",
+   "start": 3.14,
+   "end": 3.302
+  },
+  {
+   "id": "p03w10",
+   "text": "ficando",
+   "start": 3.302,
+   "end": 3.771
+  },
+  {
+   "id": "p03w11",
+   "text": "louco.",
+   "start": 3.771,
+   "end": 4.583
+  },
+  {
+   "id": "p03w12",
+   "text": "Fecha",
+   "start": 5.364,
+   "end": 5.588
+  },
+  {
+   "id": "p03w13",
+   "text": "a",
+   "start": 5.588,
+   "end": 5.69
+  },
+  {
+   "id": "p03w14",
+   "text": "porta",
+   "start": 5.69,
+   "end": 5.935
+  },
+  {
+   "id": "p03w15",
+   "text": "do",
+   "start": 5.935,
+   "end": 6.139
+  },
+  {
+   "id": "p03w16",
+   "text": "banheiro,",
+   "start": 6.139,
+   "end": 6.689
+  },
+  {
+   "id": "p03w17",
+   "text": "acende",
+   "start": 6.9,
+   "end": 7.122
+  },
+  {
+   "id": "p03w18",
+   "text": "a",
+   "start": 7.122,
+   "end": 7.345
+  },
+  {
+   "id": "p03w19",
+   "text": "luz",
+   "start": 7.345,
+   "end": 7.567
+  },
+  {
+   "id": "p03w20",
+   "text": "e",
+   "start": 7.567,
+   "end": 7.9
+  },
+  {
+   "id": "p03w21",
+   "text": "para",
+   "start": 7.9,
+   "end": 8.104
+  },
+  {
+   "id": "p03w22",
+   "text": "na",
+   "start": 8.104,
+   "end": 8.4
+  },
+  {
+   "id": "p03w23",
+   "text": "frente",
+   "start": 8.4,
+   "end": 8.603
+  },
+  {
+   "id": "p03w24",
+   "text": "do",
+   "start": 8.603,
+   "end": 8.863
+  },
+  {
+   "id": "p03w25",
+   "text": "espelho.",
+   "start": 8.863,
+   "end": 9.585
+  },
+  {
+   "id": "p03w26",
+   "text": "Levanta",
+   "start": 10.21,
+   "end": 10.615
+  },
+  {
+   "id": "p03w27",
+   "text": "a",
+   "start": 10.615,
+   "end": 10.683
+  },
+  {
+   "id": "p03w28",
+   "text": "mão",
+   "start": 10.683,
+   "end": 10.834
+  },
+  {
+   "id": "p03w29",
+   "text": "direita.",
+   "start": 10.834,
+   "end": 11.509
+  },
+  {
+   "id": "p03w30",
+   "text": "Ele",
+   "start": 11.98,
+   "end": 12.173
+  },
+  {
+   "id": "p03w31",
+   "text": "levanta.",
+   "start": 12.173,
+   "end": 12.749
+  },
+  {
+   "id": "p03w32",
+   "text": "Abaixa,",
+   "start": 13.09,
+   "end": 13.724
+  },
+  {
+   "id": "p03w33",
+   "text": "ele",
+   "start": 14.021,
+   "end": 14.147
+  },
+  {
+   "id": "p03w34",
+   "text": "abaixa.",
+   "start": 14.147,
+   "end": 14.652
+  },
+  {
+   "id": "p03w35",
+   "text": "Você",
+   "start": 15.297,
+   "end": 15.531
+  },
+  {
+   "id": "p03w36",
+   "text": "faz",
+   "start": 15.531,
+   "end": 15.784
+  },
+  {
+   "id": "p03w37",
+   "text": "uma",
+   "start": 15.784,
+   "end": 16.095
+  },
+  {
+   "id": "p03w38",
+   "text": "careta,",
+   "start": 16.095,
+   "end": 16.62
+  },
+  {
+   "id": "p03w39",
+   "text": "ele",
+   "start": 16.922,
+   "end": 17.142
+  },
+  {
+   "id": "p03w40",
+   "text": "faz.",
+   "start": 17.142,
+   "end": 17.44
+  },
+  {
+   "id": "p03w41",
+   "text": "Mostra",
+   "start": 18.162,
+   "end": 18.472
+  },
+  {
+   "id": "p03w42",
+   "text": "a",
+   "start": 18.472,
+   "end": 18.647
+  },
+  {
+   "id": "p03w43",
+   "text": "língua,",
+   "start": 18.647,
+   "end": 19.073
+  },
+  {
+   "id": "p03w44",
+   "text": "ele",
+   "start": 19.363,
+   "end": 19.608
+  },
+  {
+   "id": "p03w45",
+   "text": "mostra.",
+   "start": 19.608,
+   "end": 20.062
+  },
+  {
+   "id": "p03w46",
+   "text": "Você",
+   "start": 20.632,
+   "end": 20.957
+  },
+  {
+   "id": "p03w47",
+   "text": "respira",
+   "start": 20.957,
+   "end": 21.35
+  },
+  {
+   "id": "p03w48",
+   "text": "aliviado.",
+   "start": 21.35,
+   "end": 22.087
+  },
+  {
+   "id": "p03w49",
+   "text": "Tá",
+   "start": 22.583,
+   "end": 22.78
+  },
+  {
+   "id": "p03w50",
+   "text": "tudo",
+   "start": 22.78,
+   "end": 23.043
+  },
+  {
+   "id": "p03w51",
+   "text": "bem.",
+   "start": 23.043,
+   "end": 23.289
+  },
+  {
+   "id": "p03w52",
+   "text": "E",
+   "start": 24.624,
+   "end": 24.789
+  },
+  {
+   "id": "p03w53",
+   "text": "aí",
+   "start": 24.789,
+   "end": 24.938
+  },
+  {
+   "id": "p03w54",
+   "text": "você",
+   "start": 24.938,
+   "end": 25.219
+  },
+  {
+   "id": "p03w55",
+   "text": "sorri.",
+   "start": 25.219,
+   "end": 25.666
+  },
+  {
+   "id": "p03w56",
+   "text": "E",
+   "start": 26.907,
+   "end": 27.156
+  },
+  {
+   "id": "p03w57",
+   "text": "ele",
+   "start": 27.156,
+   "end": 27.312
+  },
+  {
+   "id": "p03w58",
+   "text": "não",
+   "start": 27.312,
+   "end": 27.53
+  },
+  {
+   "id": "p03w59",
+   "text": "sorri.",
+   "start": 27.53,
+   "end": 27.904
+  },
+  {
+   "id": "p03w60",
+   "text": "Ele",
+   "start": 28.595,
+   "end": 29.002
+  },
+  {
+   "id": "p03w61",
+   "text": "fica",
+   "start": 29.002,
+   "end": 29.183
+  },
+  {
+   "id": "p03w62",
+   "text": "parado,",
+   "start": 29.183,
+   "end": 29.67
+  },
+  {
+   "id": "p03w63",
+   "text": "sério,",
+   "start": 29.939,
+   "end": 30.392
+  },
+  {
+   "id": "p03w64",
+   "text": "com",
+   "start": 30.988,
+   "end": 31.089
+  },
+  {
+   "id": "p03w65",
+   "text": "a",
+   "start": 31.089,
+   "end": 31.291
+  },
+  {
+   "id": "p03w66",
+   "text": "cara",
+   "start": 31.291,
+   "end": 31.472
+  },
+  {
+   "id": "p03w67",
+   "text": "que",
+   "start": 31.472,
+   "end": 31.715
+  },
+  {
+   "id": "p03w68",
+   "text": "você",
+   "start": 31.715,
+   "end": 32.038
+  },
+  {
+   "id": "p03w69",
+   "text": "tinha",
+   "start": 32.038,
+   "end": 32.28
+  },
+  {
+   "id": "p03w70",
+   "text": "um",
+   "start": 32.28,
+   "end": 32.523
+  },
+  {
+   "id": "p03w71",
+   "text": "segundo",
+   "start": 32.523,
+   "end": 32.886
+  },
+  {
+   "id": "p03w72",
+   "text": "atrás,",
+   "start": 32.886,
+   "end": 33.452
+  },
+  {
+   "id": "p03w73",
+   "text": "e",
+   "start": 34.204,
+   "end": 34.463
+  },
+  {
+   "id": "p03w74",
+   "text": "então,",
+   "start": 34.463,
+   "end": 34.882
+  },
+  {
+   "id": "p03w75",
+   "text": "bem",
+   "start": 35.062,
+   "end": 35.362
+  },
+  {
+   "id": "p03w76",
+   "text": "devagar,",
+   "start": 35.362,
+   "end": 36.04
+  },
+  {
+   "id": "p03w77",
+   "text": "ele",
+   "start": 36.383,
+   "end": 36.593
+  },
+  {
+   "id": "p03w78",
+   "text": "sorri,",
+   "start": 36.593,
+   "end": 37.06
+  },
+  {
+   "id": "p03w79",
+   "text": "um",
+   "start": 37.658,
+   "end": 37.888
+  },
+  {
+   "id": "p03w80",
+   "text": "sorriso",
+   "start": 37.888,
+   "end": 38.387
+  },
+  {
+   "id": "p03w81",
+   "text": "que",
+   "start": 38.387,
+   "end": 38.559
+  },
+  {
+   "id": "p03w82",
+   "text": "não",
+   "start": 38.559,
+   "end": 38.732
+  },
+  {
+   "id": "p03w83",
+   "text": "é",
+   "start": 38.732,
+   "end": 38.924
+  },
+  {
+   "id": "p03w84",
+   "text": "o",
+   "start": 38.924,
+   "end": 39.077
+  },
+  {
+   "id": "p03w85",
+   "text": "seu,",
+   "start": 39.077,
+   "end": 39.269
+  },
+  {
+   "id": "p03w86",
+   "text": "grande",
+   "start": 39.858,
+   "end": 40.28
+  },
+  {
+   "id": "p03w87",
+   "text": "demais,",
+   "start": 40.28,
+   "end": 40.975
+  },
+  {
+   "id": "p03w88",
+   "text": "você",
+   "start": 41.463,
+   "end": 41.735
+  },
+  {
+   "id": "p03w89",
+   "text": "apaga",
+   "start": 41.735,
+   "end": 42.238
+  },
+  {
+   "id": "p03w90",
+   "text": "a",
+   "start": 42.238,
+   "end": 42.364
+  },
+  {
+   "id": "p03w91",
+   "text": "luz",
+   "start": 42.364,
+   "end": 42.658
+  },
+  {
+   "id": "p03w92",
+   "text": "e",
+   "start": 42.658,
+   "end": 42.951
+  },
+  {
+   "id": "p03w93",
+   "text": "sai",
+   "start": 42.951,
+   "end": 43.161
+  },
+  {
+   "id": "p03w94",
+   "text": "correndo.",
+   "start": 43.161,
+   "end": 43.727
+  }
+ ]
+}
