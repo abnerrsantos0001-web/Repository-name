@@ -518,6 +518,17 @@ function montarParte(cfg, host) {
       escuro.style.opacity = nivel.toFixed(3);
     }
 
+    // desempenho: luz apagada sai da conta (e não renderiza mapa de sombra)
+    for (const g of [atual.grupo, atual.grupoEspelho]) {
+      if (!g) continue;
+      if (!g.userData.luzes) {
+        g.userData.luzes = [];
+        g.traverse((o) => o.isLight && g.userData.luzes.push(o));
+      }
+      for (const l of g.userData.luzes) l.visible = l.intensity > 0.001;
+    }
+    for (const l of [luzDaCamera, lanterna, lanternaDuble]) l.visible = l.intensity > 0.001;
+
     const pos = cfg.pos ? cfg.pos(t, plano) : null;
     if (pos && (pos.onda > 0 || pos.tom > 0)) {
       renderer.setRenderTarget(alvoPos);

@@ -45,6 +45,20 @@ export function rng(semente) {
 const cacheMat = new Map();
 export function mat(cor, o = {}) {
   const chave = cor + "|" + JSON.stringify(o);
+  // vídeo 2: superfície fosca (sem metal, áspera, opaca) usa Lambert, bem mais leve no render por software;
+  // louça, metal e vidro continuam com o material físico (brilho especular)
+  if (!cacheMat.has(chave) && !(o.metal > 0) && (o.aspereza ?? 0.92) >= 0.6 && o.opacidade === undefined) {
+    cacheMat.set(
+      chave,
+      new THREE.MeshLambertMaterial({
+        color: cor,
+        flatShading: true,
+        emissive: o.emissivo ?? 0x000000,
+        emissiveIntensity: o.brilho ?? 1,
+        side: o.lado ?? THREE.FrontSide,
+      }),
+    );
+  }
   if (!cacheMat.has(chave)) {
     cacheMat.set(
       chave,

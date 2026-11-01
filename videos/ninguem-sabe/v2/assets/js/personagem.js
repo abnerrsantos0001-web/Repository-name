@@ -22,7 +22,7 @@ function mat(cor) {
   if (!cacheMat.has(cor)) {
     cacheMat.set(
       cor,
-      new THREE.MeshStandardMaterial({ color: cor, roughness: 0.9, metalness: 0, flatShading: true }),
+      new THREE.MeshLambertMaterial({ color: cor, flatShading: true }),
     );
   }
   return cacheMat.get(cor);

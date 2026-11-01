@@ -241,7 +241,7 @@
             if ((tt >= t.celular && tt < t.almoco) || (tt >= t.estranhas && tt < t.vitrine)) {
               // depois que o reflexo pisca, ele abaixa o celular (aparece o rosto)
               const baixa = trilha([[t.rosto - 0.05, 0], [t.rosto + 0.35, 1, "ambos"]], tt);
-              const alvo = em(pts.cabeca, [frente, 0.58 - 0.18 * baixa], [cima, -0.18 - 0.45 * baixa]);
+              const alvo = em(pts.cabeca, [frente, 0.58 - 0.2 * baixa], [cima, -0.18 - 0.24 * baixa]);
               return { alvoE: alvo, pesoE: 1, alvoD: em(alvo, [direita, 0.05], [cima, -0.03]), pesoD: 0.85 };
             }
             if (tt >= t.onibus && tt < t.desce) return noColo(b);

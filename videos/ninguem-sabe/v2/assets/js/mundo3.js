@@ -75,7 +75,7 @@ function matTextura(tex, w, h, passo, o = {}) {
   const t = tex.clone();
   t.needsUpdate = true;
   t.repeat.set(w / passo, h / passo);
-  return new THREE.MeshStandardMaterial({ map: t, roughness: o.aspereza ?? 0.55, metalness: 0, color: o.cor ?? 0xffffff });
+  return new THREE.MeshLambertMaterial({ map: t, color: o.cor ?? 0xffffff });
 }
 // parede (com vãos) revestida por textura; mesma lógica de parede() do vídeo 1
 function paredeTex(pai, { w, h, e = 0.12, x = 0, y = 0, z = 0, ry = 0, furos = [], tex, passo = 0.3, cor = 0xffffff, nome = "parede" }) {
@@ -144,7 +144,7 @@ function luzPonto(pai, cor, intensidade, x, y, z, alcance = 8, decaimento = 1.6)
   return l;
 }
 // spot com sombra suave (uma por cômodo: a luz principal)
-function luzSpot(pai, cor, intensidade, de, para, angulo = 1.1, mapa = 2048, alcance = 14) {
+function luzSpot(pai, cor, intensidade, de, para, angulo = 1.1, mapa = 1024, alcance = 14) {
   const l = new THREE.SpotLight(cor, intensidade, alcance, angulo, 0.6, 1.4);
   l.position.copy(de);
   l.target.position.copy(para);
@@ -152,7 +152,7 @@ function luzSpot(pai, cor, intensidade, de, para, angulo = 1.1, mapa = 2048, alc
   l.shadow.mapSize.set(mapa, mapa);
   l.shadow.bias = -0.0005;
   l.shadow.normalBias = 0.02;
-  l.shadow.radius = 4;
+  l.shadow.radius = 3;
   l.shadow.camera.near = 0.2;
   pai.add(l);
   pai.add(l.target);
@@ -196,6 +196,10 @@ function comEspelho(cena, nome, construir, zEspelho) {
   cena.add(esp);
   const a = construir(real, false);
   const b = construir(esp, true);
+  // desempenho: no mundo do espelho só a luz principal do cômodo projeta sombra
+  esp.traverse((o) => {
+    if (o.isLight && o.castShadow && !o.userData.principal) o.castShadow = false;
+  });
   return { real, esp, a, b };
 }
 
@@ -304,7 +308,7 @@ export function criarBanheiro(cena) {
     const lampEsp = new THREE.Mesh(new THREE.BoxGeometry(0.74, 0.02, 0.05), new THREE.MeshStandardMaterial({ color: 0x55575a, emissive: 0xfff1dc, emissiveIntensity: 0 }));
     lampEsp.position.set(0, 2.05, BANHEIRO.zEspelho + 0.04);
     barra.add(lampEsp);
-    const luzEspelho = luzPonto(g, 0xfff0dc, 0, 0, 1.95, -1.15, 5, 1.7);
+
 
     // secador de cabelo no gancho (a arma da parte 7)
     const secador = obj(g, "secador", ...BANHEIRO.secador);
@@ -382,17 +386,18 @@ export function criarBanheiro(cena) {
     disco.rotation.x = Math.PI / 2;
     disco.position.set(0, H - 0.056, 0.1);
     plafon.add(disco);
-    const luzTeto = luzSpot(g, 0xfff3e2, 0, new THREE.Vector3(0, H - 0.08, 0.1), new THREE.Vector3(0, 0, -0.1), 1.35, 2048, 9);
-    const fillTeto = luzPonto(g, 0xfff3e2, 0, 0, 1.9, 0.4, 6, 1.4);
-    const sol = luzSpot(g, 0xffe6c2, 0, new THREE.Vector3(2.9, 2.75, 0.0), new THREE.Vector3(-0.2, 0.2, -0.7), 0.42, 2048, 10);
+    const luzTeto = luzSpot(g, 0xfff3e2, 0, new THREE.Vector3(0, H - 0.08, 0.1), new THREE.Vector3(0, 0, -0.1), 1.35, 1024, 9);
+    luzTeto.userData.principal = true;
+    // preenchimento e hemisférica só no cômodo de verdade (iluminam as duas cópias; menos luzes = render mais leve)
+    const fillTeto = espelhado ? { intensity: 0 } : luzPonto(g, 0xfff3e2, 0, 0, 1.9, -0.2, 7, 1.4);
+    const sol = luzSpot(g, 0xffe6c2, 0, new THREE.Vector3(2.9, 2.75, 0.0), new THREE.Vector3(-0.2, 0.2, -0.7), 0.42, 1024, 10);
     const lua = luzPonto(g, 0x7d93b8, 0, 1.2, 2.1, 0.0, 5, 1.5);
-    const hemi = new THREE.HemisphereLight(0xe6ecf2, 0x4a4b4f, 0);
-    g.add(hemi);
+    const hemi = espelhado ? { intensity: 0 } : new THREE.HemisphereLight(0xe6ecf2, 0x4a4b4f, 0);
+    if (!espelhado) g.add(hemi);
     api.luz = ({ teto = 0, espelho = 0, janela = 0, lua: l = 0, ambiente = 0 }) => {
       luzTeto.intensity = 15 * teto;
-      fillTeto.intensity = 1.2 * teto;
+      fillTeto.intensity = 1.2 * teto + 1.0 * espelho;
       disco.material.emissiveIntensity = 1.4 * teto;
-      luzEspelho.intensity = 1.7 * espelho;
       lampEsp.material.emissiveIntensity = 1.6 * espelho;
       sol.intensity = 34 * janela;
       fosco.material.emissiveIntensity = 0.9 * janela + 0.25 * l;
@@ -832,9 +837,9 @@ export function criarQuarto2(cena, op = {}) {
   disco.rotation.x = Math.PI / 2;
   disco.position.set(0, H - 0.062, 0);
   plafon.add(disco);
-  const luzTeto = luzSpot(g, 0xfff1de, 0, new THREE.Vector3(0, H - 0.1, 0), new THREE.Vector3(0, 0, -0.2), 1.4, 2048, 10);
+  const luzTeto = luzSpot(g, 0xfff1de, 0, new THREE.Vector3(0, H - 0.1, 0), new THREE.Vector3(0, 0, -0.2), 1.4, 1024, 10);
   const fill = luzPonto(g, 0xfff1de, 0, 0, 2.0, 0.8, 7, 1.4);
-  const sol = luzSpot(g, 0xffe8c8, 0, new THREE.Vector3(4.5, 3.4, 0.6), new THREE.Vector3(0.2, 0, -0.4), 0.55, 2048, 14);
+  const sol = luzSpot(g, 0xffe8c8, 0, new THREE.Vector3(4.5, 3.4, 0.6), new THREE.Vector3(0.2, 0, -0.4), 0.55, 1024, 14);
   const lua = luzSpot(g, 0x8ea6cc, 0, new THREE.Vector3(4.5, 3.0, 0.6), new THREE.Vector3(0.0, 0, -0.6), 0.55, 1024, 14);
   const hemi = new THREE.HemisphereLight(0xe6ecf2, 0x4a4540, 0);
   g.add(hemi);
@@ -1091,12 +1096,13 @@ export function criarCozinha(cena, op = {}) {
     const lampada = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), new THREE.MeshStandardMaterial({ color: 0xdddad2, emissive: 0xfff0d8, emissiveIntensity: 0 }));
     lampada.position.y = H - 0.95;
     pend.add(lampada);
-    const luzMesa = luzSpot(g, 0xffefd8, 0, new THREE.Vector3(M.x, H - 0.95, M.z), new THREE.Vector3(M.x, 0, M.z), 1.15, 2048, 8);
-    const fill = luzPonto(g, 0xfff1de, 0, 0, 2.2, 0.6, 9, 1.3);
-    const sol = luzSpot(g, 0xffe6c2, 0, new THREE.Vector3(6.5, 4.2, 0.3), new THREE.Vector3(0.2, 0, -0.3), 0.45, 2048, 16);
-    const fita = luzPonto(g, 0xfff3e0, 0, -1.2, 1.4, -2.0, 3, 1.6);
-    const hemi = new THREE.HemisphereLight(0xeef1f4, 0x55504a, 0);
-    g.add(hemi);
+    const luzMesa = luzSpot(g, 0xffefd8, 0, new THREE.Vector3(M.x, H - 0.95, M.z), new THREE.Vector3(M.x, 0, M.z), 1.15, 1024, 8);
+    luzMesa.userData.principal = true;
+    const fill = espelhado ? { intensity: 0 } : luzPonto(g, 0xfff1de, 0, 0, 2.2, 0.6, 9, 1.3);
+    const sol = luzSpot(g, 0xffe6c2, 0, new THREE.Vector3(6.5, 4.2, 0.3), new THREE.Vector3(0.2, 0, -0.3), 0.45, 1024, 16);
+    const fita = espelhado ? { intensity: 0 } : luzPonto(g, 0xfff3e0, 0, -1.2, 1.4, -2.0, 3, 1.6);
+    const hemi = espelhado ? { intensity: 0 } : new THREE.HemisphereLight(0xeef1f4, 0x55504a, 0);
+    if (!espelhado) g.add(hemi);
     api.luz = ({ mesa = 0, janela = 0, fita: fi = 0, ambiente = 0 }) => {
       luzMesa.intensity = 24 * mesa;
       lampada.material.emissiveIntensity = 1.5 * mesa;
@@ -1454,7 +1460,7 @@ export function criarOnibusDentro(cena) {
     f.position.set(-0.2, H - 0.02, lado * 0.62);
     faixas.add(f);
   }
-  const luzA = luzSpot(corpo, 0xeef2ff, 14, new THREE.Vector3(-1.5, H - 0.1, 0), new THREE.Vector3(-1.5, 0, 0.2), 1.35, 2048, 8);
+  const luzA = luzSpot(corpo, 0xeef2ff, 14, new THREE.Vector3(-1.5, H - 0.1, 0), new THREE.Vector3(-1.5, 0, 0.2), 1.35, 1024, 8);
   const luzB = luzSpot(corpo, 0xeef2ff, 12, new THREE.Vector3(2.0, H - 0.1, 0), new THREE.Vector3(2.0, 0, 0.2), 1.35, 1024, 8);
   luzPonto(corpo, 0xeef2ff, 2.2, -0.6, 1.9, 0.6, 5, 1.5);
 
