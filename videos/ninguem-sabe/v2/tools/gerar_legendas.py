@@ -174,6 +174,10 @@ def corrigir(palavras, correcoes):
     return saida
 
 
+# na vertical, partes com telas de celular em primeiro plano levam a legenda para baixo (não cobre o texto da tela)
+VERTICAL_BAIXO = {"05": 250}
+
+
 def main(n, vertical=False):
     # na vertical (cortes 9:16): letras maiores, quebra de linha e o bloco perto do centro da tela
     v = "v" if vertical else ""
@@ -230,7 +234,7 @@ def main(n, vertical=False):
       position: absolute;
       left: {70 if vertical else 0}px;
       right: {70 if vertical else 0}px;
-      bottom: {740 if vertical else 104}px;
+      bottom: {VERTICAL_BAIXO.get(n, 740) if vertical else 104}px;
       text-align: center;
       white-space: {"normal" if vertical else "nowrap"};
       overflow: visible;
