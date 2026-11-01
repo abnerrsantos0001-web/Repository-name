@@ -1258,7 +1258,7 @@ export function criarRua(cena) {
   api.vitrine = vit;
   // dentro: chão, parede do fundo, prateleiras com pães, balcão de vidro
   const dentro = obj(pad, "interior");
-  caixa(dentro, 6.8, 0.05, 4.4, 0x8a7a68, 0, C, 5.9);
+  caixa(dentro, 6.8, 0.05, 4.4, 0x8a7a68, 0, C - 0.025, 5.9);
   caixa(dentro, 6.8, 3.4, 0.1, 0xe2d8c6, 0, 1.7, 8.1);
   caixa(dentro, 6.8, 0.1, 4.4, 0xe9e5dc, 0, 3.3, 5.9);
   const rp = rng(61);
@@ -1322,7 +1322,7 @@ export function criarRua(cena) {
   }, { propria: true });
   placaPonto.position.set(1.4, 2.6, 0.5);
   placaPonto.rotation.y = Math.PI;
-  for (const [x, sem] of [[-9, 21], [14.5, 22]]) {
+  for (const [x, sem] of [[-16.5, 21], [14.5, 22]]) {
     const c = criarCarro(sem);
     c.position.set(x, 0, -1.1);
     g.add(c);
@@ -1428,8 +1428,11 @@ export function criarOnibusDentro(cena) {
   caixa(frente, 0.9, 0.5, 2.3, 0x2b2d31, 5.05, 0.95, 0);
   caixa(frente, 0.12, 2.25, 0.85, 0xb7bcc2, 4.35, 1.125, 0.82);
   const volante = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.025, 6, 16), mat(0x1c1d20));
-  volante.position.set(4.7, 1.2, -0.7);
-  volante.rotation.set(0, Math.PI / 2, 0.3);
+  volante.position.set(4.52, 1.3, -0.7);
+  volante.rotation.set(0, Math.PI / 2, 0.0);
+  volante.rotation.order = "YXZ";
+  volante.rotation.x = -0.45;
+  volante.userData.passavel = true; // as mãos do motorista seguram o volante
   frente.add(volante);
   const assentoMot = obj(corpo, "banco-motorista", 4.15, 0, -0.7);
   caixa(assentoMot, 0.5, 0.1, 0.5, 0x2b2d31, 0, ONIBUS.assento - 0.05, 0);
