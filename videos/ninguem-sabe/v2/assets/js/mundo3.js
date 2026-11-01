@@ -1066,11 +1066,14 @@ export function criarCozinha(cena, op = {}) {
     bus.position.set(9.6, -0.3, 30);
     bus.rotation.y = Math.PI / 2;
     fora.add(bus);
-    const letreiro = placa(bus, 1.6, 0.32, (c, w, h) => {
+    const letreiro = placa(bus, 2.6, 0.52, (c, w, h) => {
       c.fillStyle = "#111214";
       c.fillRect(0, 0, w, h);
       textoCentro(c, "512  CENTRO", w / 2, h / 2 + 2, h * 0.62, "#f2b43a", 800);
-    }, { propria: true, espelhado: inv, ppm: 1200 });
+    }, { propria: true, espelhado: inv, ppm: 700 });
+    // na faixa colorida da lateral virada para a casa (lado -z do ônibus), perto da frente
+    letreiro.position.set(2.2, 1.45, -1.3);
+    letreiro.rotation.y = Math.PI;
     letreiro.userData.base = true;
     api.letreiro = letreiro;
     api.bus = bus;
