@@ -64,7 +64,9 @@ Os 20 trechos foram transcritos com Whisper e organizados pela história. As 10 
 - Sobreposições: medidas (`tools/colisoes.mjs`) em todas as partes.
 - Imagem: conferida em folhas de quadros 720p de cada parte e dos 4 cortes.
 - Som: medido (volume, pico, posição de cada efeito), não ouvido.
-- Cada MP4 conferido no ffprobe: resolução, 30 fps e número de quadros.
+- Cada MP4 conferido no ffprobe: resolução, 30 fps e número de quadros igual ao da parte (1462, 1327, 1336, 1295, 1194, 1227, 1236, 1122, 1150 e 1251). Os cortes têm as duas partes mais 120 quadros de cartão: 2909, 2751, 2541 e 2478.
+- `v2-completo.mp4` tem 12.600 quadros (a soma exata das 10 partes) e 88,9 MB, em duas passadas a 1,55 Mbps, abaixo do limite de 100 MB do GitHub. O áudio é a mixagem contínua do filme: −16,0 LUFS, pico de −1,0 dBTP.
+- Depois do render, olhei quadros tirados dos próprios MP4 das partes 05 a 09, do completo (nas emendas entre as partes) e dos 4 cortes, incluindo o cartão final.
 
 ## Planos mais fracos
 - **Parte 01, "olhar":** o reflexo na pia aparece pouco atrás dele. A lavagem do rosto é vista de lado.
