@@ -1,0 +1,315 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 2 · Parte 06: a sétima noite: o lençol sai, o reflexo encosta a mão no vidro e fala
+  Motor em assets/js/cena.js; esqueleto gerado por tools/nova_parte.py.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Parte 06</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #p06-raiz { position: absolute; inset: 0; overflow: hidden; background: #0c0d0f; }
+      #p06-tela { position: absolute; left: 0; top: 0; display: block; }
+      #p06-vinheta { position: absolute; inset: 0; background: radial-gradient(ellipse 72% 68% at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.6) 100%); }
+      #p06-escuro { position: absolute; inset: 0; background: #000; opacity: 0; }
+      #p06-fonte { position: absolute; left: 0; top: 0; opacity: 0; font-family: Inter; font-weight: 700; font-size: 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="p06-raiz" data-composition-id="parte06" data-width="1920" data-height="1080" data-duration="40.9">
+      <canvas id="p06-tela" width="1920" height="1080"></canvas>
+      <div id="p06-vinheta"></div>
+      <div id="p06-escuro"></div>
+      <div id="p06-fonte" data-layout-ignore>Aa 0123456789</div>
+    </div>
+    <script>
+      (function () {
+        // relógio da parte: tween linear que chama host.render(t); o motor (cena.js) pendura a cena nele.
+        // O HyperFrames roda este script mais de uma vez (cópia escondida e cópia visível): cada passada avisa o motor.
+        var id = "parte06";
+        var raiz = document.getElementById("p06-raiz");
+        var duracao = parseFloat(raiz.dataset.duration) || 40.9;
+        var relogio = { t: 0 };
+        var host = {
+          relogio: relogio,
+          duracao: duracao,
+          tela: document.getElementById("p06-tela"),
+          escuro: document.getElementById("p06-escuro"),
+          // vertical quando o host que monta a cena é mais alto que largo (cortes 9:16)
+          vars: { formato: raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width) ? "vertical" : "horizontal" },
+          render: null,
+        };
+        window["__" + id] = host;
+        // no corte vertical a raiz da cena ocupa o quadro 1080x1920 inteiro
+        if (host.vars.formato === "vertical") {
+          raiz.dataset.width = "1080";
+          raiz.dataset.height = "1920";
+          raiz.style.width = "1080px";
+          raiz.style.height = "1920px";
+        }
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) {
+          host.pronto = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: duracao, duration: duracao, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } });
+        host.tl = tl;
+        if (window.__extras && window.__extras[id]) window.__extras[id](tl, raiz);
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+        if (window.__aoHost && window.__aoHost[id]) window.__aoHost[id](host);
+      })();
+    </script>
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS, trilha } from "./assets/js/cena.js";
+      import { toquesNoVidro } from "./assets/js/reflexo.js";
+      import { PALAVRAS } from "./assets/js/tempos/v2-parte06.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      const FIM = 40.9;
+      const t = {
+        tira: T("Tira") - 0.15,
+        esperando: T("Ele está") - 0.15,
+        finge: T("E pela") - 0.15,
+        mao: T("Ele encosta") - 0.15,
+        voz: T("E você escuta") - 0.15,
+        pergunta: T("Você nunca") - 0.15,
+        recua: T("Você recua.") - 0.12,
+        continua: T("Ele continua.") - 0.1,
+        repetindo: T("Eu fiquei") - 0.15,
+        passo: T("Cada passo.") - 0.15,
+        vez: T("Agora") - 0.15,
+      };
+      const PIA = [0, ALT, -0.6];
+      const RECUO = [0, ALT, -0.05];
+      const INTERRUPTOR = [-0.35, 1.25, 1.41];
+      const LUZ_ON = 1.42;
+      // o reflexo se debruça na pia dele e encosta a mão no vidro (do lado de lá)
+      const REFLEXO_PIA = [0, ALT, -0.57];
+      const MAO_VIDRO = [0.29, 1.25, -1.488];
+      const ENCOSTA = T("mão") - 0.02;
+      const SOLTA_VIDRO = T("Cada") - 0.25;
+      const PASSO_ATRAS = [0, ALT, -0.28];
+      const DEBRUCA = [[0, 0], [T("encosta") - 0.1, 0], [ENCOSTA, 0.75, "ambos"], [SOLTA_VIDRO, 0.75], [SOLTA_VIDRO + 0.4, 0, "ambos"]];
+
+      // a boca falando: abre e fecha em cada palavra entre de e ate
+      function fala(de, ate, amp = 0.3) {
+        const k = [];
+        for (const w of PALAVRAS) {
+          if (w.start < de || w.start > ate) continue;
+          const meio = Math.min(w.start + 0.09, (w.start + w.end) / 2);
+          const fim = Math.max(meio + 0.04, w.end - 0.03);
+          if (k.length && k[k.length - 1][0] >= w.start) continue;
+          k.push([w.start, 0.04], [meio, amp * (0.75 + 0.25 * Math.sin(w.start * 7.3))], [fim, 0.06]);
+        }
+        return k;
+      }
+      const FALA_REFLEXO = [
+        [0, 0],
+        ...fala(T("Você nunca"), T("lado?")),
+        ...fala(T("Eu fiquei"), T("fazia.")),
+        [T("Cada") - 0.05, 0.04],
+        [T("Cada") + 0.1, 0.26],
+        [T("passo.") + 0.1, 0.06],
+        [T("careta.") - 0.1, 0.06],
+        [T("careta.") + 0.1, 0.36, "ambos"],
+        [T("Agora") - 0.25, 0.36],
+        [T("Agora") - 0.05, 0.04, "ambos"],
+        ...fala(T("Agora"), T("vez.")),
+        [FIM, 0],
+      ];
+
+      // o lençol saindo: puxado pela barra, levantado da torneira, levado para a direita e jogado no chão
+      const LENCOL = [
+        // k, posição, rotação, escala (x, y)
+        [0, [0, 1.525, -1.3525], [-0.2154, 0, 0], [1, 1]],
+        [0.35, [0.05, 1.45, -1.12], [0.15, 0, 0.05], [0.95, 0.85]],
+        [0.6, [0.45, 1.42, -0.78], [0.3, -0.9, 0.35], [0.7, 0.72]],
+        [1, [0.78, 0.02, -0.12], [-PI / 2, 0, 0.5], [0.62, 0.6]],
+      ];
+      const PUXA0 = T("Tira") + 0.2;
+      const PUXA1 = T("banheiro.") + 0.15;
+      const kLencol = (tt) => trilha([[0, 0], [PUXA0, 0], [PUXA0 + 0.5, 0.35, "ambos"], [PUXA0 + 1.0, 0.6, "ambos"], [PUXA1, 1, "entra"]], tt);
+      function poseLencol(k) {
+        let i = 1;
+        while (i < LENCOL.length - 1 && k > LENCOL[i][0]) i++;
+        const [k0, p0, r0, s0] = LENCOL[i - 1];
+        const [k1, p1, r1, s1] = LENCOL[i];
+        const u = Math.min(1, Math.max(0, (k - k0) / (k1 - k0)));
+        const mix = (a, b) => a.map((x, j) => x + (b[j] - x) * u);
+        return { pos: mix(p0, p1), rot: mix(r0, r1), esc: mix(s0, s1) };
+      }
+      const _m = new THREE.Matrix4();
+      const _q = new THREE.Quaternion();
+      // pontos de pega na barra do lençol (no cenário)
+      function pegaLencol(k, lado) {
+        const { pos, rot, esc } = poseLencol(k);
+        _m.compose(new THREE.Vector3(...pos), _q.setFromEuler(new THREE.Euler(...rot)), new THREE.Vector3(esc[0], esc[1], 1));
+        return new THREE.Vector3(0.42 * lado, -0.47, 0.03).applyMatrix4(_m);
+      }
+
+      const eixos = (b) => {
+        const g = b.rotation.y;
+        return { frente: new THREE.Vector3(Math.sin(g), 0, Math.cos(g)), direita: new THREE.Vector3(-Math.cos(g), 0, Math.sin(g)), cima: new THREE.Vector3(0, 1, 0) };
+      };
+      const em = (base, ...pares) => pares.reduce((v, [d, k]) => v.addScaledVector(d, k), base.clone());
+      const noBanheiro = (ctx, x, y, z) => new THREE.Vector3(x, y, z).add(ctx.cenarios.banheiro.grupo.position);
+
+      iniciarParte({
+        host: "__parte06",
+        cenarios: ["banheiro"],
+        exposicao: 1.15,
+        planos: [
+          { de: 0, cenario: "banheiro", nome: "entra", modo: "apagada", preenchimento: 0.4 }, //            Na sétima noite, você não aguenta mais.
+          { de: t.tira, cenario: "banheiro", nome: "tira", modo: "noiteAcesa", preenchimento: 0.35 }, //    Tira o lençol do espelho do banheiro.
+          { de: t.esperando, cenario: "banheiro", nome: "esperando", modo: "noiteAcesa", preenchimento: 0.35 }, // Ele está lá, esperando, como se soubesse que você viria.
+          { de: t.finge, cenario: "banheiro", nome: "finge", modo: "noiteAcesa", preenchimento: 0.35 }, //  E pela primeira vez, ele não finge mais te copiar.
+          { de: t.mao, cenario: "banheiro", nome: "mao", modo: "noiteAcesa", preenchimento: 0.35 }, //      Ele encosta a mão no vidro, do lado dele.
+          { de: t.voz, cenario: "banheiro", nome: "voz", modo: "noiteAcesa", preenchimento: 0.4 }, //       E você escuta sua própria voz, só que vindo de dentro do espelho.
+          { de: t.pergunta, cenario: "banheiro", nome: "pergunta", modo: "noiteAcesa", preenchimento: 0.35 }, // Você nunca se perguntou por que é sempre você que está desse lado?
+          { de: t.recua, cenario: "banheiro", nome: "recua", modo: "noiteAcesa", preenchimento: 0.35 }, //  Você recua.
+          { de: t.continua, cenario: "banheiro", nome: "continua", modo: "noiteAcesa", preenchimento: 0.35 }, // Ele continua.
+          { de: t.repetindo, cenario: "banheiro", nome: "repetindo", modo: "noiteAcesa", preenchimento: 0.35 }, // Eu fiquei a vida inteira repetindo tudo que você fazia.
+          { de: t.passo, cenario: "banheiro", nome: "passo", modo: "noiteAcesa", preenchimento: 0.35 }, //  Cada passo. Cada careta.
+          { de: t.vez, cenario: "banheiro", nome: "vez", modo: "noiteAcesa", preenchimento: 0.35 }, //      Agora é a sua vez.
+        ],
+        cameras: {
+          entra: { k: [[0, [-0.5, 1.82, -1.12], [0.15, 1.15, 1.3], 54], [2.0, [-0.52, 1.84, -1.2], [0.0, 1.2, 0.6], 54], [t.tira, [-0.56, 1.88, -1.3], [0.05, 1.15, -0.2], 56]], tremor: 0.003 },
+          tira: { k: [[t.tira, [1.22, 1.72, -0.5], [-0.05, 1.3, -1.15], 54], [t.esperando, [1.18, 1.7, -0.6], [-0.05, 1.32, -1.2], 50]], tremor: 0.003 },
+          esperando: { k: [[t.esperando, [0.52, 1.62, 0.2], [-0.05, 1.42, -1.5], 40], [t.finge, [0.45, 1.6, 0.0], [-0.05, 1.44, -1.5], 36]], tremor: 0.002 },
+          finge: { k: [[t.finge, [-0.55, 1.62, 0.22], [0.05, 1.42, -1.5], 40], [t.mao, [-0.5, 1.6, 0.05], [0.05, 1.42, -1.5], 37]], tremor: 0.002 },
+          mao: { k: [[t.mao, [0.45, 1.5, -0.82], [0.05, 1.3, -1.55], 46], [t.voz, [0.42, 1.48, -0.9], [0.08, 1.28, -1.55], 42]], tremor: 0.002 },
+          voz: { k: [[t.voz, [0.16, 1.62, -1.42], [0.0, 1.5, -0.6], 50], [t.pergunta, [0.14, 1.61, -1.36], [0.0, 1.5, -0.6], 46]], tremor: 0.002 },
+          pergunta: { k: [[t.pergunta, [0.32, 1.5, -0.92], [0.0, 1.3, -1.95], 40], [t.recua, [0.28, 1.48, -0.98], [0.0, 1.3, -1.95], 36]], tremor: 0.002 },
+          recua: { k: [[t.recua, [1.3, 1.62, -0.15], [-0.15, 1.28, -0.9], 52], [t.continua, [1.28, 1.6, -0.2], [-0.15, 1.28, -0.95], 50]], tremor: 0.004 },
+          continua: { k: [[t.continua, [0.48, 1.62, 0.5], [0.0, 1.38, -1.5], 40], [t.repetindo, [0.45, 1.6, 0.4], [0.0, 1.38, -1.5], 38]], tremor: 0.002 },
+          repetindo: { k: [[t.repetindo, [0.2, 1.42, -1.02], [0.0, 1.3, -1.98], 36], [t.passo, [0.17, 1.42, -1.08], [0.0, 1.3, -1.98], 31]], tremor: 0.002 },
+          passo: { k: [[t.passo, [0.48, 1.62, 0.5], [0.0, 1.42, -1.5], 40], [t.vez, [0.45, 1.6, 0.42], [0.0, 1.42, -1.5], 37]], tremor: 0.002 },
+          vez: { k: [[t.vez, [0.12, 1.47, -1.12], [0.0, 1.45, -2.6], 32], [FIM, [0.1, 1.47, -1.2], [0.0, 1.45, -2.6], 24]], tremor: 0.002 },
+        },
+        personagem: {
+          semente: 6,
+          onde: [[0, "banheiro"]],
+          pos: [
+            [-0.35, [0.33, ALT, 2.62]],
+            [0.8, [0.33, ALT, 1.25], "linear"],
+            [1.15, [-0.15, ALT, 1.08], "linear"],
+            [1.75, [-0.15, ALT, 1.08]],
+            [3.35, PIA, "linear"],
+            [T("recua."), PIA],
+            [T("recua.") + 0.75, RECUO, "ambos"],
+          ],
+          passos: [[-0.35, 1.15, 0.9, 0.55], [1.75, 3.35, 1, 0.62], [T("recua."), T("recua.") + 0.75, 0.8, 0.5]],
+          pose: {
+            giro: [[0, PI], [0.85, PI], [1.15, PI + 2.6, "ambos"], [1.7, PI + 2.6], [2.1, PI, "ambos"]],
+            inclinar: [[0, 0.04], [PUXA0 - 0.35, 0.04], [PUXA0, 0.3, "ambos"], [PUXA0 + 0.6, 0.3], [PUXA0 + 1.1, 0.05, "ambos"], [T("Ele está"), -0.06, "ambos"], [t.finge, -0.02], [T("Você recua."), -0.02], [T("recua.") + 0.3, -0.1, "ambos"], [FIM, -0.05]],
+            cabecaGiro: [[0, 0], [1.0, 0], [1.2, -0.3, "ambos"], [1.75, 0, "ambos"], [t.voz, 0], [T("voz,"), 0.12, "ambos"], [t.pergunta, 0]],
+            cabecaInclina: [[0, 0.12], [2.2, 0.05], [PUXA0, 0.2, "ambos"], [PUXA0 + 1.2, 0.02, "ambos"], [t.esperando, -0.04], [t.voz, -0.02], [T("recua."), -0.08, "ambos"]],
+            cabecaTomba: [[0, 0], [T("soubesse"), 0], [T("viria."), -0.1, "ambos"], [t.finge, -0.05]],
+            olhos: [[0, 1.0], [t.esperando, 1.0], [T("Ele está") + 0.2, 1.3, "sai"], [t.mao, 1.25], [T("mão"), 1.45, "sai"], [t.voz, 1.35], [T("recua."), 1.45]],
+            sobrancelha: [[0, -0.2], [t.esperando, -0.1], [T("Ele está") + 0.2, 0.7, "sai"], [t.finge, 0.5], [T("mão"), 1.0, "sai"], [t.voz, 0.8]],
+            sobrancelhaMedo: [[0, 0.5], [t.esperando, 0.6], [T("Ele está") + 0.3, 0.9, "ambos"], [T("mão"), 1.0]],
+            boca: [[0, 0], [t.esperando, 0], [T("Ele está") + 0.2, 0.16, "sai"], [t.finge, 0.08], [T("mão"), 0.24, "sai"], [t.voz, 0.14], [T("recua."), 0.2]],
+            ofegar: [[0, 0.5], [t.esperando, 0.6], [T("Ele está") + 0.5, 1.1], [t.mao, 1.0], [T("mão"), 1.5], [FIM, 1.4]],
+          },
+          semPiscar: [[T("Ele está"), T("lá,") + 0.8], [T("mão") - 0.2, T("mão") + 1.5]],
+          maos: (tt, pts, ctx, b) => {
+            const { frente, direita, cima } = eixos(b);
+            // interruptor ao entrar
+            if (tt >= 0.95 && tt < 1.75) {
+              const p = trilha([[0.95, 0], [1.2, 1, "ambos"], [1.48, 1], [1.72, 0, "ambos"]], tt);
+              return { alvoD: noBanheiro(ctx, ...INTERRUPTOR), pesoD: p };
+            }
+            // o lençol: pega na barra, puxa, levanta e solta para o lado
+            if (tt >= PUXA0 - 0.45 && tt < PUXA0 + 1.35) {
+              const k = kLencol(tt);
+              const p = trilha([[PUXA0 - 0.45, 0], [PUXA0 - 0.25, 1, "ambos"], [PUXA0 + 0.95, 1], [PUXA0 + 1.3, 0, "ambos"]], tt);
+              const pe = trilha([[PUXA0 + 0.6, 1], [PUXA0 + 0.85, 0, "ambos"]], tt);
+              // primeiro as mãos sobem na frente do peito, depois vão até a barra
+              const vai = trilha([[PUXA0 - 0.25, 0], [PUXA0 - 0.02, 1, "ambos"]], tt);
+              const peito = (l) => em(b.position, [cima, 0.36], [frente, 0.3], [direita, 0.14 * l]);
+              const alvo = (l) => peito(l).lerp(noBanheiro(ctx, ...pegaLencol(k, l).toArray()), vai);
+              return { alvoE: alvo(-1), pesoE: p * pe, alvoD: alvo(1), pesoD: p };
+            }
+            // levanta a mão direita devagar: o reflexo não copia
+            if (tt >= T("primeira") - 0.1 && tt < T("copiar.") + 0.9) {
+              const sobe = trilha([[T("primeira") - 0.1, 0], [T("vez,") + 0.4, 1, "ambos"]], tt);
+              const desce = trilha([[T("copiar.") + 0.1, 0], [T("copiar.") + 0.85, 1, "ambos"]], tt);
+              return { alvoD: em(pts.cabeca, [direita, 0.3], [frente, 0.16], [cima, -0.55 + 0.62 * sobe - 0.62 * desce]), pesoD: Math.min(sobe * 1.6, 1) * (1 - desce) };
+            }
+            return null;
+          },
+        },
+        // o reflexo: tirado o lençol, ele já está parado, esperando; não copia mais nada
+        reflexo: {
+          cenario: "banheiro",
+          atraso: () => 0,
+          janelas: [
+            {
+              de: T("Tira"),
+              ate: FIM + 1,
+              semPiscar: [[T("Tira"), FIM + 1]],
+              pos: [[0, PIA], [T("encosta") - 0.1, PIA], [ENCOSTA, REFLEXO_PIA, "ambos"], [T("passo."), REFLEXO_PIA], [T("passo.") + 0.5, PASSO_ATRAS, "ambos"]],
+              passos: [[T("passo.") - 0.05, T("passo.") + 0.5, 0.9, 0.5]],
+              pose: {
+                giro: [[0, PI]],
+                inclinar: DEBRUCA,
+                cabecaInclina: DEBRUCA.map(([a, v, c]) => [a, -0.02 - 0.72 * v, c]),
+                cabecaGiro: [[0, 0], [T("perguntou"), 0], [T("perguntou") + 0.4, 0.12, "ambos"], [T("lado?"), -0.05, "ambos"], [t.repetindo, 0]],
+                cabecaTomba: [[0, 0.08], [T("soubesse"), 0.08], [T("viria."), 0.2, "ambos"], [t.mao, 0.1], [T("lado?") - 0.3, 0.1], [T("lado?") + 0.2, 0.28, "ambos"], [t.continua, 0.15], [T("careta."), 0.15], [T("careta.") + 0.2, 0.3, "ambos"], [T("Agora"), 0.1, "ambos"], [T("vez."), 0.22, "ambos"]],
+                olhos: [[0, 1.08], [T("careta.") - 0.15, 1.08], [T("careta.") + 0.1, 0.35, "ambos"], [T("Agora") - 0.25, 0.35], [T("Agora") - 0.05, 1.1, "ambos"], [T("vez."), 1.2]],
+                apertar: [[0, 0.1], [T("careta.") - 0.15, 0.1], [T("careta.") + 0.1, 0.8, "ambos"], [T("Agora") - 0.25, 0.8], [T("Agora") - 0.05, 0.25, "ambos"]],
+                sobrancelha: [[0, 0], [T("careta.") - 0.15, 0], [T("careta.") + 0.1, -0.9, "ambos"], [T("Agora") - 0.25, -0.9], [T("Agora") - 0.05, -0.15, "ambos"], [T("vez."), 0.3, "ambos"]],
+                sobrancelhaMedo: [[0, 0]],
+                boca: FALA_REFLEXO,
+                lingua: [[0, 0], [T("careta.") - 0.05, 0], [T("careta.") + 0.15, 1, "sai"], [T("Agora") - 0.3, 1], [T("Agora") - 0.1, 0, "ambos"]],
+                sorriso: [[0, 0], [T("soubesse"), 0], [T("viria.") + 0.2, 0.3, "ambos"], [t.finge, 0.2], [T("copiar."), 0.45, "ambos"], [t.mao, 0.3], [T("vez.") - 0.4, 0.3], [T("vez.") + 0.1, 1.0, "ambos"]],
+                sorrisoLargo: [[0, 0], [T("vez.") - 0.3, 0], [T("vez.") + 0.35, 1.0, "ambos"]],
+                ofegar: [[0, 0]],
+              },
+              maos: (tt, pts, ctx, b) => {
+                const { frente, direita, cima } = eixos(b);
+                const p = trilha([[0, 0], [T("encosta") - 0.1, 0], [T("encosta") + 0.15, 1, "ambos"], [SOLTA_VIDRO + 0.75, 1], [SOLTA_VIDRO + 1.0, 0, "ambos"]], tt);
+                if (p <= 0) return null;
+                // fora do vidro as mãos ficam na frente do peito (a pia fica longe); ele se endireita antes de soltar
+                const vai = trilha([[T("encosta") + 0.15, 0], [ENCOSTA, 1, "ambos"], [SOLTA_VIDRO + 0.4, 1], [SOLTA_VIDRO + 0.75, 0, "ambos"]], tt);
+                const peito = (l) => em(b.position, [cima, 0.36], [frente, 0.3], [direita, 0.14 * l]);
+                return { alvoD: peito(1).lerp(noBanheiro(ctx, ...MAO_VIDRO), vai), pesoD: p, alvoE: peito(-1).lerp(noBanheiro(ctx, -0.33, 0.93, -1.04), vai), pesoE: p };
+              },
+            },
+          ],
+        },
+        quadro: (tt, plano, ctx) => {
+          const b = ctx.cenarios.banheiro;
+          b.porta(1.5);
+          b.corredor(1);
+          b.torneira(false);
+          b.tecla(tt >= LUZ_ON);
+          const queria = tt >= LUZ_ON ? "noiteAcesa" : "apagada";
+          if (b.modoAtual !== queria) {
+            b.modoAtual = null;
+            b.modo(queria);
+          }
+          // o lençol (nas duas cópias do banheiro: a de verdade e a do espelho)
+          const k = kLencol(tt);
+          b.lencol(1, 0);
+          const { pos, rot, esc } = poseLencol(k);
+          for (const c of [b.real, b.copia]) {
+            c.lencolPano.position.set(...pos);
+            c.lencolPano.rotation.set(...rot);
+            c.lencolPano.scale.set(esc[0], esc[1], 1);
+          }
+          // a mão do reflexo no vidro (u, v no vidro, de baixo para cima)
+          toquesNoVidro(b.materialVidro, [[0.79, 0.26, ENCOSTA, 1]], tt);
+        },
+      });
+
+    </script>
+  </body>
+</html>
