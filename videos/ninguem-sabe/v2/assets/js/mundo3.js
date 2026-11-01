@@ -435,16 +435,21 @@ export function criarBanheiro(cena) {
 
     // lençol sobre o espelho (partes 5 e 6): k = 1 cobrindo; ao tirar, escorrega para a direita e cai
     const lencol = obj(g, "lencol");
-    const pl = pano(1.3, 1.45, 0.02, 0xd9d6cf, 0.025, 4, { lado: THREE.DoubleSide });
-    pl.position.set(0, 1.42, BANHEIRO.zEspelho + 0.06);
+    // preso em cima da moldura (y 2,04) e caindo inclinado por cima da torneira até logo acima da borda da cuba
+    // (y 1,01): passa na frente da torneira, do copo e dos frascos sem encostar neles
+    const pl = pano(1.3, 1.054, 0.008, 0xd9d6cf, 0.008, 4, { lado: THREE.DoubleSide });
+    const L0 = { y: 1.525, z: BANHEIRO.zEspelho + 0.1475, rx: -0.2154 };
+    pl.position.set(0, L0.y, L0.z);
+    pl.rotation.x = L0.rx;
     lencol.add(pl);
     lencol.visible = false;
     api.lencol = (cobre, tirar = 0) => {
       lencol.visible = cobre > 0 && tirar < 1;
-      // puxado para o lado e para baixo, girando
-      pl.position.set(0.9 * tirar, 1.42 - 0.9 * tirar * tirar, BANHEIRO.zEspelho + 0.06 + 0.5 * tirar);
-      pl.rotation.set(0.3 * tirar, -0.6 * tirar, -0.8 * tirar);
+      // ao tirar: primeiro vem para a frente (sai da torneira), depois para o lado e para baixo, girando
+      pl.position.set(0.8 * tirar * tirar, L0.y - 0.7 * tirar * tirar, L0.z + 0.6 * tirar);
+      pl.rotation.set(L0.rx + 0.5 * tirar, -0.6 * tirar, -0.8 * tirar);
     };
+    api.lencolPano = pl;
     api.grupo = g;
     return api;
   }
@@ -715,8 +720,9 @@ export function criarQuarto2(cena, op = {}) {
     caixa(gr, w, h, 0.015, 0x3a3532, E.x - 0.75 + x, E.y + y, 0.284);
   }
   api.espelho = espelho;
-  const lencolGR = pano(0.7, 1.7, 0.02, 0xd9d6cf, 0.025, 6, { lado: THREE.DoubleSide });
-  lencolGR.position.set(E.x - 0.75, 1.1, 0.31);
+  // na frente do espelho, da moldura e dos puxadores (até z 0,305), sem encostar
+  const lencolGR = pano(0.6, 1.7, 0.01, 0xcfc3ad, 0.022, 6, { lado: THREE.DoubleSide });
+  lencolGR.position.set(E.x - 0.75 + 0.01, 1.1, 0.345);
   lencolGR.visible = false;
   gr.add(lencolGR);
   api.lencolEspelho = (v) => {
@@ -760,7 +766,8 @@ export function criarQuarto2(cena, op = {}) {
   cilindro(varao, 0.015, 0.015, 1.9, 8, 0x3a3532, 2.2, 2.3, J.z, { rx: Math.PI / 2 });
   const cortinas = [];
   for (const lado of [-1, 1]) {
-    const c = pano(0.5, 1.55, 0.03, 0x7b8794, 0.04, lado > 0 ? 12 : 13);
+    // termina em 0,97: acima do peitoril, da escrivaninha e dos livros
+    const c = pano(0.5, 1.28, 0.03, 0x7b8794, 0.04, lado > 0 ? 12 : 13);
     c.rotation.y = -Math.PI / 2;
     varao.add(c);
     cortinas.push({ c, lado });
@@ -769,7 +776,7 @@ export function criarQuarto2(cena, op = {}) {
     for (const { c, lado } of cortinas) {
       const aberto = J.z + lado * 0.85;
       const fech = J.z + lado * 0.3;
-      c.position.set(2.18, 1.5, aberto + (fech - aberto) * fechado);
+      c.position.set(2.18, 1.61, aberto + (fech - aberto) * fechado);
       c.scale.set(1, 1, 1 + 0.25 * fechado);
     }
   };
@@ -1083,8 +1090,9 @@ export function criarCozinha(cena, op = {}) {
     caixa(molduraC, 0.06, E.y1 - E.y0, 0.04, cm, E.x1 + 0.03, (E.y0 + E.y1) / 2, zM);
     // lençol sobre o espelho da sala (parte 5: todos os espelhos cobertos)
     const lencolC = obj(g, "lencol-espelho");
-    const plc = pano(1.25, 1.45, 0.02, 0xd9d6cf, 0.025, 7, { lado: THREE.DoubleSide });
-    plc.position.set((E.x0 + E.x1) / 2, (E.y0 + E.y1) / 2 - 0.05, COZINHA.zEspelho - 0.06);
+    // termina acima do aparador (0,78) e fica na frente da moldura sem encostar
+    const plc = pano(1.25, 1.3, 0.01, 0x9fb0c4, 0.01, 7, { lado: THREE.DoubleSide });
+    plc.position.set((E.x0 + E.x1) / 2, 1.47, COZINHA.zEspelho - 0.065);
     lencolC.add(plc);
     lencolC.visible = false;
     api.lencol = (v) => (lencolC.visible = v);
