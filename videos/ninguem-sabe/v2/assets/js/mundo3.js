@@ -1081,6 +1081,13 @@ export function criarCozinha(cena, op = {}) {
     caixa(molduraC, E.x1 - E.x0 + 0.12, 0.06, 0.04, cm, (E.x0 + E.x1) / 2, E.y0 - 0.03, zM);
     caixa(molduraC, 0.06, E.y1 - E.y0, 0.04, cm, E.x0 - 0.03, (E.y0 + E.y1) / 2, zM);
     caixa(molduraC, 0.06, E.y1 - E.y0, 0.04, cm, E.x1 + 0.03, (E.y0 + E.y1) / 2, zM);
+    // lençol sobre o espelho da sala (parte 5: todos os espelhos cobertos)
+    const lencolC = obj(g, "lencol-espelho");
+    const plc = pano(1.25, 1.45, 0.02, 0xd9d6cf, 0.025, 7, { lado: THREE.DoubleSide });
+    plc.position.set((E.x0 + E.x1) / 2, (E.y0 + E.y1) / 2 - 0.05, COZINHA.zEspelho - 0.06);
+    lencolC.add(plc);
+    lencolC.visible = false;
+    api.lencol = (v) => (lencolC.visible = v);
     const aparador = obj(g, "aparador", (E.x0 + E.x1) / 2, 0, 2.17);
     caixa(aparador, 1.4, 0.78, 0.42, 0x6b5543, 0, 0.39, 0);
     caixa(aparador, 1.36, 0.01, 0.01, 0x4a3a2e, 0, 0.5, 0.212, { sombra: false });
@@ -1148,6 +1155,7 @@ export function criarCozinha(cena, op = {}) {
     radio: ambos("radio"),
     cafe: ambos("cafe"),
     onibus: ambos("onibus"),
+    lencol: ambos("lencol"),
     relogio: { mostrar: (txt) => (a.relogio.userData.mostrar(txt), b.relogio.userData.mostrar(txt)) },
     modoAtual: null,
     modo(nome) {
