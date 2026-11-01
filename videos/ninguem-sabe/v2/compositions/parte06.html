@@ -112,7 +112,7 @@
       }
       const FALA_REFLEXO = [
         [0, 0],
-        ...fala(T("Você nunca"), T("lado?")),
+        ...fala(T("Você nunca"), T("lado?", 2)),
         ...fala(T("Eu fiquei"), T("fazia.")),
         [T("Cada") - 0.05, 0.04],
         [T("Cada") + 0.1, 0.26],
@@ -121,7 +121,7 @@
         [T("careta.") + 0.1, 0.36, "ambos"],
         [T("Agora") - 0.25, 0.36],
         [T("Agora") - 0.05, 0.04, "ambos"],
-        ...fala(T("Agora"), T("vez.")),
+        ...fala(T("Agora"), T("vez.", 2)),
         [FIM, 0],
       ];
 
@@ -261,16 +261,16 @@
                 giro: [[0, PI]],
                 inclinar: DEBRUCA,
                 cabecaInclina: DEBRUCA.map(([a, v, c]) => [a, -0.02 - 0.72 * v, c]),
-                cabecaGiro: [[0, 0], [T("perguntou"), 0], [T("perguntou") + 0.4, 0.12, "ambos"], [T("lado?"), -0.05, "ambos"], [t.repetindo, 0]],
-                cabecaTomba: [[0, 0.08], [T("soubesse"), 0.08], [T("viria."), 0.2, "ambos"], [t.mao, 0.1], [T("lado?") - 0.3, 0.1], [T("lado?") + 0.2, 0.28, "ambos"], [t.continua, 0.15], [T("careta."), 0.15], [T("careta.") + 0.2, 0.3, "ambos"], [T("Agora"), 0.1, "ambos"], [T("vez."), 0.22, "ambos"]],
-                olhos: [[0, 1.08], [T("careta.") - 0.15, 1.08], [T("careta.") + 0.1, 0.35, "ambos"], [T("Agora") - 0.25, 0.35], [T("Agora") - 0.05, 1.1, "ambos"], [T("vez."), 1.2]],
+                cabecaGiro: [[0, 0], [T("perguntou"), 0], [T("perguntou") + 0.4, 0.12, "ambos"], [T("lado?", 2), -0.05, "ambos"], [t.repetindo, 0]],
+                cabecaTomba: [[0, 0.08], [T("soubesse"), 0.08], [T("viria."), 0.2, "ambos"], [t.mao, 0.1], [T("lado?", 2) - 0.3, 0.1], [T("lado?", 2) + 0.2, 0.28, "ambos"], [t.continua, 0.15], [T("careta."), 0.15], [T("careta.") + 0.2, 0.3, "ambos"], [T("Agora"), 0.1, "ambos"], [T("vez.", 2), 0.22, "ambos"]],
+                olhos: [[0, 1.08], [T("careta.") - 0.15, 1.08], [T("careta.") + 0.1, 0.35, "ambos"], [T("Agora") - 0.25, 0.35], [T("Agora") - 0.05, 1.1, "ambos"], [T("vez.", 2), 1.2]],
                 apertar: [[0, 0.1], [T("careta.") - 0.15, 0.1], [T("careta.") + 0.1, 0.8, "ambos"], [T("Agora") - 0.25, 0.8], [T("Agora") - 0.05, 0.25, "ambos"]],
-                sobrancelha: [[0, 0], [T("careta.") - 0.15, 0], [T("careta.") + 0.1, -0.9, "ambos"], [T("Agora") - 0.25, -0.9], [T("Agora") - 0.05, -0.15, "ambos"], [T("vez."), 0.3, "ambos"]],
+                sobrancelha: [[0, 0], [T("careta.") - 0.15, 0], [T("careta.") + 0.1, -0.9, "ambos"], [T("Agora") - 0.25, -0.9], [T("Agora") - 0.05, -0.15, "ambos"], [T("vez.", 2), 0.3, "ambos"]],
                 sobrancelhaMedo: [[0, 0]],
                 boca: FALA_REFLEXO,
                 lingua: [[0, 0], [T("careta.") - 0.05, 0], [T("careta.") + 0.15, 1, "sai"], [T("Agora") - 0.3, 1], [T("Agora") - 0.1, 0, "ambos"]],
-                sorriso: [[0, 0], [T("soubesse"), 0], [T("viria.") + 0.2, 0.3, "ambos"], [t.finge, 0.2], [T("copiar."), 0.45, "ambos"], [t.mao, 0.3], [T("vez.") - 0.4, 0.3], [T("vez.") + 0.1, 1.0, "ambos"]],
-                sorrisoLargo: [[0, 0], [T("vez.") - 0.3, 0], [T("vez.") + 0.35, 1.0, "ambos"]],
+                sorriso: [[0, 0], [T("soubesse"), 0], [T("viria.") + 0.2, 0.3, "ambos"], [t.finge, 0.2], [T("copiar."), 0.45, "ambos"], [t.mao, 0.3], [T("vez.", 2) - 0.4, 0.3], [T("vez.", 2) + 0.1, 1.0, "ambos"]],
+                sorrisoLargo: [[0, 0], [T("vez.", 2) - 0.3, 0], [T("vez.", 2) + 0.35, 1.0, "ambos"]],
                 ofegar: [[0, 0]],
               },
               maos: (tt, pts, ctx, b) => {

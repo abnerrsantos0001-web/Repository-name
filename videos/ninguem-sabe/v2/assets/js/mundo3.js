@@ -489,7 +489,7 @@ export function criarBanheiro(cena) {
     }
   }
   const pedacos = [];
-  const centroImpacto = [0.12, 1.5];
+  const centroImpacto = [0.47, 1.28]; // onde o bico do secador bate (parte 7)
   for (let i = 0; i < nx; i++) {
     for (let j = 0; j < ny; j++) {
       const p00 = grade[i][j], p10 = grade[i + 1][j], p01 = grade[i][j + 1], p11 = grade[i + 1][j + 1];
