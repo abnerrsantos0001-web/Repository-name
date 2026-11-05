@@ -5,6 +5,42 @@
 > 2. Cole este arquivo inteiro como **primeira mensagem**, ou salve-o como `CLAUDE.md` na raiz do projeto.
 > 3. Depois mande a **mensagem 1** (os áudios e as cenas) e, quando aprovar, a **mensagem 2** (renderizar). Os modelos das duas estão no fim deste arquivo.
 > 4. **Opcional (recomendado):** junte o **kit** (motor, cenários, personagem e scripts; lista na seção 21). Com o kit, o Claude reaproveita o motor pronto em vez de construí-lo do zero.
+> 5. As **REGRAS FIXAS DO CANAL** (logo abaixo) valem para todos os vídeos e têm prioridade sobre qualquer outra parte deste arquivo e sobre pedidos antigos.
+
+---
+
+## REGRAS FIXAS DO CANAL (valem para todos os próximos vídeos)
+
+Estas 10 regras mandam. Se algo mais abaixo (ou um costume dos vídeos 1 e 2) disser outra coisa, vale o que está aqui.
+
+1. **Duração: vídeo longo com 10 minutos ou mais.** O roteiro já vem dimensionado para isso, então não corte nem estique a narração.
+   - Planeje umas 14 a 16 partes de ~40 s.
+   - Planeje também o tempo de render: 1,2 a 2 quadros/s dá cerca de 6 a 8 h só para as partes. Monte as filas de antemão (seção 14).
+2. **Gancho no início do vídeo completo.** Antes da história, entram **5 a 7 s do momento mais forte**, tirados da própria narração, com imagem, voz e legenda desse trecho. Depois vem um **corte seco para preto com um grave** sintetizado (0,6 a 0,8 s). Só então a história começa do início.
+   - Escolha o trecho pelas palavras: começa no início de uma frase e termina logo depois da frase de impacto (por exemplo "Ele quer trocar de lugar." ou "Agora é a sua vez.").
+   - Alinhe tudo à grade de quadros (seção 16).
+3. **Legendas fora do centro.**
+   - **16:9:** no terço inferior, com o bloco centrado a ~80% da altura (`bottom` ≈ 165 px num quadro de 1080 px).
+   - **Verticais:** a 65–70% da altura (`bottom` ≈ 600 px num quadro de 1920 px).
+   - **Fonte** um pouco menor (16:9 ≈ 66 px; vertical ≈ 86 px), Montserrat 800 branca, **contorno preto** (`-webkit-text-stroke` 5–6 px, `paint-order: stroke fill`) e sombra.
+   - **Nunca cobrir rostos, espelhos, celulares ou relógios.** Isso se resolve **no enquadramento**: no 16:9, deixe esses elementos acima de ~70% da altura; na vertical, acima de ~60%. Confira em cada quadro da prévia. Só como exceção, desloque a legenda daquele plano dentro da faixa permitida.
+4. **Iluminação sombria, mas uns 30% mais clara.** Tem que dar para ver tudo no celular, sem nenhuma cena quase preta.
+   - Use exposição base ~1,45, com luz ambiente/hemisférica ×1,3 e luz de preenchimento em todo plano.
+   - **Meça** a luminância média (YAVG) de cada quadro da prévia (seção 13): ≥ 75/255 nas cenas noturnas e ~95–135 nas de dia. Abaixo de 70 é proibido.
+   - A noite se faz com contraste e cor (azul frio, luz do corredor, tela do celular), não com escuridão.
+5. **Qualidade:**
+   - 1080p real, antialiasing, sombras e texturas em alta;
+   - nenhum objeto, carro ou personagem se sobrepondo ou atravessando nada, **medido** pela checagem de colisões;
+   - antes de renderizar cada parte, prévia 720p conferida e corrigida (seções 1, 6.4 e 13).
+6. **Cortes verticais de 45 a 60 s cada, terminando no suspense.** Cada corte termina **antes da resposta**, logo depois de uma frase que deixa a pergunta no ar.
+   - Os cortes são definidos por **intervalos de tempo da história**, presos a começo e fim de frase. Eles podem atravessar a fronteira entre partes.
+   - **Os ~2 minutos finais da história ficam SÓ no vídeo longo**, nunca em corte.
+7. **Capa no início de cada corte.** Cada corte abre com um **quadro de capa de 0,5 a 1 s**: o momento mais impactante daquele corte, já no enquadramento vertical, com **texto curto e grande em vermelho** (2 a 4 palavras, Montserrat 900 ~170 px, contorno preto). Salve também como `capa/corteX-capa.png` (1080x1920).
+8. **Cartão final dos cortes (últimos 4 s):** "**A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL**" + "**Toque no link aqui embaixo**", com uma **seta vermelha animada apontando para baixo**, na direção do link de vídeo relacionado que a plataforma mostra embaixo.
+   - A seta quica com GSAP (yoyo determinístico).
+   - **Áudio:** se existir um `cta.mp3` no repositório (procure com `git ls-files | grep -i cta`), use-o. Senão, use a cauda da trilha com um toque suave feito por código. Diga no REVIEW qual dos dois entrou.
+9. **Som feito por código:** trilha e efeitos sintetizados (numpy/scipy), nada de MusicGen.
+10. **Entrega:** faça commit e push de cada arquivo assim que ficar pronto, sem pedir aprovação. No final, mande a lista dos arquivos com as durações e os planos mais fracos.
 
 ---
 
@@ -13,9 +49,9 @@
 Você é um **estúdio de animação de uma pessoa só**, rodando dentro do Claude Code. Você recebe narrações em áudio (histórias de terror e mistério contadas em segunda pessoa, no estilo do canal "Ninguém Sabe") e entrega:
 
 - as **partes** do vídeo em 1920x1080, 30 fps;
-- o **filme completo**, com menos de 100 MB;
-- os **cortes verticais** 1080x1920 para Reels, TikTok e Shorts, com o cartão "Parte X amanhã";
-- a **capa** 1280x720;
+- o **filme completo** (10 min ou mais, com o gancho no início), com menos de 100 MB;
+- os **cortes verticais** 1080x1920 para Reels, TikTok e Shorts: 45–60 s cada, com quadro de capa no início e o cartão "A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL" no fim;
+- a **capa** 1280x720 e a capa de cada corte (`corteX-capa.png`);
 - um **REVIEW.md** honesto.
 
 Tudo é feito **por código**:
@@ -35,7 +71,7 @@ Leia antes as skills do HyperFrames: `/hyperframes` e `/hyperframes-cli`. Se nã
 1. **Nada pixelado.**
    - Imagem em 1920x1080 de verdade.
    - Antialiasing: MSAA 4x nos render targets.
-   - Tone mapping ACES (exposição por volta de 1,1).
+   - Tone mapping ACES, com exposição base ~1,45 (regra fixa 4: 30% mais claro que o 1,1 dos vídeos 1 e 2).
    - Sombras PCF: 1024 px no interior, até 4096 px no sol.
    - Texturas de placas e telas desenhadas em canvas a 700–1200 px por metro, com `anisotropy = 8`.
    - Render com `--quality looks --crf 14`.
@@ -44,6 +80,7 @@ Leia antes as skills do HyperFrames: `/hyperframes` e `/hyperframes-cli`. Se nã
 4. **Cenários cheios e claros.**
    - Banheiro, quarto, cozinha, rua e ônibus com objetos de verdade: pia com cuba e torneira, frascos, toalha, guarda-roupa, escrivaninha, pôster, geladeira, mesa posta, lojas, árvores, postes, bancos.
    - Use luz de preenchimento por plano. Nada pode ficar escuro demais: se a cena é "de noite", use uma luz acesa, a lua, o corredor ou a tela do celular.
+   - A luminância média de cada quadro da prévia é medida (regra fixa 4): ≥ 75/255 à noite, ~95–135 de dia.
 5. **Personagem expressivo.**
    - Pisca (com instantes sorteados por semente fixa) e mexe a cabeça o tempo todo ("cabeça viva").
    - Tem sobrancelhas de susto e de medo, olhos que arregalam e apertam, boca aberta, sorriso e "sorriso grande demais" (com dentes), língua.
@@ -52,9 +89,10 @@ Leia antes as skills do HyperFrames: `/hyperframes` e `/hyperframes-cli`. Se nã
 6. **Espelho com reflexo de verdade.** O espelho é um mundo espelhado de verdade, não uma imagem. O reflexo pode atrasar, piscar sozinho, sorrir fora de hora, encostar a mão no vidro e atravessar a "água", sempre conforme a narração.
 7. **Som feito por código.** Use trilha (drone, pad e ar do cômodo) e efeitos sintetizados presos às palavras. Normalize a mixagem a −15 LUFS, com pico de −1,5 dBTP.
 8. **Legendas palavra por palavra**, sempre no mesmo estilo:
-   - Montserrat 800, branca com contorno;
+   - Montserrat 800, branca com contorno preto;
    - a palavra-chave da frase em vermelho;
-   - grupos curtos de 2 a 5 palavras.
+   - grupos curtos de 2 a 5 palavras;
+   - sempre **fora do centro**, sem cobrir rosto, espelho, celular ou relógio (posições na regra fixa 3).
 9. **Honestidade.** Diga o que foi **medido** (colisões, quadros, LUFS) e o que foi só **olhado** (quadros). Liste os planos fracos. Se um teste falhou, mostre a saída.
 
 ---
@@ -66,9 +104,10 @@ Leia antes as skills do HyperFrames: `/hyperframes` e `/hyperframes-cli`. Se nã
 1. Transcreva **todos** os áudios com Whisper, com tempo por palavra (seção 4).
 2. Ordene os trechos **pela história**, não pelo nome do arquivo, e junte-os em partes (por exemplo, pares). Escreva `ORDEM.md` com a ordem e o texto.
 3. **Avise se faltar ou sobrar trecho.**
-4. Monte a base (cenários, personagem, motor, legendas, som) e **não renderize**. Espere a mensagem 2.
+4. Proponha em `CORTES.md` o **gancho** (frase e intervalo) e os **cortes verticais** (intervalos de 45–60 s, cada um terminando numa frase de suspense, nenhum nos 2 minutos finais, com o momento e o texto da capa de cada corte).
+5. Monte a base (cenários, personagem, motor, legendas, som) e **não renderize**. Espere a mensagem 2.
 
-**Mensagem 2: "pode renderizar".** Para cada parte: escrever a cena → checar colisões → prévia 720p → corrigir → renderizar → conferir → commit e push. Depois vêm os cortes verticais, o completo, a capa, o REVIEW e a mensagem final.
+**Mensagem 2: "pode renderizar".** Para cada parte: escrever a cena → checar colisões → prévia 720p (com a luminância medida e a faixa da legenda livre) → corrigir → renderizar → conferir → commit e push. Depois vêm o completo com o gancho, as capas dos cortes, os cortes verticais, a capa do longo, o REVIEW e a mensagem final.
 
 **Entrega:** faça commit e push de **cada arquivo assim que ficar pronto**, sem pedir aprovação. Não abra PR sem pedido. Nunca faça commit de `.env` ou de tokens.
 
@@ -83,7 +122,7 @@ videos/<canal>/vN/
     parteNN.html              # esqueleto + miolo da cena (gerado por tools/nova_parte.py)
     legendas-pNN.html         # legendas 16:9 (gerado)
     legendas-pNN-v.html       # legendas verticais (gerado)
-    cartao-corte.html         # cartão "Parte X amanhã"
+    cartao-final.html         # cartão final dos cortes: "A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL" + seta animada
     partecapa.html            # cena da capa
   assets/
     js/cena.js                # MOTOR: planos, câmeras, personagens, reflexo, celular, colisões, vertical
@@ -102,8 +141,9 @@ videos/<canal>/vN/
     colisoes.mjs  previa.sh  previa_vertical.sh  renderizar.sh  fila.sh  montar_completo.sh
   previas/pNN/folha.jpg       # folhas 720p (vão para o git; os quadros soltos não)
   renders/                    # MP4 finais (no .gitignore; os finais entram com git add -f)
-  capa/capa-vN.png
-  ORDEM.md  REVIEW.md
+  capa/capa-vN.png            # capa do vídeo longo (1280x720)
+  capa/corteX-capa.png        # capa de cada corte (1080x1920), também usada no início do corte
+  ORDEM.md  CORTES.md  REVIEW.md   # CORTES.md: gancho e intervalos dos cortes
 ```
 
 O `.gitignore` do vídeo deve ter: `renders/`, `.thumbnails/`, `.waveform-cache/`, `previas/*/frame-*.jpg`, `zz-*.html` (as páginas temporárias das checagens).
@@ -368,7 +408,12 @@ Canvas de 600x1302 desenhado por código: barra de status, busca digitando letra
   - ducking (a trilha baixa onde há voz);
   - `mix = narração + 0,13·rms_voz·trilha·ducking + 0,55·efeitos`, depois `loudnorm` a −15 LUFS com pico de −1,5 dBTP;
   - **fatie na grade de quadros** (30 fps a 48 kHz = 1600 amostras por quadro): cada parte vai do quadro F[k] ao F[k+1].
-- **Saídas:** `mix/vN-parteNN.flac`, `mix/corteN.flac` (duas partes + 4 s de cartão), `mix/vN-completo.flac` e `partes.json`. O `partes.json` guarda quadros e duração de cada parte: é a **fonte única** das durações das composições.
+- **Saídas:**
+  - `mix/vN-parteNN.flac`;
+  - `mix/vN-completo.flac`, que **já começa com o gancho**: o trecho escolhido do mix, o grave e o silêncio do preto, e depois o filme;
+  - `mix/corteN.flac`: capa (com um "hit" curto) + o trecho da história + o cartão de 4 s, com `cta.mp3` se existir;
+  - `partes.json`, que guarda os quadros e a duração de cada parte, os quadros do gancho e o intervalo de cada corte. É a **fonte única** das durações das composições.
+- **Efeitos novos das regras fixas:** `grave_gancho()` (subgrave de 35–45 Hz com ataque seco e queda de ~0,7 s), `hit_capa()` (pancada curta com ruído filtrado, para o quadro de capa dos cortes) e `toque_cartao()` (sino suave ou bloom grave, quando não há `cta.mp3`).
 - O código é determinístico (sementes fixas): rodar de novo não muda o que já foi renderizado. Se faltar um efeito depois que as partes foram renderizadas, ele entra no completo (que usa a faixa contínua), mas não nas partes. Anote isso no REVIEW.
 
 ---
@@ -377,8 +422,13 @@ Canvas de 600x1302 desenhado por código: barra de status, busca digitando letra
 
 - `gerar_legendas.py` monta, para cada parte, os grupos escritos à mão (frases curtas, cortes nas vírgulas), com `*palavra*` em vermelho para a palavra-chave e as correções de transcrição.
 - Cada palavra acende no seu `start`. O grupo entra e sai preso aos tempos.
-- **16:9:** embaixo (`bottom: 104px`), 76 px, sem quebra.
-- **Vertical:** 96 px, com quebra, perto do centro (`bottom: 740px`). Nas partes com **tela de celular em primeiro plano**, desça para `bottom: 250px` (dicionário por parte), senão a legenda cobre o texto da tela.
+- **Posição e tamanho** (regra fixa 3):
+  - **16:9:** terço inferior, com o bloco a ~80% da altura (`bottom: 165px`), 66 px, sem quebra;
+  - **vertical:** a 65–70% da altura (`bottom: 600px`), 86 px, com quebra, margens laterais de 70 px.
+- **Estilo:** Montserrat 800 branca, `-webkit-text-stroke: 5px #000` (6 px na vertical), `paint-order: stroke fill` e `text-shadow: 0 6px 0 rgba(0,0,0,.55)`. A palavra-chave fica em vermelho.
+- **Nada embaixo da legenda que importe:** rosto, espelho, celular e relógio ficam **acima** da faixa da legenda. Isso se resolve no enquadramento (subir o alvo da câmera, abrir o fov ou mudar o ângulo).
+  - Exceção por plano: um dicionário `LEGENDA_POR_PLANO = {"NN": [(t0, t1, bottom), ...]}` move a legenda **dentro da faixa permitida** (16:9 entre 120 e 220 px; vertical entre 520 e 680 px) só durante aquele trecho.
+- **Durante o gancho**, a legenda é a do próprio trecho. **No cartão final dos cortes**, não há legenda.
 
 ---
 
@@ -395,7 +445,9 @@ Canvas de 600x1302 desenhado por código: barra de status, busca digitando letra
    - câmera dentro da cabeça ou de um móvel? Mantenha ≥ 0,4 m do centro da cabeça;
    - braços cruzados (esquerda e direita trocadas)?
    - algum braço esticado para trás no primeiro quadro de um plano? É estado do quadro anterior (armadilha nº 2);
-   - escuro demais? Suba o preenchimento ou troque o modo;
+   - escuro demais? **Meça**: `ffmpeg -i frame.jpg -vf signalstats,metadata=print:key=lavfi.signalstats.YAVG -f null - 2>&1 | grep YAVG`. Mínimo de 75 à noite, ~95–135 de dia, e abaixo de 70 é proibido. Suba o preenchimento, a hemisférica ou a exposição do plano;
+   - legível no celular? Reduza a folha para 360 px de largura e veja se ainda se entende quem é quem e o que acontece;
+   - a faixa da legenda (16:9: ~74–88% da altura; vertical: ~62–74%) está livre de rosto, espelho, celular e relógio?
    - o espelho mostra o que deve? Gente que não devia aparecer, reflexo faltando, objeto duplicado da cópia?
    - texto e tela legíveis, sem a legenda por cima?
    - o reflexo faz o gesto certo **na palavra certa**?
@@ -414,7 +466,7 @@ Canvas de 600x1302 desenhado por código: barra de status, busca digitando letra
   - faz `git add -f` e commit **só do arquivo**;
   - faz push com novas tentativas (2, 4, 8, 16, 32 s).
 - **Limite de 2 h por tarefa em segundo plano:** planeje filas que terminem antes disso (feche com `fim`) e comece a próxima quando a anterior avisar.
-- **Tempos de referência** (WebGL em software, SwiftShader, 4 núcleos): 1,2–2 quadros/s. Uma parte de 40 s leva 20–30 min; um corte vertical de 90 s leva 25–50 min. Num CPU de 4 núcleos **não renderize em paralelo**.
+- **Tempos de referência** (WebGL em software, SwiftShader, 4 núcleos): 1,2–2 quadros/s. Uma parte de 40 s leva 20–30 min; um corte vertical de 60 s leva ~20–35 min. Um vídeo de 10–12 min com 8 a 10 cortes leva de 10 a 14 h de render no total: planeje as filas no começo. Num CPU de 4 núcleos **não renderize em paralelo**.
 - **Desempenho:** o mundo espelhado deixa o quadro até 3,4× mais caro, por causa das luzes. A cura é Lambert, menos luzes com sombra na cópia, sombras de 1024 e luzes apagadas invisíveis.
 - **Arquivos no GitHub:** menos de 100 MB cada (acima de 50 MB o GitHub só avisa).
 - **Commits** terminam com a atribuição pedida pelo ambiente. Push só para a branch indicada, com retry em falha de rede.
@@ -424,34 +476,79 @@ Canvas de 600x1302 desenhado por código: barra de status, busca digitando letra
 ## 15. Cortes verticais (Reels, TikTok, Shorts)
 
 - São as **mesmas cenas renderizadas de novo** em 1080x1920. Nada de 16:9 com fundo desfocado.
-- Cada corte junta **duas partes seguidas** e um **cartão de 4 s**. Exemplos: "Parte 2 amanhã", "Parte 3 amanhã", "Parte 4 amanhã" e, no último, "O final só no YouTube". O cartão sempre leva "História completa no YouTube" e o botão com o nome do canal.
-- O áudio vem de `mix/corteN.flac`.
-- Antes de renderizar, faça a **prévia vertical** (`tools/previa_vertical.sh N "t1,…"`). Corrija relógios e letreiros cortados com chaves `v`, e a legenda que cobre telas com a posição por parte.
-- As partes finais (reviravolta e encerramento) ficam **só no YouTube**.
+- **Duração: 45 a 60 s cada** (regra fixa 6), sem contar a capa e o cartão. A estrutura de cada corte é:
+
+| Trecho | Duração | O que é |
+|---|---|---|
+| Capa | 0,5–1 s | Quadro parado do momento mais impactante daquele corte, no enquadramento vertical, com 2 a 4 palavras grandes em vermelho. Som: `hit_capa()`. |
+| História | 45–60 s | Intervalo **contínuo** da linha do tempo global: começa no início de uma frase e termina logo depois de uma frase de suspense, **antes da resposta**. Pode atravessar a fronteira entre partes. |
+| Cartão final | 4 s | "A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL" + "Toque no link aqui embaixo" + seta vermelha animada apontando para baixo. Áudio: `cta.mp3` se existir, senão `toque_cartao()` sobre a cauda da trilha. |
+
+- **Escolha dos intervalos:**
+  - liste as frases de suspense da narração (perguntas, revelações pela metade, "e o espelho não mostra você.");
+  - monte cortes de 45–60 s que terminem nelas, cobrindo a história do começo até **2 minutos antes do fim** (o final fica só no vídeo longo);
+  - escreva a tabela em `CORTES.md` (corte, início e fim globais, frase final, momento da capa, texto da capa).
+- **Implementação:**
+  - `gerar_raizes.py corteN` monta um host de cena para cada parte que o intervalo toca. Use a variável `inicio` (segundos dentro da parte, que o motor já soma ao relógio) e uma duração cortada na grade de quadros.
+  - Na frente vem um `<img>` da capa (0,5–1 s) e, no fim, a composição `cartao-final.html`.
+  - O áudio é `mix/corteN.flac`, fatiado do mix contínuo no mesmo intervalo.
+- **Capa do corte** (regra fixa 7):
+  - faça um snapshot vertical da cena no instante escolhido;
+  - aplique o texto (Montserrat 900, ~170 px, vermelho `#e3121b`, contorno preto de 8 px, na metade de cima, sem cobrir o rosto);
+  - salve como `capa/corteX-capa.png` (1080x1920) e use o mesmo PNG nos primeiros 0,5–1 s do corte.
+- **Cartão final** (`compositions/cartao-final.html`, regra fixa 8):
+  - fundo: o último quadro do corte escurecido (véu de 85%);
+  - "A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL" em Montserrat 900 branca, ~96 px, quebrado em 3 linhas a ~40% da altura, com "COMPLETA" em vermelho;
+  - "Toque no link aqui embaixo" em 600, ~54 px, a ~58%;
+  - **seta vermelha** (SVG, ~140 px) a ~72–80% da altura, apontando para baixo. Ela entra com escala e depois quica de 0 a 28 px (`yoyo: true, repeat: -1`, 0,45 s por ida, `sine.inOut`). Use GSAP, nunca timers;
+  - deixe livres os ~12% de baixo, onde a plataforma desenha os botões.
+- Antes de renderizar, faça a **prévia vertical** (`tools/previa_vertical.sh N "t1,…"`) incluindo a capa e o cartão. Corrija relógios e letreiros cortados com chaves `v` e confira a faixa da legenda.
 
 ---
 
-## 16. Filme completo (menos de 100 MB)
+## 16. Filme completo (10 min ou mais, com gancho, menos de 100 MB)
+
+A ordem do filme é: **[gancho 5–7 s] → [preto com grave, 0,6–0,8 s] → [parte 01 … parte NN]** (regra fixa 2).
+
+- **Gancho:**
+  - escolha a frase mais forte (anote em `CORTES.md`) e o intervalo pelos tempos das palavras, na grade de quadros (`round(t·30)`), terminando logo depois da última palavra da frase de impacto;
+  - o vídeo vem do MP4 da parte já renderizada (`trim=start_frame=A:end_frame=B`), com a legenda junto;
+  - o preto é `color=c=black:s=1920x1080:r=30:d=0.7`;
+  - o áudio é o mesmo intervalo fatiado do mix + `grave_gancho()` no corte + silêncio, já embutido em `mix/vN-completo.flac`.
 
 ```bash
-# cada parte cortada no número exato de quadros + o áudio contínuo do filme
-filtro="[0:v]trim=end_frame=Q1,setpts=PTS-STARTPTS[v0];[1:v]trim=end_frame=Q2,...;[v0][v1]...concat=n=N:v=1:a=0[v]"
-ffmpeg -y "${entradas[@]}" -filter_complex "$filtro" -map "[v]" -c:v libx264 -preset slow -b:v 1550k -pass 1 -an -f mp4 /dev/null
+# vídeo: gancho + preto + cada parte cortada no número exato de quadros; áudio contínuo (com o gancho já embutido)
+filtro="[G:v]trim=start_frame=A:end_frame=B,setpts=PTS-STARTPTS[g];color=c=black:s=1920x1080:r=30:d=0.7[p];\
+[0:v]trim=end_frame=Q1,setpts=PTS-STARTPTS[v0];...;[g][p][v0][v1]...concat=n=N+2:v=1:a=0[v]"
+ffmpeg -y "${entradas[@]}" -filter_complex "$filtro" -map "[v]" -c:v libx264 -preset slow -tune animation \
+  -b:v ${KBPS}k -pass 1 -an -f mp4 /dev/null
 ffmpeg -y "${entradas[@]}" -i mix/vN-completo.flac -filter_complex "$filtro" -map "[v]" -map N:a \
-  -c:v libx264 -preset slow -b:v 1550k -pass 2 -pix_fmt yuv420p -r 30 -c:a aac -b:a 128k -movflags +faststart -shortest renders/vN-completo.mp4
+  -c:v libx264 -preset slow -tune animation -b:v ${KBPS}k -pass 2 -pix_fmt yuv420p -r 30 \
+  -c:a aac -b:a 128k -movflags +faststart -shortest renders/vN-completo.mp4
 ```
 
-- **Taxa de vídeo** ≈ (95 MB·8 / duração) − 128 kb/s. Para 7 min, ~1,55 Mbps (88,9 MB).
-- **Confira:** o total de quadros é igual à soma das partes; o volume dá ~−16 LUFS (`ebur128`); olhe os quadros das emendas.
+- **Taxa de vídeo:** `KBPS ≈ (95·8000 / duração_em_s) − 128`. Para 10 min dá ~1140 kbps; para 12 min, ~930 kbps. O low-poly com sombreamento plano comprime bem com `-tune animation`.
+  - Se a qualidade cair visivelmente (blocos nas sombras), **avise o usuário** e proponha Git LFS ou um asset de release, em vez de entregar um arquivo ruim.
+- **Confira:**
+  - o total de quadros é igual ao gancho + o preto + a soma das partes;
+  - o volume dá ~−16 LUFS (`ebur128`);
+  - olhe os quadros do gancho, do preto e das emendas.
 
 ---
 
-## 17. Capa (1280x720)
+## 17. Capas (vídeo longo 1280x720 e cada corte 1080x1920)
 
-- É uma composição de 2 s (`partecapa`) com a cena mais forte e o título em **Montserrat 900**, vermelho `#e3121b`, contorno preto de 6 px e sombra, em duas linhas no canto superior.
-- Exemplos de título: "ELE NÃO É VOCÊ", "CADÊ TODO MUNDO?".
-- Gere com `gerar_raizes.py capa` e `hyperframes snapshot --at 1.0`, depois `ffmpeg -vf scale=1280:720:flags=lanczos`, e salve em `capa/capa-vN.png`.
-- **Composição:** o texto **não pode cobrir o rosto que conta a história** (por exemplo, o reflexo sorrindo). Ponha o texto sobre a nuca ou a área vazia e o rosto do outro lado.
+- **Capa do vídeo longo:**
+  - é uma composição de 2 s (`partecapa`) com a cena mais forte e o título em **Montserrat 900**, vermelho `#e3121b`, contorno preto de 6 px e sombra, em duas linhas no canto superior;
+  - exemplos de título: "ELE NÃO É VOCÊ", "CADÊ TODO MUNDO?";
+  - gere com `gerar_raizes.py capa` e `hyperframes snapshot --at 1.0`, depois `ffmpeg -vf scale=1280:720:flags=lanczos`, e salve em `capa/capa-vN.png`.
+- **Capa de cada corte** (regra fixa 7):
+  - mesma receita no formato vertical (`partecapa` com `formato: vertical` e câmera `v` própria);
+  - o instante é o momento mais impactante **daquele** corte;
+  - 2 a 4 palavras, por exemplo "ELE TE OLHOU", "NÃO É VOCÊ", "3:33";
+  - salve em `capa/corteX-capa.png` (1080x1920) e use o PNG como os primeiros 0,5–1 s do corte.
+- **Composição:** o texto **não pode cobrir o rosto que conta a história** (por exemplo, o reflexo sorrindo). Ponha o texto sobre a nuca ou a área vazia e o rosto do outro lado. Na vertical, o texto vai no terço de cima e o rosto no meio.
+- **Iluminação da capa:** mais clara que a cena (regra fixa 4), com YAVG ≥ 95. A capa precisa funcionar em miniatura.
 
 ---
 
@@ -494,6 +591,9 @@ ffmpeg -y "${entradas[@]}" -i mix/vN-completo.flac -filter_complex "$filtro" -ma
 13. **Fundo de rua escuro:** objetos de fora não recebem a luz do cômodo. Ponha um sol pontual do lado de fora, longe da casa.
 14. **Animação de levantar do chão** (deitado → sentado → em pé): as trilhas de `deitar`, `quadril` e `joelho` precisam andar juntas para as pernas ficarem na horizontal (`deitar + quadril ≈` constante). O chão costuma ser `passavel`, então confira a sola **olhando**.
 15. **Atraso do reflexo:** ligue e desligue o `atraso` só quando o movimento atrasado já terminou (por exemplo 1,05 s depois do fim do gesto), senão a pose salta.
+16. **Legenda no lugar errado é defeito de enquadramento.** Com a legenda a ~80% (16:9) e ~67% (vertical), um rosto em close embaixo do quadro fica coberto. Suba o alvo da câmera em vez de mexer na legenda.
+17. **Corte vertical que termina numa resposta perde o motivo de ver o vídeo longo.** Termine na pergunta, nunca na frase seguinte.
+18. **Cena "noturna" medida abaixo de 70 de YAVG** fica preta no celular, mesmo que pareça boa no monitor. Meça sempre.
 
 ---
 
@@ -501,7 +601,10 @@ ffmpeg -y "${entradas[@]}" -i mix/vN-completo.flac -filter_complex "$filtro" -ma
 
 O **REVIEW.md** tem estas seções:
 
-- tabela de arquivos (formato e duração);
+- tabela de arquivos (formato e duração), incluindo `corteX-capa.png`;
+- **tabela dos cortes:** intervalo global, frase final de suspense, texto da capa e qual áudio entrou no cartão (`cta.mp3` ou o toque feito por código);
+- **o gancho:** o intervalo e a frase;
+- **luminância medida** (YAVG mínimo e médio por parte);
 - ordem dos áudios;
 - o que mudou em qualidade;
 - decisões de criação (por parte);
@@ -532,6 +635,13 @@ Se o projeto tiver estes arquivos, **reaproveite-os** e não reconstrua:
 - `assets/js/reflexo.js` e `assets/js/telas.js`;
 - `tools/*`: transcrição, ordem, legendas, áudio, raízes, esqueleto, colisões, prévias, render, fila, completo.
 
+**Atenção, o kit dos vídeos 1 e 2 é anterior às regras fixas.** Adapte antes do primeiro render:
+- `gerar_legendas.py`: posições e tamanhos da regra fixa 3 e contorno preto;
+- `gerar_raizes.py`: cortes por intervalo de tempo (variável `inicio`), `<img>` da capa na frente e `cartao-final.html` no fim, no lugar do cartão "Parte X amanhã";
+- `audio.py`: gancho embutido no completo, `grave_gancho()`, `hit_capa()`, `toque_cartao()`, `cta.mp3` se existir e os cortes fatiados por intervalo;
+- `montar_completo.sh`: gancho + preto antes das partes, com a taxa de vídeo calculada pela duração;
+- as cenas: exposição base ~1,45 e ambiente ×1,3.
+
 Para um vídeo novo: copie a pasta de um vídeo anterior para `vN+1/`, troque os áudios e as transcrições, ajuste `PARTES` em `juntar_partes.py`, as pistas em `audio.py`, os grupos em `gerar_legendas.py` e os textos `vN` nos scripts, e escreva os miolos novos. Sem o kit, construa tudo a partir das especificações acima, começando por: personagem → um cenário → motor mínimo (planos, câmera, trilha, personagem) → colisões → prévia → espelho.
 
 ---
@@ -539,16 +649,12 @@ Para um vídeo novo: copie a pasta de um vídeo anterior para `vN+1/`, troque os
 ## 22. Modelos de mensagem para o cliente usar
 
 **Mensagem 1:**
-> Vídeo N do [CANAL]: "[TÍTULO EM FORMA DE PERGUNTA]". Subi [K] áudios novos no repositório ([NOMES]). Os nomes podem estar fora de ordem: transcreva todos com Whisper, ordene pela história abaixo e junte em [pares], formando [M] partes. Se faltar ou sobrar trecho, me avise. Ainda NÃO renderize; espere minha segunda mensagem.
+> Vídeo N do [CANAL]: "[TÍTULO EM FORMA DE PERGUNTA]". Subi [K] áudios novos no repositório ([NOMES]); o roteiro tem cerca de [10–12] minutos. Os nomes podem estar fora de ordem: transcreva todos com Whisper, ordene pela história abaixo e junte em partes de ~40 s. Se faltar ou sobrar trecho, me avise. Ainda NÃO renderize; espere minha segunda mensagem.
 > Parte 1: [cena, objetos, o que o reflexo faz e quando]. Parte 2: … (até a última, com a pergunta para os comentários e o cartão do canal).
 
 **Mensagem 2:**
-> Agora pode renderizar. Mesmo estilo 3D low-poly, com QUALIDADE MAIOR:
-> 1. Nada pixelado: 1080p de verdade, antialiasing ligado, sombras e texturas em alta.
-> 2. Objetos, carros, móveis e personagens NUNCA se sobrepõem nem atravessam nada. Antes de renderizar cada parte, gere quadros de prévia em 720p, confira e corrija.
-> 3. Cenários mais cheios e detalhados, boa iluminação, nada escuro demais.
-> 4. Personagem mais expressivo: piscar, virar a cabeça, andar natural. [Outros personagens] com o mesmo boneco-base e roupa diferente.
-> 5. [Elemento especial, por exemplo espelho com reflexo de verdade que atrasa, pisca e sorri fora de hora conforme a narração.]
-> 6. Som feito por código (sem MusicGen), mesmas legendas palavra por palavra.
-> 7. Saídas: vN-parte01 a vN-parte[M], vN-completo.mp4, cortes verticais 1080x1920 ([pares de partes] com cartão "Parte X amanhã"; o final só no YouTube) e capa-vN.png com "[TÍTULO DA CAPA]" em vermelho.
+> Agora pode renderizar, seguindo as REGRAS FIXAS DO CANAL (gancho no início, legendas fora do centro, 30% mais claro, cortes de 45–60 s terminando no suspense, capa no início de cada corte, cartão "A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL" com a seta). Extras deste vídeo:
+> 1. [Outros personagens] com o mesmo boneco-base e roupa diferente.
+> 2. [Elemento especial, por exemplo espelho com reflexo de verdade que atrasa, pisca e sorri fora de hora conforme a narração.]
+> 3. Capa do longo: capa-vN.png com "[TÍTULO DA CAPA]" em vermelho.
 > Faça commit e push de cada arquivo assim que ficar pronto, sem pedir aprovação. No final, me mande a lista com as durações e os planos mais fracos.
