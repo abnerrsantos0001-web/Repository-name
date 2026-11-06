@@ -3,3 +3,4 @@ __pycache__/
 .taste-skill/
 .hyperframes/
 node_modules/
+hyperframes/*/out/

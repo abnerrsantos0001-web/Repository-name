@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YUNGVITT.OG · Beats trap, drill e dark</title>
+<meta name="description" content="Beats de trap, drill e dark do produtor YUNGVITT.OG. Ouça os previews, monte sua seleção e compre pelo WhatsApp.">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><!-- taste-skill-ignore: fonte pedida pela marca -->
+<style>
+/* =========================================================
+   CORES E TIPOGRAFIA (troque aqui se quiser mudar a identidade)
+   ========================================================= */
+:root {
+  --bg: #0b0b0b;        /* fundo */
+  --panel: #161616;     /* cartões e barras */
+  --panel-2: #202020;
+  --ink: #f2f2ee;       /* texto principal */
+  --muted: #b4b4ac;     /* texto secundário */
+  --acid: #b6ff00;      /* verde ácido */
+  --red: #ff2e2e;       /* vermelho */
+  --black: #0b0b0b;
+  --display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --text: "Space Mono", ui-monospace, "Courier New", monospace; /* taste-skill-ignore: fonte pedida pela marca */
+  --gutter: clamp(16px, 3.4vw, 48px);
+  --max: 1520px;
+  --bar-h: 88px;        /* atualizado pelo script com a altura real da barra */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; scroll-padding-bottom: calc(var(--bar-h) + 16px); }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  /* retícula de pontos */
+  background-image: radial-gradient(circle at center, #222 1.2px, transparent 1.6px); /* taste-skill-ignore: retícula de pontos pedida pela marca */
+  background-size: 14px 14px;
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: var(--bar-h); /* a barra fixa nunca cobre o conteúdo */
+  overflow-x: hidden;
+}
+/* grão de filme por cima de tudo */
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: 100; pointer-events: none;
+  opacity: .09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--acid); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip:focus { left: 16px; top: 16px; width: auto; height: auto; clip: auto; z-index: 200; background: var(--acid); color: var(--black); padding: 10px 16px; font-weight: 700; }
+
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.display { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .9; letter-spacing: -.01em; margin: 0; }
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+.top { position: relative; z-index: 20; }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
+.brand { display: flex; align-items: baseline; gap: 14px; text-decoration: none; }
+.brand-name { font-family: var(--display); font-size: 32px; line-height: 1; letter-spacing: .01em; }
+.brand-name b { color: var(--acid); font-weight: 400; }
+.brand-tag { color: var(--muted); font-size: 14px; }
+.nav ul { list-style: none; display: flex; align-items: center; gap: 6px; margin: 0; padding: 0; }
+.nav a { display: inline-block; padding: 10px 14px; text-decoration: none; font-weight: 700; font-size: 16px; transition: color .2s, background-color .2s; }
+.nav a:hover { color: var(--acid); }
+.nav .nav-cta { background: var(--acid); color: var(--black); margin-left: 8px; }
+.nav .nav-cta:hover { background: var(--ink); color: var(--black); }
+.menu-btn { display: none; background: var(--panel); border: 0; padding: 12px 16px; font-weight: 700; font-size: 16px; align-items: center; gap: 10px; min-height: 48px; }
+.menu-btn .bars, .menu-btn .bars::before, .menu-btn .bars::after { display: block; width: 20px; height: 3px; background: var(--ink); position: relative; transition: transform .25s var(--ease), background-color .2s; }
+.menu-btn .bars::before, .menu-btn .bars::after { content: ""; position: absolute; left: 0; }
+.menu-btn .bars::before { top: -7px; } .menu-btn .bars::after { top: 7px; }
+.menu-btn[aria-expanded="true"] .bars { background: transparent; }
+.menu-btn[aria-expanded="true"] .bars::before { transform: translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] .bars::after { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 859px) {
+  .brand-tag { display: none; }
+  .menu-btn { display: inline-flex; }
+  .nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--panel); padding: 8px var(--gutter) 20px; display: none; }
+  .nav.open { display: block; }
+  .nav ul { flex-direction: column; align-items: stretch; gap: 2px; }
+  .nav a { display: block; padding: 14px 4px; font-size: 18px; }
+  .nav .nav-cta { margin: 10px 0 0; text-align: center; }
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero { position: relative; padding: clamp(24px, 4vw, 56px) 0 clamp(72px, 9vw, 140px); }
+.hero h1 { grid-area: title; font-size: clamp(64px, 10.6vw, 184px); position: relative; align-self: end; }
+.hero h1 .line { display: block; overflow: hidden; padding-bottom: .04em; }
+.hero h1 .line > span { display: inline-block; }
+.hero h1 .line:last-child { color: var(--acid); }
+/* glitch sutil: duas cópias deslocadas piscam de vez em quando */
+.glitch { position: relative; }
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; left: 0; top: 0; pointer-events: none; opacity: 0; }
+.glitch::before { color: var(--red); }
+.glitch::after { color: var(--ink); }
+@media (prefers-reduced-motion: no-preference) {
+  .glitch::before { animation: glitch-a 6s steps(1) infinite 2.2s; }
+  .glitch::after  { animation: glitch-b 6s steps(1) infinite 2.2s; }
+}
+@keyframes glitch-a {
+  0%, 91%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 0 0); }
+  92% { opacity: .9; transform: translate(-5px, 2px); clip-path: inset(10% 0 55% 0); }
+  94% { opacity: .9; transform: translate(4px, -2px); clip-path: inset(60% 0 8% 0); }
+  96% { opacity: 0; }
+}
+@keyframes glitch-b {
+  0%, 92%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 0 0); }
+  93% { opacity: .5; transform: translate(6px, 0); clip-path: inset(35% 0 40% 0); }
+  95% { opacity: 0; }
+}
+
+.hero-grid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); grid-template-areas: "title media" "body media"; column-gap: clamp(24px, 4vw, 72px); row-gap: clamp(28px, 3vw, 44px); align-items: start; }
+.hero-body { grid-area: body; }
+.hero-media { grid-area: media; }
+.hero-lead { font-size: 20px; max-width: 36em; margin: 0 0 32px; }
+.hero-lead strong { color: var(--acid); font-weight: 700; }
+
+/* busca */
+.search { display: flex; align-items: stretch; background: var(--ink); color: var(--black); max-width: 720px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%); }
+.search label { display: flex; align-items: center; padding: 0 0 0 18px; }
+.search svg { width: 24px; height: 24px; }
+.search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--black); padding: 20px 16px; font-size: 18px; }
+.search input::placeholder { color: #55554f; }
+.search input:focus { outline: none; }
+.search:focus-within { outline: 4px solid var(--acid); outline-offset: 0; }
+.search .clear { border: 0; background: transparent; color: var(--black); padding: 0 18px; font-weight: 700; font-size: 16px; }
+.search .clear[hidden] { display: none; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.chip { border: 0; background: var(--panel-2); color: var(--ink); padding: 10px 16px; min-height: 44px; font-weight: 700; font-size: 16px; text-transform: uppercase; transition: background-color .2s, color .2s, transform .15s; }
+.chip:hover { background: #2e2e2e; }
+.chip:active { transform: translateY(1px); }
+.chip[aria-pressed="true"] { background: var(--acid); color: var(--black); }
+.hero-facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 28px 0 0; color: var(--muted); font-size: 16px; }
+.hero-facts b { color: var(--ink); }
+
+/* vídeo-flyer feito no HyperFrames */
+.hero-media { position: relative; margin: 8px 0 0; justify-self: end; width: min(100%, 440px); }
+.hero-media .frame { position: relative; transform: rotate(3deg); background: var(--panel);
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px)); }
+.hero-media video, .hero-media img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.hero-media .tape-strip { position: absolute; left: -18px; top: 26px; z-index: 2; background: var(--red); color: var(--black); font-weight: 700; font-size: 14px; padding: 6px 14px; transform: rotate(-6deg); }
+.hero-media figcaption { margin-top: 18px; color: var(--muted); font-size: 14px; text-align: right; }
+
+/* =========================================================
+   SEÇÃO: NOVOS BEATS
+   ========================================================= */
+section { position: relative; }
+.sec { padding: clamp(72px, 9vw, 150px) 0; }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap; margin-bottom: clamp(28px, 3.4vw, 48px); }
+.sec-head h2 { font-size: clamp(56px, 9vw, 150px); }
+.sec-head p { margin: 0; color: var(--muted); max-width: 30em; }
+.sec-head .count { color: var(--ink); font-weight: 700; }
+
+#beats { background: var(--panel); }
+#beats::before { /* borda rasgada no topo, como fita colada */
+  content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 15px; background: var(--panel);
+  clip-path: polygon(0 60%, 4% 20%, 9% 70%, 15% 30%, 22% 80%, 28% 10%, 35% 60%, 41% 30%, 48% 90%, 55% 20%, 61% 60%, 68% 0, 74% 70%, 81% 30%, 87% 80%, 93% 20%, 100% 50%, 100% 100%, 0 100%);
+}
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); list-style: none; margin: 0; padding: 0; }
+@media (max-width: 1279px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 899px)  { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+
+.beat { position: relative; display: flex; flex-direction: column; height: 100%; background: var(--bg); transition: transform .25s var(--ease), background-color .2s;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%); }
+.beat:hover { transform: translateY(-4px); }
+.beat.is-selected { background: #1d2600; }
+.beat-cover { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--panel-2); }
+.beat-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
+.beat:hover .beat-cover img { transform: scale(1.04); }
+.beat-cover .no-cover { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 16px; font-family: var(--display); font-size: 32px; line-height: .9; color: var(--acid); text-transform: uppercase; }
+.play { position: absolute; right: 14px; bottom: 14px; width: 64px; height: 64px; border: 0; border-radius: 50%; background: var(--acid); color: var(--black); display: grid; place-items: center; transition: transform .15s var(--ease), background-color .2s; }
+.play:hover { transform: scale(1.08); }
+.play:active { transform: scale(.94); }
+.play svg { width: 26px; height: 26px; }
+.add svg { width: 18px; height: 18px; }
+.play .i-pause { display: none; }
+.beat.is-playing .play { background: var(--red); }
+.beat.is-playing .play .i-play { display: none; }
+.beat.is-playing .play .i-pause { display: block; }
+.beat.is-missing .play { background: var(--panel-2); color: var(--muted); }
+.progress { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: rgba(11,11,11,.7); opacity: 0; transition: opacity .2s; }
+.progress span { display: block; height: 100%; width: 0; background: var(--red); }
+.beat.is-playing .progress { opacity: 1; }
+
+.beat-body { display: flex; flex-direction: column; gap: 10px; padding: 18px 18px 20px; flex: 1; }
+.beat-body h3 { font-family: var(--display); font-weight: 400; font-size: 32px; line-height: 1; margin: 0; text-transform: uppercase; overflow-wrap: anywhere; }
+.beat-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font-size: 16px; color: var(--muted); }
+.beat-meta .tag { color: var(--black); background: var(--ink); padding: 1px 8px; font-weight: 700; text-transform: uppercase; }
+.beat-meta .tag[data-g="drill"] { background: var(--red); }
+.beat-meta .tag[data-g="trap"] { background: var(--acid); }
+.beat-meta dd, .beat-meta dt { margin: 0; }
+.beat-foot { margin-top: auto; padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.price { font-family: var(--display); font-size: 32px; line-height: 1; color: var(--ink); }
+.add { border: 0; background: var(--panel-2); color: var(--ink); padding: 12px 14px; min-height: 48px; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; gap: 8px; transition: background-color .2s, color .2s, transform .15s; }
+.add:hover { background: #333; }
+.add:active { transform: translateY(1px); }
+.add[aria-pressed="true"] { background: var(--acid); color: var(--black); }
+
+@media (max-width: 599px)  {
+  .grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  /* no celular o card fica deitado: capa à esquerda, dados à direita */
+  .beat { display: grid; grid-template-columns: 40% 1fr; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%); }
+  .beat:hover { transform: none; }
+  .beat-cover { aspect-ratio: 1; align-self: start; }
+  .play { width: 52px; height: 52px; right: 10px; bottom: 10px; }
+  .beat-body { padding: 14px 14px 14px; gap: 8px; }
+  .beat-body h3 { font-size: 28px; }
+  .beat-meta { font-size: 14px; gap: 4px 10px; }
+  .beat-foot { flex-direction: column; align-items: stretch; gap: 8px; }
+  .price { font-size: 28px; }
+  .add { justify-content: center; }
+}
+[hidden] { display: none !important; }
+.empty { background: var(--bg); padding: 40px 24px; text-align: left; }
+.empty p { margin: 0 0 16px; font-size: 18px; }
+.empty button { border: 0; background: var(--acid); color: var(--black); font-weight: 700; padding: 12px 18px; min-height: 48px; }
+
+/* =========================================================
+   SEÇÃO: GÊNEROS (painéis de flyer, larguras diferentes)
+   ========================================================= */
+.genres { display: grid; grid-template-columns: 5fr 4fr 4fr; gap: 0; }
+.genre { position: relative; display: flex; flex-direction: column; color: var(--black); }
+.genre:nth-child(1) { background: var(--acid); }
+.genre:nth-child(2) { background: var(--ink); margin-top: 48px; }
+.genre:nth-child(3) { background: var(--red); margin-top: 16px; }
+.genre-img { aspect-ratio: 1; overflow: hidden; }
+.genre-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.genre:hover .genre-img img { transform: scale(1.05) rotate(-1deg); }
+.genre-body { padding: 24px clamp(18px, 2vw, 32px) 28px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.genre h3 { font-family: var(--display); font-weight: 400; font-size: clamp(56px, 5vw, 84px); line-height: .9; margin: 0; text-transform: uppercase; }
+.genre p { margin: 0; font-size: 16px; }
+.genre .go { margin-top: auto; align-self: flex-start; border: 0; background: var(--black); color: var(--ink); font-weight: 700; padding: 14px 18px; min-height: 48px; transition: transform .15s, background-color .2s, color .2s; }
+.genre .go:hover { background: var(--panel-2); }
+.genre .go:active { transform: translateY(1px); }
+@media (max-width: 899px) {
+  .genres { grid-template-columns: 1fr; gap: 16px; }
+  .genre:nth-child(n) { margin-top: 0; }
+  .genre { display: grid; grid-template-columns: 38% 1fr; }
+  .genre-img { aspect-ratio: auto; height: 100%; }
+}
+@media (max-width: 479px) {
+  .genre { grid-template-columns: 1fr; }
+  .genre-img { aspect-ratio: 16 / 9; }
+}
+
+/* =========================================================
+   SEÇÃO: SOBRE
+   ========================================================= */
+#sobre { background: var(--acid); color: var(--black); }
+#sobre .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 96px); align-items: start; }
+#sobre h2 { font-size: clamp(72px, 13vw, 220px); line-height: .82; }
+.about-text { font-size: 20px; max-width: 40em; }
+.about-text p { margin: 0 0 20px; }
+.about-text .big { font-family: var(--display); font-size: 32px; line-height: 1.05; text-transform: uppercase; margin-bottom: 28px; }
+.steps { margin: 32px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 4px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; align-items: baseline; gap: 12px; background: var(--black); color: var(--ink); padding: 16px 18px; }
+.steps li::before { content: counter(s); font-family: var(--display); font-size: 32px; line-height: 1; color: var(--acid); }
+.steps b { color: var(--acid); }
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+.foot { background: var(--red); color: var(--black); padding: 40px 0 32px; }
+.foot-top { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 16px; }
+
+.foot-top p { margin: 0; max-width: 28em; }
+.foot-top a { font-weight: 700; }
+.foot-call { display: block; margin: clamp(80px, 12vw, 200px) 0 clamp(28px, 4vw, 56px); font-family: var(--display); font-size: clamp(64px, 13.5vw, 224px); line-height: .86; text-transform: uppercase; text-decoration: none; transition: color .2s; }
+.foot-call:hover { color: var(--ink); }
+.foot-call span { display: block; }
+.foot-num { margin: 0 0 clamp(40px, 5vw, 72px); font-size: 20px; font-weight: 700; }
+.foot-num a { text-decoration: none; border-bottom: 3px solid currentColor; }
+.foot-meta { display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; font-size: 14px; font-weight: 700; }
+
+/* =========================================================
+   BARRA FIXA DE SELEÇÃO
+   ========================================================= */
+.cart { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--ink); color: var(--black); }
+.cart::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 11px; background: var(--ink);
+  clip-path: polygon(0 100%, 0 40%, 6% 80%, 13% 20%, 21% 70%, 30% 30%, 38% 90%, 47% 10%, 55% 60%, 64% 20%, 72% 80%, 80% 30%, 89% 70%, 95% 20%, 100% 60%, 100% 100%); }
+.cart .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; padding-top: 14px; padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+.cart-info { display: flex; align-items: baseline; gap: 6px 24px; flex-wrap: wrap; min-width: 0; }
+.cart-count { font-weight: 700; font-size: 16px; }
+.cart-total { font-family: var(--display); font-size: 32px; line-height: 1; }
+.cart-names { color: #44443f; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40vw; }
+.wa { display: inline-flex; align-items: center; gap: 10px; border: 0; background: var(--black); color: var(--acid); font-weight: 700; font-size: 16px; padding: 16px 22px; min-height: 56px; text-decoration: none; white-space: nowrap; transition: background-color .2s, color .2s, transform .15s; }
+.wa svg { width: 22px; height: 22px; flex: none; }
+.wa:hover { background: var(--red); color: var(--black); }
+.wa:active { transform: translateY(1px); }
+.wa[aria-disabled="true"] { background: #c9c9c2; color: #55554f; cursor: not-allowed; transform: none; }
+@media (max-width: 599px) {
+  .cart-names { display: none; }
+  .cart .wrap { gap: 10px; }
+  .wa { padding: 14px 16px; font-size: 16px; }
+  .wa .long { display: none; }
+}
+
+/* aviso (preview ausente etc.) */
+.toast { position: fixed; left: 50%; bottom: calc(var(--bar-h) + 16px); z-index: 60; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: var(--red); color: var(--black); font-weight: 700; padding: 14px 18px; max-width: min(560px, calc(100vw - 32px)); transition: opacity .25s, transform .25s var(--ease); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+
+/* =========================================================
+   LAYOUT DO CELULAR
+   ========================================================= */
+@media (max-width: 859px) {
+  .hero-grid { grid-template-columns: 1fr; grid-template-areas: "title" "body" "media"; }
+  .hero-media { justify-self: center; width: min(78%, 360px); margin-top: 16px; }
+  #sobre .wrap { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   MOVIMENTO (só com JS ativo e sem "reduzir movimento")
+   ========================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero h1 .line > span { transform: translateY(105%); transition: transform .9s cubic-bezier(.16, 1, .3, 1); }
+  .js .hero h1 .line:nth-child(2) > span { transition-delay: .11s; }
+  .js.ready .hero h1 .line > span { transform: none; }
+  .js .rise { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
+  .js .rise.in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#beats">Pular para os beats</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="YUNGVITT.OG, voltar ao início">
+      <span class="brand-name">YUNGVITT<b>.OG</b></span>
+      <span class="brand-tag">beats trap · drill · dark</span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+      <span class="bars" aria-hidden="true"></span><span>Menu</span>
+    </button>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <ul>
+        <li><a href="#beats">Beats</a></li>
+        <li><a href="#generos">Gêneros</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a class="nav-cta" href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="hero" aria-labelledby="titulo">
+    <div class="wrap">
+      <div class="hero-grid">
+        <h1 id="titulo" class="display" aria-label="Beat cru, rima pesada">
+          <span class="line" aria-hidden="true"><span class="glitch" data-text="BEAT CRU,">BEAT CRU,</span></span>
+          <span class="line" aria-hidden="true"><span>RIMA PESADA</span></span>
+        </h1>
+        <div class="hero-body">
+          <p class="hero-lead rise">Trap, drill e dark feitos pelo <strong>YUNGVITT.OG</strong>. Ouça o preview, monte sua seleção e fecha a compra direto no WhatsApp.</p>
+
+          <form class="search rise" role="search" style="--d:.08s" onsubmit="return false">
+            <label for="busca">
+              <span class="sr-only">Buscar beats por nome ou gênero</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+            </label>
+            <input id="busca" type="search" placeholder="Busque por nome ou gênero" autocomplete="off" aria-describedby="resultado">
+            <button class="clear" type="button" hidden aria-label="Limpar busca">Limpar</button>
+          </form>
+
+          <ul class="chips rise" style="--d:.14s" aria-label="Filtrar por gênero"></ul>
+
+          <p class="hero-facts rise" style="--d:.2s">
+            <span><b id="fact-total">0</b> beats no catálogo</span>
+            <span>a partir de <b id="fact-min">R$ 0</b></span>
+            <span>compra pelo <b>WhatsApp</b></span>
+          </p>
+        </div>
+
+        <figure class="hero-media rise" style="--d:.1s">
+          <span class="tape-strip" aria-hidden="true">LADO A</span>
+          <div class="frame">
+            <!-- Loop renderizado com HyperFrames (pasta hyperframes/hero-loop) -->
+            <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-loop.jpg" aria-hidden="true">
+              <source src="assets/hero-loop.mp4" type="video/mp4">
+            </video>
+          </div>
+          <figcaption>Fita da casa: tudo a 140 BPM.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="beats" class="sec" aria-labelledby="t-novos">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="t-novos" class="display rise">Novos beats</h2>
+          <p class="rise" style="--d:.08s" id="resultado" aria-live="polite"><span class="count">0 beats</span></p>
+        </div>
+        <ul class="grid" id="grid"></ul>
+      </div>
+  </section>
+
+  <section id="generos" class="sec" aria-labelledby="t-generos">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="t-generos" class="display rise">Gêneros</h2>
+        <p class="rise" style="--d:.08s">Escolha a vibe e a lista lá em cima já filtra pra você.</p>
+      </div>
+      <div class="genres" id="genres"></div>
+    </div>
+  </section>
+
+  <section id="sobre" class="sec" aria-labelledby="t-sobre">
+    <div class="wrap">
+      <h2 id="t-sobre" class="display rise">Sobre</h2>
+      <div class="about-text">
+        <p class="big rise">Beat feito de madrugada, sem fórmula de playlist.</p>
+        <p class="rise" style="--d:.06s">YUNGVITT.OG produz trap, drill e dark com grave na cara e espaço pra sua voz. Cada beat aqui tem preview pra você testar a rima antes de fechar.</p>
+        <p class="rise" style="--d:.1s">Licença, formato dos arquivos (MP3, WAV ou stems) e exclusividade são combinados direto no WhatsApp, sem intermediário.</p>
+        <h3 class="sr-only">Como comprar</h3>
+        <ol class="steps rise" style="--d:.14s">
+          <li><span><b>Ouça</b> os previews e escolha os beats que combinam com a sua letra.</span></li>
+          <li><span><b>Selecione</b> quantos quiser: o total aparece na barra lá embaixo.</span></li>
+          <li><span><b>Chame no WhatsApp</b> com a lista pronta e combine o pagamento e a entrega.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot" id="contato">
+  <div class="wrap">
+    <div class="foot-top">
+      <span class="brand-name">YUNGVITT.OG</span>
+      <p>Beats de trap, drill e dark. Atendimento e venda só pelo WhatsApp.</p>
+      <a href="#titulo">Voltar ao topo</a>
+    </div>
+    <a class="foot-call" id="foot-call" href="#" target="_blank" rel="noopener" aria-label="Chamar YUNGVITT.OG no WhatsApp">
+      <span>Chama</span><span>no zap</span>
+    </a>
+    <p class="foot-num">WhatsApp <a id="foot-num" href="#" target="_blank" rel="noopener"></a></p>
+    <div class="foot-meta">
+      <span>© <span id="ano">2026</span> YUNGVITT.OG</span>
+      <span>Capas e vídeo feitos com HyperFrames</span>
+      <span>Brasil</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Barra fixa com a seleção -->
+<aside class="cart" id="cart" aria-label="Sua seleção">
+  <div class="wrap">
+    <div class="cart-info">
+      <span class="cart-count" id="cart-count" aria-live="polite">Nada selecionado</span>
+      <span class="cart-total" id="cart-total">R$ 0,00</span>
+      <span class="cart-names" id="cart-names"></span>
+    </div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener" role="button" aria-disabled="true" tabindex="-1" aria-label="Comprar no WhatsApp: selecione pelo menos um beat">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+      <span>Comprar<span class="long"> no WhatsApp</span></span>
+    </a>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO: o produtor só precisa mexer daqui até a linha
+   "FIM DA CONFIGURAÇÃO". O resto do código lê estes valores.
+   ========================================================= */
+const CONFIG = {
+  // Número do WhatsApp com DDI (55) e DDD, só números. Ex.: 5511987654321
+  whatsapp: "5511999999999",
+  // Primeira frase da mensagem que chega no seu WhatsApp
+  greeting: "Salve, YUNGVITT.OG! Quero fechar estes beats:",
+};
+
+/* Lista de beats. Para adicionar um beat, copie um bloco { ... } e troque os valores.
+   Para remover, apague o bloco inteiro (com a vírgula).
+   - id:     identificador único, sem espaço (ex.: "madrugada")
+   - name:   nome que aparece no site
+   - bpm:    batidas por minuto (número)
+   - key:    tom (ex.: "F#m", "C#m", "Gm")
+   - price:  preço em reais, só o número (ex.: 150 ou 179.90)
+   - genre:  "trap", "drill" ou "dark" (ou um gênero novo, em minúsculas)
+   - cover:  caminho da capa (quadrada, 640x640 ou maior)
+   - audio:  caminho do preview em mp3, dentro da pasta audio/            */
+const BEATS = [
+  { id: "madrugada",   name: "Madrugada",      bpm: 140, key: "F#m", price: 150, genre: "trap",  cover: "covers/madrugada.jpg",   audio: "audio/madrugada.mp3" },
+  { id: "beco",        name: "Beco sem saída", bpm: 142, key: "C#m", price: 200, genre: "drill", cover: "covers/beco.jpg",        audio: "audio/beco.mp3" },
+  { id: "luz-negra",   name: "Luz negra",      bpm: 130, key: "Gm",  price: 180, genre: "dark",  cover: "covers/luz-negra.jpg",   audio: "audio/luz-negra.mp3" },
+  { id: "corre",       name: "Corre",          bpm: 150, key: "Am",  price: 120, genre: "trap",  cover: "covers/corre.jpg",       audio: "audio/corre.mp3" },
+  { id: "fumaca",      name: "Fumaça",         bpm: 135, key: "Dm",  price: 150, genre: "trap",  cover: "covers/fumaca.jpg",      audio: "audio/fumaca.mp3" },
+  { id: "quebrada",    name: "Quebrada fria",  bpm: 144, key: "Ebm", price: 220, genre: "drill", cover: "covers/quebrada.jpg",    audio: "audio/quebrada.mp3" },
+  { id: "velorio",     name: "Velório",        bpm: 120, key: "Bbm", price: 200, genre: "dark",  cover: "covers/velorio.jpg",     audio: "audio/velorio.mp3" },
+  { id: "noite-acida", name: "Noite ácida",    bpm: 145, key: "Em",  price: 170, genre: "trap",  cover: "covers/noite-acida.jpg", audio: "audio/noite-acida.mp3" },
+];
+
+/* Textos e imagens da seção "Gêneros". Um gênero que aparece nos BEATS
+   mas não está aqui ganha um painel simples, sem imagem. */
+const GENRES = {
+  trap:  { label: "Trap",  text: "808 longo, hi-hat picado e melodia que gruda. Pra rima de ostentação ou de desabafo.", cover: "covers/genero-trap.jpg" },
+  drill: { label: "Drill", text: "Grave deslizando, contratempo e clima de rua fria. Pra flow rápido e letra sem filtro.", cover: "covers/genero-drill.jpg" },
+  dark:  { label: "Dark",  text: "Atmosfera pesada, sample sombrio e pouca luz. Pra som de madrugada e verso introspectivo.", cover: "covers/genero-dark.jpg" },
+};
+/* ================= FIM DA CONFIGURAÇÃO ================= */
+
+
+(() => {
+  "use strict";
+  const $ = (s, el = document) => el.querySelector(s);
+  const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  const norm = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const genreLabel = (g) => (GENRES[g] && GENRES[g].label) || g.charAt(0).toUpperCase() + g.slice(1);
+
+  document.documentElement.classList.add("js");
+  $("#ano").textContent = new Date().getFullYear();
+
+  /* ---------- estado ---------- */
+  const STORE = "yungvitt-selecao";
+  let selected = new Set();
+  try { JSON.parse(localStorage.getItem(STORE) || "[]").forEach((id) => BEATS.some((b) => b.id === id) && selected.add(id)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(STORE, JSON.stringify([...selected])); } catch (e) {} };
+  let query = "";
+  let genre = "todos";
+
+  /* ---------- números do hero ---------- */
+  $("#fact-total").textContent = BEATS.length;
+  $("#fact-min").textContent = BEATS.length ? brl.format(Math.min(...BEATS.map((b) => b.price))) : "R$ 0";
+
+  /* ---------- filtros por gênero ---------- */
+  const genres = [...new Set(BEATS.map((b) => b.genre))];
+  const chips = $(".chips");
+  chips.innerHTML = ["todos", ...genres].map((g) =>
+    `<li><button type="button" class="chip" data-genre="${esc(g)}" aria-pressed="${g === genre}">${esc(g === "todos" ? "Todos" : genreLabel(g))}</button></li>`
+  ).join("");
+  chips.addEventListener("click", (e) => {
+    const b = e.target.closest(".chip");
+    if (b) setGenre(b.dataset.genre);
+  });
+  function setGenre(g) {
+    genre = g;
+    chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.genre === g)));
+    applyFilter();
+  }
+
+  /* ---------- cards ---------- */
+  const grid = $("#grid");
+  const icons = `<svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>`;
+  grid.innerHTML = BEATS.map((b, i) => `
+    <li class="beat rise" data-id="${esc(b.id)}" style="--d:${(i % 4) * 0.07}s">
+      <div class="beat-cover">
+        <img src="${esc(b.cover)}" alt="Capa do beat ${esc(b.name)}" width="640" height="640" loading="lazy">
+        <button type="button" class="play" aria-label="Tocar preview de ${esc(b.name)}">${icons}</button>
+        <div class="progress" aria-hidden="true"><span></span></div>
+      </div>
+      <div class="beat-body">
+        <h3>${esc(b.name)}</h3>
+        <dl class="beat-meta">
+          <dt class="sr-only">Gênero</dt><dd class="tag" data-g="${esc(b.genre)}">${esc(genreLabel(b.genre))}</dd>
+          <dt class="sr-only">Andamento</dt><dd>${esc(b.bpm)} BPM</dd>
+          <dt class="sr-only">Tom</dt><dd>${esc(b.key)}</dd>
+        </dl>
+        <div class="beat-foot">
+          <span class="price"><span class="sr-only">Preço: </span>${brl.format(b.price)}</span>
+          <button type="button" class="add" aria-pressed="false"></button>
+        </div>
+      </div>
+    </li>`).join("") +
+    `<li class="empty" id="empty" hidden><p>Nenhum beat com esse nome ou gênero.</p><button type="button" id="reset">Ver todos os beats</button></li>`;
+
+  // capa ausente: mostra o nome no lugar
+  grid.querySelectorAll(".beat-cover img").forEach((img) => {
+    img.addEventListener("error", () => {
+      const name = img.closest(".beat").querySelector("h3").textContent;
+      img.replaceWith(Object.assign(document.createElement("div"), { className: "no-cover", textContent: name }));
+    }, { once: true });
+  });
+
+  grid.addEventListener("click", (e) => {
+    const card = e.target.closest(".beat");
+    if (!card) return;
+    if (e.target.closest(".play")) togglePlay(card.dataset.id);
+    if (e.target.closest(".add")) toggleSelect(card.dataset.id);
+  });
+  grid.addEventListener("click", (e) => {
+    if (e.target.id === "reset") { input.value = ""; query = ""; clearBtn.hidden = true; setGenre("todos"); input.focus(); }
+  });
+
+  /* ---------- busca ---------- */
+  const input = $("#busca");
+  const clearBtn = $(".search .clear");
+  input.addEventListener("input", () => { query = input.value; clearBtn.hidden = !query; applyFilter(); });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); $("#beats").scrollIntoView(); }
+    if (e.key === "Escape") { input.value = ""; query = ""; clearBtn.hidden = true; applyFilter(); }
+  });
+  clearBtn.addEventListener("click", () => { input.value = ""; query = ""; clearBtn.hidden = true; applyFilter(); input.focus(); });
+
+  function applyFilter() {
+    const q = norm(query);
+    let shown = 0;
+    BEATS.forEach((b) => {
+      const card = grid.querySelector(`[data-id="${CSS.escape(b.id)}"]`);
+      const hay = norm(`${b.name} ${b.genre} ${genreLabel(b.genre)} ${b.key} ${b.bpm}`);
+      const ok = (genre === "todos" || b.genre === genre) && (!q || q.split(/\s+/).every((w) => hay.includes(w)));
+      card.hidden = !ok;
+      if (ok) { shown++; card.classList.add("in"); }
+    });
+    $("#empty").hidden = shown > 0;
+    const filtro = genre === "todos" ? "" : ` em ${genreLabel(genre)}`;
+    $("#resultado").innerHTML = `<span class="count">${shown} ${shown === 1 ? "beat" : "beats"}</span>${filtro || q ? ` ${shown === 1 ? "encontrado" : "encontrados"}${esc(filtro)}${q ? ` para “${esc(query.trim())}”` : ""}` : " no catálogo. Toque no play pra ouvir."}`;
+  }
+
+  /* ---------- seleção e WhatsApp ---------- */
+  const wa = $("#wa");
+  function toggleSelect(id) {
+    selected.has(id) ? selected.delete(id) : selected.add(id);
+    save();
+    renderCart();
+  }
+  function renderCart() {
+    const items = BEATS.filter((b) => selected.has(b.id));
+    const total = items.reduce((s, b) => s + Number(b.price), 0);
+    const n = items.length;
+
+    grid.querySelectorAll(".beat").forEach((card) => {
+      const on = selected.has(card.dataset.id);
+      const b = BEATS.find((x) => x.id === card.dataset.id);
+      card.classList.toggle("is-selected", on);
+      const btn = card.querySelector(".add");
+      btn.setAttribute("aria-pressed", String(on));
+      btn.setAttribute("aria-label", on ? `Remover ${b.name} da seleção` : `Adicionar ${b.name} à seleção`);
+      btn.innerHTML = on ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6"/></svg> Na seleção` : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg> Selecionar`;
+    });
+
+    $("#cart-count").textContent = n === 0 ? "Nada selecionado" : `${n} ${n === 1 ? "beat selecionado" : "beats selecionados"}`;
+    $("#cart-total").textContent = brl.format(total);
+    $("#cart-names").textContent = items.map((b) => b.name).join(" · ");
+
+    if (n === 0) {
+      wa.setAttribute("aria-disabled", "true");
+      wa.setAttribute("tabindex", "-1");
+      wa.setAttribute("aria-label", "Comprar no WhatsApp: selecione pelo menos um beat");
+      wa.href = "#";
+    } else {
+      const lines = items.map((b) => `• ${b.name} | ${b.bpm} BPM | Tom ${b.key} | ${brl.format(b.price)}`);
+      const msg = `${CONFIG.greeting}\n\n${lines.join("\n")}\n\nTotal: ${brl.format(total)}`;
+      wa.href = `https://wa.me/${String(CONFIG.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(msg)}`;
+      wa.removeAttribute("aria-disabled");
+      wa.removeAttribute("tabindex");
+      wa.setAttribute("aria-label", `Comprar no WhatsApp: ${n} ${n === 1 ? "beat" : "beats"}, total ${brl.format(total)}`);
+    }
+  }
+  wa.addEventListener("click", (e) => { if (wa.getAttribute("aria-disabled") === "true") { e.preventDefault(); toast("Selecione pelo menos um beat antes de comprar."); } });
+  wa.addEventListener("keydown", (e) => { if (e.key === " ") { e.preventDefault(); wa.click(); } });
+
+  // link e número do rodapé
+  const num = String(CONFIG.whatsapp).replace(/\D/g, "");
+  const fmt = num.length >= 12 ? `+${num.slice(0, 2)} ${num.slice(2, 4)} ${num.slice(4, -4)}-${num.slice(-4)}` : num;
+  $("#foot-num").textContent = fmt;
+  $("#foot-num").href = `https://wa.me/${num}`;
+  $("#foot-call").href = `https://wa.me/${String(CONFIG.whatsapp).replace(/\D/g, "")}?text=${encodeURIComponent(CONFIG.greeting.replace(/:\s*$/, "."))}`;
+
+  /* ---------- player: um preview por vez ---------- */
+  const audio = new Audio();
+  audio.preload = "none";
+  let current = null;
+  const cardOf = (id) => grid.querySelector(`[data-id="${CSS.escape(id)}"]`);
+  function setPlaying(id, on) {
+    const card = id && cardOf(id);
+    if (!card) return;
+    const b = BEATS.find((x) => x.id === id);
+    card.classList.toggle("is-playing", on);
+    card.querySelector(".play").setAttribute("aria-label", `${on ? "Pausar" : "Tocar"} preview de ${b.name}`);
+    if (!on) card.querySelector(".progress span").style.width = "0";
+  }
+  function togglePlay(id) {
+    const b = BEATS.find((x) => x.id === id);
+    if (current === id && !audio.paused) { audio.pause(); return; }
+    if (current && current !== id) { audio.pause(); setPlaying(current, false); }
+    if (current !== id) { current = id; audio.src = b.audio; }
+    setPlaying(id, true);
+    const p = audio.play();
+    if (p && p.catch) p.catch((err) => { if (err && err.name !== "AbortError") missing(id); });
+  }
+  function missing(id) {
+    const b = BEATS.find((x) => x.id === id);
+    setPlaying(id, false);
+    const card = cardOf(id);
+    card && card.classList.add("is-missing");
+    toast(`O preview de “${b.name}” ainda não está disponível (${b.audio}).`);
+    current = null;
+  }
+  audio.addEventListener("error", () => { if (current) missing(current); });
+  audio.addEventListener("pause", () => current && setPlaying(current, false));
+  audio.addEventListener("play", () => current && setPlaying(current, true));
+  audio.addEventListener("ended", () => { if (current) setPlaying(current, false); current = null; });
+  audio.addEventListener("timeupdate", () => {
+    if (!current || !audio.duration) return;
+    cardOf(current).querySelector(".progress span").style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+  });
+
+  /* ---------- aviso ---------- */
+  let toastTimer;
+  function toast(text) {
+    const t = $("#toast");
+    t.textContent = text;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 4200);
+  }
+
+  /* ---------- gêneros ---------- */
+  $("#genres").innerHTML = genres.map((g) => {
+    const info = GENRES[g] || { label: genreLabel(g), text: "" };
+    const n = BEATS.filter((b) => b.genre === g).length;
+    return `<article class="genre rise">
+      ${info.cover ? `<div class="genre-img"><img src="${esc(info.cover)}" alt="" width="640" height="640" loading="lazy"></div>` : ""}
+      <div class="genre-body">
+        <h3>${esc(info.label)}</h3>
+        <p>${esc(info.text)}</p>
+        <p><b>${n} ${n === 1 ? "beat" : "beats"}</b></p>
+        <button type="button" class="go" data-genre="${esc(g)}" aria-label="Ver beats de ${esc(info.label)}">Ver beats de ${esc(info.label.toLowerCase())}</button>
+      </div>
+    </article>`;
+  }).join("");
+  $("#genres").addEventListener("click", (e) => {
+    const b = e.target.closest(".go");
+    if (!b) return;
+    setGenre(b.dataset.genre);
+    $("#beats").scrollIntoView();
+  });
+
+  /* ---------- menu do celular ---------- */
+  const menuBtn = $(".menu-btn"), nav = $("#menu");
+  const closeMenu = () => { nav.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); menuBtn.setAttribute("aria-label", "Abrir menu"); };
+  menuBtn.addEventListener("click", () => {
+    const open = !nav.classList.contains("open");
+    nav.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+    if (open) nav.querySelector("a").focus();
+  });
+  nav.addEventListener("click", (e) => e.target.closest("a") && closeMenu());
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("open")) { closeMenu(); menuBtn.focus(); } });
+
+  /* ---------- barra fixa não cobre o conteúdo ---------- */
+  const cart = $("#cart");
+  const syncBar = () => document.documentElement.style.setProperty("--bar-h", `${Math.ceil(cart.getBoundingClientRect().height) + 10}px`);
+  if ("ResizeObserver" in window) new ResizeObserver(syncBar).observe(cart);
+  syncBar();
+
+  /* ---------- vídeo respeita "reduzir movimento" ---------- */
+  const video = $("#hero-video");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches && video) { video.removeAttribute("autoplay"); video.pause(); }
+
+  /* ---------- entradas ---------- */
+  const rises = document.querySelectorAll(".rise");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    }), { rootMargin: "0px 0px -8% 0px" });
+    rises.forEach((el) => io.observe(el));
+  } else rises.forEach((el) => el.classList.add("in"));
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("ready")));
+
+  applyFilter();
+  renderCart();
+})();
+</script>
+</body>
+</html>

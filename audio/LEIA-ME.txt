@@ -1,0 +1,8 @@
+Coloque aqui os previews em MP3 dos beats.
+
+O nome de cada arquivo precisa bater com o campo "audio" do beat no index.html.
+Exemplo: { id: "madrugada", ..., audio: "audio/madrugada.mp3" }  ->  audio/madrugada.mp3
+
+Dica: use um trecho de 30 a 60 segundos com marca d'água (tag de voz),
+exportado em MP3 128 kbps, para o site carregar rápido no celular.
+Se o arquivo não existir, o site mostra um aviso no lugar de tocar.

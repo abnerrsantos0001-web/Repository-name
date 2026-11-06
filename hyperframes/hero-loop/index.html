@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=900, height=1200" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      /* Loop do hero do site YUNGVITT.OG: fita cassete tocando a 140 BPM.
+         6 s = 14 tempos exatos a 140 BPM, então o fim encaixa no começo. */
+      @font-face {
+        font-family: "Anton";
+        src: url("assets/fonts/anton.woff2") format("woff2");
+      }
+      :root {
+        --ground: #070707;
+        --ink: #f2f2ee;
+        --acid: #b6ff00;
+        --red: #ff2e2e;
+        --shell: #161616;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 900px; height: 1200px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Space Mono", monospace; color: var(--ink); }
+
+      /* pontos (retícula) no fundo */
+      #dots {
+        position: absolute; inset: -40px;
+        background-image: radial-gradient(circle, #2a2a2a 1.6px, transparent 2px);
+        background-size: 14px 14px;
+      }
+      /* faixa verde de flyer atrás da fita */
+      #band {
+        position: absolute; left: -60px; right: -60px; top: 720px; height: 190px;
+        background: var(--acid); transform: rotate(-7deg);
+      }
+      #band-text {
+        position: absolute; left: 0; top: 12px; white-space: nowrap;
+        font-family: "Anton"; font-size: 150px; line-height: 1; color: #0b0b0b; letter-spacing: -0.01em;
+      }
+      /* fita */
+      #tape {
+        position: absolute; left: 70px; top: 335px; width: 760px; height: 480px;
+        transform: rotate(4deg);
+      }
+      #tape-svg { width: 100%; height: 100%; display: block; }
+            #label-name { font-family: "Anton"; font-size: 84px; fill: #0b0b0b; letter-spacing: 0.5px; }
+      #label-red { font-family: "Anton"; font-size: 84px; fill: var(--red); }
+      .label-small { font-family: "Space Mono"; font-size: 24px; font-weight: 700; fill: #0b0b0b; }
+
+      /* ondas do beat */
+      #wave { position: absolute; left: 60px; right: 60px; bottom: 120px; height: 150px; display: flex; align-items: flex-end; gap: 8px; }
+      .bar { flex: 1; height: 100%; background: var(--acid); transform-origin: 50% 100%; }
+      .bar.r { background: var(--red); }
+
+      #topline { position: absolute; left: 60px; right: 60px; top: 70px; display: flex; justify-content: space-between; font-size: 26px; font-weight: 700; letter-spacing: 0.04em; }
+      #rec { color: var(--red); }
+      #bpm { font-family: "Anton"; position: absolute; left: 56px; top: 120px; font-size: 200px; line-height: 0.9; color: var(--ink); }
+      #bpm span { color: var(--acid); }
+
+      /* grão: três camadas de ruído que se revezam por quadro */
+      .grain { position: absolute; inset: 0; opacity: 0; mix-blend-mode: screen; pointer-events: none; }
+      #scan { position: absolute; left: 0; right: 0; height: 4px; top: 0; background: #ff2e2e; opacity: 0.45; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="900" data-height="1200">
+      <div id="dots"></div>
+      <div id="band"><div id="band-text"><span id="cyc">TRAP · DRILL · DARK · </span><span>TRAP · DRILL · DARK · </span><span>TRAP · DRILL · DARK · </span></div></div>
+
+      <div id="topline"><span id="rec">● REC</span><span>LADO A / C-60</span></div>
+      <div id="bpm">140<span>BPM</span></div>
+
+      <div id="tape">
+        <svg id="tape-svg" viewBox="0 0 760 480" aria-hidden="true">
+          <!-- casca da fita -->
+          <path d="M24 8 H736 Q752 8 752 24 V456 Q752 472 736 472 H24 Q8 472 8 456 V24 Q8 8 24 8 Z" fill="#161616" />
+          <circle cx="40" cy="40" r="9" fill="#2b2b2b" /><circle cx="720" cy="40" r="9" fill="#2b2b2b" />
+          <circle cx="40" cy="440" r="9" fill="#2b2b2b" /><circle cx="720" cy="440" r="9" fill="#2b2b2b" />
+          <!-- etiqueta -->
+          <rect x="56" y="44" width="648" height="290" fill="#f2f2ee" />
+          <rect x="56" y="44" width="648" height="44" fill="#b6ff00" />
+          <text x="76" y="76" class="label-small">BEATS EXCLUSIVOS · PREVIEW</text>
+          <text x="664" y="76" class="label-small">A</text>
+          <text id="label-red" data-layout-allow-overlap x="82" y="164">YUNGVITT.OG</text>
+          <text id="label-name" x="78" y="162">YUNGVITT.OG</text>
+          <!-- janela das bobinas -->
+          <rect x="150" y="182" width="460" height="120" rx="60" fill="#0b0b0b" />
+          <rect x="300" y="204" width="160" height="76" fill="#2a1a10" />
+          <g id="reelL" class="reel">
+            <circle cx="230" cy="242" r="46" fill="#3a2516" />
+            <circle cx="230" cy="242" r="24" fill="#f2f2ee" />
+            <path d="M230 220 L236 218 L224 218 Z M252 242 L240 248 L240 236 Z M230 264 L224 252 L236 252 Z M208 242 L220 236 L220 248 Z" fill="#0b0b0b" />
+          </g>
+          <g id="reelR" class="reel">
+            <circle cx="530" cy="242" r="34" fill="#3a2516" />
+            <circle cx="530" cy="242" r="24" fill="#f2f2ee" />
+            <path d="M530 220 L536 218 L524 218 Z M552 242 L540 248 L540 236 Z M530 264 L524 252 L536 252 Z M508 242 L520 236 L520 248 Z" fill="#0b0b0b" />
+          </g>
+          <!-- parte de baixo da fita -->
+          <path d="M150 472 L190 360 H570 L610 472 Z" fill="#222" />
+          <circle cx="250" cy="420" r="12" fill="#0b0b0b" /><circle cx="510" cy="420" r="12" fill="#0b0b0b" />
+          <rect x="350" y="400" width="60" height="40" fill="#0b0b0b" />
+        </svg>
+      </div>
+
+      <div id="wave"></div>
+
+      <svg width="0" height="0" style="position:absolute">
+        <filter id="n1"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" /><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" /></filter>
+        <filter id="n2"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" /><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" /></filter>
+        <filter id="n3"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="29" /><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" /></filter>
+      </svg>
+      <svg class="grain" id="g1" width="900" height="1200"><rect width="900" height="1200" filter="url(#n1)" /></svg>
+      <svg class="grain" id="g2" width="900" height="1200"><rect width="900" height="1200" filter="url(#n2)" /></svg>
+      <svg class="grain" id="g3" width="900" height="1200"><rect width="900" height="1200" filter="url(#n3)" /></svg>
+      <div id="scan"></div>
+    </div>
+    <script>
+      const LOOP = 6;
+      const BEAT = 60 / 140; // 14 tempos em 6 s
+      const BARS = 26;
+
+      // barras (decoração, não são clips com tempo próprio)
+      const wave = document.getElementById("wave");
+      for (let i = 0; i < BARS; i++) {
+        const b = document.createElement("div");
+        b.className = "bar" + (i % 9 === 4 ? " r" : "");
+        wave.appendChild(b);
+      }
+      // gerador com semente: mesmo resultado a cada render
+      let s = 140;
+      const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+
+      const tl = gsap.timeline({ paused: true });
+
+      // bobinas: voltas inteiras, o loop fecha
+      tl.fromTo("#reelL", { rotation: 0, svgOrigin: "230 242" }, { rotation: 360 * 3, svgOrigin: "230 242", duration: LOOP, ease: "none" }, 0);
+      tl.fromTo("#reelR", { rotation: 0, svgOrigin: "530 242" }, { rotation: 360 * 4, svgOrigin: "530 242", duration: LOOP, ease: "none" }, 0);
+
+      // faixa de texto corre um ciclo exato da frase
+      tl.fromTo("#band-text", { x: 0 }, { x: -1164.5, duration: LOOP, ease: "none" }, 0);
+
+      // barras pulsam a cada tempo e voltam ao valor inicial no fim
+      const bars = gsap.utils.toArray(".bar");
+      const rest = bars.map(() => 0.12 + rnd() * 0.12);
+      gsap.set(bars, { scaleY: (i) => rest[i] });
+      for (let k = 0; k < 14; k++) {
+        const t = k * BEAT;
+        const kick = k % 2 === 0;
+        bars.forEach((b, i) => {
+          const peak = Math.min(1, (kick ? 0.55 : 0.3) + rnd() * 0.45);
+          tl.to(b, { scaleY: peak, duration: 0.05, ease: "power2.out" }, t);
+          tl.to(b, { scaleY: rest[i], duration: BEAT - 0.08, ease: "power2.in" }, t + 0.05);
+        });
+      }
+
+      // glitch sutil na etiqueta: o vermelho desloca em dois momentos
+      gsap.set("#label-red", { x: 0, opacity: 0 });
+      [1.29, 3.86].forEach((t) => {
+        tl.to("#label-red", { x: 7, opacity: 1, duration: 0.03 }, t);
+        tl.to("#label-red", { x: -5, duration: 0.03 }, t + 0.07);
+        tl.to("#label-red", { x: 0, opacity: 0, duration: 0.03 }, t + 0.16);
+      });
+
+      // grão troca de camada a cada 2 quadros
+      const grains = ["#g1", "#g2", "#g3"];
+      gsap.set(grains, { opacity: 0 });
+      for (let f = 0; f < LOOP * 15; f++) {
+        const t = f / 15;
+        tl.set(grains, { opacity: 0 }, t);
+        tl.set(grains[f % 3], { opacity: 0.14 }, t);
+      }
+
+      // linha de varredura vermelha desce uma vez por loop
+      tl.fromTo("#scan", { y: -90 }, { y: 1200, duration: LOOP, ease: "none" }, 0);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
