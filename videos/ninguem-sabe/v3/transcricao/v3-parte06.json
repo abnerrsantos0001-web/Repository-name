@@ -1,0 +1,639 @@
+{
+ "audio": "assets/audio/v3-parte06.flac",
+ "duracao": 43.634,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   3.308,
+   4.307
+  ],
+  [
+   4.585,
+   6.796
+  ],
+  [
+   7.509,
+   9.933
+  ],
+  [
+   10.326,
+   12.038
+  ],
+  [
+   12.219,
+   12.801
+  ],
+  [
+   13.364,
+   14.9
+  ],
+  [
+   15.162,
+   16.503
+  ],
+  [
+   17.009,
+   20.715
+  ],
+  [
+   21.249,
+   23.431
+  ],
+  [
+   24.974,
+   27.832
+  ],
+  [
+   27.998,
+   28.197
+  ],
+  [
+   28.719,
+   29.578
+  ],
+  [
+   29.765,
+   32.98
+  ],
+  [
+   33.965,
+   35.092
+  ],
+  [
+   35.296,
+   36.539
+  ],
+  [
+   37.046,
+   38.61
+  ],
+  [
+   39.429,
+   41.225
+  ],
+  [
+   41.672,
+   43.269
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p06w0",
+   "text": "No",
+   "start": 3.308,
+   "end": 3.744
+  },
+  {
+   "id": "p06w1",
+   "text": "quarto",
+   "start": 3.744,
+   "end": 4.008
+  },
+  {
+   "id": "p06w2",
+   "text": "dia,",
+   "start": 4.008,
+   "end": 4.307
+  },
+  {
+   "id": "p06w3",
+   "text": "o",
+   "start": 4.585,
+   "end": 4.643
+  },
+  {
+   "id": "p06w4",
+   "text": "mundo",
+   "start": 4.643,
+   "end": 4.996
+  },
+  {
+   "id": "p06w5",
+   "text": "vira",
+   "start": 4.996,
+   "end": 5.387
+  },
+  {
+   "id": "p06w6",
+   "text": "de",
+   "start": 5.387,
+   "end": 5.563
+  },
+  {
+   "id": "p06w7",
+   "text": "cabeça",
+   "start": 5.563,
+   "end": 6.013
+  },
+  {
+   "id": "p06w8",
+   "text": "pra",
+   "start": 6.013,
+   "end": 6.346
+  },
+  {
+   "id": "p06w9",
+   "text": "baixo.",
+   "start": 6.346,
+   "end": 6.796
+  },
+  {
+   "id": "p06w10",
+   "text": "Quem",
+   "start": 7.509,
+   "end": 7.618
+  },
+  {
+   "id": "p06w11",
+   "text": "tem",
+   "start": 7.618,
+   "end": 7.907
+  },
+  {
+   "id": "p06w12",
+   "text": "poucos",
+   "start": 7.907,
+   "end": 8.359
+  },
+  {
+   "id": "p06w13",
+   "text": "dias",
+   "start": 8.359,
+   "end": 8.793
+  },
+  {
+   "id": "p06w14",
+   "text": "larga",
+   "start": 8.793,
+   "end": 9.191
+  },
+  {
+   "id": "p06w15",
+   "text": "o",
+   "start": 9.191,
+   "end": 9.39
+  },
+  {
+   "id": "p06w16",
+   "text": "emprego,",
+   "start": 9.39,
+   "end": 9.933
+  },
+  {
+   "id": "p06w17",
+   "text": "tira",
+   "start": 10.326,
+   "end": 10.501
+  },
+  {
+   "id": "p06w18",
+   "text": "todo",
+   "start": 10.501,
+   "end": 10.918
+  },
+  {
+   "id": "p06w19",
+   "text": "o",
+   "start": 10.918,
+   "end": 11.138
+  },
+  {
+   "id": "p06w20",
+   "text": "dinheiro",
+   "start": 11.138,
+   "end": 11.335
+  },
+  {
+   "id": "p06w21",
+   "text": "do",
+   "start": 11.335,
+   "end": 11.621
+  },
+  {
+   "id": "p06w22",
+   "text": "banco",
+   "start": 11.621,
+   "end": 12.038
+  },
+  {
+   "id": "p06w23",
+   "text": "e",
+   "start": 12.219,
+   "end": 12.558
+  },
+  {
+   "id": "p06w24",
+   "text": "some.",
+   "start": 12.558,
+   "end": 12.801
+  },
+  {
+   "id": "p06w25",
+   "text": "Os",
+   "start": 13.364,
+   "end": 13.589
+  },
+  {
+   "id": "p06w26",
+   "text": "aeroportos",
+   "start": 13.589,
+   "end": 14.357
+  },
+  {
+   "id": "p06w27",
+   "text": "lotam,",
+   "start": 14.357,
+   "end": 14.9
+  },
+  {
+   "id": "p06w28",
+   "text": "as",
+   "start": 15.162,
+   "end": 15.361
+  },
+  {
+   "id": "p06w29",
+   "text": "igrejas",
+   "start": 15.361,
+   "end": 15.814
+  },
+  {
+   "id": "p06w30",
+   "text": "lotam,",
+   "start": 15.814,
+   "end": 16.503
+  },
+  {
+   "id": "p06w31",
+   "text": "quem",
+   "start": 17.01,
+   "end": 17.207
+  },
+  {
+   "id": "p06w32",
+   "text": "tem",
+   "start": 17.207,
+   "end": 17.443
+  },
+  {
+   "id": "p06w33",
+   "text": "50",
+   "start": 17.443,
+   "end": 18.034
+  },
+  {
+   "id": "p06w34",
+   "text": "anos",
+   "start": 18.034,
+   "end": 18.429
+  },
+  {
+   "id": "p06w35",
+   "text": "pela",
+   "start": 18.429,
+   "end": 18.645
+  },
+  {
+   "id": "p06w36",
+   "text": "frente",
+   "start": 18.645,
+   "end": 19.138
+  },
+  {
+   "id": "p06w37",
+   "text": "continua",
+   "start": 19.138,
+   "end": 19.769
+  },
+  {
+   "id": "p06w38",
+   "text": "indo",
+   "start": 19.769,
+   "end": 20.124
+  },
+  {
+   "id": "p06w39",
+   "text": "trabalhar,",
+   "start": 20.124,
+   "end": 20.715
+  },
+  {
+   "id": "p06w40",
+   "text": "como",
+   "start": 21.249,
+   "end": 21.479
+  },
+  {
+   "id": "p06w41",
+   "text": "se",
+   "start": 21.479,
+   "end": 21.766
+  },
+  {
+   "id": "p06w42",
+   "text": "nada",
+   "start": 21.766,
+   "end": 22.11
+  },
+  {
+   "id": "p06w43",
+   "text": "estivesse",
+   "start": 22.11,
+   "end": 22.704
+  },
+  {
+   "id": "p06w44",
+   "text": "acontecendo.",
+   "start": 22.704,
+   "end": 23.431
+  },
+  {
+   "id": "p06w45",
+   "text": "Nas",
+   "start": 24.974,
+   "end": 25.462
+  },
+  {
+   "id": "p06w46",
+   "text": "redes,",
+   "start": 25.462,
+   "end": 25.951
+  },
+  {
+   "id": "p06w47",
+   "text": "as",
+   "start": 26.196,
+   "end": 26.328
+  },
+  {
+   "id": "p06w48",
+   "text": "pessoas",
+   "start": 26.328,
+   "end": 26.666
+  },
+  {
+   "id": "p06w49",
+   "text": "colocam",
+   "start": 26.666,
+   "end": 27.23
+  },
+  {
+   "id": "p06w50",
+   "text": "a",
+   "start": 27.23,
+   "end": 27.437
+  },
+  {
+   "id": "p06w51",
+   "text": "data",
+   "start": 27.437,
+   "end": 27.588
+  },
+  {
+   "id": "p06w52",
+   "text": "no",
+   "start": 27.588,
+   "end": 27.832
+  },
+  {
+   "id": "p06w53",
+   "text": "perfil",
+   "start": 27.998,
+   "end": 28.197
+  },
+  {
+   "id": "p06w54",
+   "text": "e,",
+   "start": 28.719,
+   "end": 28.983
+  },
+  {
+   "id": "p06w55",
+   "text": "de",
+   "start": 29.066,
+   "end": 29.165
+  },
+  {
+   "id": "p06w56",
+   "text": "repente,",
+   "start": 29.165,
+   "end": 29.578
+  },
+  {
+   "id": "p06w57",
+   "text": "todo",
+   "start": 29.765,
+   "end": 29.93
+  },
+  {
+   "id": "p06w58",
+   "text": "mundo",
+   "start": 29.93,
+   "end": 30.239
+  },
+  {
+   "id": "p06w59",
+   "text": "te",
+   "start": 30.239,
+   "end": 30.568
+  },
+  {
+   "id": "p06w60",
+   "text": "olha",
+   "start": 30.568,
+   "end": 30.775
+  },
+  {
+   "id": "p06w61",
+   "text": "diferente",
+   "start": 30.775,
+   "end": 31.496
+  },
+  {
+   "id": "p06w62",
+   "text": "quando",
+   "start": 31.496,
+   "end": 31.908
+  },
+  {
+   "id": "p06w63",
+   "text": "descobre",
+   "start": 31.908,
+   "end": 32.526
+  },
+  {
+   "id": "p06w64",
+   "text": "a",
+   "start": 32.526,
+   "end": 32.732
+  },
+  {
+   "id": "p06w65",
+   "text": "sua.",
+   "start": 32.732,
+   "end": 32.98
+  },
+  {
+   "id": "p06w66",
+   "text": "Na",
+   "start": 33.965,
+   "end": 34.181
+  },
+  {
+   "id": "p06w67",
+   "text": "mesa",
+   "start": 34.181,
+   "end": 34.396
+  },
+  {
+   "id": "p06w68",
+   "text": "do",
+   "start": 34.396,
+   "end": 34.595
+  },
+  {
+   "id": "p06w69",
+   "text": "jantar,",
+   "start": 34.595,
+   "end": 35.092
+  },
+  {
+   "id": "p06w70",
+   "text": "a",
+   "start": 35.296,
+   "end": 35.392
+  },
+  {
+   "id": "p06w71",
+   "text": "sua",
+   "start": 35.392,
+   "end": 35.607
+  },
+  {
+   "id": "p06w72",
+   "text": "mãe",
+   "start": 35.607,
+   "end": 35.798
+  },
+  {
+   "id": "p06w73",
+   "text": "não",
+   "start": 35.798,
+   "end": 36.252
+  },
+  {
+   "id": "p06w74",
+   "text": "come,",
+   "start": 36.252,
+   "end": 36.539
+  },
+  {
+   "id": "p06w75",
+   "text": "ela",
+   "start": 37.046,
+   "end": 37.281
+  },
+  {
+   "id": "p06w76",
+   "text": "só",
+   "start": 37.281,
+   "end": 37.594
+  },
+  {
+   "id": "p06w77",
+   "text": "segura",
+   "start": 37.594,
+   "end": 38.004
+  },
+  {
+   "id": "p06w78",
+   "text": "a",
+   "start": 38.004,
+   "end": 38.2
+  },
+  {
+   "id": "p06w79",
+   "text": "sua",
+   "start": 38.2,
+   "end": 38.336
+  },
+  {
+   "id": "p06w80",
+   "text": "mão.",
+   "start": 38.336,
+   "end": 38.61
+  },
+  {
+   "id": "p06w81",
+   "text": "E",
+   "start": 39.429,
+   "end": 39.671
+  },
+  {
+   "id": "p06w82",
+   "text": "pela",
+   "start": 39.671,
+   "end": 39.833
+  },
+  {
+   "id": "p06w83",
+   "text": "primeira",
+   "start": 39.833,
+   "end": 40.297
+  },
+  {
+   "id": "p06w84",
+   "text": "vez",
+   "start": 40.297,
+   "end": 40.6
+  },
+  {
+   "id": "p06w85",
+   "text": "na",
+   "start": 40.6,
+   "end": 40.882
+  },
+  {
+   "id": "p06w86",
+   "text": "vida,",
+   "start": 40.882,
+   "end": 41.225
+  },
+  {
+   "id": "p06w87",
+   "text": "você",
+   "start": 41.672,
+   "end": 41.879
+  },
+  {
+   "id": "p06w88",
+   "text": "vê",
+   "start": 41.879,
+   "end": 42.107
+  },
+  {
+   "id": "p06w89",
+   "text": "o",
+   "start": 42.107,
+   "end": 42.294
+  },
+  {
+   "id": "p06w90",
+   "text": "seu",
+   "start": 42.294,
+   "end": 42.481
+  },
+  {
+   "id": "p06w91",
+   "text": "pai",
+   "start": 42.481,
+   "end": 42.667
+  },
+  {
+   "id": "p06w92",
+   "text": "chorar.",
+   "start": 42.667,
+   "end": 43.269
+  }
+ ]
+}

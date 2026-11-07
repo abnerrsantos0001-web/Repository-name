@@ -1,70 +1,58 @@
-"""Áudio do vídeo 3, todo gerado por código (sem modelos de IA, sem faixas de terceiros).
+"""Áudio do vídeo 3 ("E se você soubesse o dia da sua morte?"), todo feito por código (tools/sons.py).
 
-- Narração: as 10 partes (assets/audio/v3-parteNN.flac) juntas e niveladas (ffmpeg loudnorm); cada parte ganha
-  uma pausa no fim (pelo menos 0,8 s depois da última palavra) para a troca de parte não atropelar a fala.
-- Trilha: drone grave, uma camada "de vidro" (agudos desafinados, bem baixos) e ar de quarto, com numpy;
-  a intensidade muda por parte e some no silêncio depois que o espelho quebra.
-- Efeitos sintetizados, presos às palavras (transcricao/v3-parteNN.json): despertador, torneira, toc no vidro,
-  porta, interruptor, coração, rua, ônibus, lençol, água, objetos caindo, vidro estourando, respiração,
-  rádio e cafeteira.
-- Mix mestre do filme inteiro, fatiado na grade de quadros de cada parte (30 fps = 1600 amostras a 48 kHz).
+- Narração: as 13 partes (assets/audio/v3-parteNN.flac, já com a abertura sem voz) juntas e niveladas; cada parte
+  ganha uma folga no fim (0,8 s; 8 s na última, para o cartão final e o celular vibrando às 3:33).
+- Trilha: drone grave + pad + ar do cômodo, uma camada aguda de tensão (relógio, 14:07, 3:33) e uma camada maior,
+  quente ("esperança") nas partes da lista, do mar, da Júlia, da garagem e do café.
+- Efeitos presos às palavras (transcricao/v3-parteNN.json).
+- Completo (regra 1): gancho de 5–7 s (o Lucas às 14:07, parte 4) + corte seco para preto com grave + o filme.
+- Cortes (regras 6–8): capa com pancada + trecho da parte + CTA1 ("se inscreve no Ninguém Sabe", trilha abaixada,
+  sininho) perto de 70% + o resto do trecho + cartão de 4 s com o CTA2 ("a história completa já está no canal").
 
-Saídas em assets/audio/mix/: v3-parteNN.flac, corteN.flac (com o cartão final), v3-completo.flac, partes.json.
+Saídas em assets/audio/mix/: v3-parteNN.flac, v3-completo.flac, corteN.flac e partes.json (quadros de tudo).
 Uso: <python com numpy, scipy e soundfile> tools/audio.py
 """
 import json
 import re
-import subprocess
-import tempfile
+import sys
 import unicodedata
 from pathlib import Path
 
 import numpy as np
 import soundfile as sf
-from scipy import signal
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from sons import *  # noqa: E402,F401,F403
+from sons import SR, decodificar, loudnorm, trilha, envelope, esperanca  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-SR = 48000
 FPS = 30
-AMOSTRAS_QUADRO = SR // FPS
+AQ = SR // FPS  # amostras por quadro
 SAIDA = RAIZ / "assets" / "audio" / "mix"
-rng = np.random.default_rng(2027)
-
-
-def decodificar(caminho):
-    pcm = subprocess.run(["ffmpeg", "-v", "error", "-i", str(caminho), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
-                         capture_output=True, check=True).stdout
-    return np.frombuffer(pcm, dtype=np.float32).copy()
-
-
-def loudnorm(x, alvo=-16.0, pico=-1.5):
-    with tempfile.TemporaryDirectory() as d:
-        a, b = Path(d) / "a.wav", Path(d) / "b.wav"
-        sf.write(a, x, SR, subtype="FLOAT")
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(a), "-af",
-                        f"loudnorm=I={alvo}:TP={pico}:LRA=11", "-ar", str(SR), str(b)], check=True)
-        y, _ = sf.read(b, dtype="float32")
-    return y
-
+ORDEM = json.loads((RAIZ / "transcricao" / "ordem.json").read_text())
+ABERTURA = {p["parte"]: p["abertura"] for p in ORDEM["partes"]}
+N = 13
 
 # ------------------------------------------------------------ narração e tempos
-partes = sorted((RAIZ / "assets" / "audio").glob("v3-parte*.flac"))
-palavras = []
-vozes = []
-for k, arq in enumerate(partes):
+palavras, vozes = [], []
+for k in range(N):
     dados = json.loads((RAIZ / "transcricao" / f"v3-parte{k + 1:02d}.json").read_text())
     palavras.append(dados["palavras"])
-    v = decodificar(arq)
-    folga = 2.2 if k == len(partes) - 1 else 0.8
-    fim_fala = int((dados["palavras"][-1]["end"] + folga) * SR)
-    vozes.append(np.pad(v, (0, max(0, fim_fala - len(v)))))
-inicio_s = np.cumsum([0] + [len(v) for v in vozes])  # amostras
-G = inicio_s / SR  # início de cada parte na narração (s)
-narracao = loudnorm(np.concatenate(vozes))
-narracao = narracao[: inicio_s[-1]]
-quadros = [round(g * FPS) for g in G]  # cada parte vai do quadro F[k] ao F[k+1]
-TOTAL = quadros[-1] * AMOSTRAS_QUADRO
-narracao = np.pad(narracao, (0, max(0, TOTAL - len(narracao))))[:TOTAL]
+    v = decodificar(RAIZ / "assets" / "audio" / f"v3-parte{k + 1:02d}.flac")
+    folga = 8.0 if k == N - 1 else 0.8
+    fim = int((dados["palavras"][-1]["end"] + folga) * SR)
+    vozes.append(np.pad(v, (0, max(0, fim - len(v))))[:fim])
+# cada parte começa num quadro inteiro
+quadros = [0]
+for v in vozes:
+    quadros.append(quadros[-1] + int(np.ceil(len(v) / AQ)))
+G = [q / FPS for q in quadros]  # início de cada parte (s)
+TOTAL = quadros[-1] * AQ
+narr = np.zeros(TOTAL, dtype=np.float32)
+for k, v in enumerate(vozes):
+    narr[quadros[k] * AQ : quadros[k] * AQ + len(v)] = v
+narr = loudnorm(narr, alvo=-16.0, pico=-1.5)
+narr = np.pad(narr, (0, max(0, TOTAL - len(narr))))[:TOTAL].astype(np.float32)
 
 
 def chave(s):
@@ -72,7 +60,7 @@ def chave(s):
 
 
 def T(parte, texto, n=1, fim=False):
-    """Tempo global (s) da n-ésima ocorrência de `texto` na parte (1 a 10)."""
+    """tempo global (s) da n-ésima ocorrência de `texto` na parte (1 a 13)"""
     alvo = [chave(w) for w in texto.split()]
     ws = palavras[parte - 1]
     visto = 0
@@ -85,367 +73,44 @@ def T(parte, texto, n=1, fim=False):
     raise SystemExit(f"não achei '{texto}' ({n}) na parte {parte}")
 
 
-# ------------------------------------------------------------ trilha: drone + vento
-def ruido_suave(n, corte_hz, semente):
-    r = np.random.default_rng(semente)
-    sos = signal.butter(2, corte_hz, "low", fs=SR, output="sos")
-    x = signal.sosfilt(sos, r.standard_normal(n))
-    return x / (np.abs(x).max() + 1e-9)
+def L(parte, s):
+    """tempo global de um instante local da parte"""
+    return G[parte - 1] + s
 
 
-def trilha(n, t0=0.0, intensidade=None, vidro=None):
-    t = t0 + np.arange(n) / SR
-    lfo = lambda f, fase: 0.5 + 0.5 * np.sin(2 * np.pi * f * t + fase)
-    drone = (
-        0.55 * np.sin(2 * np.pi * 49.0 * t) * (0.7 + 0.3 * lfo(0.05, 0.3))
-        + 0.35 * np.sin(2 * np.pi * 49.12 * t + 1.1)
-        + 0.30 * np.sin(2 * np.pi * 73.42 * t + 0.4) * lfo(0.031, 2.0)
-        + 0.22 * np.sin(2 * np.pi * 98.0 * t + 2.2) * lfo(0.043, 1.0)
-    )
-    # camada média (ouve-se no celular): harmônicos de 98 Hz filtrados
-    pad = sum((0.6 / h) * np.sin(2 * np.pi * 98.0 * h * t + h) for h in range(2, 9))
-    pad = signal.sosfilt(signal.butter(2, 600, "low", fs=SR, output="sos"), pad) * (0.5 + 0.5 * lfo(0.021, 0.7))
-    # ar do cômodo: ruído suave em faixa, com respiro lento (no lugar do vento da cidade do vídeo 1)
-    ar = signal.sosfilt(signal.butter(2, [180, 700], "band", fs=SR, output="sos"), rng.standard_normal(n))
-    ar = ar / (np.abs(ar).max() + 1e-9) * (0.35 + 0.65 * (0.5 + 0.5 * ruido_suave(n, 0.1, 9)) ** 2)
-    x = 0.55 * drone + 0.35 * pad + 0.3 * ar
-    if vidro is not None:  # o espelho: agudos desafinados, como dedo molhado na borda de um copo
-        brilho = (np.sin(2 * np.pi * 1318.5 * t) + 0.8 * np.sin(2 * np.pi * 1324.0 * t) + 0.4 * np.sin(2 * np.pi * 1975.5 * t + 0.7))
-        x += vidro * 0.09 * brilho * (0.4 + 0.6 * lfo(0.11, 1.2))
-    if intensidade is not None:
-        x *= intensidade
-    return x.astype(np.float32)
+FIM = TOTAL / SR
 
-
-def envelope(chaves, n, t0=0.0):
-    """chaves [(t, valor)] em segundos globais -> curva suave amostra a amostra."""
-    t = t0 + np.arange(n) / SR
-    ts, vs = zip(*chaves)
-    return np.interp(t, ts, vs).astype(np.float32)
-
-
-fim_total = TOTAL / SR
-# intensidade da trilha por parte; depois do vidro estourar, silêncio quase total ("tudo fica quieto")
-quebra = T(7, "estoura")
+# ------------------------------------------------------------ trilha
 intens = envelope([
-    (0, 0.0), (1.0, 0.7), (T(1, "congela."), 1.0), (G[1], 0.75), (T(2, "Até que"), 0.9), (G[2], 0.85),
-    (T(3, "E aí"), 1.0), (T(3, "apaga") + 1, 1.25), (G[3], 1.1), (G[4], 0.8), (T(5, "Ele quer"), 1.15), (G[5], 1.0),
-    (T(6, "E você escuta"), 1.3), (G[6], 1.25), (quebra - 0.2, 1.4), (quebra + 0.4, 0.05), (G[7] - 0.5, 0.05),
-    (G[7] + 1.5, 0.6), (T(8, "mas tem"), 0.9), (G[8], 0.9), (T(9, "Você quebrou o espelho"), 1.25), (G[9], 0.9),
-    (fim_total - 3, 0.6), (fim_total, 0.0),
+    (0, 0.0), (1.2, 0.55), (T(1, "vibra."), 0.8), (T(1, "Mas no"), 0.95), (T(1, "Você tem"), 1.2), (G[1], 0.7),
+    (T(2, "sorriso"), 0.85), (T(2, "três dias"), 1.0), (G[2], 0.75), (T(3, "Você decide"), 0.55), (G[3], 0.7),
+    (T(4, "detalhe"), 1.0), (T(4, "14h07."), 1.2), (T(4, "não está"), 1.15), (T(4, "14h07", 2), 1.35),
+    (T(4, "mais.", fim=True) + 0.3, 0.3), (G[4], 0.5), (G[4] + 1, 0.9), (T(5, "pararam."), 1.2), (T(5, "Às 11"), 0.75),
+    (T(5, "3 e 33."), 1.25), (G[5], 0.9), (T(6, "Na mesa"), 0.7), (G[6], 0.85), (T(7, "4 .320"), 1.1),
+    (T(7, "Faltam"), 1.3), (G[7], 0.55), (T(8, "Ver o"), 0.45), (G[8], 0.5), (T(9, "Na volta"), 0.4),
+    (T(9, "52"), 0.35), (G[9], 0.5), (T(10, "boato"), 0.85), (T(10, "decide"), 1.0), (G[10], 0.4),
+    (T(11, "A noite"), 0.7), (T(11, "3 e 30,"), 1.0), (T(11, "3 e 33."), 1.35), (T(11, "3 e 33.") + 0.6, 0.2),
+    (G[11], 0.25), (T(12, "Data atualizada."), 1.1), (T(12, "A partir"), 1.35), (T(12, "saber.", fim=True) + 0.4, 0.4),
+    (T(12, "Afinal,"), 0.9), (G[12], 0.6), (T(13, "Agora me"), 0.5), (FIM - 4.5, 0.9), (FIM, 0.0),
 ], TOTAL)
-vidro = envelope([
-    (0, 0.2), (T(1, "olha para o"), 0.5), (T(1, "congela."), 1.0), (G[1], 0.4), (G[2], 0.5), (T(3, "E aí"), 1.0),
-    (G[3], 0.8), (G[4], 0.3), (G[5], 0.9), (G[6], 1.2), (quebra, 1.3), (quebra + 0.3, 0.0), (G[7], 0.0),
-    (T(8, "mas tem"), 0.4), (G[8], 0.6), (G[9], 1.0), (fim_total, 0.4),
+# camada aguda de tensão (reaproveita a camada "de vidro" da biblioteca)
+agudo = envelope([
+    (0, 0.0), (T(1, "Você tem") - 0.5, 0.0), (T(1, "Você tem"), 0.6), (G[1], 0.1), (T(4, "detalhe"), 0.4),
+    (T(4, "14h07", 2), 1.0), (T(4, "mais.", fim=True), 0.0), (T(5, "3 e 33."), 0.7), (G[5], 0.1),
+    (T(7, "Faltam"), 0.8), (G[7], 0.0), (T(11, "3 e 31,"), 0.4), (T(11, "3 e 33."), 0.9), (G[11], 0.2),
+    (T(12, "A partir"), 1.0), (T(12, "Afinal,"), 0.2), (FIM, 0.0),
 ], TOTAL)
-cama = trilha(TOTAL, intensidade=intens, vidro=vidro)
-
+cama = trilha(TOTAL, intensidade=intens, vidro=agudo)
+# esperança: entra quando ele decide parar de contar e some na madrugada do sétimo dia
+luz = envelope([
+    (0, 0), (T(8, "Você não vai"), 0), (T(8, "Ver o"), 0.8), (G[8], 0.9), (T(9, "maior"), 1.0), (T(9, "Na volta"), 0.6),
+    (T(9, "52"), 1.0), (G[9], 0.6), (T(10, "boato") - 1, 0.6), (T(10, "boato") + 1.5, 0.0), (G[10], 0.0),
+    (G[10] + 1.5, 0.9), (T(11, "chora rindo,"), 1.0), (T(11, "A noite"), 0.0), (T(13, "A folha"), 0.0),
+    (T(13, "risca"), 0.7), (T(13, "Agora me"), 0.5), (FIM - 4.5, 0.0), (FIM, 0),
+], TOTAL)
+quente = esperanca(TOTAL) * luz
 
 # ------------------------------------------------------------ efeitos
-def env_exp(n, ataque, queda):
-    t = np.arange(n) / SR
-    return (1 - np.exp(-t / max(ataque, 1e-4))) * np.exp(-t / queda)
-
-
-def tique(alto=True):
-    n = int(0.03 * SR)
-    x = rng.standard_normal(n) * env_exp(n, 0.0004, 0.004)
-    x = signal.sosfilt(signal.butter(2, [2600, 5200] if alto else [1500, 3200], "band", fs=SR, output="sos"), x)
-    return 0.5 * x / np.abs(x).max()
-
-
-def coracao():
-    n = int(0.5 * SR)
-    t = np.arange(n) / SR
-    lub = np.sin(2 * np.pi * 58 * t) * env_exp(n, 0.008, 0.06)
-    dub = np.zeros(n)
-    k = int(0.27 * SR)
-    dub[k:] = (np.sin(2 * np.pi * 72 * t[: n - k]) * env_exp(n - k, 0.006, 0.045))[: n - k]
-    x = lub + 0.75 * dub
-    return 0.9 * signal.sosfilt(signal.butter(2, 160, "low", fs=SR, output="sos"), x) / np.abs(x).max()
-
-
-def vibracao(dur=1.1):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    ligado = ((t % 0.5) < 0.36).astype(float)
-    ligado = np.convolve(ligado, np.ones(240) / 240, "same")
-    x = (np.sin(2 * np.pi * 172 * t) + 0.35 * np.sin(2 * np.pi * 344 * t) + 0.08 * rng.standard_normal(n)) * ligado
-    return 0.45 * x / np.abs(x).max()
-
-
-def despertador(dur=2.4):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    fase = t % 1.0
-    bip = np.zeros(n)
-    for i in range(4):
-        bip += ((fase >= i * 0.14) & (fase < i * 0.14 + 0.07)).astype(float)
-    bip = np.convolve(bip, np.ones(96) / 96, "same")
-    x = np.tanh(2.5 * np.sin(2 * np.pi * 2400 * t)) * bip
-    return 0.32 * x
-
-
-def notificacao():
-    n = int(0.6 * SR)
-    t = np.arange(n) / SR
-    a = (np.sin(2 * np.pi * 1046.5 * t) + 0.2 * np.sin(2 * np.pi * 2093 * t)) * env_exp(n, 0.003, 0.12)
-    b = np.zeros(n)
-    k = int(0.11 * SR)
-    b[k:] = ((np.sin(2 * np.pi * 1568 * t) + 0.2 * np.sin(2 * np.pi * 3136 * t)) * env_exp(n, 0.003, 0.18))[: n - k]
-    return 0.35 * (a + b) / 1.2
-
-
-def toque_chamada(dur=0.45):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    env = np.clip(np.minimum(t / 0.01, (dur - t) / 0.02), 0, 1)
-    return 0.22 * np.sin(2 * np.pi * 425 * t) * env
-
-
-def ocupado():
-    partes_ = [np.concatenate([toque_chamada(0.25), np.zeros(int(0.25 * SR))]) for _ in range(3)]
-    return np.concatenate(partes_)
-
-
-def batida():
-    n = int(0.12 * SR)
-    t = np.arange(n) / SR
-    x = rng.standard_normal(n) * env_exp(n, 0.0005, 0.012)
-    x = signal.sosfilt(signal.butter(2, 1400, "low", fs=SR, output="sos"), x)
-    x = x / np.abs(x).max() + 0.8 * np.sin(2 * np.pi * 165 * t) * env_exp(n, 0.001, 0.03)
-    return 0.6 * x / np.abs(x).max()
-
-
-def baque():
-    n = int(0.9 * SR)
-    t = np.arange(n) / SR
-    x = np.sin(2 * np.pi * 48 * t) * env_exp(n, 0.004, 0.22) + 0.5 * rng.standard_normal(n) * env_exp(n, 0.001, 0.05)
-    x = signal.sosfilt(signal.butter(3, 260, "low", fs=SR, output="sos"), x)
-    return 0.8 * x / np.abs(x).max()
-
-
-def estalo():
-    n = int(0.25 * SR)
-    t = np.arange(n) / SR
-    x = (np.sin(2 * np.pi * 100 * t) + 0.5 * np.sin(2 * np.pi * 300 * t)) * ((t < 0.18).astype(float))
-    x += 0.6 * rng.standard_normal(n) * env_exp(n, 0.0005, 0.006)
-    return 0.18 * x * env_exp(n, 0.002, 0.1)
-
-
-def carro_passando(dur=3.2):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    perto = np.exp(-((t - dur / 2) / (dur / 4.5)) ** 2)
-    ruido = signal.sosfilt(signal.butter(2, [120, 1500], "band", fs=SR, output="sos"), rng.standard_normal(n))
-    f = 75 - 12 * np.tanh((t - dur / 2) * 3)
-    motor = np.sin(2 * np.pi * np.cumsum(f) / SR)
-    x = (0.8 * ruido / np.abs(ruido).max() + 0.4 * motor) * perto
-    return 0.3 * x
-
-
-def toc_vidro():
-    """dedo batendo no vidro: clique curto com ressonância aguda"""
-    n = int(0.18 * SR)
-    t = np.arange(n) / SR
-    clique = rng.standard_normal(n) * env_exp(n, 0.0002, 0.0025)
-    clique = signal.sosfilt(signal.butter(2, [1800, 7000], "band", fs=SR, output="sos"), clique)
-    som = (np.sin(2 * np.pi * 2350 * t) + 0.6 * np.sin(2 * np.pi * 3710 * t + 1) + 0.35 * np.sin(2 * np.pi * 5230 * t)) * env_exp(n, 0.0005, 0.035)
-    x = clique / (np.abs(clique).max() + 1e-9) + 0.5 * som
-    return 0.55 * x / np.abs(x).max()
-
-
-def mao_no_vidro():
-    """palma encostando no vidro: baque abafado"""
-    n = int(0.3 * SR)
-    t = np.arange(n) / SR
-    x = np.sin(2 * np.pi * 140 * t) * env_exp(n, 0.002, 0.05) + 0.4 * rng.standard_normal(n) * env_exp(n, 0.001, 0.02)
-    x = signal.sosfilt(signal.butter(2, 900, "low", fs=SR, output="sos"), x)
-    return 0.5 * x / np.abs(x).max()
-
-
-def faixa_ruido(dur, faixa, mod=0.0, semente=1):
-    n = int(dur * SR)
-    r = np.random.default_rng(semente)
-    x = signal.sosfilt(signal.butter(2, faixa, "band", fs=SR, output="sos"), r.standard_normal(n))
-    x = x / (np.abs(x).max() + 1e-9)
-    if mod:
-        x *= 0.6 + 0.4 * ruido_suave(n, mod, semente + 1)
-    borda = np.minimum(1, np.minimum(np.arange(n), n - np.arange(n)) / (0.15 * SR))
-    return x * borda
-
-
-def torneira(dur=2.4):
-    return 0.35 * faixa_ruido(dur, [700, 7000], mod=6, semente=11)
-
-
-def interruptor():
-    n = int(0.06 * SR)
-    x = rng.standard_normal(n) * env_exp(n, 0.0002, 0.003)
-    x = signal.sosfilt(signal.butter(2, [1500, 6000], "band", fs=SR, output="sos"), x)
-    return 0.5 * x / np.abs(x).max()
-
-
-def porta_fechando():
-    t_ = baque() * 0.7
-    c = np.zeros(int(0.12 * SR))
-    c = np.concatenate([c, interruptor() * 0.8])
-    x = np.zeros(max(len(t_), len(c)))
-    x[: len(t_)] += t_
-    x[: len(c)] += c
-    return x
-
-
-def passos_correndo(dur=1.6):
-    x = np.zeros(int(dur * SR))
-    t = 0.0
-    while t < dur - 0.15:
-        s_ = baque()[: int(0.15 * SR)] * 0.35
-        i = int(t * SR)
-        x[i : i + len(s_)] += s_[: len(x) - i]
-        t += 0.27
-    return x
-
-
-def rua(dur):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    longe = 0.5 * faixa_ruido(dur, [80, 900], mod=0.3, semente=21)
-    # passarinhos: piados curtos
-    aves = np.zeros(n)
-    r = np.random.default_rng(5)
-    for k in range(int(dur * 1.2)):
-        i = int(r.uniform(0, dur - 0.3) * SR)
-        m = int(0.12 * SR)
-        tt = np.arange(m) / SR
-        f = 3200 + 900 * np.sin(2 * np.pi * 14 * tt)
-        aves[i : i + m] += 0.15 * np.sin(2 * np.pi * np.cumsum(f) / SR) * env_exp(m, 0.005, 0.04)
-    return 0.4 * longe + aves
-
-
-def onibus_motor(dur):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    f = 42 + 3 * np.sin(2 * np.pi * 0.2 * t)
-    motor = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.5 * np.sin(2 * np.pi * np.cumsum(2 * f) / SR)
-    estrada = faixa_ruido(dur, [100, 1200], mod=0.8, semente=31)
-    borda = np.minimum(1, np.minimum(np.arange(n), n - np.arange(n)) / (0.3 * SR))
-    return (0.35 * motor * borda + 0.45 * estrada)
-
-
-def lencol():
-    n = int(0.7 * SR)
-    x = faixa_ruido(0.7, [600, 5000], semente=41) * np.exp(-((np.arange(n) / SR - 0.25) / 0.16) ** 2)
-    return 0.5 * x
-
-
-def agua(dur=3.0):
-    """o vidro mole: borbulhas graves e um ronco por baixo"""
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    x = np.zeros(n)
-    r = np.random.default_rng(51)
-    for k in range(int(dur * 9)):
-        i = int(r.uniform(0, dur - 0.2) * SR)
-        m = int(0.09 * SR)
-        tt = np.arange(m) / SR
-        f0 = r.uniform(180, 520)
-        x[i : i + m] += np.sin(2 * np.pi * (f0 + 900 * tt) * tt) * env_exp(m, 0.004, 0.025)
-    ronco = signal.sosfilt(signal.butter(2, 120, "low", fs=SR, output="sos"), r.standard_normal(n))
-    x = 0.6 * x / (np.abs(x).max() + 1e-9) + 0.6 * ronco / (np.abs(ronco).max() + 1e-9)
-    borda = np.minimum(1, np.minimum(np.arange(n), n - np.arange(n)) / (0.4 * SR))
-    return 0.6 * x * borda
-
-
-def objeto_caindo(semente):
-    """plástico e vidro pequeno batendo no chão: 3 a 4 cliques que diminuem"""
-    r = np.random.default_rng(semente)
-    x = np.zeros(int(0.6 * SR))
-    t = 0.0
-    g = 1.0
-    for k in range(4):
-        n = int(0.05 * SR)
-        c = r.standard_normal(n) * env_exp(n, 0.0003, 0.006)
-        c = signal.sosfilt(signal.butter(2, [900, 5200], "band", fs=SR, output="sos"), c)
-        i = int(t * SR)
-        x[i : i + n] += g * c / (np.abs(c).max() + 1e-9)
-        t += 0.09 * (0.7 ** k) + 0.03
-        g *= 0.55
-    return 0.45 * x
-
-
-def vidro_quebrando(dur=2.2):
-    """impacto, estalo e uma chuva de cacos agudos que vai rareando"""
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    r = np.random.default_rng(61)
-    impacto = 0.9 * baque()[: n]
-    estalo_ = signal.sosfilt(signal.butter(2, 2500, "high", fs=SR, output="sos"), r.standard_normal(n)) * env_exp(n, 0.0005, 0.08)
-    x = np.zeros(n)
-    x[: len(impacto)] += impacto
-    x += 0.8 * estalo_ / (np.abs(estalo_).max() + 1e-9)
-    for k in range(70):
-        t0 = 0.02 + r.exponential(0.35)
-        if t0 > dur - 0.1:
-            continue
-        i = int(t0 * SR)
-        m = int(0.06 * SR)
-        tt = np.arange(m) / SR
-        f = r.uniform(2800, 7800)
-        x[i : i + m] += r.uniform(0.15, 0.5) * np.exp(-t0 / 0.8) * np.sin(2 * np.pi * f * tt) * env_exp(m, 0.0004, r.uniform(0.008, 0.03))
-    return 0.75 * x / np.abs(x).max()
-
-
-def respiracao(dur=3.0, ritmo=0.55):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    sopro = faixa_ruido(dur, [300, 2500], semente=71)
-    env = (0.5 + 0.5 * np.sin(2 * np.pi * t / (2 * ritmo))) ** 3
-    return 0.35 * sopro * env
-
-
-def radio(dur):
-    """rádio baixinho na cozinha: acordes simples com timbre de alto-falante pequeno"""
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    acordes = [[261.6, 329.6, 392.0], [220.0, 261.6, 329.6], [174.6, 220.0, 261.6], [196.0, 246.9, 293.7]]
-    x = np.zeros(n)
-    for i in range(int(dur / 1.6) + 1):
-        a, b = int(i * 1.6 * SR), min(n, int((i + 1) * 1.6 * SR))
-        tt = t[a:b] - t[a]
-        for f in acordes[i % 4]:
-            x[a:b] += np.sign(np.sin(2 * np.pi * f * tt)) * 0.2 * np.exp(-tt / 1.2)
-        baixo = acordes[i % 4][0] / 2
-        x[a:b] += 0.5 * np.sin(2 * np.pi * baixo * tt) * np.exp(-tt / 0.6)
-    x = signal.sosfilt(signal.butter(2, [350, 3200], "band", fs=SR, output="sos"), x)
-    x += 0.04 * rng.standard_normal(n)
-    borda = np.minimum(1, np.minimum(np.arange(n), n - np.arange(n)) / (0.5 * SR))
-    return 0.22 * x / (np.abs(x).max() + 1e-9) * borda
-
-
-def cafeteira(dur):
-    n = int(dur * SR)
-    x = np.zeros(n)
-    r = np.random.default_rng(81)
-    for k in range(int(dur * 14)):
-        i = int(r.uniform(0, dur - 0.1) * SR)
-        m = int(0.05 * SR)
-        tt = np.arange(m) / SR
-        x[i : i + m] += np.sin(2 * np.pi * r.uniform(400, 900) * tt) * env_exp(m, 0.002, 0.012)
-    chiado = faixa_ruido(dur, [2000, 8000], mod=2, semente=83)
-    return 0.12 * x / (np.abs(x).max() + 1e-9) + 0.05 * chiado
-
-
-def grave_susto():
-    """batida grave de susto (um 'boom' curto)"""
-    n = int(1.4 * SR)
-    t = np.arange(n) / SR
-    f = 55 * np.exp(-t * 1.2) + 30
-    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * env_exp(n, 0.004, 0.45)
-    return 0.8 * x / np.abs(x).max()
-
-
 efeitos = np.zeros(TOTAL, dtype=np.float32)
 pistas = []
 
@@ -453,107 +118,237 @@ pistas = []
 def por(t, som, ganho=1.0, nome=""):
     i = int(round(t * SR))
     j = min(TOTAL, i + len(som))
-    if i < TOTAL:
+    if 0 <= i < TOTAL:
         efeitos[i:j] += (ganho * som[: j - i]).astype(np.float32)
         pistas.append({"t": round(float(t), 3), "efeito": nome})
 
 
-def coracao_ate(t, fim, passo=0.85, minimo=0.45, ganho=0.75):
+def coracao_ate(t, fim, passo=0.85, minimo=0.45, ganho=0.7):
     while t < fim:
         por(t, coracao(), ganho, "coração")
         t += passo
         passo = max(minimo, passo * 0.93)
 
 
-# parte 1: despertador, a torneira, o "congela" e o olhar no fim
-por(G[0] + 0.02, despertador(1.6), 0.55, "despertador")
-por(T(1, "lava") - 0.1, torneira(T(1, "levanta a cabeça") - T(1, "lava") + 0.4), 0.8, "torneira")
-por(T(1, "congela."), grave_susto(), 0.8, "susto grave")
-coracao_ate(T(1, "e por meio"), G[1] - 0.3, passo=0.8)
-# parte 2: a rua e a vitrine, o ônibus, a volta a pé
-por(T(2, "Na vitrine") - 0.3, rua(T(2, "Até que") - T(2, "Na vitrine") + 0.6), 0.55, "rua")
-por(T(2, "Até que") - 0.3, onibus_motor(T(2, "Você desce") - T(2, "Até que") + 0.6), 0.5, "ônibus")
-por(T(2, "olhando para") - 0.05, grave_susto(), 0.6, "susto grave")
-por(T(2, "Você desce") - 0.2, rua(G[2] - T(2, "Você desce")), 0.5, "rua")
-# parte 3: a porta, a luz, o teste, o sorriso e a correria no escuro
-por(T(3, "Fecha a porta") + 0.3, porta_fechando(), 0.8, "porta fechando")
-por(T(3, "acende"), interruptor(), 0.9, "interruptor")
-por(T(3, "E ele não"), grave_susto(), 0.7, "susto grave")
-coracao_ate(T(3, "Ele fica"), T(3, "apaga") + 0.2, passo=0.8)
-por(T(3, "apaga") + 0.15, interruptor(), 0.9, "interruptor")
-por(T(3, "sai correndo") + 0.1, passos_correndo(1.5), 0.7, "passos")
-# parte 4: toc, toc, toc no vidro; a lanterna; o espelho vazio; o toc vindo de todo vidro
-for n in (1, 2, 3):
-    por(T(4, "toque", n), toc_vidro(), 0.9, "toc no vidro")
-por(T(4, "liga"), interruptor(), 0.6, "lanterna")
-por(T(4, "vazio."), grave_susto(), 0.7, "susto grave")
-coracao_ate(T(4, "Nenhuma pessoa"), G[4] - 0.4, passo=0.75, minimo=0.42)
-for n in (4, 5, 6):
-    por(T(4, "toque", n), toc_vidro(), 0.85, "toc no vidro")
-por(T(4, "espelho do seu"), toc_vidro(), 0.6, "toc no vidro")
-por(T(4, "e da janela"), toc_vidro(), 0.6, "toc no vidro")
-por(T(4, "e da tela"), toc_vidro(), 0.6, "toc no vidro")
-# parte 5: lençóis, o fim dos relatos
-por(T(5, "com lençol"), lencol(), 0.7, "lençol")
-por(T(5, "Ele quer"), grave_susto(), 0.8, "susto grave")
-# parte 6: tira o lençol, a mão no vidro, a voz
-por(T(6, "Tira o lençol"), lencol(), 0.8, "lençol")
-por(T(6, "encosta"), mao_no_vidro(), 0.9, "mão no vidro")
-por(T(6, "Você recua"), grave_susto(), 0.6, "susto grave")
-coracao_ate(T(6, "Você recua"), G[6] - 0.2, passo=0.7, minimo=0.4)
-# parte 7: água, a luta na pia, as coisas caindo, o vidro estourando, o silêncio e a respiração
-por(T(7, "mole,") - 0.2, agua(3.2), 0.8, "água")
-por(T(7, "gelada.") - 0.1, agua(2.0), 0.4, "água")
-por(T(7, "bate na pia"), baque(), 0.8, "baque na pia")
-for k, sem in enumerate((101, 102, 103)):
-    por(T(7, "derruba") + 0.15 + 0.22 * k, objeto_caindo(sem), 0.8, "objeto caindo")
-coracao_ate(T(7, "Você puxa"), quebra - 0.3, passo=0.55, minimo=0.36, ganho=0.8)
-por(quebra - 0.15, vidro_quebrando(), 1.0, "vidro estourando")
-por(T(7, "respirando"), respiracao(G[7] - T(7, "respirando") + 0.5), 0.7, "respiração")
-# parte 8: de manhã, o rádio e a cafeteira lá embaixo
-por(T(8, "Você desce."), radio(G[8] - T(8, "Você desce.") + 3.0), 0.8, "rádio")
-por(T(8, "Você desce.") + 0.4, cafeteira(G[8] - T(8, "Você desce.") + 2.5), 0.7, "cafeteira")
-# parte 9: o ônibus passa; a revelação
-por(T(9, "e o ônibus") - 0.4, carro_passando(3.4), 1.0, "ônibus passando")
-por(T(9, "do lado de"), grave_susto(), 0.9, "susto grave")
-coracao_ate(T(9, "e sorrindo"), G[9] - 0.4, passo=0.8)
-# parte 10: um toque leve no vidro na pergunta
-por(T(10, "às 3h33?"), toc_vidro(), 0.5, "toc no vidro")
+# parte 1: a rua dormindo, 3:33, o celular vibra; o e-mail em todos os celulares do planeta
+por(L(1, 0.0), grilos(G[1] - G[0] - 4), 1.0, "grilos")
+por(L(1, 0.25), grave_susto(), 0.35, "título")
+for k in (0, 1):
+    por(T(1, "vibra.") - 0.25 + 1.2 * k, vibracao(1.0), 0.9, "vibração")
+for k in range(9):
+    por(T(1, "todos os") + 0.3 * k + 0.07 * (k % 3), notificacao(), 0.18 + 0.03 * (k % 4), "notificações pelo mundo")
+por(T(1, "chega o"), grave_susto(), 0.45, "susto grave")
+por(T(1, "Você tem") - 0.1, grave_susto(), 0.85, "susto grave")
+# parte 2: cozinha de manhã, o grupo da escola, o "3 dias kkkkk"
+por(L(2, 0.0), cafeteira(3.6), 0.9, "cafeteira")
+por(L(2, 0.0), rua(10.0), 0.25, "rua lá fora")
+por(T(2, "38"), grave_susto(), 0.35, "susto grave")
+for w in ("61", "44", "70", "vira meme"):
+    por(T(2, w) - 0.15, notificacao(), 0.5, "notificação")
+por(T(2, "manda uma") + 0.4, notificacao(), 0.65, "notificação")
+por(T(2, "três dias") - 0.1, grave_susto(), 0.55, "susto grave")
+for k in range(4):
+    por(T(2, "risada") + 0.18 * k, notificacao(), 0.3, "notificação")
+por(T(2, "também") + 0.5, notificacao(), 0.55, "notificação")
+# parte 3: o jornal na TV, depois videogame e o lanche
+por(L(3, 0.0), jornal_tv(T(3, "Você decide") - G[2] + 0.2), 1.0, "jornal na TV")
+por(T(3, "ataque"), grave_susto(), 0.3, "susto grave")
+por(T(3, "mesmo segundo,") , grave_susto(), 0.45, "susto grave")
+por(T(3, "joga") - 0.2, videogame(T(3, "você paga.", fim=True) - T(3, "joga") + 0.6), 1.0, "videogame")
+por(T(3, "lanche"), papel(0.6, 621), 0.6, "embalagem do lanche")
+# parte 4: a sala de aula, o relógio, o 14:07
+por(L(4, 0.0), multidao(T(4, "Na hora") - G[3], 0.6, 311) , 0.35, "sala de aula")
+por(T(4, "relógio,") - 0.6, tique_relogio(3.2, 1.0, 0.7), 1.0, "relógio")
+por(T(4, "intervalo") - 0.2, sinal_escola(2.0), 0.7, "sinal da escola")
+por(T(4, "intervalo") + 0.5, multidao(T(4, "Às 14h05,") - T(4, "intervalo"), 0.9, 313), 0.3, "intervalo")
+por(T(4, "14h07."), grave_susto(), 0.8, "susto grave")
+por(T(4, "Às 14h05,") - 0.2, tique_relogio(T(4, "14h07", 2) - T(4, "Às 14h05,") + 0.2, 1.0, 0.55), 1.0, "relógio")
+por(T(4, "manda uma") + 0.2, vibracao(0.5), 0.6, "mensagem")
+coracao_ate(T(4, "não está"), T(4, "14h07", 2) + 0.2, passo=0.8, minimo=0.5)
+por(T(4, "14h07", 2), grave_susto(), 0.9, "susto grave")
+# parte 5: só as luzes da ambulância (o som de longe), o jornal à noite, o 3:33 dele
+por(L(5, 0.0), sirene_ambulancia(T(5, "mas o") - G[4] + 1.0), 1.0, "sirene")
+por(T(5, "gente") - 0.2, multidao(3.4, 1.4, 321), 0.45, "gente gritando")
+por(T(5, "jornal.") - 0.3, jornal_tv(T(5, "Às 11") - T(5, "jornal.") + 0.3, 531), 1.0, "jornal na TV")
+por(T(5, "pararam."), grave_susto(), 0.7, "susto grave")
+por(T(5, "tremendo.") - 0.4, respiracao(3.2, 0.45), 0.5, "respiração")
+por(T(5, "3 e 33."), grave_susto(), 0.95, "susto grave")
+# parte 6: aeroporto e igreja lotados, as redes, o jantar
+por(L(6, 0.0), multidao(T(6, "as igrejas") - G[5], 1.5, 331), 0.5, "aeroporto")
+por(L(6, 0.5), notificacao(), 0.3, "aviso do aeroporto")
+por(T(6, "as igrejas") - 0.3, sino_igreja(), 0.8, "sino da igreja")
+por(T(6, "as igrejas") - 0.3, multidao(T(6, "Nas redes") - T(6, "as igrejas"), 1.0, 333), 0.35, "fila da igreja")
+for k in range(5):
+    por(T(6, "Nas redes") + 0.6 * k, notificacao(), 0.3, "notificação")
+for k in range(6):
+    por(T(6, "Na mesa") + 0.25 + 0.9 * k, talheres(811 + k), 0.8, "talheres")
+# parte 7: trancado no quarto, o relógio, a conta; 3:33 de novo
+por(L(7, 0.0), tique_relogio(T(7, "Às 3h33") - G[6], 1.0, 0.65), 1.0, "relógio")
+por(T(7, "72"), grave_susto(), 0.3, "susto grave")
+por(T(7, "4 .320"), grave_susto(), 0.45, "susto grave")
+por(T(7, "vibra") - 0.4, vibracao(1.2), 0.95, "vibração")
+por(T(7, "Faltam") - 0.1, grave_susto(), 0.85, "susto grave")
+coracao_ate(T(7, "E você entende"), G[7] - 0.4, passo=0.8, minimo=0.55, ganho=0.6)
+# parte 8: a lista no caderno
+por(L(8, 0.0), rua(T(8, "Pega") - G[7]), 0.3, "manhã lá fora")
+por(T(8, "folha") - 0.1, papel(0.7, 631), 0.8, "folha")
+for w, d in (("escreve", 2.4), ("Ver o", 0.9), ("Falar", 2.6), ("Pedir", 3.4), ("dizer", 3.0)):
+    por(T(8, w), caneta(d, 640 + len(w)), 1.0, "caneta")
+por(T(8, "dobra") - 0.05, papel(0.9, 651), 0.9, "folha dobrando")
+por(T(8, "guarda") + 0.1, lencol(), 0.35, "bolso")
+por(T(8, "desliga") + 0.2, interruptor(), 0.7, "desliga o celular")
+# parte 9: o ônibus, o mar, a Júlia
+por(L(9, 0.0), onibus_motor(T(9, "porta") - G[8] + 0.6), 0.6, "ônibus")
+por(T(9, "abre,") - 0.1, porta_onibus(), 0.8, "porta do ônibus")
+por(T(9, "abre,"), mar(T(9, "Na volta") - T(9, "abre,") + 0.3), 0.75, "mar")
+for k, w in enumerate(("cheiro", "fica parado", "maior")):
+    por(T(9, w) + 0.3, gaivota(), 0.8, "gaivota")
+por(T(9, "fica parado") - 1.2, passos(1.4, 0.5, 0.2, "areia"), 1.0, "passos na areia")
+por(T(9, "entra") + 0.2, agua_entrando(T(9, "Na volta") - T(9, "entra")), 0.9, "entrando no mar")
+por(T(9, "Na volta") - 0.2, grilos(G[9] - T(9, "Na volta") + 0.2, 711), 0.8, "rua à noite")
+por(T(9, "Treme") - 0.6, porta_abrindo(), 0.5, "porta da Júlia")
+por(T(9, "52") - 0.1, sininho(), 0.25, "brilho")
+por(T(9, "abraça.") - 0.2, lencol(), 0.45, "abraço")
+# parte 10: a garagem, a chave inglesa, o carro que nunca vai andar; o boato
+por(L(10, 0.0), grilos(G[10] - G[9], 721), 0.7, "grilos")
+for s in (0.8, 2.3, 6.4, 7.6):
+    por(L(10, s), ferramenta(), 0.7, "ferramenta")
+por(T(10, "chave") + 0.4, ferramenta(), 0.9, "chave inglesa")
+for s in (16.9, 18.2):
+    por(L(10, s), ferramenta(), 0.5, "ferramenta")
+por(T(10, "nunca vai") - 0.3, motor_tentando(2.0), 0.7, "motor tentando pegar")
+por(T(10, "boato"), grave_susto(), 0.55, "susto grave")
+for k in range(4):
+    por(T(10, "Algumas") + 1.2 * k + 0.3, notificacao(), 0.3, "notificação")
+por(T(10, "liga") + 0.35, sininho(), 0.25, "celular ligando")
+# parte 11: café com a mãe; a madrugada no sofá, o relógio na parede
+por(L(11, 0.0), cafeteira(4.0), 0.8, "cafeteira")
+por(L(11, 0.0), rua(T(11, "A noite") - G[10]), 0.3, "manhã lá fora")
+for k in range(3):
+    por(T(11, "café") + 0.6 + 2.8 * k, talheres(851 + k), 0.6, "xícara")
+por(T(11, "relógio") - 0.3, tique_relogio(T(11, "3 e 33.") - T(11, "relógio") + 0.3, 1.0, 0.75), 1.0, "relógio")
+coracao_ate(T(11, "3 e 32,"), T(11, "3 e 33.") - 0.1, passo=0.7, minimo=0.5, ganho=0.65)
+por(T(11, "3 e 33."), grave_susto(), 0.7, "susto grave")
+# parte 12: o celular vibra no bolso; "Data atualizada"; "A partir de agora, você não vai mais saber."
+por(T(12, "vibra") - 0.45, vibracao(1.3), 1.0, "vibração")
+por(T(12, "respirando."), respiracao(2.5, 0.6), 0.45, "respiração")
+por(T(12, "ronca"), respiracao(2.4, 1.2) * 0.6, 0.6, "a mãe ronca")
+por(T(12, "Um e") - 0.2, notificacao(), 0.5, "e-mail novo")
+por(T(12, "Data"), grave_susto(), 0.6, "susto grave")
+por(T(12, "A partir") - 0.1, grave_gancho(), 0.7, "grave")
+por(T(12, "chorar"), respiracao(T(12, "Afinal,") - T(12, "chorar"), 0.9), 0.4, "choro em silêncio")
+# parte 13: a folha riscada e reescrita; a pergunta; o celular vibrando às 3:33
+por(T(13, "risca"), caneta(0.8, 661), 1.0, "caneta riscando")
+por(T(13, "escreve"), caneta(1.2, 663), 1.0, "caneta")
+por(T(13, "Se inscreve") + 0.2, sininho(), 0.35, "sininho")
+por(T(13, "vibrar"), vibracao(1.1), 0.7, "vibração")
+por(FIM - 3.6, vibracao(1.1), 0.9, "vibração final")
+por(FIM - 2.4, vibracao(1.1), 0.9, "vibração final")
 
 # ------------------------------------------------------------ mix
-# a trilha abaixa um pouco quando há voz (envelope da narração)
-voz_env = np.convolve(np.abs(narracao), np.ones(int(0.3 * SR)) / int(0.3 * SR), "same")
+voz_env = np.convolve(np.abs(narr), np.ones(int(0.3 * SR)) / int(0.3 * SR), "same")
 ducking = 1.0 - 0.35 * np.clip(voz_env / (np.percentile(voz_env, 90) + 1e-9), 0, 1)
 cama_n = cama / (np.sqrt(np.mean(cama**2)) + 1e-9)
-voz_rms = np.sqrt(np.mean(narracao[narracao != 0] ** 2))
-mix = narracao + 0.13 * voz_rms * cama_n * ducking + 0.55 * efeitos
+quente_n = quente / (np.sqrt(np.mean(esperanca(SR * 10) ** 2)) + 1e-9)
+voz_rms = np.sqrt(np.mean(narr[np.abs(narr) > 1e-4] ** 2))
+mix = narr + 0.13 * voz_rms * cama_n * ducking + 0.06 * voz_rms * quente_n * ducking + 0.55 * efeitos
 mix = loudnorm(mix, alvo=-15.0, pico=-1.5)
-mix = np.pad(mix, (0, max(0, TOTAL - len(mix))))[:TOTAL]
+mix = np.pad(mix, (0, max(0, TOTAL - len(mix))))[:TOTAL].astype(np.float32)
+# a cama sozinha (para os trechos sem história: CTA e cartão dos cortes)
+cama_mix = (0.13 * voz_rms * cama_n).astype(np.float32)
 
 SAIDA.mkdir(parents=True, exist_ok=True)
-info = {"fps": FPS, "taxa": SR, "partes": [], "efeitos": [p for p in pistas if p["efeito"]]}
-for k in range(len(partes)):
-    a, b = quadros[k] * AMOSTRAS_QUADRO, quadros[k + 1] * AMOSTRAS_QUADRO
+info = {"fps": FPS, "taxa": SR, "partes": [], "efeitos": pistas}
+for k in range(N):
+    a, b = quadros[k] * AQ, quadros[k + 1] * AQ
     sf.write(SAIDA / f"v3-parte{k + 1:02d}.flac", mix[a:b], SR, subtype="PCM_16")
     info["partes"].append({
         "parte": k + 1, "quadro_inicial": quadros[k], "quadros": quadros[k + 1] - quadros[k],
-        "duracao": round((quadros[k + 1] - quadros[k]) / FPS, 4), "inicio_global": round(quadros[k] / FPS, 4),
-        "voz_inicio_global": round(float(G[k]), 4),
+        "duracao": round((quadros[k + 1] - quadros[k]) / FPS, 4), "inicio_global": round(G[k], 4),
+        "abertura": ABERTURA[k + 1],
     })
 
-# cortes verticais: duas partes + 4 s de cartão (a trilha continua e some)
-CARTAO = 4.0
-for c, (p1, p2) in enumerate([(1, 2), (3, 4), (5, 6), (7, 8)], start=1):
-    a, b = quadros[p1 - 1] * AMOSTRAS_QUADRO, quadros[p2] * AMOSTRAS_QUADRO
-    n = int(CARTAO * FPS) * AMOSTRAS_QUADRO
-    rabo = trilha(n, t0=b / SR, vidro=np.full(n, 0.6, dtype=np.float32)) * (0.13 * voz_rms / (np.sqrt(np.mean(cama**2)) + 1e-9))
-    rabo *= np.linspace(1, 0, n) ** 1.5
-    trecho = np.concatenate([mix[a:b], rabo.astype(np.float32) * 2.8])
-    trecho[: int(0.05 * SR)] *= np.linspace(0, 1, int(0.05 * SR))
+# ------------------------------------------------------------ completo: gancho + preto com grave + filme
+GANCHO = {"parte": 4, "de": T(4, "O Lucas", 2) - 0.45 - G[3], "ate": T(4, "mais.", fim=True) + 0.3 - G[3]}
+g0 = quadros[3] + round(GANCHO["de"] * FPS)
+g1 = quadros[3] + round(GANCHO["ate"] * FPS)
+PRETO = 21  # 0,7 s
+gancho = mix[g0 * AQ : g1 * AQ].copy()
+gancho[: int(0.04 * SR)] *= np.linspace(0, 1, int(0.04 * SR))
+preto = np.zeros(PRETO * AQ, dtype=np.float32)
+cauda = np.zeros(PRETO * AQ + 2 * SR, dtype=np.float32)
+gg = grave_gancho()
+cauda[: len(gg)] += 0.9 * gg
+completo = np.concatenate([gancho, preto, mix]).astype(np.float32)
+completo[len(gancho) : len(gancho) + len(cauda)] += cauda[: len(completo) - len(gancho)]
+completo = np.clip(completo, -0.95, 0.95)
+sf.write(SAIDA / "v3-completo.flac", completo, SR, subtype="PCM_16")
+info["gancho"] = {"parte": 4, "quadro_inicio": g0, "quadro_fim": g1, "quadros": g1 - g0, "preto_quadros": PRETO,
+                  "inicio_na_parte": round((g0 - quadros[3]) / FPS, 4), "fim_na_parte": round((g1 - quadros[3]) / FPS, 4)}
+info["completo_quadros"] = (g1 - g0) + PRETO + quadros[-1]
+
+# ------------------------------------------------------------ cortes verticais
+CAPA, CTA, CARTAO = 0.8, 2.6, 4.0
+CORTES = [(1, 1, "VOCÊ TEM 7 DIAS"), (2, 2, "ELE TINHA 3 DIAS"), (3, 4, "14:07"), (4, 5, "O MEU TAMBÉM TEM HORA"),
+          (5, 7, "4.320 MINUTOS"), (6, 10, "A DATA MUDOU?")]
+cta1 = decodificar(RAIZ / "assets" / "audio" / "cta1.mp3")[int(2.42 * SR) : int(4.62 * SR)]
+cta2 = decodificar(RAIZ / "assets" / "audio" / "cta2.mp3")[: int(2.70 * SR)]
+for x in (cta1, cta2):
+    x[: int(0.03 * SR)] *= np.linspace(0, 1, int(0.03 * SR))
+    x[-int(0.12 * SR) :] *= np.linspace(1, 0, int(0.12 * SR))
+# os CTAs no mesmo volume da narração
+ref = np.sqrt(np.mean(mix[np.abs(narr) > 1e-3] ** 2))
+cta1 = cta1 * ref / (np.sqrt(np.mean(cta1[np.abs(cta1) > 1e-3] ** 2)) + 1e-9) * 1.05
+cta2 = cta2 * ref / (np.sqrt(np.mean(cta2[np.abs(cta2) > 1e-3] ** 2)) + 1e-9) * 1.05
+fim_historia = G[9] + (quadros[10] - quadros[9]) / FPS  # o fim da parte 10: o que vem depois fica só no longo
+for c, parte, texto in CORTES:
+    p0 = quadros[parte - 1]
+    ws = palavras[parte - 1]
+    q0 = p0 + round((ABERTURA[parte] - 0.4) * FPS)
+    q1 = quadros[parte]
+    # CTA numa pausa da fala perto de 70% do corte
+    dur_total = CAPA + (q1 - q0) / FPS + CTA + CARTAO
+    alvo = (0.70 * dur_total - CAPA) + (q0 - p0) / FPS  # instante local da parte
+    pausas = [((ws[i]["end"] + ws[i + 1]["start"]) / 2, ws[i + 1]["start"] - ws[i]["end"]) for i in range(len(ws) - 1)]
+    pausas = [(m, g) for m, g in pausas if g >= 0.3]
+    meio = min(pausas, key=lambda mg: abs(mg[0] - alvo) - 0.4 * min(mg[1], 1.0))[0]
+    qc = p0 + round(meio * FPS)
+    a = mix[q0 * AQ : qc * AQ]
+    b = mix[qc * AQ : q1 * AQ]
+    # capa: pancada; CTA: cama baixa (-10 dB) + whoosh + sininho + CTA1; cartão: cama que some + CTA2
+    capa = np.zeros(round(CAPA * FPS) * AQ, dtype=np.float32)
+    h = hit_capa()
+    capa[: min(len(capa), len(h))] += 0.9 * h[: len(capa)]
+    n_cta = round(CTA * FPS) * AQ
+    meio_cta = cama_mix[qc * AQ : qc * AQ + n_cta] * 0.32
+    meio_cta = np.pad(meio_cta, (0, n_cta - len(meio_cta)))
+    w = whoosh(0.45)
+    meio_cta[: len(w)] += 0.8 * w
+    s_ = sininho()
+    i_s = int(0.35 * SR)
+    meio_cta[i_s : i_s + len(s_)] += 0.7 * s_[: n_cta - i_s]
+    i_v = int(0.25 * SR)
+    meio_cta[i_v : i_v + len(cta1)] += cta1[: n_cta - i_v]
+    n_car = round(CARTAO * FPS) * AQ
+    cartao = cama_mix[q1 * AQ : q1 * AQ + n_car] * 0.45
+    cartao = np.pad(cartao, (0, n_car - len(cartao))) * np.linspace(1, 0, n_car) ** 1.2
+    i_v = int(0.35 * SR)
+    cartao[i_v : i_v + len(cta2)] += cta2[: n_car - i_v]
+    trecho = np.concatenate([capa, a, meio_cta, b, cartao]).astype(np.float32)
+    trecho = np.clip(trecho, -0.95, 0.95)
     sf.write(SAIDA / f"corte{c}.flac", trecho, SR, subtype="PCM_16")
-    info.setdefault("cortes", []).append({"corte": c, "partes": [p1, p2], "quadros": (quadros[p2] - quadros[p1 - 1]) + int(CARTAO * FPS)})
+    qd = len(trecho) // AQ
+    fora = G[parte - 1] + (q1 - p0) / FPS > fim_historia + 0.01
+    info.setdefault("cortes", []).append({
+        "corte": c, "parte": parte, "capa_texto": texto, "capa": CAPA, "cta": CTA, "cartao": CARTAO,
+        "quadro_inicio": q0, "quadro_fim": q1, "cta_quadro": qc,
+        "inicio_na_parte": round((q0 - p0) / FPS, 4), "fim_na_parte": round((q1 - p0) / FPS, 4), "cta_na_parte": round((qc - p0) / FPS, 4),
+        "cta_no_corte": round(CAPA + (qc - q0) / FPS, 4), "quadros": qd, "duracao": round(qd / FPS, 3),
+        "cta_fracao": round((CAPA + (qc - q0) / FPS) / (qd / FPS), 3),
+    })
+    aviso = "" if 45 <= qd / FPS <= 60 and not fora else "  <-- FORA DA REGRA"
+    print(f"corte {c}: parte {parte}, {qd / FPS:.2f} s, CTA em {CAPA + (qc - q0) / FPS:.2f} s ({info['cortes'][-1]['cta_fracao']:.0%}){aviso}")
 
 (SAIDA / "partes.json").write_text(json.dumps(info, ensure_ascii=False, indent=1))
-sf.write(SAIDA / "v3-completo.flac", mix, SR, subtype="PCM_16")
-print(json.dumps(info["partes"], ensure_ascii=False))
-print(len(info["efeitos"]), "efeitos;", "total", TOTAL / SR, "s")
+print("partes:", [round((quadros[k + 1] - quadros[k]) / FPS, 2) for k in range(N)])
+print(f"filme {quadros[-1] / FPS:.2f} s; completo {info['completo_quadros'] / FPS:.2f} s ({info['completo_quadros']} quadros); {len(pistas)} efeitos")

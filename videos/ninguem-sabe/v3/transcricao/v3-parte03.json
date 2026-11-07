@@ -1,0 +1,581 @@
+{
+ "audio": "assets/audio/v3-parte03.flac",
+ "duracao": 43.452,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   3.312,
+   6.876
+  ],
+  [
+   7.517,
+   9.022
+  ],
+  [
+   9.513,
+   13.95
+  ],
+  [
+   14.591,
+   15.683
+  ],
+  [
+   16.184,
+   18.76
+  ],
+  [
+   19.06,
+   20.87
+  ],
+  [
+   21.448,
+   23.274
+  ],
+  [
+   23.823,
+   25.843
+  ],
+  [
+   26.361,
+   28.564
+  ],
+  [
+   29.605,
+   31.58
+  ],
+  [
+   32.269,
+   34.072
+  ],
+  [
+   34.386,
+   35.173
+  ],
+  [
+   35.382,
+   36.279
+  ],
+  [
+   36.877,
+   38.267
+  ],
+  [
+   38.864,
+   40.08
+  ],
+  [
+   40.281,
+   41.626
+  ],
+  [
+   42.195,
+   43.032
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p03w0",
+   "text": "No",
+   "start": 3.312,
+   "end": 3.909
+  },
+  {
+   "id": "p03w1",
+   "text": "jornal,",
+   "start": 3.909,
+   "end": 4.505
+  },
+  {
+   "id": "p03w2",
+   "text": "especialistas",
+   "start": 4.588,
+   "end": 5.202
+  },
+  {
+   "id": "p03w3",
+   "text": "explicam",
+   "start": 5.202,
+   "end": 5.666
+  },
+  {
+   "id": "p03w4",
+   "text": "que",
+   "start": 5.666,
+   "end": 5.831
+  },
+  {
+   "id": "p03w5",
+   "text": "é",
+   "start": 5.831,
+   "end": 5.914
+  },
+  {
+   "id": "p03w6",
+   "text": "um",
+   "start": 5.914,
+   "end": 6.113
+  },
+  {
+   "id": "p03w7",
+   "text": "ataque",
+   "start": 6.113,
+   "end": 6.378
+  },
+  {
+   "id": "p03w8",
+   "text": "hacker,",
+   "start": 6.378,
+   "end": 6.876
+  },
+  {
+   "id": "p03w9",
+   "text": "governos",
+   "start": 7.517,
+   "end": 8.0
+  },
+  {
+   "id": "p03w10",
+   "text": "pedem",
+   "start": 8.0,
+   "end": 8.335
+  },
+  {
+   "id": "p03w11",
+   "text": "calma,",
+   "start": 8.335,
+   "end": 9.022
+  },
+  {
+   "id": "p03w12",
+   "text": "empresas",
+   "start": 9.513,
+   "end": 9.894
+  },
+  {
+   "id": "p03w13",
+   "text": "de",
+   "start": 9.894,
+   "end": 10.135
+  },
+  {
+   "id": "p03w14",
+   "text": "tecnologia",
+   "start": 10.135,
+   "end": 10.818
+  },
+  {
+   "id": "p03w15",
+   "text": "prometem",
+   "start": 10.818,
+   "end": 11.501
+  },
+  {
+   "id": "p03w16",
+   "text": "descobrir",
+   "start": 11.501,
+   "end": 12.123
+  },
+  {
+   "id": "p03w17",
+   "text": "a",
+   "start": 12.123,
+   "end": 12.464
+  },
+  {
+   "id": "p03w18",
+   "text": "origem",
+   "start": 12.464,
+   "end": 12.806
+  },
+  {
+   "id": "p03w19",
+   "text": "em",
+   "start": 12.806,
+   "end": 13.067
+  },
+  {
+   "id": "p03w20",
+   "text": "poucas",
+   "start": 13.067,
+   "end": 13.428
+  },
+  {
+   "id": "p03w21",
+   "text": "horas,",
+   "start": 13.428,
+   "end": 13.95
+  },
+  {
+   "id": "p03w22",
+   "text": "elas",
+   "start": 14.591,
+   "end": 14.795
+  },
+  {
+   "id": "p03w23",
+   "text": "não",
+   "start": 14.795,
+   "end": 15.072
+  },
+  {
+   "id": "p03w24",
+   "text": "descobrem,",
+   "start": 15.072,
+   "end": 15.683
+  },
+  {
+   "id": "p03w25",
+   "text": "porque",
+   "start": 16.184,
+   "end": 16.459
+  },
+  {
+   "id": "p03w26",
+   "text": "os",
+   "start": 16.459,
+   "end": 16.735
+  },
+  {
+   "id": "p03w27",
+   "text": "e",
+   "start": 16.735,
+   "end": 16.872
+  },
+  {
+   "id": "p03w28",
+   "text": "-mails",
+   "start": 16.872,
+   "end": 17.069
+  },
+  {
+   "id": "p03w29",
+   "text": "chegaram",
+   "start": 17.069,
+   "end": 17.659
+  },
+  {
+   "id": "p03w30",
+   "text": "no",
+   "start": 17.659,
+   "end": 17.914
+  },
+  {
+   "id": "p03w31",
+   "text": "mesmo",
+   "start": 17.914,
+   "end": 18.268
+  },
+  {
+   "id": "p03w32",
+   "text": "segundo,",
+   "start": 18.268,
+   "end": 18.76
+  },
+  {
+   "id": "p03w33",
+   "text": "em",
+   "start": 19.06,
+   "end": 19.251
+  },
+  {
+   "id": "p03w34",
+   "text": "todos",
+   "start": 19.251,
+   "end": 19.613
+  },
+  {
+   "id": "p03w35",
+   "text": "os",
+   "start": 19.613,
+   "end": 19.841
+  },
+  {
+   "id": "p03w36",
+   "text": "aparelhos",
+   "start": 19.841,
+   "end": 20.203
+  },
+  {
+   "id": "p03w37",
+   "text": "do",
+   "start": 20.203,
+   "end": 20.451
+  },
+  {
+   "id": "p03w38",
+   "text": "mundo,",
+   "start": 20.451,
+   "end": 20.87
+  },
+  {
+   "id": "p03w39",
+   "text": "cada",
+   "start": 21.448,
+   "end": 21.744
+  },
+  {
+   "id": "p03w40",
+   "text": "um",
+   "start": 21.744,
+   "end": 21.9
+  },
+  {
+   "id": "p03w41",
+   "text": "no",
+   "start": 21.9,
+   "end": 22.057
+  },
+  {
+   "id": "p03w42",
+   "text": "idioma",
+   "start": 22.057,
+   "end": 22.474
+  },
+  {
+   "id": "p03w43",
+   "text": "do",
+   "start": 22.474,
+   "end": 22.718
+  },
+  {
+   "id": "p03w44",
+   "text": "dono,",
+   "start": 22.718,
+   "end": 23.274
+  },
+  {
+   "id": "p03w45",
+   "text": "até",
+   "start": 23.823,
+   "end": 24.047
+  },
+  {
+   "id": "p03w46",
+   "text": "em",
+   "start": 24.047,
+   "end": 24.333
+  },
+  {
+   "id": "p03w47",
+   "text": "celulares",
+   "start": 24.333,
+   "end": 24.823
+  },
+  {
+   "id": "p03w48",
+   "text": "desligados,",
+   "start": 24.823,
+   "end": 25.844
+  },
+  {
+   "id": "p03w49",
+   "text": "até",
+   "start": 26.361,
+   "end": 26.562
+  },
+  {
+   "id": "p03w50",
+   "text": "em",
+   "start": 26.562,
+   "end": 26.851
+  },
+  {
+   "id": "p03w51",
+   "text": "celulares",
+   "start": 26.851,
+   "end": 27.452
+  },
+  {
+   "id": "p03w52",
+   "text": "sem",
+   "start": 27.452,
+   "end": 27.852
+  },
+  {
+   "id": "p03w53",
+   "text": "internet.",
+   "start": 27.852,
+   "end": 28.564
+  },
+  {
+   "id": "p03w54",
+   "text": "Você",
+   "start": 29.605,
+   "end": 30.323
+  },
+  {
+   "id": "p03w55",
+   "text": "decide",
+   "start": 30.323,
+   "end": 30.671
+  },
+  {
+   "id": "p03w56",
+   "text": "não",
+   "start": 30.671,
+   "end": 30.862
+  },
+  {
+   "id": "p03w57",
+   "text": "pensar",
+   "start": 30.862,
+   "end": 31.108
+  },
+  {
+   "id": "p03w58",
+   "text": "nisso,",
+   "start": 31.108,
+   "end": 31.58
+  },
+  {
+   "id": "p03w59",
+   "text": "joga",
+   "start": 32.269,
+   "end": 32.494
+  },
+  {
+   "id": "p03w60",
+   "text": "videogame",
+   "start": 32.494,
+   "end": 33.148
+  },
+  {
+   "id": "p03w61",
+   "text": "com",
+   "start": 33.148,
+   "end": 33.463
+  },
+  {
+   "id": "p03w62",
+   "text": "o",
+   "start": 33.463,
+   "end": 33.711
+  },
+  {
+   "id": "p03w63",
+   "text": "Lucas,",
+   "start": 33.711,
+   "end": 34.072
+  },
+  {
+   "id": "p03w64",
+   "text": "vê",
+   "start": 34.386,
+   "end": 34.648
+  },
+  {
+   "id": "p03w65",
+   "text": "série,",
+   "start": 34.648,
+   "end": 35.173
+  },
+  {
+   "id": "p03w66",
+   "text": "dorme",
+   "start": 35.382,
+   "end": 35.83
+  },
+  {
+   "id": "p03w67",
+   "text": "tarde,",
+   "start": 35.83,
+   "end": 36.279
+  },
+  {
+   "id": "p03w68",
+   "text": "ele",
+   "start": 36.876,
+   "end": 37.126
+  },
+  {
+   "id": "p03w69",
+   "text": "brinca",
+   "start": 37.126,
+   "end": 37.394
+  },
+  {
+   "id": "p03w70",
+   "text": "o",
+   "start": 37.394,
+   "end": 37.536
+  },
+  {
+   "id": "p03w71",
+   "text": "tempo",
+   "start": 37.536,
+   "end": 37.768
+  },
+  {
+   "id": "p03w72",
+   "text": "todo,",
+   "start": 37.768,
+   "end": 38.267
+  },
+  {
+   "id": "p03w73",
+   "text": "faltam",
+   "start": 38.864,
+   "end": 39.162
+  },
+  {
+   "id": "p03w74",
+   "text": "dois",
+   "start": 39.162,
+   "end": 39.621
+  },
+  {
+   "id": "p03w75",
+   "text": "dias,",
+   "start": 39.621,
+   "end": 40.08
+  },
+  {
+   "id": "p03w76",
+   "text": "me",
+   "start": 40.281,
+   "end": 40.434
+  },
+  {
+   "id": "p03w77",
+   "text": "paga",
+   "start": 40.434,
+   "end": 40.621
+  },
+  {
+   "id": "p03w78",
+   "text": "um",
+   "start": 40.621,
+   "end": 40.792
+  },
+  {
+   "id": "p03w79",
+   "text": "lanche",
+   "start": 40.792,
+   "end": 41.064
+  },
+  {
+   "id": "p03w80",
+   "text": "irmão,",
+   "start": 41.064,
+   "end": 41.626
+  },
+  {
+   "id": "p03w81",
+   "text": "e",
+   "start": 42.195,
+   "end": 42.338
+  },
+  {
+   "id": "p03w82",
+   "text": "você",
+   "start": 42.338,
+   "end": 42.705
+  },
+  {
+   "id": "p03w83",
+   "text": "paga.",
+   "start": 42.705,
+   "end": 43.032
+  }
+ ]
+}

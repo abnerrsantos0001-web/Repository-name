@@ -1,0 +1,828 @@
+{
+ "fps": 30,
+ "taxa": 48000,
+ "partes": [
+  {
+   "parte": 1,
+   "quadro_inicial": 0,
+   "quadros": 1337,
+   "duracao": 44.5667,
+   "inicio_global": 0.0,
+   "abertura": 5.5
+  },
+  {
+   "parte": 2,
+   "quadro_inicial": 1337,
+   "quadros": 1370,
+   "duracao": 45.6667,
+   "inicio_global": 44.5667,
+   "abertura": 3.2
+  },
+  {
+   "parte": 3,
+   "quadro_inicial": 2707,
+   "quadros": 1315,
+   "duracao": 43.8333,
+   "inicio_global": 90.2333,
+   "abertura": 3.2
+  },
+  {
+   "parte": 4,
+   "quadro_inicial": 4022,
+   "quadros": 1545,
+   "duracao": 51.5,
+   "inicio_global": 134.0667,
+   "abertura": 3.2
+  },
+  {
+   "parte": 5,
+   "quadro_inicial": 5567,
+   "quadros": 1344,
+   "duracao": 44.8,
+   "inicio_global": 185.5667,
+   "abertura": 3.2
+  },
+  {
+   "parte": 6,
+   "quadro_inicial": 6911,
+   "quadros": 1323,
+   "duracao": 44.1,
+   "inicio_global": 230.3667,
+   "abertura": 3.2
+  },
+  {
+   "parte": 7,
+   "quadro_inicial": 8234,
+   "quadros": 1271,
+   "duracao": 42.3667,
+   "inicio_global": 274.4667,
+   "abertura": 3.2
+  },
+  {
+   "parte": 8,
+   "quadro_inicial": 9505,
+   "quadros": 1346,
+   "duracao": 44.8667,
+   "inicio_global": 316.8333,
+   "abertura": 3.2
+  },
+  {
+   "parte": 9,
+   "quadro_inicial": 10851,
+   "quadros": 1380,
+   "duracao": 46.0,
+   "inicio_global": 361.7,
+   "abertura": 3.2
+  },
+  {
+   "parte": 10,
+   "quadro_inicial": 12231,
+   "quadros": 1275,
+   "duracao": 42.5,
+   "inicio_global": 407.7,
+   "abertura": 3.2
+  },
+  {
+   "parte": 11,
+   "quadro_inicial": 13506,
+   "quadros": 1348,
+   "duracao": 44.9333,
+   "inicio_global": 450.2,
+   "abertura": 3.2
+  },
+  {
+   "parte": 12,
+   "quadro_inicial": 14854,
+   "quadros": 1425,
+   "duracao": 47.5,
+   "inicio_global": 495.1333,
+   "abertura": 3.2
+  },
+  {
+   "parte": 13,
+   "quadro_inicial": 16279,
+   "quadros": 1577,
+   "duracao": 52.5667,
+   "inicio_global": 542.6333,
+   "abertura": 3.2
+  }
+ ],
+ "efeitos": [
+  {
+   "t": 0.0,
+   "efeito": "grilos"
+  },
+  {
+   "t": 0.25,
+   "efeito": "título"
+  },
+  {
+   "t": 9.039,
+   "efeito": "vibração"
+  },
+  {
+   "t": 10.239,
+   "efeito": "vibração"
+  },
+  {
+   "t": 18.26,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 18.63,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 19.0,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 19.16,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 19.53,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 19.9,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 20.06,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 20.43,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 20.8,
+   "efeito": "notificações pelo mundo"
+  },
+  {
+   "t": 20.724,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 30.505,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 44.567,
+   "efeito": "cafeteira"
+  },
+  {
+   "t": 44.567,
+   "efeito": "rua lá fora"
+  },
+  {
+   "t": 55.92,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 72.367,
+   "efeito": "notificação"
+  },
+  {
+   "t": 73.828,
+   "efeito": "notificação"
+  },
+  {
+   "t": 75.036,
+   "efeito": "notificação"
+  },
+  {
+   "t": 76.245,
+   "efeito": "notificação"
+  },
+  {
+   "t": 80.637,
+   "efeito": "notificação"
+  },
+  {
+   "t": 82.508,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 87.23,
+   "efeito": "notificação"
+  },
+  {
+   "t": 87.41,
+   "efeito": "notificação"
+  },
+  {
+   "t": 87.59,
+   "efeito": "notificação"
+  },
+  {
+   "t": 87.77,
+   "efeito": "notificação"
+  },
+  {
+   "t": 89.305,
+   "efeito": "notificação"
+  },
+  {
+   "t": 90.233,
+   "efeito": "jornal na TV"
+  },
+  {
+   "t": 96.346,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 108.147,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 122.302,
+   "efeito": "videogame"
+  },
+  {
+   "t": 131.025,
+   "efeito": "embalagem do lanche"
+  },
+  {
+   "t": 134.067,
+   "efeito": "sala de aula"
+  },
+  {
+   "t": 144.947,
+   "efeito": "relógio"
+  },
+  {
+   "t": 147.405,
+   "efeito": "sinal da escola"
+  },
+  {
+   "t": 148.105,
+   "efeito": "intervalo"
+  },
+  {
+   "t": 158.981,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 160.609,
+   "efeito": "relógio"
+  },
+  {
+   "t": 163.077,
+   "efeito": "mensagem"
+  },
+  {
+   "t": 173.799,
+   "efeito": "coração"
+  },
+  {
+   "t": 174.599,
+   "efeito": "coração"
+  },
+  {
+   "t": 175.343,
+   "efeito": "coração"
+  },
+  {
+   "t": 176.035,
+   "efeito": "coração"
+  },
+  {
+   "t": 176.09,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 185.567,
+   "efeito": "sirene"
+  },
+  {
+   "t": 191.083,
+   "efeito": "gente gritando"
+  },
+  {
+   "t": 197.073,
+   "efeito": "jornal na TV"
+  },
+  {
+   "t": 204.105,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 222.083,
+   "efeito": "respiração"
+  },
+  {
+   "t": 227.781,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 230.367,
+   "efeito": "aeroporto"
+  },
+  {
+   "t": 230.867,
+   "efeito": "aviso do aeroporto"
+  },
+  {
+   "t": 245.229,
+   "efeito": "sino da igreja"
+  },
+  {
+   "t": 245.229,
+   "efeito": "fila da igreja"
+  },
+  {
+   "t": 255.341,
+   "efeito": "notificação"
+  },
+  {
+   "t": 255.941,
+   "efeito": "notificação"
+  },
+  {
+   "t": 256.541,
+   "efeito": "notificação"
+  },
+  {
+   "t": 257.141,
+   "efeito": "notificação"
+  },
+  {
+   "t": 257.741,
+   "efeito": "notificação"
+  },
+  {
+   "t": 264.582,
+   "efeito": "talheres"
+  },
+  {
+   "t": 265.482,
+   "efeito": "talheres"
+  },
+  {
+   "t": 266.382,
+   "efeito": "talheres"
+  },
+  {
+   "t": 267.282,
+   "efeito": "talheres"
+  },
+  {
+   "t": 268.182,
+   "efeito": "talheres"
+  },
+  {
+   "t": 269.082,
+   "efeito": "talheres"
+  },
+  {
+   "t": 274.467,
+   "efeito": "relógio"
+  },
+  {
+   "t": 283.462,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 287.066,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 297.458,
+   "efeito": "vibração"
+  },
+  {
+   "t": 302.524,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 308.554,
+   "efeito": "coração"
+  },
+  {
+   "t": 309.354,
+   "efeito": "coração"
+  },
+  {
+   "t": 310.098,
+   "efeito": "coração"
+  },
+  {
+   "t": 310.79,
+   "efeito": "coração"
+  },
+  {
+   "t": 311.433,
+   "efeito": "coração"
+  },
+  {
+   "t": 312.032,
+   "efeito": "coração"
+  },
+  {
+   "t": 312.588,
+   "efeito": "coração"
+  },
+  {
+   "t": 313.138,
+   "efeito": "coração"
+  },
+  {
+   "t": 313.688,
+   "efeito": "coração"
+  },
+  {
+   "t": 314.238,
+   "efeito": "coração"
+  },
+  {
+   "t": 314.788,
+   "efeito": "coração"
+  },
+  {
+   "t": 315.338,
+   "efeito": "coração"
+  },
+  {
+   "t": 315.888,
+   "efeito": "coração"
+  },
+  {
+   "t": 316.833,
+   "efeito": "manhã lá fora"
+  },
+  {
+   "t": 327.169,
+   "efeito": "folha"
+  },
+  {
+   "t": 328.712,
+   "efeito": "caneta"
+  },
+  {
+   "t": 332.291,
+   "efeito": "caneta"
+  },
+  {
+   "t": 337.478,
+   "efeito": "caneta"
+  },
+  {
+   "t": 342.141,
+   "efeito": "caneta"
+  },
+  {
+   "t": 348.192,
+   "efeito": "caneta"
+  },
+  {
+   "t": 356.338,
+   "efeito": "folha dobrando"
+  },
+  {
+   "t": 358.232,
+   "efeito": "bolso"
+  },
+  {
+   "t": 360.066,
+   "efeito": "desliga o celular"
+  },
+  {
+   "t": 361.7,
+   "efeito": "ônibus"
+  },
+  {
+   "t": 370.135,
+   "efeito": "porta do ônibus"
+  },
+  {
+   "t": 370.235,
+   "efeito": "mar"
+  },
+  {
+   "t": 371.87,
+   "efeito": "gaivota"
+  },
+  {
+   "t": 375.473,
+   "efeito": "gaivota"
+  },
+  {
+   "t": 379.699,
+   "efeito": "gaivota"
+  },
+  {
+   "t": 373.973,
+   "efeito": "passos na areia"
+  },
+  {
+   "t": 382.294,
+   "efeito": "entrando no mar"
+  },
+  {
+   "t": 384.515,
+   "efeito": "rua à noite"
+  },
+  {
+   "t": 387.349,
+   "efeito": "porta da Júlia"
+  },
+  {
+   "t": 400.161,
+   "efeito": "brilho"
+  },
+  {
+   "t": 406.37,
+   "efeito": "abraço"
+  },
+  {
+   "t": 407.7,
+   "efeito": "grilos"
+  },
+  {
+   "t": 408.5,
+   "efeito": "ferramenta"
+  },
+  {
+   "t": 410.0,
+   "efeito": "ferramenta"
+  },
+  {
+   "t": 414.1,
+   "efeito": "ferramenta"
+  },
+  {
+   "t": 415.3,
+   "efeito": "ferramenta"
+  },
+  {
+   "t": 421.532,
+   "efeito": "chave inglesa"
+  },
+  {
+   "t": 424.6,
+   "efeito": "ferramenta"
+  },
+  {
+   "t": 425.9,
+   "efeito": "ferramenta"
+  },
+  {
+   "t": 426.355,
+   "efeito": "motor tentando pegar"
+  },
+  {
+   "t": 429.75,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 431.919,
+   "efeito": "notificação"
+  },
+  {
+   "t": 433.119,
+   "efeito": "notificação"
+  },
+  {
+   "t": 434.319,
+   "efeito": "notificação"
+  },
+  {
+   "t": 435.519,
+   "efeito": "notificação"
+  },
+  {
+   "t": 444.425,
+   "efeito": "celular ligando"
+  },
+  {
+   "t": 450.2,
+   "efeito": "cafeteira"
+  },
+  {
+   "t": 450.2,
+   "efeito": "manhã lá fora"
+  },
+  {
+   "t": 457.236,
+   "efeito": "xícara"
+  },
+  {
+   "t": 460.036,
+   "efeito": "xícara"
+  },
+  {
+   "t": 462.836,
+   "efeito": "xícara"
+  },
+  {
+   "t": 483.933,
+   "efeito": "relógio"
+  },
+  {
+   "t": 489.305,
+   "efeito": "coração"
+  },
+  {
+   "t": 490.005,
+   "efeito": "coração"
+  },
+  {
+   "t": 490.656,
+   "efeito": "coração"
+  },
+  {
+   "t": 491.261,
+   "efeito": "coração"
+  },
+  {
+   "t": 491.824,
+   "efeito": "coração"
+  },
+  {
+   "t": 492.348,
+   "efeito": "coração"
+  },
+  {
+   "t": 492.848,
+   "efeito": "coração"
+  },
+  {
+   "t": 493.204,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 498.729,
+   "efeito": "vibração"
+  },
+  {
+   "t": 502.206,
+   "efeito": "respiração"
+  },
+  {
+   "t": 508.607,
+   "efeito": "a mãe ronca"
+  },
+  {
+   "t": 513.627,
+   "efeito": "e-mail novo"
+  },
+  {
+   "t": 516.556,
+   "efeito": "susto grave"
+  },
+  {
+   "t": 523.209,
+   "efeito": "grave"
+  },
+  {
+   "t": 527.775,
+   "efeito": "choro em silêncio"
+  },
+  {
+   "t": 566.786,
+   "efeito": "caneta riscando"
+  },
+  {
+   "t": 568.619,
+   "efeito": "caneta"
+  },
+  {
+   "t": 578.783,
+   "efeito": "sininho"
+  },
+  {
+   "t": 582.552,
+   "efeito": "vibração"
+  },
+  {
+   "t": 591.6,
+   "efeito": "vibração final"
+  },
+  {
+   "t": 592.8,
+   "efeito": "vibração final"
+  }
+ ],
+ "gancho": {
+  "parte": 4,
+  "quadro_inicio": 5338,
+  "quadro_fim": 5551,
+  "quadros": 213,
+  "preto_quadros": 21,
+  "inicio_na_parte": 43.8667,
+  "fim_na_parte": 50.9667
+ },
+ "completo_quadros": 18090,
+ "cortes": [
+  {
+   "corte": 1,
+   "parte": 1,
+   "capa_texto": "VOCÊ TEM 7 DIAS",
+   "capa": 0.8,
+   "cta": 2.6,
+   "cartao": 4.0,
+   "quadro_inicio": 153,
+   "quadro_fim": 1337,
+   "cta_quadro": 1101,
+   "inicio_na_parte": 5.1,
+   "fim_na_parte": 44.5667,
+   "cta_na_parte": 36.7,
+   "cta_no_corte": 32.4,
+   "quadros": 1406,
+   "duracao": 46.867,
+   "cta_fracao": 0.691
+  },
+  {
+   "corte": 2,
+   "parte": 2,
+   "capa_texto": "ELE TINHA 3 DIAS",
+   "capa": 0.8,
+   "cta": 2.6,
+   "cartao": 4.0,
+   "quadro_inicio": 1421,
+   "quadro_fim": 2707,
+   "cta_quadro": 2468,
+   "inicio_na_parte": 2.8,
+   "fim_na_parte": 45.6667,
+   "cta_na_parte": 37.7,
+   "cta_no_corte": 35.7,
+   "quadros": 1508,
+   "duracao": 50.267,
+   "cta_fracao": 0.71
+  },
+  {
+   "corte": 3,
+   "parte": 4,
+   "capa_texto": "14:07",
+   "capa": 0.8,
+   "cta": 2.6,
+   "cartao": 4.0,
+   "quadro_inicio": 4106,
+   "quadro_fim": 5567,
+   "cta_quadro": 5261,
+   "inicio_na_parte": 2.8,
+   "fim_na_parte": 51.5,
+   "cta_na_parte": 41.3,
+   "cta_no_corte": 39.3,
+   "quadros": 1683,
+   "duracao": 56.1,
+   "cta_fracao": 0.701
+  },
+  {
+   "corte": 4,
+   "parte": 5,
+   "capa_texto": "O MEU TAMBÉM TEM HORA",
+   "capa": 0.8,
+   "cta": 2.6,
+   "cartao": 4.0,
+   "quadro_inicio": 5651,
+   "quadro_fim": 6911,
+   "cta_quadro": 6654,
+   "inicio_na_parte": 2.8,
+   "fim_na_parte": 44.8,
+   "cta_na_parte": 36.2333,
+   "cta_no_corte": 34.2333,
+   "quadros": 1482,
+   "duracao": 49.4,
+   "cta_fracao": 0.693
+  },
+  {
+   "corte": 5,
+   "parte": 7,
+   "capa_texto": "4.320 MINUTOS",
+   "capa": 0.8,
+   "cta": 2.6,
+   "cartao": 4.0,
+   "quadro_inicio": 8318,
+   "quadro_fim": 9505,
+   "cta_quadro": 9245,
+   "inicio_na_parte": 2.8,
+   "fim_na_parte": 42.3667,
+   "cta_na_parte": 33.7,
+   "cta_no_corte": 31.7,
+   "quadros": 1409,
+   "duracao": 46.967,
+   "cta_fracao": 0.675
+  },
+  {
+   "corte": 6,
+   "parte": 10,
+   "capa_texto": "A DATA MUDOU?",
+   "capa": 0.8,
+   "cta": 2.6,
+   "cartao": 4.0,
+   "quadro_inicio": 12315,
+   "quadro_fim": 13506,
+   "cta_quadro": 13301,
+   "inicio_na_parte": 2.8,
+   "fim_na_parte": 42.5,
+   "cta_na_parte": 35.6667,
+   "cta_no_corte": 33.6667,
+   "quadros": 1413,
+   "duracao": 47.1,
+   "cta_fracao": 0.715
+  }
+ ]
+}

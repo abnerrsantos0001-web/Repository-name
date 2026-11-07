@@ -1,0 +1,593 @@
+{
+ "audio": "assets/audio/v3-parte13.flac",
+ "duracao": 44.81,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   3.333,
+   4.2
+  ],
+  [
+   4.416,
+   7.153
+  ],
+  [
+   7.825,
+   10.338
+  ],
+  [
+   11.03,
+   12.851
+  ],
+  [
+   13.456,
+   16.627
+  ],
+  [
+   17.532,
+   18.406
+  ],
+  [
+   19.223,
+   21.824
+  ],
+  [
+   22.634,
+   25.389
+  ],
+  [
+   25.564,
+   26.652
+  ],
+  [
+   27.812,
+   29.775
+  ],
+  [
+   30.409,
+   32.449
+  ],
+  [
+   32.923,
+   35.141
+  ],
+  [
+   35.95,
+   37.527
+  ],
+  [
+   38.266,
+   38.427
+  ],
+  [
+   39.013,
+   40.397
+  ],
+  [
+   40.664,
+   41.854
+  ],
+  [
+   42.674,
+   44.561
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p13w0",
+   "text": "Até",
+   "start": 3.333,
+   "end": 3.863
+  },
+  {
+   "id": "p13w1",
+   "text": "hoje",
+   "start": 3.863,
+   "end": 4.2
+  },
+  {
+   "id": "p13w2",
+   "text": "ninguém",
+   "start": 4.416,
+   "end": 5.031
+  },
+  {
+   "id": "p13w3",
+   "text": "descobriu",
+   "start": 5.031,
+   "end": 5.699
+  },
+  {
+   "id": "p13w4",
+   "text": "quem",
+   "start": 5.699,
+   "end": 5.853
+  },
+  {
+   "id": "p13w5",
+   "text": "mandou",
+   "start": 5.853,
+   "end": 6.263
+  },
+  {
+   "id": "p13w6",
+   "text": "aqueles",
+   "start": 6.263,
+   "end": 6.571
+  },
+  {
+   "id": "p13w7",
+   "text": "e",
+   "start": 6.571,
+   "end": 6.742
+  },
+  {
+   "id": "p13w8",
+   "text": "-mails.",
+   "start": 6.742,
+   "end": 7.153
+  },
+  {
+   "id": "p13w9",
+   "text": "Algumas",
+   "start": 7.825,
+   "end": 8.268
+  },
+  {
+   "id": "p13w10",
+   "text": "pessoas",
+   "start": 8.268,
+   "end": 8.675
+  },
+  {
+   "id": "p13w11",
+   "text": "receberam",
+   "start": 8.675,
+   "end": 9.241
+  },
+  {
+   "id": "p13w12",
+   "text": "datas",
+   "start": 9.241,
+   "end": 9.595
+  },
+  {
+   "id": "p13w13",
+   "text": "novas,",
+   "start": 9.595,
+   "end": 10.338
+  },
+  {
+   "id": "p13w14",
+   "text": "outras",
+   "start": 11.03,
+   "end": 11.455
+  },
+  {
+   "id": "p13w15",
+   "text": "pararam",
+   "start": 11.455,
+   "end": 12.062
+  },
+  {
+   "id": "p13w16",
+   "text": "de",
+   "start": 12.062,
+   "end": 12.447
+  },
+  {
+   "id": "p13w17",
+   "text": "receber,",
+   "start": 12.447,
+   "end": 12.851
+  },
+  {
+   "id": "p13w18",
+   "text": "e",
+   "start": 13.456,
+   "end": 13.623
+  },
+  {
+   "id": "p13w19",
+   "text": "muita",
+   "start": 13.623,
+   "end": 13.938
+  },
+  {
+   "id": "p13w20",
+   "text": "gente",
+   "start": 13.938,
+   "end": 14.439
+  },
+  {
+   "id": "p13w21",
+   "text": "nunca",
+   "start": 14.439,
+   "end": 14.902
+  },
+  {
+   "id": "p13w22",
+   "text": "mais",
+   "start": 14.902,
+   "end": 15.347
+  },
+  {
+   "id": "p13w23",
+   "text": "viveu",
+   "start": 15.347,
+   "end": 15.644
+  },
+  {
+   "id": "p13w24",
+   "text": "do",
+   "start": 15.644,
+   "end": 15.885
+  },
+  {
+   "id": "p13w25",
+   "text": "mesmo",
+   "start": 15.885,
+   "end": 16.201
+  },
+  {
+   "id": "p13w26",
+   "text": "jeito.",
+   "start": 16.201,
+   "end": 16.627
+  },
+  {
+   "id": "p13w27",
+   "text": "Você",
+   "start": 17.532,
+   "end": 17.823
+  },
+  {
+   "id": "p13w28",
+   "text": "também",
+   "start": 17.823,
+   "end": 18.151
+  },
+  {
+   "id": "p13w29",
+   "text": "não.",
+   "start": 18.151,
+   "end": 18.406
+  },
+  {
+   "id": "p13w30",
+   "text": "A",
+   "start": 19.223,
+   "end": 19.439
+  },
+  {
+   "id": "p13w31",
+   "text": "folha",
+   "start": 19.439,
+   "end": 19.64
+  },
+  {
+   "id": "p13w32",
+   "text": "do",
+   "start": 19.64,
+   "end": 19.806
+  },
+  {
+   "id": "p13w33",
+   "text": "caderno",
+   "start": 19.806,
+   "end": 20.357
+  },
+  {
+   "id": "p13w34",
+   "text": "continua",
+   "start": 20.357,
+   "end": 20.84
+  },
+  {
+   "id": "p13w35",
+   "text": "no",
+   "start": 20.84,
+   "end": 21.057
+  },
+  {
+   "id": "p13w36",
+   "text": "seu",
+   "start": 21.057,
+   "end": 21.274
+  },
+  {
+   "id": "p13w37",
+   "text": "bolso.",
+   "start": 21.274,
+   "end": 21.824
+  },
+  {
+   "id": "p13w38",
+   "text": "Toda",
+   "start": 22.634,
+   "end": 22.978
+  },
+  {
+   "id": "p13w39",
+   "text": "semana",
+   "start": 22.978,
+   "end": 23.525
+  },
+  {
+   "id": "p13w40",
+   "text": "você",
+   "start": 23.525,
+   "end": 24.153
+  },
+  {
+   "id": "p13w41",
+   "text": "risca",
+   "start": 24.153,
+   "end": 24.599
+  },
+  {
+   "id": "p13w42",
+   "text": "uma",
+   "start": 24.599,
+   "end": 24.963
+  },
+  {
+   "id": "p13w43",
+   "text": "coisa",
+   "start": 24.963,
+   "end": 25.388
+  },
+  {
+   "id": "p13w44",
+   "text": "e",
+   "start": 25.564,
+   "end": 25.986
+  },
+  {
+   "id": "p13w45",
+   "text": "escreve",
+   "start": 25.986,
+   "end": 26.295
+  },
+  {
+   "id": "p13w46",
+   "text": "outra.",
+   "start": 26.295,
+   "end": 26.652
+  },
+  {
+   "id": "p13w47",
+   "text": "Agora",
+   "start": 27.812,
+   "end": 28.427
+  },
+  {
+   "id": "p13w48",
+   "text": "me",
+   "start": 28.427,
+   "end": 28.7
+  },
+  {
+   "id": "p13w49",
+   "text": "fala",
+   "start": 28.7,
+   "end": 28.853
+  },
+  {
+   "id": "p13w50",
+   "text": "aqui",
+   "start": 28.853,
+   "end": 29.041
+  },
+  {
+   "id": "p13w51",
+   "text": "nos",
+   "start": 29.041,
+   "end": 29.229
+  },
+  {
+   "id": "p13w52",
+   "text": "comentários,",
+   "start": 29.229,
+   "end": 29.775
+  },
+  {
+   "id": "p13w53",
+   "text": "se",
+   "start": 30.409,
+   "end": 30.566
+  },
+  {
+   "id": "p13w54",
+   "text": "você",
+   "start": 30.566,
+   "end": 30.914
+  },
+  {
+   "id": "p13w55",
+   "text": "recebesse",
+   "start": 30.914,
+   "end": 31.472
+  },
+  {
+   "id": "p13w56",
+   "text": "esse",
+   "start": 31.472,
+   "end": 31.664
+  },
+  {
+   "id": "p13w57",
+   "text": "e",
+   "start": 31.664,
+   "end": 31.803
+  },
+  {
+   "id": "p13w58",
+   "text": "-mail",
+   "start": 31.803,
+   "end": 31.943
+  },
+  {
+   "id": "p13w59",
+   "text": "hoje,",
+   "start": 31.943,
+   "end": 32.449
+  },
+  {
+   "id": "p13w60",
+   "text": "o",
+   "start": 32.923,
+   "end": 33.095
+  },
+  {
+   "id": "p13w61",
+   "text": "que",
+   "start": 33.095,
+   "end": 33.248
+  },
+  {
+   "id": "p13w62",
+   "text": "você",
+   "start": 33.248,
+   "end": 33.592
+  },
+  {
+   "id": "p13w63",
+   "text": "faria",
+   "start": 33.592,
+   "end": 33.917
+  },
+  {
+   "id": "p13w64",
+   "text": "nos",
+   "start": 33.917,
+   "end": 34.128
+  },
+  {
+   "id": "p13w65",
+   "text": "seus",
+   "start": 34.128,
+   "end": 34.319
+  },
+  {
+   "id": "p13w66",
+   "text": "7",
+   "start": 34.319,
+   "end": 34.663
+  },
+  {
+   "id": "p13w67",
+   "text": "dias?",
+   "start": 34.663,
+   "end": 35.141
+  },
+  {
+   "id": "p13w68",
+   "text": "Se",
+   "start": 35.95,
+   "end": 36.187
+  },
+  {
+   "id": "p13w69",
+   "text": "inscreve",
+   "start": 36.187,
+   "end": 36.56
+  },
+  {
+   "id": "p13w70",
+   "text": "no",
+   "start": 36.56,
+   "end": 36.713
+  },
+  {
+   "id": "p13w71",
+   "text": "Ninguém",
+   "start": 36.713,
+   "end": 37.069
+  },
+  {
+   "id": "p13w72",
+   "text": "Sabe,",
+   "start": 37.069,
+   "end": 37.527
+  },
+  {
+   "id": "p13w73",
+   "text": "e",
+   "start": 38.266,
+   "end": 38.427
+  },
+  {
+   "id": "p13w74",
+   "text": "se",
+   "start": 39.013,
+   "end": 39.355
+  },
+  {
+   "id": "p13w75",
+   "text": "o",
+   "start": 39.355,
+   "end": 39.457
+  },
+  {
+   "id": "p13w76",
+   "text": "seu",
+   "start": 39.457,
+   "end": 39.628
+  },
+  {
+   "id": "p13w77",
+   "text": "celular",
+   "start": 39.628,
+   "end": 39.919
+  },
+  {
+   "id": "p13w78",
+   "text": "vibrar",
+   "start": 39.919,
+   "end": 40.397
+  },
+  {
+   "id": "p13w79",
+   "text": "às",
+   "start": 40.664,
+   "end": 41.021
+  },
+  {
+   "id": "p13w80",
+   "text": "3h33",
+   "start": 41.021,
+   "end": 41.854
+  },
+  {
+   "id": "p13w81",
+   "text": "talvez",
+   "start": 42.674,
+   "end": 43.539
+  },
+  {
+   "id": "p13w82",
+   "text": "seja",
+   "start": 43.539,
+   "end": 43.762
+  },
+  {
+   "id": "p13w83",
+   "text": "melhor",
+   "start": 43.762,
+   "end": 44.063
+  },
+  {
+   "id": "p13w84",
+   "text": "não",
+   "start": 44.063,
+   "end": 44.325
+  },
+  {
+   "id": "p13w85",
+   "text": "abrir.",
+   "start": 44.325,
+   "end": 44.561
+  }
+ ]
+}

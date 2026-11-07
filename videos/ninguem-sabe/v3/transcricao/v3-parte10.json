@@ -1,0 +1,619 @@
+{
+ "audio": "assets/audio/v3-parte10.flac",
+ "duracao": 42.015,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   3.313,
+   3.937
+  ],
+  [
+   4.088,
+   6.037
+  ],
+  [
+   6.31,
+   8.697
+  ],
+  [
+   9.409,
+   10.601
+  ],
+  [
+   11.046,
+   12.058
+  ],
+  [
+   12.643,
+   14.371
+  ],
+  [
+   14.879,
+   17.083
+  ],
+  [
+   17.617,
+   19.974
+  ],
+  [
+   20.621,
+   22.899
+  ],
+  [
+   23.919,
+   27.427
+  ],
+  [
+   28.121,
+   31.221
+  ],
+  [
+   31.951,
+   33.245
+  ],
+  [
+   33.852,
+   35.248
+  ],
+  [
+   36.097,
+   37.41
+  ],
+  [
+   37.854,
+   39.348
+  ],
+  [
+   39.845,
+   41.675
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p10w0",
+   "text": "A",
+   "start": 3.313,
+   "end": 3.697
+  },
+  {
+   "id": "p10w1",
+   "text": "noite",
+   "start": 3.697,
+   "end": 3.937
+  },
+  {
+   "id": "p10w2",
+   "text": "você",
+   "start": 4.088,
+   "end": 4.526
+  },
+  {
+   "id": "p10w3",
+   "text": "encontra",
+   "start": 4.526,
+   "end": 4.884
+  },
+  {
+   "id": "p10w4",
+   "text": "o",
+   "start": 4.884,
+   "end": 5.014
+  },
+  {
+   "id": "p10w5",
+   "text": "seu",
+   "start": 5.014,
+   "end": 5.144
+  },
+  {
+   "id": "p10w6",
+   "text": "pai",
+   "start": 5.144,
+   "end": 5.257
+  },
+  {
+   "id": "p10w7",
+   "text": "na",
+   "start": 5.257,
+   "end": 5.403
+  },
+  {
+   "id": "p10w8",
+   "text": "garagem,",
+   "start": 5.403,
+   "end": 6.037
+  },
+  {
+   "id": "p10w9",
+   "text": "mexendo",
+   "start": 6.31,
+   "end": 6.648
+  },
+  {
+   "id": "p10w10",
+   "text": "no",
+   "start": 6.648,
+   "end": 6.817
+  },
+  {
+   "id": "p10w11",
+   "text": "carro",
+   "start": 6.817,
+   "end": 7.176
+  },
+  {
+   "id": "p10w12",
+   "text": "velho",
+   "start": 7.176,
+   "end": 7.556
+  },
+  {
+   "id": "p10w13",
+   "text": "que",
+   "start": 7.556,
+   "end": 7.767
+  },
+  {
+   "id": "p10w14",
+   "text": "nunca",
+   "start": 7.767,
+   "end": 8.126
+  },
+  {
+   "id": "p10w15",
+   "text": "funciona.",
+   "start": 8.126,
+   "end": 8.697
+  },
+  {
+   "id": "p10w16",
+   "text": "Você",
+   "start": 9.409,
+   "end": 9.662
+  },
+  {
+   "id": "p10w17",
+   "text": "pede",
+   "start": 9.662,
+   "end": 9.951
+  },
+  {
+   "id": "p10w18",
+   "text": "desculpa,",
+   "start": 9.951,
+   "end": 10.601
+  },
+  {
+   "id": "p10w19",
+   "text": "ele",
+   "start": 11.046,
+   "end": 11.259
+  },
+  {
+   "id": "p10w20",
+   "text": "não",
+   "start": 11.259,
+   "end": 11.454
+  },
+  {
+   "id": "p10w21",
+   "text": "fala",
+   "start": 11.454,
+   "end": 11.667
+  },
+  {
+   "id": "p10w22",
+   "text": "nada,",
+   "start": 11.667,
+   "end": 12.058
+  },
+  {
+   "id": "p10w23",
+   "text": "só",
+   "start": 12.642,
+   "end": 12.774
+  },
+  {
+   "id": "p10w24",
+   "text": "te",
+   "start": 12.774,
+   "end": 13.054
+  },
+  {
+   "id": "p10w25",
+   "text": "passo",
+   "start": 13.054,
+   "end": 13.202
+  },
+  {
+   "id": "p10w26",
+   "text": "uma",
+   "start": 13.202,
+   "end": 13.432
+  },
+  {
+   "id": "p10w27",
+   "text": "chave",
+   "start": 13.432,
+   "end": 13.679
+  },
+  {
+   "id": "p10w28",
+   "text": "inglesa",
+   "start": 13.679,
+   "end": 14.371
+  },
+  {
+   "id": "p10w29",
+   "text": "e",
+   "start": 14.879,
+   "end": 15.118
+  },
+  {
+   "id": "p10w30",
+   "text": "vocês",
+   "start": 15.118,
+   "end": 15.477
+  },
+  {
+   "id": "p10w31",
+   "text": "ficam",
+   "start": 15.477,
+   "end": 15.75
+  },
+  {
+   "id": "p10w32",
+   "text": "ali",
+   "start": 15.75,
+   "end": 16.007
+  },
+  {
+   "id": "p10w33",
+   "text": "até",
+   "start": 16.007,
+   "end": 16.212
+  },
+  {
+   "id": "p10w34",
+   "text": "de",
+   "start": 16.212,
+   "end": 16.4
+  },
+  {
+   "id": "p10w35",
+   "text": "madrugada,",
+   "start": 16.4,
+   "end": 17.083
+  },
+  {
+   "id": "p10w36",
+   "text": "consertando",
+   "start": 17.617,
+   "end": 18.116
+  },
+  {
+   "id": "p10w37",
+   "text": "um",
+   "start": 18.116,
+   "end": 18.336
+  },
+  {
+   "id": "p10w38",
+   "text": "carro",
+   "start": 18.336,
+   "end": 18.655
+  },
+  {
+   "id": "p10w39",
+   "text": "que",
+   "start": 18.655,
+   "end": 18.955
+  },
+  {
+   "id": "p10w40",
+   "text": "nunca",
+   "start": 18.955,
+   "end": 19.355
+  },
+  {
+   "id": "p10w41",
+   "text": "vai",
+   "start": 19.355,
+   "end": 19.555
+  },
+  {
+   "id": "p10w42",
+   "text": "andar.",
+   "start": 19.555,
+   "end": 19.974
+  },
+  {
+   "id": "p10w43",
+   "text": "É",
+   "start": 20.621,
+   "end": 20.833
+  },
+  {
+   "id": "p10w44",
+   "text": "no",
+   "start": 20.833,
+   "end": 21.007
+  },
+  {
+   "id": "p10w45",
+   "text": "sexto",
+   "start": 21.007,
+   "end": 21.529
+  },
+  {
+   "id": "p10w46",
+   "text": "dia",
+   "start": 21.529,
+   "end": 21.741
+  },
+  {
+   "id": "p10w47",
+   "text": "que",
+   "start": 21.741,
+   "end": 21.915
+  },
+  {
+   "id": "p10w48",
+   "text": "o",
+   "start": 21.915,
+   "end": 22.05
+  },
+  {
+   "id": "p10w49",
+   "text": "boato",
+   "start": 22.05,
+   "end": 22.359
+  },
+  {
+   "id": "p10w50",
+   "text": "começa.",
+   "start": 22.359,
+   "end": 22.899
+  },
+  {
+   "id": "p10w51",
+   "text": "Algumas",
+   "start": 23.919,
+   "end": 24.374
+  },
+  {
+   "id": "p10w52",
+   "text": "pessoas",
+   "start": 24.374,
+   "end": 24.867
+  },
+  {
+   "id": "p10w53",
+   "text": "estão",
+   "start": 24.867,
+   "end": 25.19
+  },
+  {
+   "id": "p10w54",
+   "text": "dizendo",
+   "start": 25.19,
+   "end": 25.702
+  },
+  {
+   "id": "p10w55",
+   "text": "que",
+   "start": 25.702,
+   "end": 25.948
+  },
+  {
+   "id": "p10w56",
+   "text": "a",
+   "start": 25.948,
+   "end": 26.157
+  },
+  {
+   "id": "p10w57",
+   "text": "data",
+   "start": 26.157,
+   "end": 26.422
+  },
+  {
+   "id": "p10w58",
+   "text": "delas",
+   "start": 26.422,
+   "end": 26.801
+  },
+  {
+   "id": "p10w59",
+   "text": "mudou,",
+   "start": 26.801,
+   "end": 27.427
+  },
+  {
+   "id": "p10w60",
+   "text": "que",
+   "start": 28.121,
+   "end": 28.335
+  },
+  {
+   "id": "p10w61",
+   "text": "chegou",
+   "start": 28.335,
+   "end": 28.569
+  },
+  {
+   "id": "p10w62",
+   "text": "um",
+   "start": 28.569,
+   "end": 28.784
+  },
+  {
+   "id": "p10w63",
+   "text": "e",
+   "start": 28.784,
+   "end": 28.94
+  },
+  {
+   "id": "p10w64",
+   "text": "-mail",
+   "start": 28.94,
+   "end": 29.115
+  },
+  {
+   "id": "p10w65",
+   "text": "novo",
+   "start": 29.115,
+   "end": 29.583
+  },
+  {
+   "id": "p10w66",
+   "text": "um",
+   "start": 29.583,
+   "end": 29.895
+  },
+  {
+   "id": "p10w67",
+   "text": "assunto",
+   "start": 29.895,
+   "end": 30.402
+  },
+  {
+   "id": "p10w68",
+   "text": "diferente.",
+   "start": 30.402,
+   "end": 31.221
+  },
+  {
+   "id": "p10w69",
+   "text": "Ninguém",
+   "start": 31.951,
+   "end": 32.15
+  },
+  {
+   "id": "p10w70",
+   "text": "sabe",
+   "start": 32.15,
+   "end": 32.466
+  },
+  {
+   "id": "p10w71",
+   "text": "por",
+   "start": 32.466,
+   "end": 32.764
+  },
+  {
+   "id": "p10w72",
+   "text": "quê.",
+   "start": 32.764,
+   "end": 33.245
+  },
+  {
+   "id": "p10w73",
+   "text": "Ninguém",
+   "start": 33.852,
+   "end": 34.201
+  },
+  {
+   "id": "p10w74",
+   "text": "sabe",
+   "start": 34.201,
+   "end": 34.593
+  },
+  {
+   "id": "p10w75",
+   "text": "com",
+   "start": 34.593,
+   "end": 34.986
+  },
+  {
+   "id": "p10w76",
+   "text": "quem.",
+   "start": 34.986,
+   "end": 35.248
+  },
+  {
+   "id": "p10w77",
+   "text": "Você",
+   "start": 36.097,
+   "end": 36.375
+  },
+  {
+   "id": "p10w78",
+   "text": "liga",
+   "start": 36.375,
+   "end": 36.654
+  },
+  {
+   "id": "p10w79",
+   "text": "o",
+   "start": 36.654,
+   "end": 36.872
+  },
+  {
+   "id": "p10w80",
+   "text": "celular,",
+   "start": 36.872,
+   "end": 37.41
+  },
+  {
+   "id": "p10w81",
+   "text": "olha",
+   "start": 37.854,
+   "end": 37.949
+  },
+  {
+   "id": "p10w82",
+   "text": "a",
+   "start": 37.949,
+   "end": 38.234
+  },
+  {
+   "id": "p10w83",
+   "text": "caixa",
+   "start": 38.234,
+   "end": 38.566
+  },
+  {
+   "id": "p10w84",
+   "text": "de",
+   "start": 38.566,
+   "end": 38.992
+  },
+  {
+   "id": "p10w85",
+   "text": "entrada",
+   "start": 38.992,
+   "end": 39.348
+  },
+  {
+   "id": "p10w86",
+   "text": "e",
+   "start": 39.845,
+   "end": 40.455
+  },
+  {
+   "id": "p10w87",
+   "text": "decide",
+   "start": 40.455,
+   "end": 40.799
+  },
+  {
+   "id": "p10w88",
+   "text": "não",
+   "start": 40.799,
+   "end": 41.081
+  },
+  {
+   "id": "p10w89",
+   "text": "abrir",
+   "start": 41.081,
+   "end": 41.378
+  },
+  {
+   "id": "p10w90",
+   "text": "nada.",
+   "start": 41.378,
+   "end": 41.675
+  }
+ ]
+}

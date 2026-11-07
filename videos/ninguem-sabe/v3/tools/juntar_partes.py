@@ -17,7 +17,7 @@ PAUSA = 0.65
 TAXA = 44100
 # respiro de abertura de cada parte (plano de ambientação, sem voz, com o som do lugar; "DIA N" em vermelho
 # quando o dia muda). A parte 1 abre com o título. Sem esticar a voz, o completo passa de 10 min.
-ABERTURA = {1: 4.0}
+ABERTURA = {1: 5.5}
 ABERTURA_PADRAO = 3.2
 
 # (parte, cena, trecho A, trecho B) na ordem da história

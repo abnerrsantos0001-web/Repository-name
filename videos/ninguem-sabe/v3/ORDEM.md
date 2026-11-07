@@ -7,7 +7,7 @@ Os 26 áudios (`assets/audio/brutos/`) foram transcritos com Whisper (faster-whi
 - **CTAs:** os nomes estavam trocados em relação à regra e foram trocados de volta:
   - `assets/audio/cta1.mp3` = CTA1: "Se você chegou até aqui, **se inscreve no Ninguém Sabe**, toda semana tem uma história nova." No meio dos cortes entra só "se inscreve no Ninguém Sabe" (2,48–4,58 s), para o CTA caber em 2 a 3 s.
   - `assets/audio/cta2.mp3` = CTA2: "**A história completa já está no canal**, toca no link aqui embaixo e descobre como termina." No cartão final entra "A história completa já está no canal" (0,00–2,64 s), para caber nos 4 s.
-- **Montagem:** cada parte = 3,2 s de abertura sem voz (4 s na parte 1) + trecho A + pausa de 0,65 s + trecho B (`tools/juntar_partes.py`).
+- **Montagem:** cada parte = 3,2 s de abertura sem voz (5,5 s na parte 1) + trecho A + pausa de 0,65 s + trecho B (`tools/juntar_partes.py`).
 
 | Parte | Duração | Cena | Trecho A | Trecho B |
 |---|---|---|---|---|
