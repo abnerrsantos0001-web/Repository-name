@@ -14,14 +14,15 @@ descricao = sys.argv[2]
 miolo = Path(sys.argv[3]).read_text()
 extra = Path(sys.argv[4]).read_text() if len(sys.argv) > 4 else ""
 # partes numeradas pegam a duração do áudio; outras cenas (ex.: "capa") usam 2 s
-dur = next(p["duracao"] for p in json.loads((RAIZ / "assets/audio/mix/partes.json").read_text())["partes"] if p["parte"] == int(n)) if n.isdigit() else 2.0
+import os
+dur = float(os.environ["DUR"]) if os.environ.get("DUR") else next(p["duracao"] for p in json.loads((RAIZ / "assets/audio/mix/partes.json").read_text())["partes"] if p["parte"] == int(n)) if n.isdigit() else 2.0
 
 html = f"""<!doctype html>
 <!--
   Ninguém Sabe · Vídeo 3 · Parte {n}: {descricao}
   Motor em assets/js/cena.js; esqueleto gerado por tools/nova_parte.py.
 -->
-<html lang="pt-BR" data-composition-variables='[{{"id":"inicio","type":"number","label":"Início dentro da parte (s)","default":0}},{{"id":"ate","type":"number","label":"Congela neste instante (s; -1 = não)","default":-1}}]'>
+<html lang="pt-BR" data-composition-variables='[{{"id":"inicio","type":"number","label":"Início dentro da parte (s)","default":0}},{{"id":"ate","type":"number","label":"Congela neste instante (s; -1 = não)","default":-1}},{{"id":"pausaEm","type":"number","label":"Pausa para o CTA neste instante (s; -1 = não)","default":-1}},{{"id":"pausaDur","type":"number","label":"Duração da pausa (s)","default":0}}]'>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
@@ -58,10 +59,12 @@ html = f"""<!doctype html>
           escuro: document.getElementById("p{n}-escuro"),
           // vertical quando o host que monta a cena é mais alto que largo (cortes 9:16)
           vars: {{
-            formato: raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width) ? "vertical" : "horizontal",
+            formato: (raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width)) || location.hash === "#vertical" ? "vertical" : "horizontal",
             // cortes verticais por intervalo: começa "inicio" segundos dentro da parte e congela em "ate"
             inicio: Number(hv.inicio) || 0,
             ate: Number(hv.ate) >= 0 ? Number(hv.ate) : undefined,
+            pausaEm: Number(hv.pausaEm) >= 0 ? Number(hv.pausaEm) : -1,
+            pausaDur: Number(hv.pausaDur) || 0,
           }},
           render: null,
         }};

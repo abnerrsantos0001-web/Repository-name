@@ -1,8 +1,8 @@
-"""Gera as composições raiz do vídeo 1 (as páginas que o HyperFrames renderiza).
+"""Gera as composições raiz do vídeo 3 (as páginas que o HyperFrames renderiza).
 
 - pNN.html: uma parte em 16:9 (cena + legendas + áudio da parte).
 - index.html: o filme inteiro em sequência (para abrir no Studio), ou uma parte só durante o trabalho.
-- corteN.html: cortes verticais 1080x1920 (duas partes reenquadradas + cartão final de 4 s).
+- corteN: cortes verticais 1080x1920 (capa + uma parte reenquadrada com o CTA no meio + cartão final de 4 s).
 
 Tempos e quadros vêm de assets/audio/mix/partes.json (tools/audio.py).
 Uso: python3 tools/gerar_raizes.py 02|todas|corte1 [--saida pasta]  (escreve pasta/index.html)
@@ -97,29 +97,24 @@ def filme(numeros):
 
 
 def corte(c):
+    """Corte vertical (regras 6–8): capa -> a parte a partir de "inicio" -> pausa com o CTA1 (botão INSCREVA-SE) perto
+    de 70% -> o resto da parte -> cartão final (CTA2) sobre o último quadro congelado. Uma instância só da cena:
+    a pausa e o congelamento são variáveis da composição (pausaEm/pausaDur, ate)."""
     k = next(x for x in INFO["cortes"] if x["corte"] == c)
-    q0, q1, capa, cartao = k["quadro_inicio"], k["quadro_fim"], k["capa"], k["cartao"]
-    tocadas = [p for p in INFO["partes"] if p["quadro_inicial"] < q1 and p["quadro_inicial"] + p["quadros"] > q0]
+    n = k["parte"]
+    capa, cta, cartao = k["capa"], k["cta"], k["cartao"]
+    a, b, m = k["inicio_na_parte"], k["fim_na_parte"], k["cta_na_parte"]
+    historia = (b - a) + cta
+    total = k["quadros"] / FPS
+    variaveis = {"inicio": a, "ate": round(b - 1 / FPS, 4), "pausaEm": m, "pausaDur": cta}
     blocos = [f"""      <img id="capa-corte{c}" class="clip" src="capa/corte{c}-capa.png" data-start="0" data-duration="{capa:.4f}"
         data-track-index="4" style="position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 6" />"""]
-    t = capa
-    for i, p in enumerate(tocadas):
-        n, a = p["parte"], p["quadro_inicial"]
-        s0 = max(q0, a) - a
-        s1 = min(q1, a + p["quadros"]) - a
-        d = (s1 - s0) / FPS
-        ultima = i == len(tocadas) - 1
-        variaveis = {"inicio": round(s0 / FPS, 4)}
-        if ultima:
-            variaveis["ate"] = round((s1 - 1) / FPS, 4)  # o cartão fica sobre o último quadro do corte
-        slot = d + (cartao if ultima else 0)
-        blocos.append(host(f"parte{n:02d}", f"compositions/parte{n:02d}.html", t, slot, 1, "graphics", 1080, 1920, 1, variaveis))
-        t += d
-    blocos.append(host(f"legendas-corte{c}", f"compositions/legendas-corte{c}.html", 0, t, 2, "captions", 1080, 1920, 2))
-    blocos.append(host("cartao", "compositions/cartao-final.html", t, cartao, 3, "graphics", 1080, 1920, 3))
-    total = t + cartao
+    blocos.append(host(f"parte{n:02d}", f"compositions/parte{n:02d}.html", capa, total - capa, 1, "graphics", 1080, 1920, 1, variaveis))
+    blocos.append(host(f"legendas-corte{c}", f"compositions/legendas-corte{c}.html", 0, capa + historia, 2, "captions", 1080, 1920, 2))
+    blocos.append(host("cta", "compositions/cta-inscreva.html", capa + (m - a), cta, 3, "graphics", 1080, 1920, 3))
+    blocos.append(host("cartao", "compositions/cartao-final.html", capa + historia, total - capa - historia, 3, "graphics", 1080, 1920, 4))
     blocos.append(audio(f"audio-corte{c}", f"assets/audio/mix/corte{c}.flac", 0, total))
-    desc = f"Corte vertical {c}: capa + quadros {q0}–{q1} da história + cartão final (\"A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL\")."
+    desc = f"Corte vertical {c}: capa + parte {n:02d} ({a:.2f}–{b:.2f} s) com o CTA em {m:.2f} s + cartão final."
     return CABECA.format(descricao=desc, resolucao="portrait", w=1080, h=1920, dur=f"{total:.4f}", corpo="\n".join(blocos))
 
 

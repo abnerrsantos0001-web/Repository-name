@@ -21,7 +21,7 @@ Object.assign(DESLOCAMENTO, {
 
 // ------------------------------------------------------------ utilidades
 // objeto nomeado (um móvel = um grupo): o checador de colisões trata cada grupo como uma peça só
-function obj(pai, nome, x = 0, y = 0, z = 0, ry = 0) {
+export function obj(pai, nome, x = 0, y = 0, z = 0, ry = 0) {
   const g = new THREE.Group();
   g.name = nome;
   g.position.set(x, y, z);
@@ -30,7 +30,7 @@ function obj(pai, nome, x = 0, y = 0, z = 0, ry = 0) {
   return g;
 }
 // marca peças que podem ser atravessadas/encostadas sem contar como colisão (chão, tapete, teto, luz)
-function passavel(m) {
+export function passavel(m) {
   m.traverse((o) => (o.userData.passavel = true));
   return m;
 }
@@ -71,14 +71,14 @@ export function texturaAzulejo(cor, rejunte, { colunas = 4, linhas = 4, chanfro 
   return t;
 }
 // material com textura repetida em blocos de "passo" metros, para uma face de w x h
-function matTextura(tex, w, h, passo, o = {}) {
+export function matTextura(tex, w, h, passo, o = {}) {
   const t = tex.clone();
   t.needsUpdate = true;
   t.repeat.set(w / passo, h / passo);
   return new THREE.MeshLambertMaterial({ map: t, color: o.cor ?? 0xffffff });
 }
 // parede (com vãos) revestida por textura; mesma lógica de parede() do vídeo 1
-function paredeTex(pai, { w, h, e = 0.12, x = 0, y = 0, z = 0, ry = 0, furos = [], tex, passo = 0.3, cor = 0xffffff, nome = "parede" }) {
+export function paredeTex(pai, { w, h, e = 0.12, x = 0, y = 0, z = 0, ry = 0, furos = [], tex, passo = 0.3, cor = 0xffffff, nome = "parede" }) {
   const g = new THREE.Group();
   g.name = nome;
   g.position.set(x, y, z);
@@ -137,14 +137,14 @@ export function placa(pai, w, h, desenhar, o = {}) {
   return m;
 }
 // luz pontual sem sombra (preenchimento)
-function luzPonto(pai, cor, intensidade, x, y, z, alcance = 8, decaimento = 1.6) {
+export function luzPonto(pai, cor, intensidade, x, y, z, alcance = 8, decaimento = 1.6) {
   const l = new THREE.PointLight(cor, intensidade, alcance, decaimento);
   l.position.set(x, y, z);
   pai.add(l);
   return l;
 }
 // spot com sombra suave (uma por cômodo: a luz principal)
-function luzSpot(pai, cor, intensidade, de, para, angulo = 1.1, mapa = 1024, alcance = 14) {
+export function luzSpot(pai, cor, intensidade, de, para, angulo = 1.1, mapa = 1024, alcance = 14) {
   const l = new THREE.SpotLight(cor, intensidade, alcance, angulo, 0.6, 1.4);
   l.position.copy(de);
   l.target.position.copy(para);
@@ -159,14 +159,14 @@ function luzSpot(pai, cor, intensidade, de, para, angulo = 1.1, mapa = 1024, alc
   return l;
 }
 // garrafa/frasco simples
-function frasco(pai, r, h, cor, x, y, z, tampa = 0x2b2c30) {
+export function frasco(pai, r, h, cor, x, y, z, tampa = 0x2b2c30) {
   const g = obj(pai, "frasco", x, y, z);
   cilindro(g, r, r, h, 10, cor, 0, h / 2, 0, { aspereza: 0.4 });
   cilindro(g, r * 0.45, r * 0.55, h * 0.18, 8, tampa, 0, h + h * 0.09, 0);
   return g;
 }
 // pano dobrado/caído (lençol, toalha): caixa subdividida com ondas
-function pano(w, h, d, cor, ondas = 0.03, semente = 3, o = {}) {
+export function pano(w, h, d, cor, ondas = 0.03, semente = 3, o = {}) {
   const geo = new THREE.BoxGeometry(w, h, d, 10, 14, 1);
   const pos = geo.attributes.position;
   const r = rng(semente);
@@ -596,7 +596,7 @@ export function criarBanheiro(cena) {
 }
 
 // ------------------------------------------------------------ peças comuns de casa
-function cadeiraMadeira(pai, nome, x, z, ry, cor = 0x5a4636) {
+export function cadeiraMadeira(pai, nome, x, z, ry, cor = 0x5a4636) {
   const c = obj(pai, nome, x, 0, z, ry);
   caixa(c, 0.44, 0.05, 0.42, cor, 0, 0.46, 0);
   for (const [lx, lz] of [[-0.19, -0.18], [0.19, -0.18], [-0.19, 0.18], [0.19, 0.18]]) caixa(c, 0.04, 0.46, 0.04, cor, lx, 0.23, lz);
@@ -604,7 +604,7 @@ function cadeiraMadeira(pai, nome, x, z, ry, cor = 0x5a4636) {
   caixa(c, 0.38, 0.1, 0.03, 0x6b5543, 0, 0.86, -0.18);
   return c;
 }
-function textoCentro(g, txt, x, y, px, cor, peso = 800, fonte = "Montserrat") {
+export function textoCentro(g, txt, x, y, px, cor, peso = 800, fonte = "Montserrat") {
   g.font = `${peso} ${px}px ${fonte}, Arial, sans-serif`;
   g.fillStyle = cor;
   g.textAlign = "center";
@@ -612,7 +612,7 @@ function textoCentro(g, txt, x, y, px, cor, peso = 800, fonte = "Montserrat") {
   g.fillText(txt, x, y);
 }
 // relógio digital de parede (sete segmentos); espelhado = números ao contrário
-function relogioParede(pai, nome, x, y, z, ry, espelhado) {
+export function relogioParede(pai, nome, x, y, z, ry, espelhado) {
   const r = obj(pai, nome, x, y, z, ry);
   caixa(r, 0.6, 0.24, 0.05, 0x1b1c1f, 0, 0, 0, { aspereza: 0.5 });
   let atual = null;
@@ -631,7 +631,7 @@ function relogioParede(pai, nome, x, y, z, ry, espelhado) {
   return r;
 }
 // caderno fechado deitado (capa com o nome)
-function caderno(pai, nome, x, y, z, ry, espelhado) {
+export function caderno(pai, nome, x, y, z, ry, espelhado) {
   const c = obj(pai, nome, x, y, z, ry);
   caixa(c, 0.21, 0.015, 0.29, 0x2e3440, 0, 0.0075, 0);
   caixa(c, 0.2, 0.012, 0.28, 0xe9e6dd, 0.004, 0.0075, 0, { sombra: false });
@@ -1187,7 +1187,7 @@ export const RUA = {
   calcada: 0.12,
   vitrine: { x0: -3.1, x1: 0.5, y0: 0.55, y1: 2.45, z: 3.44 },
 };
-function arvore(pai, nome, x, z, sem) {
+export function arvore(pai, nome, x, z, sem) {
   const a = obj(pai, nome, x, RUA.calcada, z);
   const r = rng(sem);
   cilindro(a, 0.09, 0.13, 2.2, 7, 0x4a3b30, 0, 1.1, 0);
@@ -1201,7 +1201,7 @@ function arvore(pai, nome, x, z, sem) {
   caixa(a, 0.9, 0.04, 0.9, 0x4a3b30, 0, 0.02, 0, { sombra: false });
   return a;
 }
-function fachada(pai, nome, x0, x1, h, cor, letreiro, sem) {
+export function fachada(pai, nome, x0, x1, h, cor, letreiro, sem) {
   const f = obj(pai, nome);
   const w = x1 - x0;
   const cx = (x0 + x1) / 2;
@@ -1393,7 +1393,7 @@ export const ONIBUS = {
   assento: 0.47,
   janelaDele: { x: -0.6, z: 1.215 },
 };
-function bancoOnibus(pai, nome, x, lado) {
+export function bancoOnibus(pai, nome, x, lado) {
   const b = obj(pai, nome, x, 0, lado * 0.72);
   caixa(b, 0.46, 0.1, 0.86, 0x3f4c5c, 0.0, ONIBUS.assento - 0.05, 0);
   caixa(b, 0.08, 0.62, 0.86, 0x3f4c5c, -0.23, 0.78, 0, { rz: 0.12 });

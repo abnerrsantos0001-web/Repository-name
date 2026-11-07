@@ -11,6 +11,7 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
 import { DESLOCAMENTO, criarCelular, rng } from "./mundo.js";
 import { criarBanheiro, criarQuarto2, criarCozinha, criarRua, criarOnibusDentro } from "./mundo3.js";
+import { criarSala, criarEscola, criarGaragem, criarPraia, criarCasaJulia, criarAeroporto, criarIgreja, criarNoite } from "./mundo4.js";
 import { criarPersonagem, poseBoneco, pontosDoBoneco, MEDIDAS } from "./personagem.js";
 import { GANCHOS } from "./reflexo.js";
 
@@ -22,6 +23,14 @@ const CONSTRUTORES = {
   cozinha: criarCozinha,
   rua: criarRua,
   onibus: criarOnibusDentro,
+  sala: criarSala,
+  escola: criarEscola,
+  garagem: criarGaragem,
+  praia: criarPraia,
+  casaJulia: criarCasaJulia,
+  aeroporto: criarAeroporto,
+  igreja: criarIgreja,
+  noite: criarNoite,
 };
 
 // ------------------------------------------------------------ curvas e chaves
@@ -173,6 +182,9 @@ function montarParte(cfg, host) {
   const inicio = Number(vars.inicio) || 0;
   // cortes verticais: "ate" congela a cena nesse instante (o cartão final fica sobre o último quadro do corte)
   const ate = vars.ate !== undefined && vars.ate !== null && vars.ate !== "" ? Number(vars.ate) : Infinity;
+  // cortes verticais (regra 7): a história para em "pausaEm" (segundos da parte) por "pausaDur" s, para o CTA
+  const pausaEm = Number(vars.pausaEm) >= 0 ? Number(vars.pausaEm) : -1;
+  const pausaDur = Number(vars.pausaDur) || 0;
   const W = vertical ? 1080 : 1920;
   const H = vertical ? 1920 : 1080;
 
@@ -199,7 +211,7 @@ function montarParte(cfg, host) {
   const camera = new THREE.PerspectiveCamera(40, W / H, 0.02, 900);
   const luzDaCamera = new THREE.PointLight(0xdfe2e6, 0, 12, 1.6);
   cena.add(luzDaCamera);
-  const PREENCHIMENTO = { banheiro: 0.35, quarto2: 0.6, cozinha: 0.5, rua: 0, onibus: 0.5, ...(cfg.preenchimento || {}) };
+  const PREENCHIMENTO = { banheiro: 0.35, quarto2: 0.6, cozinha: 0.5, rua: 0, onibus: 0.5, sala: 0.6, escola: 0.4, garagem: 0.55, praia: 0, casaJulia: 0.3, aeroporto: 0, igreja: 0.3, noite: 0, ...(cfg.preenchimento || {}) };
 
   const cenarios = {};
   for (const nome of cfg.cenarios) cenarios[nome] = CONSTRUTORES[nome](cena, cfg.opcoesCenario?.[nome] || {});
@@ -406,7 +418,9 @@ function montarParte(cfg, host) {
   let ultimaTela = null;
 
   function render(tLocal) {
-    const t = Math.min((Number(tLocal) || 0) + inicio, ate);
+    let tl = Number(tLocal) || 0;
+    if (pausaEm >= 0 && tl > pausaEm - inicio) tl = Math.max(pausaEm - inicio, tl - pausaDur);
+    const t = Math.min(tl + inicio, ate);
     const plano = planoEm(t);
     const atual = cenarios[plano.cenario];
     for (const [nome, c] of Object.entries(cenarios)) {

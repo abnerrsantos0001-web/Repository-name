@@ -1,5 +1,6 @@
 // O personagem do canal "Ninguém Sabe": boneco de cabeça redonda e moletom escuro.
 // Todas as partes importam este arquivo, então ele é sempre o mesmo em todas as cenas.
+// Vídeo 3: cordões vermelhos no "ele", Lucas de boné, Júlia de cabelo comprido e lágrimas (choro).
 // Vídeo 2: rosto mais expressivo (sobrancelhas, brilho nos olhos, sorriso que pode ficar grande demais,
 // língua, careta) e outras roupas para a mãe e para os passageiros.
 // A pose é um objeto de parâmetros (ver POSE_BASE); a cena calcula a pose a partir do tempo.
@@ -81,6 +82,8 @@ export const POSE_BASE = {
   lingua: 0, // 0 dentro, 1 para fora
   sobrancelha: 0, // -1 franzida, +1 levantada (susto)
   sobrancelhaMedo: 0, // pontas de dentro para cima (medo, preocupação)
+  choro: 0, // 0 sem lágrimas, 1 lágrimas descendo
+  choroFase: 0, // avança com o tempo (a cena passa t): as gotas descem e recomeçam
   // vida
   respirar: 0, // fase da respiração (radianos)
   andar: 0, // fase do passo (radianos)
@@ -102,7 +105,15 @@ export const MEDIDAS = {
 // Variações do mesmo boneco-base para os outros personagens (a mulher, a família).
 // Só mudam roupa e cabelo; o rig e as poses são os mesmos.
 const VARIANTES = {
-  ele: {},
+  // vídeo 3: você, moletom escuro com os cordões vermelhos
+  ele: { cordao: 0xc4161c },
+  // Lucas, o melhor amigo: moletom azul, boné azul-escuro (aba para a frente), cabelo curto aparecendo atrás
+  lucas: { moletom: 0x3e5878, moletomSombra: 0x31465f, calca: 0x2a2c31, cabelo: "curto", corCabelo: 0x2b211b, capuz: false, bone: 0x1d2c44, abaBone: 0x17233a },
+  // Júlia: cabelo comprido castanho, blusa rosada apagada
+  julia: { moletom: 0x8a6e72, moletomSombra: 0x70585c, calca: 0x2b2d36, cabelo: "comprido", corCabelo: 0x3b2a20, capuz: false },
+  // colegas de sala e gente nas filas
+  aluno: { moletom: 0x5a6670, moletomSombra: 0x48525a, calca: 0x2b2d33, cabelo: "curto", corCabelo: 0x241e1a, capuz: false },
+  aluna: { moletom: 0x6f6458, moletomSombra: 0x5a5148, calca: 0x2a2b30, cabelo: "comprido", corCabelo: 0x2e231c, capuz: false },
   mulher: { moletom: 0x6b6e75, moletomSombra: 0x55585e, calca: 0x24252a, cabelo: "comprido", cachecol: 0x7a1418, capuz: false },
   // a mãe: cardigã marrom-claro com botões, blusa clara, saia e coque castanho
   mae: { moletom: 0x8a7a6b, moletomSombra: 0x6b5d50, calca: 0x3a3c44, cabelo: "coque", corCabelo: 0x3d3029, capuz: false, saia: 0x41444f, botoes: 0xd9d2c5, blusa: 0xcdc6b8 },
@@ -252,7 +263,7 @@ export function criarPersonagem(variante = "ele") {
     tronco.add(capuz);
     // cordões do capuz
     for (const lado of [1, -1]) {
-      const cordao = malha(new THREE.CylinderGeometry(0.011, 0.011, 0.2, 4), COR_PERSONAGEM.cordao, false);
+      const cordao = malha(new THREE.CylinderGeometry(0.011, 0.011, 0.2, 4), V.cordao, false);
       cordao.position.set(lado * 0.06, M.tronco - 0.14, 0.235);
       cordao.rotation.x = -0.12;
       tronco.add(cordao);
@@ -364,6 +375,36 @@ export function criarPersonagem(variante = "ele") {
       cabeca.add(mecha);
     }
   }
+  if (V.bone) {
+    // boné: copa achatada por cima do cabelo, alta o bastante para não cobrir as sobrancelhas, e aba à frente
+    const copa = malha(new THREE.IcosahedronGeometry(1, 2), V.bone);
+    copa.scale.set(0.315, 0.17, 0.315);
+    copa.position.set(0, 0.46, -0.005);
+    copa.name = "bone";
+    cabeca.add(copa);
+    const botao = malha(new THREE.SphereGeometry(0.022, 6, 4), V.abaBone, false);
+    botao.position.set(0, 0.628, -0.005);
+    cabeca.add(botao);
+    const aba = malha(new THREE.CylinderGeometry(0.2, 0.2, 0.022, 14, 1, false, -Math.PI / 2, Math.PI), V.abaBone);
+    aba.scale.set(1, 1, 1.15);
+    aba.position.set(0, 0.425, 0.2);
+    aba.rotation.x = 0.16;
+    aba.name = "bone";
+    cabeca.add(aba);
+  }
+  // lágrimas: duas gotas por olho descendo pela bochecha (pose.choro = intensidade, pose.choroFase = tempo)
+  const lagrimas = [];
+  const matLagrima = new THREE.MeshBasicMaterial({ color: 0x9cc4e4, transparent: true, opacity: 0.9 });
+  for (const lado of [1, -1]) {
+    for (let k = 0; k < 2; k++) {
+      const gota = new THREE.Mesh(new THREE.SphereGeometry(0.017, 8, 6), matLagrima);
+      gota.scale.set(0.8, 1.35, 0.6);
+      gota.visible = false;
+      gota.userData = { lado, k };
+      cabeca.add(gota);
+      lagrimas.push(gota);
+    }
+  }
   if (V.cabelo === "coque") {
     const coque = malha(new THREE.IcosahedronGeometry(0.12, 0), corCabelo);
     coque.position.set(0, M.cabeca * 1.55, -0.18);
@@ -402,7 +443,7 @@ export function criarPersonagem(variante = "ele") {
   const bracoE = braco(1);
   const bracoD = braco(-1);
 
-  raiz.userData.rig = { corpo, tronco, cabeca, olhos, boca, pernaE, pernaD, bracoE, bracoD, sobrancelhas, sorriso, lingua, formaSorriso: null };
+  raiz.userData.rig = { corpo, tronco, cabeca, olhos, boca, pernaE, pernaD, bracoE, bracoD, sobrancelhas, sorriso, lingua, lagrimas, formaSorriso: null };
   return raiz;
 }
 
@@ -459,6 +500,21 @@ export function poseBoneco(raiz, p) {
     sb.position.y = sb.userData.base.y + 0.022 * q.sobrancelha + 0.006 * q.sobrancelhaMedo;
     // franzida (sobrancelha < 0): pontas de dentro descem; medo: pontas de dentro sobem
     sb.rotation.z = lado * (0.38 * Math.max(0, -q.sobrancelha) - 0.32 * q.sobrancelhaMedo);
+  }
+
+  // lágrimas: descem do canto de baixo do olho pela superfície da face; cada gota tem o seu ciclo
+  for (const g of r.lagrimas) {
+    const on = q.choro > 0.02;
+    g.visible = on;
+    if (!on) continue;
+    const ciclo = (q.choroFase * 0.55 + g.userData.k * 0.5 + (g.userData.lado > 0 ? 0 : 0.27)) % 1;
+    const x = g.userData.lado * (0.118 + 0.012 * ciclo);
+    const y = M.cabeca * 0.9 - 0.02 - 0.15 * ciclo;
+    const dy = y - CENTRO_CABECA;
+    const rr = M.cabeca * 0.985 + 0.008;
+    g.position.set(x, y, Math.sqrt(Math.max(0.0001, rr * rr - x * x - dy * dy)));
+    const s = Math.min(1, q.choro) * (ciclo < 0.12 ? ciclo / 0.12 : ciclo > 0.85 ? (1 - ciclo) / 0.15 : 1);
+    g.scale.set(0.8 * s, 1.35 * s, 0.6 * s);
   }
 
   // mão até um ponto do mundo (IK de dois ossos), misturada com a pose pelo peso
