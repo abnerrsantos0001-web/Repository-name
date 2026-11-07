@@ -1,0 +1,216 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, trilha } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { PI, ALT, eixos, em, segurandoCelular, celularExtra, falar, cameraTelaAlta } from "./assets/js/v3.js";
+      import { telaEmail, telaChat } from "./assets/js/telas3.js";
+      import { PALAVRAS } from "./assets/js/tempos/v3-parte02.js";
+
+      // Parte 2 (DIA 1): a mãe rindo na cozinha com os "38 anos"; ela vira a tela, ele mostra a dele; o sorriso
+      // dela some; "é golpe". O grupo da escola com os números; o Lucas: "3 dias kkkkk". Ele também manda risada.
+      const T = tempos(PALAVRAS);
+      const FIM = 45.6667;
+      const t = {
+        mae: T("manhã") - 0.5,
+        fala: T("olha") - 0.15,
+        tela: T("38") - 0.12,
+        vira: T("ela", 1) - 0.12,
+        sorriso: T("o sorriso") - 0.12,
+        golpe: T("é golpe") - 0.15,
+        grupo: T("no grupo") - 0.15,
+        lucas: T("três") - 0.15,
+        risada: T("todo mundo manda") - 0.1,
+        fim: T("você também") - 0.15,
+      };
+      const MAE = [-1.3, ALT, -1.2];
+      const ELE_FIM = [-0.45, ALT, -0.55];
+      // a cadeira 1 vai 17 cm para trás: o tronco (0,25 m de raio) não entra na mesa
+      const SENTADO = [0.02, 0.57, -0.25];
+      const LUCAS = [-1.44, 0.605, -0.7];
+      const G_ELE = 4.06; // olhando para a mãe; o caminho da porta vem em 2,29
+      const G_MAE = 0.92; // olhando para ele
+      // câmera presa a um boneco: frente/direita/cima a partir da cabeça; alvo = cabeça + deslocamentos
+      const presa = (quem, f, d, c, af = 0, ac = 0, fov = 38, alvoQuem = null) => (tt, ctx) => {
+        const b = quem === "ele" ? ctx.boneco : ctx.outros[quem].boneco;
+        const { cabeca } = pontosDoBoneco(b);
+        const { frente, direita, cima } = eixos(b);
+        const alvoB = alvoQuem ? (alvoQuem === "ele" ? ctx.boneco : ctx.outros[alvoQuem].boneco) : b;
+        const ca = pontosDoBoneco(alvoB).cabeca;
+        return { pos: em(cabeca, [frente, f], [direita, d], [cima, c]), alvo: em(ca, [frente, af], [cima, ac]), fov };
+      };
+
+      // conversa do grupo, crescendo com a fala
+      const MSGS = [
+        [0, { de: "Bia", cor: "#e07fb0", texto: "gente vocês receberam isso??" }],
+        [0, { de: "Rafa", cor: "#7fb0e0", texto: "kkkkk todo mundo recebeu" }],
+        [T("postando"), { de: "Pedro", cor: "#e0c07f", texto: "o meu deu isso:" }],
+        [T("61"), { de: "Pedro", cor: "#e0c07f", texto: "61 anos", vermelho: true, grande: true }],
+        [T("44"), { de: "Ana", cor: "#b07fe0", texto: "44", vermelho: true, grande: true }],
+        [T("70"), { de: "Gabi", cor: "#7fe0b0", texto: "70 kkkkk", vermelho: true, grande: true }],
+        [T("vira meme"), { de: "Rafa", cor: "#7fb0e0", texto: "😂😂😂 vou viver mais que a escola" }],
+        [T("manda uma") + 0.3, { de: "Lucas", cor: "#ff8a5c", foto: "3 dias", pequenas: "" }],
+        [T("três"), { de: "Lucas", cor: "#ff8a5c", texto: "kkkkk" }],
+        [T("vou aproveitar"), { de: "Lucas", cor: "#ff8a5c", texto: "vou aproveitar hein?" }],
+        [T("risada"), { de: "Bia", cor: "#e07fb0", texto: "kkkkkkkkk" }],
+        [T("risada") + 0.25, { de: "Pedro", cor: "#e0c07f", texto: "KKKKKKK" }],
+        [T("risada") + 0.5, { de: "Ana", cor: "#b07fe0", texto: "kkkk socorro" }],
+        [T("manda", 3) + 0.15, { minha: true, texto: "kkkk" }],
+      ];
+      const conversa = (tt) => MSGS.filter(([a]) => tt >= a).map(([, m]) => m).slice(-6);
+
+      iniciarParte({
+        host: "__parte02",
+        cenarios: ["cozinha", "quarto2"],
+        planos: [
+          { de: 0, cenario: "cozinha", nome: "abre", modo: "manha" }, //                     (DIA 1)
+          { de: t.mae, cenario: "cozinha", nome: "mae", modo: "manha" }, //                  De manhã, a sua mãe está na cozinha rindo...
+          { de: t.fala, cenario: "cozinha", nome: "fala", modo: "manha" }, //                Olha que besteira, filho. Disseram que eu tenho
+          { de: t.tela, cenario: "cozinha", nome: "riso", modo: "manha" }, //                38 anos. (rindo; o letreiro em cima)
+          { de: t.vira, cenario: "cozinha", nome: "vira", modo: "manha" }, //                Ela vira a tela para você,
+          { de: t.vira + 1.6, cenario: "cozinha", nome: "tela", modo: "manha" }, //          (a tela dela, vista por ele) e você mostra a sua.
+          { de: t.sorriso, cenario: "cozinha", nome: "sorriso", modo: "manha" }, //          O sorriso dela some um pouquinho.
+          { de: t.golpe, cenario: "cozinha", nome: "golpe", modo: "manha" }, //              É golpe, ela diz. Apaga isso.
+          { de: t.grupo, cenario: "cozinha", nome: "pov", modo: "manha" }, //                No grupo da escola... 61, 44, 70... Lucas manda uma foto
+          { de: t.lucas, cenario: "quarto2", nome: "lucas", modo: "manha" }, //              Três dias kkkkk. Vou aproveitar, hein?
+          { de: t.risada, cenario: "cozinha", nome: "pov2", modo: "manha" }, //              Todo mundo manda risada.
+          { de: t.fim, cenario: "cozinha", nome: "fim", modo: "manha" }, //                  Você também manda.
+        ],
+        cortesEscuros: [t.lucas, t.risada],
+        cameras: {
+          abre: { k: [[0, [2.4, 1.75, 1.55], [-1.3, 1.0, -0.6], 50], [t.mae, [2.2, 1.7, 1.4], [-1.3, 1.0, -0.7], 46]], tremor: 0.0018 },
+          mae: { k: [[t.mae, [0.25, 1.42, -1.25], [-1.3, 1.22, -1.2], 38], [t.fala, [0.15, 1.42, -1.25], [-1.3, 1.24, -1.2], 36]], tremor: 0.002 },
+          fala: presa("ele", -0.45, 0.4, 0.08, 0, -0.05, 36, "mae"),
+          riso: presa("mae", 1.25, -0.6, 0.0, 0, 0.06, 40),
+          tela: (tt, ctx) => {
+            // a tela da mãe virada para ele, vista do lugar dele (a cabeça dele some nesse plano)
+            const { cabeca } = pontosDoBoneco(ctx.boneco);
+            const c = ctx.celMae.obj;
+            c.updateMatrixWorld(true);
+            const centro = c.localToWorld(new THREE.Vector3(0, 0, 0));
+            const alvo = c.localToWorld(new THREE.Vector3(0, -0.012, 0));
+            const dir = centro.clone().sub(cabeca).normalize();
+            return { pos: centro.clone().addScaledVector(dir, -0.42), alvo, fov: 30 };
+          },
+          vira: { k: [[t.vira, [-0.85, 1.45, 0.75], [-0.88, 1.2, -0.88], 44], [t.sorriso, [-0.85, 1.45, 0.65], [-0.88, 1.2, -0.88], 42]], tremor: 0.002 },
+          sorriso: presa("mae", 0.85, -0.45, -0.02, 0, -0.13, 34),
+          golpe: presa("mae", 1.35, -0.7, 0.05, 0, -0.12, 40),
+          pov: cameraTelaAlta(0.38, 0.031, 32),
+          pov2: cameraTelaAlta(0.38, 0.031, 32),
+          lucas: { k: [[t.lucas, [0.2, 1.38, 0.35], [-1.42, 1.3, -0.72], 42], [t.risada, [0.1, 1.38, 0.25], [-1.42, 1.3, -0.72], 39]], tremor: 0.002 },
+          fim: presa("ele", 1.25, 0.12, 0.06, 0, -0.27, 38),
+        },
+        semCabeca: (tt, p) => p.nome === "pov" || p.nome === "pov2" || p.nome === "tela",
+        personagem: {
+          semente: 21,
+          onde: [[0, "cozinha"]],
+          pos: [[0, [-2.75, ALT, 1.45]], [1.6, [-2.75, ALT, 1.45]], [5.6, ELE_FIM, "linear"], [t.grupo, SENTADO, "corte"]],
+          passos: [[1.6, 5.6, 1, 0.62]],
+          pose: {
+            giro: [[0, 2.29], [5.6, 2.29], [6.4, G_ELE, "ambos"], [t.grupo, 0, "corte"]],
+            quadril: [[0, 0], [t.grupo, -PI / 2, "corte"]],
+            joelho: [[0, 0], [t.grupo, 1.5, "corte"]],
+            inclinar: [[0, 0.04], [t.grupo, 0.14, "corte"]],
+            cabecaInclina: [[0, 0.05], [t.vira + 1.6, 0.05], [t.vira + 2.0, 0.25, "ambos"], [t.sorriso, 0.05, "corte"], [t.grupo, 0.4, "corte"], [t.fim, 0.42, "corte"]],
+            sorriso: [[0, 0], [t.risada, 0], [t.fim, 0.3, "corte"], [FIM, 0.12]],
+            sobrancelha: [[0, 0], [t.fala, 0.2], [t.golpe, -0.1, "corte"]],
+            sobrancelhaMedo: [[0, 0], [t.fim, 0.45, "corte"]],
+          },
+          maos: (tt, pts, ctx, b) => {
+            if (tt >= t.vira + 1.5 && tt < t.sorriso) {
+              // estende o celular dele para a mãe ver
+              const k = trilha([[t.vira + 1.5, 0], [t.vira + 2.1, 1, "ambos"]], tt);
+              return segurandoCelular(pts, b, 0.42 + 0.12 * k, 0.24 + 0.06 * k);
+            }
+            if (tt >= t.grupo && tt < t.fim) return segurandoCelular(pts, b, 0.44, 0.32);
+            if (tt >= t.fim) return segurandoCelular(pts, b, 0.34, 0.34);
+            return null;
+          },
+        },
+        celular: (tt) => (tt >= t.vira + 1.5 && tt < t.sorriso) || tt >= t.grupo ? "mao" : null,
+        tela: (g, tt, desenhar) => {
+          if (tt < t.grupo) {
+            if (desenhar) telaEmail(g, 600, 1302, { hora: "7:20", frase: "Você tem 7 dias." });
+            return "email";
+          }
+          const msgs = conversa(tt);
+          if (desenhar) telaChat(g, 600, 1302, { titulo: "8º ANO B", hora: "7:24", mensagens: msgs });
+          return "chat" + msgs.length;
+        },
+        outros: [
+          {
+            id: "mae",
+            variante: "mae",
+            semente: 31,
+            onde: [[0, "cozinha"]],
+            pos: [[0, MAE]],
+            pose: {
+              giro: [[0, 0.62], [t.fala, 0.62], [t.fala + 0.5, G_MAE, "ambos"]],
+              cabecaInclina: [[0, 0.3], [t.fala, 0.3], [t.fala + 0.5, 0.05, "ambos"], [t.tela - 0.3, 0.05], [t.tela, 0.28, "ambos"], [t.vira + 0.3, 0.05, "ambos"], [t.vira + 1.6, 0.05], [t.vira + 2.1, 0.22, "ambos"], [t.sorriso, 0.08, "corte"]],
+              cabecaGiro: [[0, 0], [t.golpe + 0.2, 0], [t.golpe + 0.45, 0.22], [t.golpe + 0.7, -0.22], [t.golpe + 0.95, 0.18], [t.golpe + 1.2, 0, "ambos"]],
+              sorriso: [[0, 0.85], [t.sorriso, 0.8], [T("pouquinho") + 0.3, 0.08, "ambos"]],
+              boca: falar([[T("olha"), T.fim("filho")], [T("disseram"), T.fim("anos")], [T("é golpe"), T.fim("golpe")], [T("apaga"), T.fim("isso")]], 0.3),
+              sobrancelha: [[0, 0.25], [t.sorriso, 0.2], [T("pouquinho"), -0.2, "ambos"]],
+              sobrancelhaMedo: [[0, 0], [t.sorriso + 0.4, 0], [T("pouquinho") + 0.2, 0.55, "ambos"]],
+            },
+            maos: (tt, pts, ctx, b) => {
+              const { frente, direita, cima } = eixos(b);
+              if (tt >= t.vira && tt < t.sorriso) {
+                // vira a tela para ele: o braço vai para a frente, na direção dele
+                const k = trilha([[t.vira, 0], [t.vira + 0.6, 1, "ambos"]], tt);
+                const alvo = em(pts.cabeca, [frente, 0.42 + 0.14 * k], [cima, -0.24 - 0.05 * k], [direita, -0.05 * k]);
+                return { alvoE: alvo, pesoE: 1, pesoD: 0 };
+              }
+              if (tt >= t.golpe && tt < t.grupo) {
+                // "apaga isso": a mão direita aponta para o celular dele
+                const k = trilha([[T("apaga") - 0.2, 0], [T("apaga") + 0.2, 1, "ambos"], [T.fim("isso") + 0.5, 0, "ambos"]], tt);
+                const a = em(pts.cabeca, [frente, 0.42], [cima, -0.3]);
+                return { alvoE: a, pesoE: 1, alvoD: em(pts.cabeca, [frente, 0.3 + 0.25 * k], [direita, 0.18], [cima, -0.45 + 0.1 * k]), pesoD: k };
+              }
+              return segurandoCelular(pts, b, 0.42, 0.24);
+            },
+          },
+          {
+            id: "lucas",
+            variante: "lucas",
+            semente: 41,
+            onde: [[0, "quarto2"]],
+            pos: [[0, LUCAS]],
+            pose: {
+              giro: [[0, PI / 2]],
+              quadril: [[0, -PI / 2]],
+              joelho: [[0, 1.5]],
+              inclinar: [[0, 0.1], [T("três"), 0.1], [T("três") + 0.3, -0.12, "sai"], [T("três") + 0.9, 0.08, "ambos"]],
+              cabecaInclina: [[0, 0.32], [T("três"), 0.3], [T("três") + 0.3, -0.05, "sai"], [T("vou aproveitar"), 0.2, "ambos"]],
+              cabecaTomba: [[0, 0], [T("três") + 0.2, 0.15, "ambos"], [T("vou aproveitar") + 0.5, 0, "ambos"]],
+              sorriso: [[0, 0.6], [T("três"), 0.9]],
+              boca: [[0, 0], [T("três") + 0.05, 0], [T("três") + 0.2, 0.4, "sai"], [T("três") + 0.4, 0.1], [T("três") + 0.55, 0.38], [T("três") + 0.75, 0.08], [T("três") + 0.9, 0.3], [T("três") + 1.2, 0]],
+              sobrancelha: [[0, 0.35]],
+            },
+            maos: (tt, pts, ctx, b) => segurandoCelular(pts, b, 0.44, 0.3),
+          },
+        ],
+        montar: (ctx) => {
+          ctx.cenarios.cozinha.espelhoLigado = false; // a parede do espelho fica atrás das câmeras
+          ctx.cenarios.cozinha.real.cadeiras[0].position.z = -0.35;
+          ctx.cenarios.quarto2.cobertor.visible = false;
+          ctx.celMae = celularExtra(ctx.cena);
+          ctx.celLucas = celularExtra(ctx.cena);
+          ctx.celLucas.mostrar("lucas", (g, W, H) => telaChat(g, W, H, { titulo: "8º ANO B", hora: "7:23", mensagens: [{ minha: true, foto: "3 dias" }, { minha: true, texto: "kkkkk" }, { minha: true, texto: "vou aproveitar hein?" }] }));
+        },
+        quadro: (tt, plano, ctx, fase) => {
+          if (fase === "antes") {
+            ctx.cenarios.cozinha.relogio.mostrar("7:20");
+            ctx.cenarios.cozinha.cafe(true);
+            return;
+          }
+          const mae = ctx.outros.mae.boneco;
+          const ele = ctx.boneco;
+
+          if (plano.cenario === "cozinha") {
+            const olhar = tt >= t.vira && tt < t.sorriso ? pontosDoBoneco(ele).cabeca : pontosDoBoneco(mae).cabeca;
+            ctx.celMae.naMao(mae, olhar);
+            ctx.celMae.mostrar(tt < t.tela - 0.4 ? "rindo" : "38", (g, W, H) => telaEmail(g, W, H, { hora: "7:18", frase: tt < t.tela - 0.4 ? "Você tem 38 anos." : "Você tem 38 anos." }));
+          } else ctx.celMae.esconder();
+          if (plano.cenario === "quarto2") ctx.celLucas.naMao(ctx.outros.lucas.boneco, pontosDoBoneco(ctx.outros.lucas.boneco).cabeca);
+          else ctx.celLucas.esconder();
+        },
+      });

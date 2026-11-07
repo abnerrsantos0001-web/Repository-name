@@ -147,3 +147,33 @@ export function figurante(id, variante, onde, pos, giro, o = {}) {
     visivel: o.visivel,
   };
 }
+
+// boca falando: abre e fecha ~9 vezes por segundo dentro de cada trecho [a, b] (determinístico)
+export function falar(trechos, abre = 0.3) {
+  const k = [[0, 0]];
+  for (const [a, b] of trechos) {
+    k.push([a - 0.02, 0]);
+    let t = a;
+    let i = 0;
+    while (t < b - 0.05) {
+      k.push([t + 0.055, i % 2 ? 0.04 : abre * (0.55 + 0.45 * (((i * 5) % 4) / 3))]);
+      t += 0.11;
+      i++;
+    }
+    k.push([b + 0.06, 0]);
+  }
+  return k;
+}
+// câmera de ponto de vista com o celular mais alto no quadro (a faixa da legenda fica livre):
+// "desce" desloca o alvo para baixo da tela (no eixo do próprio celular)
+export function cameraTelaAlta(perto, desce = 0.03, fov = 34) {
+  return (tt, ctx) => {
+    const c = ctx.celular;
+    c.updateMatrixWorld(true);
+    const centro = c.localToWorld(new THREE.Vector3(0, 0, 0));
+    const alvo = c.localToWorld(new THREE.Vector3(0, -desce, 0));
+    const normal = new THREE.Vector3(0, 0, 1).transformDirection(c.matrixWorld);
+    const pos = centro.clone().addScaledVector(normal, perto);
+    return { pos, alvo, fov };
+  };
+}

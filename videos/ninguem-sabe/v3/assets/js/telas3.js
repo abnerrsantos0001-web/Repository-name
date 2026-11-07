@@ -36,6 +36,7 @@ function avatarLetra(g, x, y, r, letra, cor) {
   g.textBaseline = "middle";
   g.fillText(letra, x, y + 2);
   g.textBaseline = "alphabetic";
+  g.textAlign = "left";
 }
 
 // tela bloqueada com a hora grande e a notificação do e-mail
@@ -97,8 +98,8 @@ export function telaEmail(g, W, H, { hora = "7:05", assunto = "(sem assunto)", f
   g.font = fonte(500, 24);
   g.fillText("para mim · " + hora, 140, 298);
   g.fillStyle = VERMELHO;
-  g.font = fonte(900, 74);
-  quebrar(g, frase, 40, 470, W - 80, 86);
+  g.font = fonte(900, 66);
+  quebrar(g, frase, 40, 470, W - 80, 78);
   if (extra) {
     g.fillStyle = "#1a1c22";
     g.font = fonte(800, 52);
@@ -170,7 +171,7 @@ export function telaChat(g, W, H, { titulo = "8º ANO B", hora = "7:40", mensage
     const m = mensagens[i];
     const alt = m.foto ? 330 : m.grande ? 150 : 104;
     y -= alt + 22;
-    const w = m.foto ? 360 : Math.min(W - 160, 120 + m.texto.length * (m.grande ? 30 : 19));
+    const w = m.foto ? 360 : Math.min(W - 70, 120 + m.texto.length * (m.grande ? 34 : 20));
     const x = m.minha ? W - 30 - w : 30;
     caixaArred(g, x, y, w, alt, 26, m.minha ? "#1f5a4a" : "#243232");
     if (!m.minha && m.de) {
@@ -191,7 +192,7 @@ export function telaChat(g, W, H, { titulo = "8º ANO B", hora = "7:40", mensage
       g.fillText(m.pequenas ?? "", x + 34, y + alt - 40);
     } else {
       g.fillStyle = m.vermelho ? "#ff4a50" : C.texto;
-      g.font = fonte(m.vermelho || m.grande ? 900 : 600, m.grande ? 48 : 32);
+      g.font = fonte(m.vermelho || m.grande ? 900 : 600, m.grande ? 56 : 35);
       g.fillText(m.texto, x + 22, y + (m.de && !m.minha ? 80 : 66) + (m.grande ? 18 : 0));
     }
   }

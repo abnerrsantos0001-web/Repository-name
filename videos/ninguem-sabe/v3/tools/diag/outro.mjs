@@ -13,7 +13,8 @@ const r = await p.evaluate(([id, t, quem, peca]) => {
   window[id].render(t);
   const ctx = window.__cenaAtual, THREE = ctx.THREE;
   const b = quem === "duble" ? ctx.duble : ctx.outros[quem].boneco;
-  const g = b.parent; g.updateMatrixWorld(true);
+  const g = Object.values(ctx.cenarios).map((c) => c.grupo).find((gr) => gr.visible && gr.children.some((c) => c.name === peca)) || b.parent;
+  g.updateMatrixWorld(true);
   const alvo = g.children.find((c) => c.name === peca);
   const out = [];
   const v = new THREE.Vector3(), s = new THREE.Vector3();
