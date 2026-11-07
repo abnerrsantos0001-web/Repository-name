@@ -1,0 +1,198 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS, trilha } from "./assets/js/cena.js";
+      import { PALAVRAS } from "./assets/js/tempos/v2-parte08.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      const FIM = 37.4;
+      const t = {
+        hora: T("São") - 0.15,
+        luz: T("A luz") - 0.15,
+        cacos: T("Os cacos") - 0.15,
+        espelho: T("O espelho") - 0.15,
+        levanta: T("Você levanta") - 0.15,
+        olha: T("se olha.") - 0.25,
+        mao: T("Você levanta", 2) - 0.15,
+        sorri: T("Você sorri.") - 0.15,
+        junto: T("E ele") - 0.12,
+        tamanho: T("Do mesmo") - 0.12,
+        desce: T("Você desce.") - 0.15,
+        cafe: T("Sua mãe") - 0.15,
+        normal: T("tudo normal,") - 0.12,
+        estranha: T("mas tem") - 0.12,
+      };
+      // deitado de costas no chão (cabeça para x-), depois sentado, depois em pé
+      const DEITADO = [0.35, MEDIDAS.raioTronco + 0.02, -0.3];
+      const SENTADO = [0.35, 0.1, -0.3];
+      const EM_PE = [0.35, ALT, -0.3];
+      const PIA = [0, ALT, -0.6];
+      const SENTA0 = T("levanta") - 0.05;
+      const SENTA1 = SENTA0 + 0.9;
+      const LEVANTA0 = T("devagar") + 0.1;
+      const LEVANTA1 = LEVANTA0 + 0.9;
+      const SOBE_MAO = T("levanta", 2);
+      const DESCE_MAO = T("atraso.") + 0.4;
+      const SORRI = T("sorri.");
+
+      const eixos = (b) => {
+        const g = b.rotation.y;
+        return { frente: new THREE.Vector3(Math.sin(g), 0, Math.cos(g)), direita: new THREE.Vector3(-Math.cos(g), 0, Math.sin(g)), cima: new THREE.Vector3(0, 1, 0) };
+      };
+      const em = (base, ...pares) => pares.reduce((v, [d, k]) => v.addScaledVector(d, k), base.clone());
+
+      const ELE = {
+        semente: 6,
+        onde: [[0, "banheiro"], [t.cafe, "cozinha"]],
+        pos: [
+          [0, DEITADO],
+          [SENTA0, DEITADO],
+          [SENTA1, SENTADO, "ambos"],
+          [LEVANTA0, SENTADO],
+          [LEVANTA0 + 0.45, [0.35, 0.42, -0.3], "ambos"],
+          [LEVANTA1, EM_PE, "ambos"],
+          [t.olha, PIA, "corte"],
+          [t.desce + 0.15, PIA],
+          [t.desce + 0.55, [0.25, ALT, 0.2], "linear"],
+          [t.cafe - 0.01, [0.33, ALT, 1.4], "linear"],
+          // na cozinha: entra pela porta da parede oeste e para perto da mesa
+          [t.cafe, [-3.45, ALT, 1.45], "corte"],
+          [T("café,") + 0.2, [-3.45, ALT, 1.45]],
+          [T("ligado,") - 0.1, [-2.62, ALT, 1.45], "linear"],
+          [T("normal,") + 0.3, [-1.4, ALT, 0.95], "linear"],
+        ],
+        passos: [[t.desce + 0.15, t.cafe - 0.01, 1.1, 0.62], [T("café,") + 0.2, T("normal,") + 0.3, 1, 0.62]],
+        pose: {
+          giro: [[0, PI / 2], [LEVANTA1, PI / 2], [t.olha, PI, "corte"], [t.desce - 0.1, PI], [t.desce + 0.35, 2 * PI, "ambos"], [t.cafe, PI / 2, "corte"], [T("ligado,") - 0.1, PI / 2], [T("ligado,") + 0.4, PI / 2 + 0.35, "ambos"], [T("normal,") + 0.3, PI / 2 + 0.6, "ambos"]],
+          deitar: [[0, -PI / 2], [SENTA0, -PI / 2], [SENTA1, 0, "ambos"]],
+          quadril: [[0, 0.25], [SENTA0, 0.25], [SENTA1, -1.35, "ambos"], [LEVANTA0, -1.35], [LEVANTA0 + 0.45, -1.45, "ambos"], [LEVANTA1, 0, "ambos"]],
+          joelho: [[0, 0], [SENTA0, 0], [SENTA1, 0.5, "ambos"], [LEVANTA0, 0.5], [LEVANTA0 + 0.45, 1.6, "ambos"], [LEVANTA1, 0, "ambos"]],
+          inclinar: [[0, 0], [SENTA1, 0.15], [LEVANTA0, 0.15], [LEVANTA0 + 0.45, 0.45, "ambos"], [LEVANTA1, 0.02, "ambos"]],
+          cabecaInclina: [[0, -0.1], [SENTA1, 0.15, "ambos"], [LEVANTA1, 0.05], [t.olha, 0.0, "corte"], [t.cafe, 0.05, "corte"]],
+          cabecaGiro: [[0, 0], [T("manhã"), 0], [T("janelinha.") - 0.3, 0.5, "ambos"], [t.cacos, 0.2, "ambos"], [T("inteiro,"), -0.15, "ambos"], [t.levanta, 0], [t.olha, 0, "corte"], [t.cafe, 0.0, "corte"], [T("rádio"), -0.4, "ambos"], [T("normal,"), 0.3, "ambos"], [T("estranha"), 0.05, "ambos"]],
+          cabecaTomba: [[0, 0.1], [SENTA1, 0], [t.olha, 0.0], [SORRI, 0.08, "ambos"], [T("tamanho.") + 0.5, 0, "ambos"]],
+          olhos: [[0, 0], [T("acorda") + 0.1, 0], [T("acorda") + 0.7, 0.55, "ambos"], [T("chão"), 0.3, "ambos"], [T("banheiro."), 0.95, "ambos"], [T("sumiram."), 1.15], [T("inteiro,"), 1.25], [t.levanta, 1.0], [T("Perfeitamente."), 1.0], [SORRI, 0.85], [T("tamanho.") + 0.6, 1.0]],
+          sobrancelha: [[0, -0.3], [T("banheiro."), 0.2], [T("sumiram."), 0.7, "ambos"], [T("inteiro,"), 0.85], [t.levanta, 0.3], [T("Perfeitamente."), 0.2], [SORRI, 0.35], [t.cafe, 0.1], [T("estranha"), 0.0]],
+          sobrancelhaMedo: [[0, 0.3], [T("sumiram."), 0.6], [t.levanta, 0.5], [T("atraso."), 0.2], [SORRI, 0], [t.cafe, 0]],
+          sorriso: [[0, 0], [SORRI - 0.1, 0], [SORRI + 0.35, 0.85, "ambos"], [T("tamanho.") + 0.6, 0.85], [T("tamanho.") + 1.2, 0.35, "ambos"], [t.cafe, 0.3], [T("normal,"), 0.45, "ambos"]],
+          boca: [[0, 0], [T("acorda"), 0.12, "ambos"], [T("banheiro."), 0.05]],
+          ofegar: [[0, 0.6], [T("banheiro."), 0.4], [t.olha, 0.2], [FIM, 0.1]],
+        },
+        piscadas: [T("Perfeitamente.") + 0.3],
+      };
+
+      iniciarParte({
+        host: "__parte08",
+        cenarios: ["banheiro", "cozinha"],
+        opcoesCenario: { cozinha: { invertida: true } },
+        exposicao: 1.15,
+        planos: [
+          { de: 0, cenario: "banheiro", nome: "acorda", modo: "manha", preenchimento: 0.5 }, //           Você acorda no chão do banheiro.
+          { de: t.hora, cenario: "banheiro", nome: "hora", modo: "manha", preenchimento: 0.5 }, //         São 7h12.
+          { de: t.luz, cenario: "banheiro", nome: "luz", modo: "manha", preenchimento: 0.5 }, //           A luz da manhã entra pela janelinha.
+          { de: t.cacos, cenario: "banheiro", nome: "cacos", modo: "manha", preenchimento: 0.5 }, //       Os cacos sumiram.
+          { de: t.espelho, cenario: "banheiro", nome: "espelho", modo: "manha", preenchimento: 0.5 }, //   O espelho está inteiro, como se nada tivesse acontecido.
+          { de: t.levanta, cenario: "banheiro", nome: "levanta", modo: "manha", preenchimento: 0.5 }, //   Você levanta devagar
+          { de: t.olha, cenario: "banheiro", nome: "olha", modo: "manha", preenchimento: 0.5 }, //         e se olha. Ele te copia. Perfeitamente.
+          { de: t.mao, cenario: "banheiro", nome: "mao", modo: "manha", preenchimento: 0.5 }, //           Você levanta a mão. Ele levanta. Sem atraso.
+          { de: t.sorri, cenario: "banheiro", nome: "sorri", modo: "manha", preenchimento: 0.55 }, //      Você sorri.
+          { de: t.junto, cenario: "banheiro", nome: "junto", modo: "manha", preenchimento: 0.55 }, //      E ele sorri junto.
+          { de: t.tamanho, cenario: "banheiro", nome: "tamanho", modo: "manha", preenchimento: 0.55 }, //  Do mesmo tamanho.
+          { de: t.desce, cenario: "banheiro", nome: "desce", modo: "manha", preenchimento: 0.5 }, //       Você desce.
+          { de: t.cafe, cenario: "cozinha", nome: "cafe", modo: "manha", preenchimento: 0.5 }, //              Sua mãe está fazendo o café, o rádio está ligado,
+          { de: t.normal, cenario: "cozinha", nome: "normal", modo: "manha", preenchimento: 0.5 }, //          tudo normal,
+          { de: t.estranha, cenario: "cozinha", nome: "estranha", modo: "manha", preenchimento: 0.5 }, //      mas tem uma coisa estranha que você ainda não percebeu.
+        ],
+        cameras: {
+          acorda: { k: [[0, [-0.08, 0.98, 0.06], [-0.36, 0.3, -0.3], 44], [t.hora, [-0.12, 0.92, 0.0], [-0.36, 0.3, -0.3], 40]], tremor: 0.001 },
+          hora: { k: [[t.hora, [-0.62, 2.15, 1.05], [0.3, 0.35, -0.5], 58], [t.luz, [-0.6, 2.12, 1.0], [0.3, 0.35, -0.5], 56]], tremor: 0.001 },
+          luz: { k: [[t.luz, [0.3, 1.35, 0.72], [1.68, 1.95, -0.05], 50], [t.cacos, [0.38, 1.38, 0.66], [1.68, 1.95, -0.05], 46]], tremor: 0.001 },
+          cacos: { k: [[t.cacos, [0.98, 0.42, 0.5], [0.0, 0.5, -1.05], 54], [t.espelho, [0.92, 0.4, 0.42], [0.0, 0.5, -1.05], 52]], tremor: 0.001 },
+          espelho: { k: [[t.espelho, [0.55, 1.58, -0.18], [0.0, 1.45, -1.5], 46], [t.levanta, [0.5, 1.56, -0.3], [0.0, 1.45, -1.5], 42]], tremor: 0.001 },
+          levanta: { k: [[t.levanta, [1.32, 1.25, 0.78], [0.2, 0.6, -0.35], 54], [t.olha, [1.28, 1.3, 0.72], [0.2, 0.85, -0.35], 52]], tremor: 0.002 },
+          olha: { k: [[t.olha, [0.5, 1.64, 0.22], [0.0, 1.45, -1.5], 40], [t.mao, [0.44, 1.62, 0.1], [0.0, 1.45, -1.5], 37]], tremor: 0.002 },
+          mao: { k: [[t.mao, [-0.58, 1.62, 0.18], [0.05, 1.45, -1.5], 42], [t.sorri, [-0.52, 1.6, 0.08], [0.05, 1.45, -1.5], 39]], tremor: 0.002 },
+          sorri: { k: [[t.sorri, [0.14, 1.6, -1.38], [0.0, 1.47, -0.6], 48], [t.junto, [0.12, 1.6, -1.34], [0.0, 1.47, -0.6], 45]], tremor: 0.002 },
+          junto: { k: [[t.junto, [0.15, 1.52, -1.18], [0.0, 1.44, -2.4], 36], [t.tamanho, [0.13, 1.5, -1.22], [0.0, 1.44, -2.4], 32]], tremor: 0.002 },
+          tamanho: { k: [[t.tamanho, [0.1, 1.48, -1.26], [0.0, 1.43, -2.4], 28], [t.desce, [0.09, 1.48, -1.28], [0.0, 1.43, -2.4], 24]], tremor: 0.002 },
+          desce: { k: [[t.desce, [-0.48, 1.76, -1.05], [0.25, 1.2, 0.8], 52], [t.cafe, [-0.45, 1.74, -1.0], [0.33, 1.2, 1.4], 50]], tremor: 0.002 },
+          cafe: { k: [[t.cafe, [1.65, 1.62, 1.85], [-2.2, 1.1, -1.0], 52], [t.normal, [1.5, 1.6, 1.7], [-2.0, 1.1, -0.9], 48]], tremor: 0.002 },
+          normal: { k: [[t.normal, [-0.3, 1.45, 2.1], [-1.4, 1.38, 0.95], 44], [t.estranha, [-0.35, 1.45, 2.0], [-1.4, 1.38, 0.95], 41]], tremor: 0.002 },
+          estranha: { k: [[t.estranha, [0.45, 1.58, 0.62], [-1.8, 1.25, -1.2], 48], [T("ainda"), [0.1, 1.62, 0.3], [-2.6, 1.7, -0.6], 40], [FIM, [-0.6, 1.75, -0.15], [-3.0, 1.93, -0.4], 26]], tremor: 0.002 },
+        },
+        personagem: {
+          ...ELE,
+          maos: (tt, pts, ctx, b) => {
+            const { frente, direita, cima } = eixos(b);
+            // levanta a mão direita e abaixa (o reflexo vai junto, sem atraso)
+            if (tt >= SOBE_MAO - 0.1 && tt < DESCE_MAO + 0.9) {
+              const sobe = trilha([[SOBE_MAO - 0.1, 0], [T("mão.") + 0.25, 1, "ambos"]], tt);
+              const desce = trilha([[DESCE_MAO, 0], [DESCE_MAO + 0.8, 1, "ambos"]], tt);
+              return { alvoD: em(pts.cabeca, [direita, 0.3], [frente, 0.14], [cima, -0.55 + 0.66 * sobe - 0.66 * desce]), pesoD: Math.min(sobe * 1.6, 1) * (1 - desce) };
+            }
+            return null;
+          },
+        },
+        // o reflexo copia tudo, perfeitamente
+        reflexo: { cenario: "banheiro", atraso: () => 0 },
+        outros: [
+          {
+            id: "mae",
+            variante: "mae",
+            semente: 21,
+            onde: [[0, "cozinha"]],
+            pos: [[0, [-1.85, ALT, -1.45]]],
+            pose: {
+              giro: [[0, PI]],
+              inclinar: [[0, 0.08]],
+              ombro: [[0, -0.75]],
+              cotovelo: [[0, 1.05]],
+              abertura: [[0, 0.18]],
+              cabecaInclina: [[0, 0.3], [T("rádio"), 0.2]],
+              cabecaGiro: [[0, 0], [T("ligado,"), 0], [T("ligado,") + 0.6, 0.55, "ambos"], [T("normal,") + 0.8, 0.55], [T("estranha"), 0.1, "ambos"]],
+              sorriso: [[0, 0.3], [T("ligado,") + 0.6, 0.7, "ambos"]],
+              sobrancelha: [[0, 0.1]],
+            },
+          },
+          // os reflexos dela e dele no espelho da cozinha (mesma pose, do outro lado do vidro)
+          {
+            id: "maeEspelho",
+            variante: "mae",
+            espelho: true,
+            semente: 21,
+            onde: [[0, "cozinha"]],
+            pos: [[0, [-1.85, ALT, -1.45]]],
+            pose: {
+              giro: [[0, PI]],
+              inclinar: [[0, 0.08]],
+              ombro: [[0, -0.75]],
+              cotovelo: [[0, 1.05]],
+              abertura: [[0, 0.18]],
+              cabecaInclina: [[0, 0.3], [T("rádio"), 0.2]],
+              cabecaGiro: [[0, 0], [T("ligado,"), 0], [T("ligado,") + 0.6, 0.55, "ambos"], [T("normal,") + 0.8, 0.55], [T("estranha"), 0.1, "ambos"]],
+              sorriso: [[0, 0.3], [T("ligado,") + 0.6, 0.7, "ambos"]],
+              sobrancelha: [[0, 0.1]],
+            },
+          },
+          { id: "eleEspelho", ...ELE, espelho: true, visivel: (tt, p) => p.cenario === "cozinha" },
+        ],
+        quadro: (tt, plano, ctx) => {
+          const b = ctx.cenarios.banheiro;
+          const c = ctx.cenarios.cozinha;
+          // o banheiro de manhã: espelho inteiro, nada no chão, tudo no lugar
+          b.porta(1.5);
+          b.corredor(0);
+          b.torneira(false);
+          b.tecla(true); // a luz ficou acesa desde a noite
+          b.lencol(0);
+          b.derrubar(0);
+          b.quebrar(-1);
+          b.espelhoVisivel(true);
+          // a cozinha (do lado de dentro do espelho: os textos estão ao contrário, e ele ainda não percebeu)
+          c.lencol(false);
+          c.radio(true);
+          c.cafe(true);
+          c.onibus(0, false);
+          c.relogio.mostrar("7:15");
+        },
+      });

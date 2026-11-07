@@ -1,0 +1,40 @@
+      <div id="p11-cartoes" data-layout-ignore>
+        <div id="p11-sombra"></div>
+        <div id="p11-pergunta">
+          <div class="p11-rotulo">COMENTA AQUI</div>
+          <div class="p11-texto">Se você acordasse sozinho no mundo, qual seria a primeira coisa que você faria?</div>
+        </div>
+        <div id="p11-marca">
+          <div class="p11-nome">NINGUÉM SABE</div>
+          <div class="p11-barra"></div>
+          <div class="p11-sub">toda semana, uma história nova</div>
+          <div class="p11-botao"><span class="p11-sino"></span>INSCREVA-SE</div>
+        </div>
+      </div>
+      <style>
+        #p11-cartoes { position: absolute; inset: 0; pointer-events: none; font-family: Montserrat; color: #f4f2ee; }
+        #p11-sombra { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, rgba(5, 5, 6, 0.35), rgba(5, 5, 6, 0.85)); opacity: 0; }
+        #p11-pergunta { position: absolute; left: 0; right: 0; top: 150px; text-align: center; opacity: 0; }
+        .p11-rotulo { display: inline-block; font-weight: 800; font-size: 34px; letter-spacing: 0.22em; color: #e0262d; border-bottom: 5px solid #c4161c; padding-bottom: 10px; }
+        .p11-texto { margin: 34px auto 0; max-width: 1240px; font-weight: 800; font-size: 64px; line-height: 1.18; text-shadow: 0 6px 0 rgba(0, 0, 0, 0.55); }
+        #p11-marca { position: absolute; left: 0; right: 0; top: 230px; text-align: center; opacity: 0; }
+        .p11-nome { font-weight: 900; font-size: 170px; letter-spacing: 0.1em; line-height: 1; text-shadow: 0 8px 0 rgba(0, 0, 0, 0.6); }
+        .p11-barra { width: 220px; height: 12px; margin: 34px auto 0; background: #c4161c; }
+        .p11-sub { margin-top: 30px; font-weight: 600; font-size: 46px; color: #d6d3cd; }
+        .p11-botao { display: inline-flex; align-items: center; gap: 22px; margin-top: 48px; padding: 26px 58px; border-radius: 999px; background: #c4161c; font-weight: 800; font-size: 46px; letter-spacing: 0.12em; box-shadow: 0 10px 0 rgba(0, 0, 0, 0.45); }
+        .p11-sino { width: 34px; height: 34px; border-radius: 50% 50% 8px 8px; background: #f4f2ee; position: relative; }
+        .p11-sino::after { content: ""; position: absolute; left: 50%; bottom: -10px; width: 12px; height: 10px; margin-left: -6px; border-radius: 0 0 6px 6px; background: #f4f2ee; }
+      </style>
+      <script>
+        // pergunta para os comentários e o cartão final do canal, no ritmo da fala
+        window.__extras = window.__extras || {};
+        window.__extras["parte11"] = function (tl, raiz) {
+          var q = function (s) { return raiz.querySelector(s); };
+          tl.fromTo(q("#p11-sombra"), { opacity: 0 }, { opacity: 0.75, duration: 0.6, ease: "power2.out" }, 1.0);
+          tl.fromTo(q("#p11-pergunta"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 1.25);
+          tl.fromTo(q("#p11-pergunta"), { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 8.1);
+          tl.fromTo(q("#p11-sombra"), { opacity: 0.75 }, { opacity: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 8.3);
+          tl.fromTo(q("#p11-marca"), { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 8.6);
+          tl.fromTo(q(".p11-botao"), { scale: 1 }, { scale: 0.92, duration: 0.12, ease: "power2.in", yoyo: true, repeat: 1, immediateRender: false }, 9.35);
+        };
+      </script>

@@ -1,0 +1,9 @@
+# arquivos temporários do render; o MP4 final de cada parte entra com git add -f
+renders/
+# caches do preview do HyperFrames
+.thumbnails/
+.waveform-cache/
+
+# prévias: só a folha de contato de cada parte entra no git
+previas/*/frame-*.jpg
+zz-*.html

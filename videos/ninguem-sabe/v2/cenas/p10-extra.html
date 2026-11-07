@@ -1,0 +1,48 @@
+      <div id="p10-cartoes" data-layout-ignore>
+        <div id="p10-sombra"></div>
+        <div id="p10-pergunta">
+          <div class="p10-rotulo">COMENTA AQUI</div>
+          <div class="p10-texto">Você teria coragem de encarar o seu reflexo às 3:33?</div>
+        </div>
+        <div id="p10-marca">
+          <div class="p10-nome">NINGUÉM SABE</div>
+          <div class="p10-barra"></div>
+          <div class="p10-sub">a próxima história pode ser sobre você</div>
+          <div class="p10-botao"><span class="p10-sino"></span>INSCREVA-SE</div>
+        </div>
+      </div>
+      <style>
+        #p10-cartoes { position: absolute; inset: 0; pointer-events: none; font-family: Montserrat; color: #f4f2ee; }
+        #p10-sombra { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, rgba(5, 5, 6, 0.35), rgba(5, 5, 6, 0.85)); opacity: 0; }
+        #p10-pergunta { position: absolute; left: 0; right: 0; top: 150px; text-align: center; opacity: 0; }
+        .p10-rotulo { display: inline-block; font-weight: 800; font-size: 34px; letter-spacing: 0.22em; color: #e0262d; border-bottom: 5px solid #c4161c; padding-bottom: 10px; }
+        .p10-texto { margin: 34px auto 0; max-width: 1240px; font-weight: 800; font-size: 64px; line-height: 1.18; text-shadow: 0 6px 0 rgba(0, 0, 0, 0.55); }
+        #p10-marca { position: absolute; left: 0; right: 0; top: 230px; text-align: center; opacity: 0; }
+        .p10-nome { font-weight: 900; font-size: 170px; letter-spacing: 0.1em; line-height: 1; text-shadow: 0 8px 0 rgba(0, 0, 0, 0.6); }
+        .p10-barra { width: 220px; height: 12px; margin: 34px auto 0; background: #c4161c; }
+        .p10-sub { margin-top: 30px; font-weight: 600; font-size: 46px; color: #d6d3cd; }
+        .p10-botao { display: inline-flex; align-items: center; gap: 22px; margin-top: 48px; padding: 26px 58px; border-radius: 999px; background: #c4161c; font-weight: 800; font-size: 46px; letter-spacing: 0.12em; box-shadow: 0 10px 0 rgba(0, 0, 0, 0.45); }
+        .p10-sino { width: 34px; height: 34px; border-radius: 50% 50% 8px 8px; background: #f4f2ee; position: relative; }
+        .p10-sino::after { content: ""; position: absolute; left: 50%; bottom: -10px; width: 12px; height: 10px; margin-left: -6px; border-radius: 0 0 6px 6px; background: #f4f2ee; }
+        /* no corte vertical os cartões descem e o nome encolhe para caber na largura */
+        #p10-raiz[data-height="1920"] #p10-pergunta { top: 420px; }
+        #p10-raiz[data-height="1920"] .p10-texto { max-width: 900px; font-size: 70px; }
+        #p10-raiz[data-height="1920"] #p10-marca { top: 560px; }
+        #p10-raiz[data-height="1920"] .p10-nome { font-size: 108px; }
+      </style>
+      <script>
+        // pergunta para os comentários e o cartão final do canal, no ritmo da fala
+        window.__extras = window.__extras || {};
+        window.__extras["parte10"] = function (tl, raiz) {
+          var q = function (s) { return raiz.querySelector(s); };
+          tl.fromTo(q("#p10-sombra"), { opacity: 0 }, { opacity: 0.75, duration: 0.6, ease: "power2.out" }, 27.85);
+          tl.fromTo(q("#p10-pergunta"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 28.0);
+          tl.fromTo(q("#p10-pergunta"), { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 33.95);
+          tl.fromTo(q("#p10-sombra"), { opacity: 0.75 }, { opacity: 0.92, duration: 0.5, ease: "power2.out", immediateRender: false }, 34.1);
+          tl.fromTo(q("#p10-marca"), { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 34.3);
+          tl.fromTo(q(".p10-botao"), { scale: 1 }, { scale: 0.92, duration: 0.12, ease: "power2.in", yoyo: true, repeat: 1, immediateRender: false }, 34.85);
+          // no silêncio do fim, o cartão sai e fica só o reflexo, com o sorriso grande demais
+          tl.fromTo(q("#p10-marca"), { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.in", immediateRender: false }, 39.75);
+          tl.fromTo(q("#p10-sombra"), { opacity: 0.92 }, { opacity: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, 39.8);
+        };
+      </script>

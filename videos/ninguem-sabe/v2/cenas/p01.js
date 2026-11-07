@@ -1,0 +1,200 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS, trilha } from "./assets/js/cena.js";
+      import { PALAVRAS } from "./assets/js/tempos/v2-parte01.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      const FIM = 48.7333;
+      const DEITADO = [-1.78, 0.52 + MEDIDAS.raioTronco + 0.06, -0.82];
+      const PIA = [0, ALT, -0.56];
+      const PORTA = [0.3, ALT, 1.12];
+      const t = {
+        acorda: T("você acorda,") - 0.15,
+        levanta: T("levanta e") - 0.15,
+        banheiro: T("como") - 0.25,
+        lava: T("lava") - 0.15,
+        cabeca: T("levanta a cabeça") - 0.1,
+        normal: T("Tudo") - 0.15,
+        cabelo: T("você passa") - 0.2,
+        depois: T("só que") - 0.15,
+        congela: T("você congela.") - 0.15,
+        devagar: T("Levanta a mão") - 0.15,
+        perfeito: T("perfeito,") - 0.15,
+        ri: T("você ri") - 0.15,
+        dormiu: T("você dormiu") - 0.15,
+        sair: T("mas antes") - 0.15,
+        olhar: T("alguma") - 0.15,
+        meio: T("e por") - 0.15,
+      };
+      const MAO = T("mão") - 0.15; // a mão sobe para o cabelo
+      const SOLTA = t.meio + 1.6; // o reflexo "solta" o olhar e volta a copiar
+
+      // direções do corpo (b = o boneco que está sendo posado: ele ou o reflexo)
+      const eixos = (b) => {
+        const g = b.rotation.y;
+        return { frente: new THREE.Vector3(Math.sin(g), 0, Math.cos(g)), direita: new THREE.Vector3(-Math.cos(g), 0, Math.sin(g)), cima: new THREE.Vector3(0, 1, 0) };
+      };
+      const em = (base, ...pares) => pares.reduce((v, [d, k]) => v.addScaledVector(d, k), base.clone());
+
+      iniciarParte({
+        host: "__parte01",
+        cenarios: ["quarto2", "banheiro"],
+        planos: [
+          { de: 0, cenario: "quarto2", nome: "despertador", modo: "manha", preenchimento: 1.2 }, // São 7 e 12 da manhã,
+          { de: t.acorda, cenario: "quarto2", nome: "acorda", modo: "manha" }, //                  você acorda,
+          { de: t.levanta, cenario: "quarto2", nome: "levanta", modo: "manha" }, //                levanta e vai para o banheiro,
+          { de: t.banheiro, cenario: "banheiro", nome: "entra", modo: "manha" }, //                como todo dia,
+          { de: t.lava, cenario: "banheiro", nome: "lava", modo: "manha" }, //                     lava o rosto,
+          { de: t.cabeca, cenario: "banheiro", nome: "cabeca", modo: "manha" }, //                 levanta a cabeça e olha para o espelho.
+          { de: t.normal, cenario: "banheiro", nome: "normal", modo: "manha" }, //                 Tudo normal,
+          { de: t.cabelo, cenario: "banheiro", nome: "cabelo", modo: "manha" }, //                 você passa a mão no cabelo e o seu reflexo passa também,
+          { de: t.depois, cenario: "banheiro", nome: "depois", modo: "manha" }, //                 só que um segundo depois,
+          { de: t.congela, cenario: "banheiro", nome: "congela", modo: "manha" }, //               você congela.
+          { de: t.devagar, cenario: "banheiro", nome: "devagar", modo: "manha" }, //               Levanta a mão de novo, devagar, ele levanta junto,
+          { de: t.perfeito, cenario: "banheiro", nome: "perfeito", modo: "manha" }, //             perfeito, sem atraso nenhum,
+          { de: t.ri, cenario: "banheiro", nome: "ri", modo: "manha" }, //                         você ri sozinho, sono, só pode ser sono,
+          { de: t.dormiu, cenario: "banheiro", nome: "dormiu", modo: "manha" }, //                 você dormiu tarde ontem, de novo,
+          { de: t.sair, cenario: "banheiro", nome: "sair", modo: "manha" }, //                     mas antes de sair do banheiro,
+          { de: t.olhar, cenario: "banheiro", nome: "olhar", modo: "manha" }, //                   alguma coisa te faz olhar mais uma vez,
+          { de: t.meio, cenario: "banheiro", nome: "meio", modo: "manha" }, //                     e por meio segundo, você jura que ele ainda estava te olhando.
+        ],
+        cortesEscuros: [t.banheiro],
+        cameras: {
+          despertador: { k: [[0, [-1.12, 0.67, -1.36], [-0.95, 0.607, -1.69], 30], [t.acorda, [-1.1, 0.66, -1.42], [-0.95, 0.607, -1.69], 25]], v: [[0, [-1.15, 0.69, -1.3], [-0.95, 0.607, -1.69], 64], [t.acorda, [-1.13, 0.68, -1.36], [-0.95, 0.607, -1.69], 56]], tremor: 0.002 },
+          acorda: { k: [[t.acorda, [-1.55, 1.8, -1.05], [-1.78, 0.82, -1.55], 40], [t.levanta, [-1.58, 1.7, -1.15], [-1.78, 0.82, -1.55], 36]], tremor: 0.003 },
+          levanta: { k: [[t.levanta, [1.78, 1.65, -1.22], [-0.3, 1.0, 0.4], 56], [t.banheiro, [1.72, 1.62, -1.1], [0.2, 1.0, 0.9], 54]], tremor: 0.003 },
+          entra: { k: [[t.banheiro, [-0.55, 1.62, -0.42], [0.3, 1.2, 1.5], 54], [t.lava, [-0.5, 1.6, -0.4], [0.05, 1.15, 0.2], 50]], tremor: 0.003 },
+          lava: { k: [[t.lava, [0.9, 1.22, -0.78], [0.0, 1.16, -0.86], 46], [t.cabeca, [0.88, 1.24, -0.76], [0.0, 1.2, -0.86], 42]], tremor: 0.002 },
+          cabeca: { k: [[t.cabeca, [0.85, 1.7, 0.42], [-0.16, 1.46, -1.5], 38], [t.normal, [0.78, 1.7, 0.2], [-0.16, 1.47, -1.5], 34]], tremor: 0.002 },
+          normal: { k: [[t.normal, [0.0, 1.55, -1.44], [0.0, 1.5, -0.6], 48], [t.cabelo, [0.0, 1.55, -1.42], [0.0, 1.5, -0.6], 44]], tremor: 0.0015 },
+          cabelo: { k: [[t.cabelo, [0.74, 1.7, 0.5], [-0.16, 1.5, -1.5], 42], [t.depois, [0.68, 1.7, 0.36], [-0.14, 1.5, -1.5], 40]], tremor: 0.002 },
+          depois: { k: [[t.depois, [0.52, 1.64, -0.1], [-0.06, 1.5, -1.5], 34], [t.congela, [0.48, 1.63, -0.2], [-0.06, 1.5, -1.5], 30]], tremor: 0.002 },
+          congela: { k: [[t.congela, [0.0, 1.57, -1.44], [0.0, 1.54, -0.62], 36], [t.devagar, [0.0, 1.57, -1.42], [0.0, 1.54, -0.62], 30]], tremor: 0.0012 },
+          devagar: { k: [[t.devagar, [0.72, 1.72, 0.42], [-0.16, 1.52, -1.5], 42], [t.perfeito, [0.66, 1.7, 0.25], [-0.14, 1.55, -1.5], 38]], tremor: 0.002 },
+          perfeito: { k: [[t.perfeito, [0.95, 1.66, -0.2], [-0.1, 1.55, -1.4], 42], [t.ri, [0.92, 1.66, -0.26], [-0.1, 1.55, -1.4], 40]], tremor: 0.002 },
+          ri: { k: [[t.ri, [0.0, 1.55, -1.44], [0.0, 1.52, -0.62], 44], [t.dormiu, [0.0, 1.55, -1.42], [0.0, 1.52, -0.62], 40]], tremor: 0.002 },
+          dormiu: { k: [[t.dormiu, [0.68, 1.6, -1.3], [0.0, 1.45, -0.56], 50], [t.sair, [0.66, 1.6, -1.26], [0.0, 1.45, -0.56], 46]], tremor: 0.002 },
+          sair: { k: [[t.sair, [0.32, 1.66, 2.95], [0.0, 1.35, -1.0], 46], [t.olhar, [0.3, 1.64, 2.75], [0.05, 1.38, -1.0], 44]], tremor: 0.003 },
+          olhar: { k: [[t.olhar, [0.22, 1.62, 2.45], [0.28, 1.5, 1.1], 36], [t.meio, [0.2, 1.62, 2.35], [0.25, 1.5, 0.6], 40]], tremor: 0.003 },
+          meio: { k: [[t.meio, [0.3, 1.58, 1.08], [0.0, 1.47, -1.5], 42], [FIM, [0.27, 1.56, 0.55], [0.0, 1.47, -1.5], 30, "linear"]], tremor: 0.0025 },
+        },
+        semCabeca: (tt, p) => p.nome === "meio",
+        personagem: {
+          semente: 3,
+          onde: [[0, "quarto2"], [t.banheiro, "banheiro"]],
+          pos: [
+            [0, DEITADO],
+            [t.levanta - 0.01, DEITADO],
+            [t.levanta, [-0.95, ALT, -0.25], "corte"],
+            [t.banheiro - 0.05, [0.85, ALT, 1.6], "linear"],
+            [t.banheiro, [0.3, ALT, 2.35], "corte"],
+            [t.banheiro + 0.8, [0.27, ALT, 0.9], "linear"],
+            [t.lava - 0.08, PIA, "linear"],
+            [t.sair, PIA],
+            [t.olhar + 0.5, PORTA, "linear"],
+          ],
+          passos: [[t.levanta, t.banheiro - 0.05, 1, 0.62], [t.banheiro, t.lava - 0.08, 1.05, 0.62], [t.sair + 0.1, t.olhar + 0.5, 0.95, 0.62]],
+          pose: {
+            giro: [[0, 0], [t.levanta, Math.atan2(1.8, 1.85), "corte"], [t.banheiro, PI, "corte"], [t.sair, PI], [t.sair + 0.6, 2 * PI, "ambos"], [t.olhar + 0.5, 2 * PI], [t.olhar + 1.6, PI + 0.25, "ambos"]],
+            deitar: [[0, -PI / 2], [t.levanta, 0, "corte"]],
+            cabecaGiro: [[0, 0.1], [t.levanta, 0, "corte"], [t.ri + 1.6, 0], [t.ri + 1.9, 0.18, "ambos"], [t.ri + 2.2, -0.18, "ambos"], [t.ri + 2.5, 0.14, "ambos"], [t.ri + 2.8, -0.08, "ambos"], [t.ri + 3.1, 0, "ambos"], [t.olhar, 0], [t.olhar + 0.6, -0.5, "ambos"], [t.olhar + 1.6, 0.0, "ambos"]],
+            cabecaInclina: [[0, 0], [t.lava, 0.0], [t.lava + 0.2, 0.45, "ambos"], [t.cabeca + 0.05, 0.45], [t.cabeca + 0.6, 0.02, "ambos"], [t.congela, 0], [t.dormiu, 0.12], [t.sair, 0.05]],
+            inclinar: [[0, 0], [t.lava, 0], [t.lava + 0.25, 0.42, "ambos"], [t.cabeca + 0.05, 0.42], [t.cabeca + 0.6, 0.0, "ambos"], [t.ri + 0.3, 0.08, "ambos"], [t.ri + 1.3, 0.0, "ambos"]],
+            olhos: [[0, 0], [T("acorda,") + 0.05, 0], [T("acorda,") + 0.45, 1, "sai"], [t.congela, 1], [t.congela + 0.15, 1.3, "sai"], [t.devagar + 1, 1.1], [t.ri, 1], [t.ri + 0.3, 0.55, "ambos"], [t.ri + 3.4, 0.9], [t.dormiu, 0.75], [t.sair, 1]],
+            sobrancelha: [[0, 0], [t.depois, 0], [t.depois + 0.6, 0.6, "ambos"], [t.congela, 1, "sai"], [t.devagar + 1.5, 0.5], [t.ri, 0.1], [t.dormiu, -0.2], [t.olhar, 0], [t.olhar + 1.2, 0.5]],
+            sobrancelhaMedo: [[0, 0], [t.congela, 0.4], [t.devagar + 2, 0.6], [t.ri, 0], [t.olhar + 1.0, 0.5]],
+            sorriso: [[0, 0], [t.ri, 0], [t.ri + 0.35, 0.95, "sai"], [T("sono,") + 0.4, 0.8], [t.dormiu, 0.35], [t.sair, 0]],
+            boca: [[0, 0], [T("acorda,") + 0.5, 0.15], [T("acorda,") + 1.0, 0], [t.congela, 0.12], [t.devagar, 0], ...[0, 1, 2, 3].map((i) => [t.ri + 0.45 + i * 0.18, i % 2 ? 0.05 : 0.32]), [t.ri + 1.3, 0], [t.olhar + 1.2, 0.1]],
+            apertar: [[0, 0.15], [t.levanta, 0], [t.dormiu, 0.35], [t.sair, 0]],
+          },
+          maos: (tt, pts, ctx, b) => {
+            const { frente, direita, cima } = eixos(b);
+            const r = {};
+            const o = ctx.cenarios.banheiro.grupo.position;
+            // lava o rosto: as mãos em concha embaixo da torneira, depois no rosto
+            if (tt >= t.lava - 0.1 && tt < t.cabeca + 0.6) {
+              const k = trilha([[t.lava + 0.1, 0], [t.lava + 0.55, 1, "ambos"]], tt);
+              const peso = trilha([[t.lava - 0.1, 0], [t.lava + 0.15, 1, "ambos"], [t.cabeca, 1], [t.cabeca + 0.5, 0, "ambos"]], tt);
+              for (const [lado, chave] of [[1, "D"], [-1, "E"]]) {
+                const torneira = new THREE.Vector3(0.06 * lado, 1.03, -1.12).add(o);
+                const rosto = em(pts.cabeca, [frente, 0.17], [direita, 0.06 * lado], [cima, -0.05]);
+                r["alvo" + chave] = torneira.lerp(rosto, k);
+                r["peso" + chave] = peso;
+              }
+            }
+            // a mão passa no cabelo: da testa até a nuca
+            if (tt >= MAO - 0.3 && tt < MAO + 1.8) {
+              const k = trilha([[MAO + 0.15, 0], [MAO + 1.15, 1, "ambos"]], tt);
+              r.alvoD = em(pts.cabeca, [frente, 0.2 - 0.34 * k], [cima, 0.16 + 0.12 * Math.sin(PI * k)], [direita, 0.07]);
+              r.pesoD = trilha([[MAO - 0.3, 0], [MAO + 0.1, 1, "ambos"], [MAO + 1.2, 1], [MAO + 1.7, 0, "ambos"]], tt);
+            }
+            // levanta a mão de novo, devagar, e abaixa
+            if (tt >= T("Levanta a mão") && tt < t.ri + 0.2) {
+              const sobe = trilha([[T("Levanta a mão"), 0], [T("junto,") + 0.3, 1, "ambos"]], tt);
+              const desce = trilha([[t.ri - 0.6, 0], [t.ri + 0.15, 1, "ambos"]], tt);
+              r.alvoD = em(pts.cabeca, [direita, 0.3], [frente, 0.14], [cima, -0.55 + 0.68 * sobe - 0.68 * desce]);
+              r.pesoD = Math.min(sobe * 1.6, 1) * (1 - desce);
+            }
+            // esfrega os olhos (sono)
+            if (tt >= t.dormiu + 0.2 && tt < t.sair) {
+              const peso = trilha([[t.dormiu + 0.2, 0], [t.dormiu + 0.6, 1, "ambos"], [t.sair - 0.45, 1], [t.sair - 0.05, 0, "ambos"]], tt);
+              const esfrega = 0.02 * Math.sin(tt * 14);
+              // no fim as mãos descem pelos lados do corpo (longe do tampo da pia) antes de soltar
+              const desce = trilha([[t.sair - 1.0, 0], [t.sair - 0.45, 1, "ambos"]], tt);
+              const olho = (l) => em(pts.cabeca, [frente, 0.2], [direita, l * (0.07 - esfrega)], [cima, 0.03]);
+              const lado = (l) => em(pts.cabeca, [frente, 0.02], [direita, l * 0.34], [cima, -0.78]);
+              r.alvoE = olho(-1).lerp(lado(-1), desce);
+              r.alvoD = olho(1).lerp(lado(1), desce);
+              r.pesoE = r.pesoD = peso;
+            }
+            return r.alvoE || r.alvoD ? r : null;
+          },
+        },
+        // o reflexo: copia com 1 s de atraso no gesto do cabelo; no fim fica na pia olhando, enquanto ele vai até a porta
+        reflexo: {
+          cenario: "banheiro",
+          atraso: (tt) => trilha([[t.cabelo, 0], [MAO - 0.2, 1.0, "ambos"], [t.congela - 0.8, 1.0], [t.congela - 0.2, 0, "ambos"]], tt),
+          janelas: [
+            {
+              de: t.sair - 0.05,
+              ate: SOLTA,
+              pos: [[0, PIA]],
+              passos: [],
+              semPiscar: [[t.sair - 0.1, SOLTA + 0.2]],
+              pose: {
+                giro: [[0, PI]],
+                cabecaGiro: [[0, 0]],
+                cabecaInclina: [[0, -0.02]],
+                cabecaTomba: [[0, 0.0], [t.olhar + 0.5, 0.0], [t.olhar + 2.5, 0.1, "ambos"]],
+                olhos: [[0, 1.08]],
+                sobrancelha: [[0, 0]],
+                sobrancelhaMedo: [[0, 0]],
+                sorriso: [[0, 0]],
+                boca: [[0, 0]],
+                inclinar: [[0, 0]],
+              },
+              maos: () => null,
+            },
+          ],
+        },
+        quadro: (tt, plano, ctx) => {
+          const q = ctx.cenarios.quarto2;
+          const b = ctx.cenarios.banheiro;
+          // despertador piscando 7:12 enquanto toca
+          q.relogio.userData.mostrar(tt < t.acorda + 0.6 && Math.floor(tt * 2.2) % 2 === 1 ? "" : "7:12");
+          q.cobertor.position.set(0.78, 0.04, -0.22);
+          q.cobertor.scale.set(0.45, 0.5, 0.5);
+          q.cortinas(0);
+          q.porta(1.3);
+          b.porta(1.5);
+          b.corredor(1);
+          b.torneira(tt >= t.lava - 0.1 && tt < t.cabeca + 0.2);
+          b.lencol(0);
+          // quando o reflexo volta para o lugar, a luz do banheiro falha por um instante
+          if (tt >= SOLTA - 0.06 && tt < SOLTA + 0.12) {
+            b.luz({ teto: 0.15, espelho: 0.1, janela: 0.6, ambiente: 0.4 });
+            b.modoAtual = null;
+          }
+        },
+      });

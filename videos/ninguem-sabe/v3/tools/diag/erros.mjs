@@ -1,0 +1,16 @@
+import { createRequire } from "node:module";
+const { chromium } = createRequire(import.meta.url)("playwright");
+import { copyFileSync, unlinkSync } from "node:fs";
+const n = process.argv[2];
+const pagina = `zz-err-${n}.html`;
+copyFileSync(`compositions/parte${n}.html`, pagina);
+const proxy = process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY, bypass: "localhost,127.0.0.1" } : undefined;
+const nav = await chromium.launch({ proxy, args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+const p = await (await nav.newContext({ ignoreHTTPSErrors: true })).newPage();
+p.on("pageerror", (e) => console.log("ERRO:", e.message, (e.stack || "").split("\n").slice(0, 4).join(" | ")));
+p.on("console", (m) => m.type() === "error" && console.log("console:", m.text().slice(0, 300)));
+await p.goto(`http://localhost:8766/${pagina}`, { waitUntil: "load", timeout: 120000 });
+await p.waitForTimeout(25000);
+console.log(await p.evaluate((id) => ({ host: !!window[id], render: typeof window[id]?.render }), `__parte${n}`));
+await nav.close();
+unlinkSync(pagina);

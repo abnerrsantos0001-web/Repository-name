@@ -1,0 +1,11 @@
+      <div id="p09-fim" data-layout-ignore></div>
+      <style>
+        #p09-fim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+      </style>
+      <script>
+        // 3:33: o quadro apaga no fim da parte (a parte 10 abre com o despertador)
+        window.__extras = window.__extras || {};
+        window.__extras["parte09"] = function (tl, raiz) {
+          tl.fromTo(raiz.querySelector("#p09-fim"), { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.in" }, 38.7);
+        };
+      </script>

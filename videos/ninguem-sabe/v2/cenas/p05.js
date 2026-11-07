@@ -1,0 +1,519 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, MEDIDAS, trilha } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { C as CT, fonte, barraDeStatus } from "./assets/js/telas.js";
+      import { PALAVRAS } from "./assets/js/tempos/v2-parte05.js";
+
+      const T = tempos(PALAVRAS);
+      const PI = Math.PI;
+      const ALT = MEDIDAS.quadrilEmPe;
+      const FIM = 39.8;
+      const t = {
+        guarda: T("da casa") - 0.15,
+        vira: T("Vira") - 0.15,
+        cortina: T("Feche") - 0.15,
+        mae: T("Sua mãe") - 0.15,
+        naoSabe: T("e você não") - 0.12,
+        pesquisa: T("Então") - 0.15,
+        mundo: T("Tem gente") - 0.15,
+        relatos: T("Reflexos") - 0.15,
+        param: T("E todos") - 0.15,
+        somem: T("As pessoas") - 0.15,
+        ultimo: T("O último") - 0.15,
+        trocar: T("Ele quer") - 0.15,
+        fim: T.fim("lugar.") - 0.2,
+      };
+      const HORA = "22:14";
+      const GR = [1.42, ALT, -0.92]; // na frente do guarda-roupa, do lado direito do espelho
+      const MESA = [1.37, ALT, 0.45]; // na frente da escrivaninha (cadeira afastada)
+      const SENTADO_CAMA = [-1.45, 0.6, -0.9];
+      const PIA = [0, ALT, -0.6];
+      const ELE_COZ = [-0.6, ALT, 1.55];
+      const MAE_COZ = [-0.8, ALT, 0.25];
+      // celular em cima da escrivaninha, virado para cima; vira para baixo no "Vira o celular para baixo"
+      const CEL_MESA = [1.8, 0.77, 0.48];
+      const VIRA0 = T("Vira") + 0.08;
+      const VIRA1 = T("baixo.") + 0.15;
+      // cortinas: já meio puxadas (0,35); fecham no "Feche as cortinas"
+      // posição do celular na mesa enquanto vira (a mão usa a mesma conta: cada quadro é independente no render)
+      const celMesa = (tt) => {
+        const f = trilha([[VIRA0, 0], [VIRA1, 1, "ambos"]], tt);
+        return { pos: [CEL_MESA[0] - 0.05 * Math.sin(PI * f), CEL_MESA[1] + 0.2 * Math.sin(PI * f), CEL_MESA[2]], rot: [-PI / 2 + PI * f, 0, 0.3] };
+      };
+      const CORT0 = T("Feche") + 0.05;
+      const CORT1 = T("cortinas.") + 0.45;
+      const cortinaK = (tt) => trilha([[0, 0.35], [CORT0, 0.35], [CORT1, 1, "ambos"]], tt);
+      // a fala da mãe ("o que aconteceu?"): boca abrindo e fechando por sílaba
+      const FALA = [];
+      for (let k = 0, x = T("pergunta") - 0.05; x < T("e você não") - 0.15; k++, x += 0.13) FALA.push([x, k % 2 ? 0.05 : 0.2 + 0.06 * Math.sin(k * 1.7)]);
+      FALA.push([T("e você não") - 0.05, 0]);
+
+      const eixos = (b) => {
+        const g = b.rotation.y;
+        return { frente: new THREE.Vector3(Math.sin(g), 0, Math.cos(g)), direita: new THREE.Vector3(-Math.cos(g), 0, Math.sin(g)), cima: new THREE.Vector3(0, 1, 0) };
+      };
+      const em = (base, ...pares) => pares.reduce((v, [d, k]) => v.addScaledVector(d, k), base.clone());
+      const local = (ctx, nome, x, y, z) => new THREE.Vector3(x, y, z).add(ctx.cenarios[nome].grupo.position);
+      function cameraTela(perto, alto = 0.0, fov = 34) {
+        return (tt, ctx) => {
+          const { cabeca } = pontosDoBoneco(ctx.boneco);
+          ctx.celular.updateMatrixWorld(true);
+          const alvo = ctx.celular.localToWorld(new THREE.Vector3(0, -0.004, 0));
+          const dir = alvo.clone().sub(cabeca).normalize();
+          return { pos: alvo.clone().addScaledVector(dir, -perto).add(new THREE.Vector3(0, alto, 0)), alvo, fov };
+        };
+      }
+      // rosto iluminado pela tela, de frente e um pouco de baixo
+      function cameraRosto(tt, ctx) {
+        const b = ctx.boneco;
+        const { cabeca } = pontosDoBoneco(b);
+        const { frente, direita, cima } = eixos(b);
+        const k = trilha([[t.somem, 0], [t.ultimo, 1]], tt);
+        const pos = em(cabeca, [frente, 0.82 - 0.12 * k], [direita, -0.14], [cima, 0.02]);
+        return { pos, alvo: em(cabeca, [cima, -0.13], [direita, -0.01]), fov: 34 };
+      }
+
+      // ---------- telas do celular (600 x 1302) ----------
+      const W = 600;
+      const H = 1302;
+      function base(g) {
+        g.fillStyle = "#0f1114";
+        g.fillRect(0, 0, W, H);
+        barraDeStatus(g, W, HORA);
+      }
+      function bolinha(g, x, y, r, cor) {
+        g.fillStyle = cor;
+        g.beginPath();
+        g.arc(x, y, r, 0, PI * 2);
+        g.fill();
+        g.fillStyle = "rgba(255,255,255,0.35)";
+        g.beginPath();
+        g.arc(x, y - r * 0.2, r * 0.36, 0, PI * 2);
+        g.fill();
+        g.beginPath();
+        g.ellipse(x, y + r * 0.62, r * 0.58, r * 0.4, 0, PI, 0);
+        g.fill();
+      }
+      // quebra o texto em linhas que cabem na largura
+      function linhas(g, texto, largura) {
+        const out = [];
+        let atual = "";
+        for (const p of texto.split(" ")) {
+          const teste = atual ? atual + " " + p : p;
+          if (g.measureText(teste).width > largura && atual) {
+            out.push(atual);
+            atual = p;
+          } else atual = teste;
+        }
+        if (atual) out.push(atual);
+        return out;
+      }
+      const BUSCA = "reflexo atrasado";
+      const DIGITA0 = T("pesquisa") - 0.05;
+      const DIGITA1 = T("descobre") - 0.2;
+      const UNICO = T("único.") - 0.25;
+      function telaBusca(g, tt) {
+        base(g);
+        const n = Math.max(0, Math.min(BUSCA.length, Math.floor(((tt - DIGITA0) / (DIGITA1 - DIGITA0)) * BUSCA.length)));
+        // campo de busca
+        g.fillStyle = "#23262b";
+        g.beginPath();
+        g.roundRect(30, 104, 540, 98, 49);
+        g.fill();
+        g.strokeStyle = "#8a8c90";
+        g.lineWidth = 5;
+        g.beginPath();
+        g.arc(84, 148, 18, 0, PI * 2);
+        g.moveTo(97, 161);
+        g.lineTo(112, 176);
+        g.stroke();
+        g.textAlign = "left";
+        g.font = fonte(500, 44);
+        g.fillStyle = CT.texto;
+        const txt = BUSCA.slice(0, n);
+        g.fillText(txt, 128, 168);
+        if (n < BUSCA.length || Math.floor(tt * 2.4) % 2 === 0) {
+          const x = 132 + g.measureText(txt).width;
+          g.fillStyle = "#6fa0ff";
+          g.fillRect(x, 126, 4, 54);
+        }
+        if (n < BUSCA.length) {
+          // sugestões enquanto digita
+          g.font = fonte(500, 40);
+          g.fillStyle = CT.sec;
+          ["reflexo atrasado no espelho", "reflexo piscou sozinho", "espelho não me copia"].forEach((s, i) => g.fillText(s, 60, 300 + i * 96));
+          return;
+        }
+        // resultados
+        g.font = fonte(500, 32);
+        g.fillStyle = CT.sec;
+        g.fillText("cerca de 18.400 resultados", 40, 266);
+        const cards = [
+          ["FÓRUM · RELATOS ESTRANHOS", "Meu reflexo está atrasado. Alguém mais?", "2.318 respostas"],
+          ["VÍDEO · 1,2 MI DE VISUALIZAÇÕES", "O espelho não me copiou (gravei)", "há 3 dias"],
+          ["NOTÍCIA", "Relatos de reflexos que não copiam se espalham", "há 1 semana"],
+        ];
+        const destaque = tt >= UNICO;
+        let y = 296;
+        cards.forEach(([tag, titulo, rod], i) => {
+          const h = 300;
+          g.fillStyle = destaque && i === 0 ? "#1f2733" : "#181a1e";
+          g.beginPath();
+          g.roundRect(30, y, 540, h, 22);
+          g.fill();
+          if (destaque && i === 0) {
+            g.strokeStyle = "#6fa0ff";
+            g.lineWidth = 4;
+            g.stroke();
+          }
+          g.font = fonte(700, 27);
+          g.fillStyle = "#8fb3ff";
+          g.fillText(tag, 56, y + 54);
+          g.font = fonte(700, 47);
+          g.fillStyle = CT.texto;
+          linhas(g, titulo, 490).forEach((l, j) => g.fillText(l, 56, y + 118 + j * 58));
+          g.font = fonte(destaque && i === 0 ? 800 : 500, 36);
+          g.fillStyle = destaque && i === 0 ? "#ffffff" : CT.sec;
+          g.fillText(rod, 56, y + h - 32);
+          y += h + 26;
+        });
+      }
+      // feed de relatos: cada post chega ao centro quando a narração fala dele
+      const POSTS = [
+        ["@joao.p", "Recife", "alguém mais com o espelho estranho?", null, 0x5d7a8c],
+        ["@carla.v", "Lisboa", "meu reflexo tá atrasando. juro que não é sono.", "atrasando.", 0x8c5d6b],
+        ["@tomas_r", "Buenos Aires", "ele piscou sozinho. eu tava de olho aberto.", "piscou sozinho.", 0x6b8c5d],
+        ["@aiko.m", "Osaka", "ele sorriu pra mim. eu não estava sorrindo.", "sorriu", 0x7a6b8c],
+        ["@mari.s", "Cidade do México", "o reflexo da janela ficou me olhando", null, 0x8c7a5d],
+        ["@ben.k", "Toronto", "não consigo mais olhar no espelho", null, 0x5d8c86],
+      ];
+      const ALTURA_POST = 380;
+      const DESTAQUES = [T("atrasando,"), T("piscando"), T("sorrindo.")];
+      const corHex = (n) => "#" + n.toString(16).padStart(6, "0");
+      function post(g, y, [usuario, cidade, texto, chave, cor], aceso, dim, cidadeExtra = "") {
+        g.fillStyle = aceso ? "#1d2027" : "#15171b";
+        g.beginPath();
+        g.roundRect(24, y, 552, ALTURA_POST - 24, 24);
+        g.fill();
+        g.globalAlpha = dim ? 0.45 : 1;
+        bolinha(g, 88, y + 70, 40, corHex(cor));
+        g.textAlign = "left";
+        g.font = fonte(700, 38);
+        g.fillStyle = CT.texto;
+        g.fillText(usuario, 144, y + 64);
+        g.font = fonte(500, 30);
+        g.fillStyle = CT.sec;
+        g.fillText(cidade + cidadeExtra, 144, y + 104);
+        g.font = fonte(600, 48);
+        let yy = y + 186;
+        for (const l of linhas(g, texto, 500)) {
+          // a palavra-chave em vermelho quando o post está aceso
+          let x = 56;
+          for (const p of l.split(" ")) {
+            const marca = aceso && chave && chave.split(" ").some((c) => p.startsWith(c.replace(".", "")));
+            g.fillStyle = marca ? CT.vermelho : CT.texto;
+            g.fillText(p, x, yy);
+            x += g.measureText(p + " ").width;
+          }
+          yy += 60;
+        }
+        g.globalAlpha = 1;
+      }
+      function telaFeed(g, tt) {
+        base(g);
+        // rolagem: o post i (1..3) para no centro no instante da sua palavra
+        const alvos = [[t.relatos, 0], ...DESTAQUES.map((d, i) => [d - 0.15, (i + 1) * ALTURA_POST - 260]), [FIM, 3 * ALTURA_POST - 230]];
+        const rolar = trilha(alvos.map(([a, v], i) => [a, v, i ? "ambos" : undefined]), tt);
+        const aceso = DESTAQUES.reduce((a, d, i) => (tt >= d - 0.1 ? i + 1 : a), 0);
+        g.save();
+        g.beginPath();
+        g.rect(0, 210, W, H - 210);
+        g.clip();
+        POSTS.forEach((p, i) => post(g, 230 + i * ALTURA_POST - rolar, p, i === aceso, aceso > 0 && i !== aceso));
+        g.restore();
+        g.fillStyle = "#0f1114";
+        g.fillRect(0, 80, W, 130);
+        g.textAlign = "left";
+        g.font = fonte(800, 52);
+        g.fillStyle = CT.texto;
+        g.fillText("Relatos", 36, 170);
+        g.font = fonte(600, 30);
+        g.fillStyle = "#8fb3ff";
+        g.fillText("no mundo todo · 2.318", 254, 168);
+      }
+      // perfil de quem relatou: as publicações param de repente
+      const PARAM = T("param") - 0.05;
+      function telaPerfil(g, tt) {
+        base(g);
+        bolinha(g, 300, 196, 66, "#8c5d6b");
+        g.textAlign = "center";
+        g.font = fonte(800, 46);
+        g.fillStyle = CT.texto;
+        g.fillText("@carla.v", 300, 318);
+        g.font = fonte(500, 32);
+        g.fillStyle = CT.sec;
+        g.fillText("Lisboa", 300, 360);
+        const itens = [["dia 1", "meu reflexo tá atrasando."], ["dia 3", "ele piscou sozinho."], ["dia 5", "ele sorriu pra mim."]];
+        g.textAlign = "left";
+        itens.forEach(([d, txt], i) => {
+          const y = 396 + i * 148;
+          g.fillStyle = "#181a1e";
+          g.beginPath();
+          g.roundRect(30, y, 540, 136, 18);
+          g.fill();
+          g.font = fonte(700, 28);
+          g.fillStyle = "#8fb3ff";
+          g.fillText(d.toUpperCase(), 56, y + 46);
+          g.font = fonte(600, 39);
+          g.fillStyle = CT.texto;
+          g.fillText(txt, 56, y + 104);
+        });
+        if (tt >= PARAM) {
+          const y = 396 + 3 * 148 - 6;
+          g.strokeStyle = "#3a3c41";
+          g.lineWidth = 3;
+          g.setLineDash([12, 12]);
+          g.beginPath();
+          g.moveTo(40, y);
+          g.lineTo(560, y);
+          g.stroke();
+          g.setLineDash([]);
+          g.textAlign = "center";
+          g.font = fonte(600, 36);
+          g.fillStyle = CT.sec;
+          g.fillText("nenhuma publicação nova", 300, y + 56);
+          g.font = fonte(700, 36);
+          g.fillStyle = CT.vermelho;
+          g.fillText("última atividade: há 4 meses", 300, y + 104);
+        }
+      }
+      // o último post de cada conta: primeiro carregando, no "Ele quer trocar de lugar" todos iguais, em vermelho
+      const REVELA = T("Ele quer") - 0.05;
+      function telaUltimos(g, tt) {
+        base(g);
+        g.textAlign = "left";
+        g.font = fonte(800, 42);
+        g.fillStyle = CT.texto;
+        g.fillText("Último post", 40, 160);
+        const contas = [POSTS[1], POSTS[2], POSTS[3], POSTS[0]];
+        const revela = tt >= REVELA;
+        contas.forEach(([u, c, , , cor], i) => {
+          const y = 210 + i * 262;
+          g.fillStyle = revela ? "#1c1416" : "#15171b";
+          g.beginPath();
+          g.roundRect(24, y, 552, 238, 22);
+          g.fill();
+          bolinha(g, 80, y + 62, 30, corHex(cor));
+          g.font = fonte(700, 30);
+          g.fillStyle = CT.texto;
+          g.fillText(u, 126, y + 56);
+          g.font = fonte(500, 24);
+          g.fillStyle = CT.sec;
+          g.fillText(c + " · dia 7", 126, y + 90);
+          if (revela) {
+            g.font = fonte(800, 44);
+            g.fillStyle = CT.vermelho;
+            g.fillText("ele quer trocar", 52, y + 160);
+            g.fillText("de lugar.", 52, y + 212);
+          } else {
+            // texto ainda carregando: barras que pulsam
+            const a = 0.55 + 0.25 * Math.sin(tt * 5 + i);
+            g.fillStyle = `rgba(80,84,92,${a.toFixed(2)})`;
+            g.beginPath();
+            g.roundRect(52, y + 132, 420, 30, 15);
+            g.roundRect(52, y + 180, 260, 30, 15);
+            g.fill();
+          }
+        });
+      }
+
+      // luz da tela no rosto
+      let luzTela;
+      iniciarParte({
+        host: "__parte05",
+        cenarios: ["banheiro", "quarto2", "cozinha"],
+        exposicao: 1.15,
+        planos: [
+          { de: 0, cenario: "banheiro", nome: "cobre", modo: "dia", preenchimento: 0.35 }, //               No dia seguinte, você cobre todos os espelhos
+          { de: t.guarda, cenario: "quarto2", nome: "guarda", modo: "dia", preenchimento: 0.5 }, //        da casa com lençol.
+          { de: t.vira, cenario: "quarto2", nome: "vira", modo: "dia", preenchimento: 0.5 }, //            Vira o celular para baixo.
+          { de: t.cortina, cenario: "quarto2", nome: "cortina", modo: "dia", preenchimento: 0.5 }, //      Feche as cortinas.
+          { de: t.mae, cenario: "cozinha", nome: "mae", modo: "manha", preenchimento: 0.5 }, //            Sua mãe pergunta o que aconteceu
+          { de: t.naoSabe, cenario: "cozinha", nome: "naoSabe", modo: "manha", preenchimento: 0.5 }, //    e você não sabe o que responder.
+          { de: t.pesquisa, cenario: "quarto2", nome: "pesquisa", modo: "noiteAcesa", preenchimento: 0.5 }, // Então você pesquisa e descobre que não é o único.
+          { de: t.mundo, cenario: "quarto2", nome: "mundo", modo: "noiteAcesa", preenchimento: 0.55 }, //   Tem gente no mundo inteiro relatando a mesma coisa.
+          { de: t.relatos, cenario: "quarto2", nome: "relatos", modo: "noiteAcesa", preenchimento: 0.5 }, // Reflexos atrasando, piscando sozinhos, sorrindo.
+          { de: t.param, cenario: "quarto2", nome: "param", modo: "noiteAcesa", preenchimento: 0.5 }, //   E todos os relatos param de repente.
+          { de: t.somem, cenario: "quarto2", nome: "somem", modo: "noiteAcesa", preenchimento: 0.45 }, //  As pessoas somem das redes depois de uma semana.
+          { de: t.ultimo, cenario: "quarto2", nome: "ultimo", modo: "noiteAcesa", preenchimento: 0.5 }, // O último post de todos eles diz a mesma coisa.
+          { de: t.trocar, cenario: "quarto2", nome: "trocar", modo: "noiteAcesa", preenchimento: 0.5 }, // Ele quer trocar de lugar.
+          { de: t.fim, cenario: "quarto2", nome: "fim", modo: "noiteAcesa", preenchimento: 0.55 },
+        ],
+        cortesEscuros: [t.pesquisa],
+        cameras: {
+          cobre: { k: [[0, [1.22, 1.72, -0.55], [-0.12, 1.32, -1.2], 52], [t.guarda, [1.18, 1.7, -0.68], [-0.12, 1.32, -1.2], 48]], tremor: 0.002 },
+          guarda: { k: [[t.guarda, [0.0, 1.5, -0.5], [1.18, 1.2, -1.38], 48], [t.vira, [0.08, 1.48, -0.6], [1.18, 1.2, -1.38], 45]], tremor: 0.002 },
+          vira: { k: [[t.vira, [1.12, 1.5, 1.5], [1.74, 0.88, 0.42], 46], [t.cortina, [1.16, 1.48, 1.4], [1.74, 0.88, 0.42], 43]], tremor: 0.002 },
+          cortina: { k: [[t.cortina, [0.35, 1.58, -0.6], [2.15, 1.35, 0.42], 48], [t.mae, [0.45, 1.56, -0.5], [2.15, 1.35, 0.42], 45]], tremor: 0.002 },
+          mae: { k: [[t.mae, [-2.3, 1.52, 1.25], [-0.68, 1.36, 0.92], 48], [t.naoSabe, [-2.15, 1.5, 1.2], [-0.7, 1.38, 0.85], 44]], tremor: 0.002 },
+          naoSabe: { k: [[t.naoSabe, [-0.28, 1.38, 0.5], [-0.82, 1.4, 1.62], 46], [t.pesquisa, [-0.33, 1.38, 0.62], [-0.84, 1.4, 1.62], 42]], tremor: 0.002 },
+          pesquisa: cameraTela(0.5, 0.03),
+          mundo: { k: [[t.mundo, [1.45, 1.42, 1.15], [-1.3, 0.98, -0.9], 46], [t.relatos, [1.3, 1.4, 1.0], [-1.3, 0.98, -0.9], 43]], tremor: 0.002 },
+          relatos: cameraTela(0.5, 0.03),
+          param: cameraTela(0.5, 0.03),
+          somem: cameraRosto,
+          ultimo: cameraTela(0.5, 0.03),
+          trocar: cameraTela(0.43, 0.02),
+          fim: { k: [[t.fim, [1.9, 1.6, 1.5], [-0.3, 1.1, -1.05], 42], [FIM, [1.65, 1.55, 1.15], [0.45, 1.15, -1.3], 38]], tremor: 0.002 },
+        },
+        semCabeca: (tt, p) => ["pesquisa", "relatos", "param", "ultimo", "trocar"].includes(p.nome),
+        personagem: {
+          semente: 5,
+          onde: [[0, "banheiro"], [t.guarda, "quarto2"], [t.mae, "cozinha"], [t.pesquisa, "quarto2"]],
+          pos: [
+            [0, PIA],
+            [t.guarda, GR, "corte"],
+            [T("lençol.") + 0.5, GR],
+            [T("lençol.") + 1.0, em(new THREE.Vector3(...GR), [new THREE.Vector3(0, 0, 1), 0.12]).toArray(), "ambos"],
+            [t.vira, MESA, "corte"],
+            [t.mae, ELE_COZ, "corte"],
+            [t.pesquisa, SENTADO_CAMA, "corte"],
+          ],
+          pose: {
+            giro: [[0, PI], [t.guarda, PI + 0.3, "corte"], [t.vira, PI / 2, "corte"], [t.mae, PI + 0.153, "corte"], [t.pesquisa, PI / 2, "corte"]],
+            inclinar: [[0, 0.34], [T("todos") + 0.3, 0.36], [t.guarda, 0.12, "corte"], [t.vira, 0.1, "corte"], [VIRA0 - 0.1, 0.36, "ambos"], [VIRA1 + 0.2, 0.36], [t.cortina, 0.12, "corte"], [CORT0 - 0.05, 0.55, "ambos"], [CORT1 + 0.15, 0.55], [t.mae, 0.04, "corte"], [t.pesquisa, 0.12, "corte"]],
+            quadril: [[0, 0], [t.pesquisa, -PI / 2, "corte"]],
+            joelho: [[0, 0], [t.pesquisa, 1.5, "corte"]],
+            cabecaGiro: [[0, 0], [t.guarda, 0, "corte"], [T("lençol.") + 0.5, 0], [T("lençol.") + 1.1, -0.5, "ambos"], [t.vira, 0, "corte"], [t.mae, 0.05, "corte"], [T("aconteceu"), 0.05], [T("aconteceu") + 0.5, -0.25, "ambos"], [t.pesquisa, 0, "corte"]],
+            cabecaInclina: [[0, 0.05], [t.guarda, 0.05, "corte"], [t.vira, 0.45, "corte"], [VIRA1 + 0.2, 0.4], [t.cortina, 0.0, "corte"], [t.mae, 0.15, "corte"], [T("não sabe") , 0.15], [T("não sabe") + 0.5, 0.42, "ambos"], [t.pesquisa, 0.42, "corte"], [t.mundo, 0.38], [t.somem, 0.4], [t.fim, 0.32]],
+            cabecaTomba: [[0, 0], [t.naoSabe, 0.0], [T("responder.") , 0.12, "ambos"], [t.pesquisa, 0.06, "corte"]],
+            olhos: [[0, 1], [t.pesquisa, 1.05, "corte"], [T("único."), 1.2], [t.somem, 1.25], [t.trocar, 1.35]],
+            sobrancelha: [[0, -0.2], [t.mae, 0.0, "corte"], [T("não sabe"), 0.2], [t.pesquisa, 0.1, "corte"], [T("único."), 0.5, "ambos"], [t.mundo, 0.3], [t.somem, 0.5], [t.trocar, 0.8, "ambos"]],
+            sobrancelhaMedo: [[0, 0.35], [t.mae, 0.5, "corte"], [T("não sabe"), 0.8, "ambos"], [t.pesquisa, 0.4, "corte"], [t.mundo, 0.6], [t.somem, 0.85, "ambos"], [t.trocar, 1.0]],
+            boca: [[0, 0], [t.trocar, 0.0], [T("lugar."), 0.12, "ambos"]],
+            ofegar: [[0, 0.3], [t.somem, 0.6], [FIM, 0.9]],
+          },
+          semPiscar: [[T("O último"), T("lugar.") + 0.3]],
+          maos: (tt, pts, ctx, b) => {
+            const { frente, direita, cima } = eixos(b);
+            if (tt < t.guarda) {
+              // banheiro: alisa o lençol com as duas mãos, de cima para baixo, abrindo para os lados
+              const k = trilha([[0, 0], [T("espelhos") - 0.1, 1, "ambos"]], tt);
+              const y = 1.3 - 0.17 * k;
+              const zL = (yy) => -1.465 + ((2.04 - yy) / 1.03) * 0.225 + 0.045;
+              const x = 0.2 + 0.12 * k;
+              return { alvoE: local(ctx, "banheiro", -x, y, zL(y)), pesoE: 1, alvoD: local(ctx, "banheiro", x, y, zL(y)), pesoD: 1 };
+            }
+            if (tt < t.vira) {
+              // guarda-roupa: as mãos descem pelo lençol e soltam
+              const k = trilha([[t.guarda, 0], [T("lençol.") + 0.3, 1, "ambos"]], tt);
+              const solta = trilha([[T("lençol.") + 0.4, 1], [T("lençol.") + 0.9, 0, "ambos"]], tt);
+              const y = 1.42 - 0.22 * k;
+              return { alvoE: local(ctx, "quarto2", 1.0, y - 0.04, -1.27), pesoE: solta, alvoD: local(ctx, "quarto2", 1.18, y, -1.22), pesoD: solta };
+            }
+            if (tt < t.cortina) {
+              // escrivaninha: a mão direita pega o celular, vira e solta
+              const peso = trilha([[t.vira, 0], [VIRA0 - 0.05, 1, "ambos"], [VIRA1 + 0.1, 1], [VIRA1 + 0.55, 0, "ambos"]], tt);
+              const alvo = local(ctx, "quarto2", ...celMesa(tt).pos).add(new THREE.Vector3(-0.06, 0.03, 0));
+              return { alvoD: alvo, pesoD: peso };
+            }
+            if (tt < t.mae) {
+              // cortinas: cada mão puxa a beirada de dentro de uma cortina
+              const k = cortinaK(tt);
+              const peso = trilha([[t.cortina, 0], [CORT0, 1, "ambos"], [CORT1 + 0.1, 1], [CORT1 + 0.55, 0.0, "ambos"]], tt);
+              const ze = -0.2 + 0.6125 * k + 0.04;
+              const zd = 1.0 - 0.6125 * k - 0.04;
+              return { alvoE: local(ctx, "quarto2", 2.1, 1.3, ze), pesoE: peso, alvoD: local(ctx, "quarto2", 2.1, 1.3, zd), pesoD: peso };
+            }
+            if (tt < t.pesquisa) return null;
+            // na cama: celular nas duas mãos, na frente do peito; o polegar rola a tela
+            const rola = 0.012 * Math.sin(tt * 7.0) * trilha([[t.relatos, 0], [t.relatos + 0.3, 1], [t.param, 1], [t.param + 0.3, 0]], tt);
+            const sobe = trilha([[t.somem, 0], [t.somem + 0.6, 0.05, "ambos"], [t.trocar, 0.05], [t.trocar + 0.3, 0.09, "ambos"]], tt);
+            const alvo = em(pts.cabeca, [frente, 0.36 + sobe], [cima, -0.36 + sobe * 0.6]);
+            return { alvoE: alvo, pesoE: 1, alvoD: em(alvo, [direita, 0.07], [cima, -0.12 + rola]), pesoD: 0.85 };
+          },
+        },
+        outros: [
+          {
+            id: "mae",
+            variante: "mae",
+            semente: 21,
+            onde: [[0, "cozinha"]],
+            visivel: (tt, p) => p.cenario === "cozinha",
+            pos: [[0, MAE_COZ]],
+            pose: {
+              giro: [[0, 0.153]],
+              inclinar: [[0, 0.06]],
+              cabecaInclina: [[0, 0.1], [T("aconteceu"), 0.14]],
+              cabecaTomba: [[0, 0.1], [T("aconteceu"), 0.16, "ambos"], [t.naoSabe, 0.08]],
+              cabecaGiro: [[0, 0.04]],
+              sobrancelha: [[0, 0.25], [T("aconteceu"), 0.4]],
+              sobrancelhaMedo: [[0, 0.7], [T("aconteceu"), 0.95, "ambos"]],
+              boca: FALA,
+            },
+            maos: (tt, pts, ctx, b) => {
+              const { frente, direita, cima } = eixos(b);
+              const peito = em(b.position, [cima, 0.42], [frente, 0.27]);
+              return { alvoE: em(peito, [direita, -0.05]), pesoE: 1, alvoD: em(peito, [direita, 0.05], [cima, -0.03]), pesoD: 1 };
+            },
+          },
+        ],
+        celular: (tt) => {
+          if (tt < t.vira) return null;
+          if (tt < t.mae) {
+            return { cenario: "quarto2", ...celMesa(tt) };
+          }
+          if (tt < t.pesquisa) return null;
+          return "mao";
+        },
+        tela: (g, tt, desenhar) => {
+          let chave;
+          if (tt < t.pesquisa) chave = "apagada";
+          else if (tt < t.mundo) chave = "busca" + Math.floor(Math.max(0, tt - DIGITA0) * 40) + (tt >= UNICO ? "u" : "") + (Math.floor(tt * 2.4) % 2);
+          else if (tt < t.param) chave = tt < t.relatos ? "feed0" : "feed" + Math.round(tt * 30);
+          else if (tt < t.ultimo) chave = "perfil" + (tt >= PARAM ? 1 : 0);
+          else chave = tt >= REVELA ? "ultimos-revela" : "ultimos" + Math.round(tt * 10);
+          if (desenhar) {
+            if (chave === "apagada") {
+              g.fillStyle = "#020203";
+              g.fillRect(0, 0, W, H);
+            } else if (chave.startsWith("busca")) telaBusca(g, tt);
+            else if (chave.startsWith("feed")) telaFeed(g, Math.max(tt, t.relatos));
+            else if (chave.startsWith("perfil")) telaPerfil(g, tt);
+            else telaUltimos(g, tt);
+          }
+          return chave;
+        },
+        montar: (ctx) => {
+          ctx.celular.scale.setScalar(2.2);
+          luzTela = new THREE.PointLight(0xcfdcff, 0, 1.6, 2);
+          luzTela.position.set(0, 0, 0.06);
+          luzTela.castShadow = false;
+          ctx.celular.add(luzTela);
+        },
+        quadro: (tt, plano, ctx) => {
+          const q = ctx.cenarios.quarto2;
+          const b = ctx.cenarios.banheiro;
+          const c = ctx.cenarios.cozinha;
+          // todos os espelhos cobertos
+          b.lencol(1, 0);
+          q.lencolEspelho(true);
+          c.lencol(true);
+          b.porta(1.4);
+          b.corredor(0);
+          b.torneira(false);
+          b.tecla(true);
+          q.relogio.userData.mostrar(tt < t.mae ? "9:20" : HORA);
+          q.cobertor.position.set(0.78, 0.04, -0.22);
+          q.cobertor.scale.set(0.45, 0.5, 0.5);
+          q.cortinas(cortinaK(tt));
+          q.porta(0.2);
+          q.cadeira.position.set(0.95, 0, 1.15);
+          q.cadeira.rotation.y = 2.4;
+          c.radio(false);
+          c.cafe(true);
+          c.onibus(0, false);
+          c.relogio.mostrar("7:48");
+          if (luzTela) luzTela.intensity = tt >= t.pesquisa ? 0.9 : 0;
+        },
+      });
