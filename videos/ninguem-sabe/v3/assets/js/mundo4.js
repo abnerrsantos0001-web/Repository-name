@@ -297,7 +297,7 @@ export const ESCOLA = {
   fileiras: [-1.5, -0.2, 1.1, 2.4],
   mesa: { altura: 0.72, prof: 0.5 },
   // quadril de quem senta na carteira da coluna c, fileira f
-  sentado: (c, f) => [ESCOLA.colunas[c], 0.545, ESCOLA.fileiras[f] + 0.36],
+  sentado: (c, f) => [ESCOLA.colunas[c], 0.545, ESCOLA.fileiras[f] + 0.5],
   relogio: { x: 0, y: 2.62, z: -3.47 },
 };
 function carteira(pai, nome, x, z, cor = 0x8a7458) {
@@ -305,8 +305,8 @@ function carteira(pai, nome, x, z, cor = 0x8a7458) {
   // tampo e estrutura de metal
   caixa(c, 0.66, 0.03, ESCOLA.mesa.prof, cor, 0, ESCOLA.mesa.altura - 0.015, 0);
   for (const [lx, lz] of [[-0.29, -0.2], [0.29, -0.2], [-0.29, 0.2], [0.29, 0.2]]) caixa(c, 0.03, ESCOLA.mesa.altura - 0.03, 0.03, 0x3c3f45, lx, (ESCOLA.mesa.altura - 0.03) / 2, lz, { metal: 0.5, aspereza: 0.4 });
-  // cadeira atrás
-  const cad = obj(c, nome + "-cadeira", 0, 0, 0.5);
+  // cadeira atrás (longe o bastante para o tronco do boneco caber entre o encosto e o tampo)
+  const cad = obj(c, nome + "-cadeira", 0, 0, 0.62);
   caixa(cad, 0.42, 0.04, 0.4, 0x3e4a5a, 0, 0.44, 0.02);
   for (const [lx, lz] of [[-0.18, -0.16], [0.18, -0.16], [-0.18, 0.18], [0.18, 0.18]]) caixa(cad, 0.025, 0.42, 0.025, 0x3c3f45, lx, 0.21, lz, { metal: 0.5, aspereza: 0.4 });
   caixa(cad, 0.42, 0.3, 0.03, 0x3e4a5a, 0, 0.72, 0.21);
@@ -387,7 +387,7 @@ export function criarEscola(cena) {
   ESCOLA.fileiras.forEach((z, f) =>
     ESCOLA.colunas.forEach((x, c) => {
       if (rm() < 0.45) {
-        const m = obj(g, "mochila", x - 0.47, 0, z + 0.55, rm() * 2);
+        const m = obj(g, "mochila", x - 0.5, 0, z + 0.62, rm() * 2);
         caixa(m, 0.28, 0.36, 0.16, [0x2c3a4a, 0x4a2c2c, 0x2c4a3a, 0x4a4a2c][Math.floor(rm() * 4)], 0, 0.18, 0);
       }
     }),

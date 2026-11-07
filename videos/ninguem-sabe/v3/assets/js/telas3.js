@@ -171,7 +171,7 @@ export function telaChat(g, W, H, { titulo = "8º ANO B", hora = "7:40", mensage
     const m = mensagens[i];
     const alt = m.foto ? 330 : m.grande ? 150 : 104;
     y -= alt + 22;
-    const w = m.foto ? 360 : Math.min(W - 70, 120 + m.texto.length * (m.grande ? 34 : 20));
+    const w = m.foto ? 360 : Math.min(W - 70, 120 + m.texto.length * (m.grande ? (m.texto.length > 12 ? 25 : 34) : 20));
     const x = m.minha ? W - 30 - w : 30;
     caixaArred(g, x, y, w, alt, 26, m.minha ? "#1f5a4a" : "#243232");
     if (!m.minha && m.de) {
@@ -192,7 +192,7 @@ export function telaChat(g, W, H, { titulo = "8º ANO B", hora = "7:40", mensage
       g.fillText(m.pequenas ?? "", x + 34, y + alt - 40);
     } else {
       g.fillStyle = m.vermelho ? "#ff4a50" : C.texto;
-      g.font = fonte(m.vermelho || m.grande ? 900 : 600, m.grande ? 56 : 35);
+      g.font = fonte(m.vermelho || m.grande ? 900 : 600, m.grande ? (m.texto.length > 12 ? 42 : 56) : 35);
       g.fillText(m.texto, x + 22, y + (m.de && !m.minha ? 80 : 66) + (m.grande ? 18 : 0));
     }
   }
