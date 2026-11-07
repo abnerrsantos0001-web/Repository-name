@@ -31,7 +31,7 @@ Não usar Publora nem outro serviço de publicação: publicar é sempre pelo `p
 
 ## Vídeos do Ninguém Sabe (regras fixas)
 
-Todo vídeo novo segue `videos/prompt-mestre/PROMPT-MESTRE.md`. A seção "REGRAS FIXAS DO CANAL" de lá tem prioridade sobre o resto do prompt e sobre o jeito dos vídeos 1 e 2. Em resumo:
+Todo vídeo novo segue `videos/ninguem-sabe/REGRAS.md` (regras mais novas, com prioridade) e `videos/prompt-mestre/PROMPT-MESTRE.md`. A seção "REGRAS FIXAS DO CANAL" de lá tem prioridade sobre o resto do prompt e sobre o jeito dos vídeos 1 e 2. Em resumo:
 1. Vídeo longo de 10 min ou mais.
 2. O completo abre com 5–7 s do momento mais forte, corte seco para preto com um grave, e depois começa a história.
 3. Legendas fora do centro: ~80% da altura no 16:9 e 65–70% nos verticais, fonte menor, contorno preto, sem cobrir rosto, espelho, celular ou relógio.
