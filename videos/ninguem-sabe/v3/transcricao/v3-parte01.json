@@ -1,0 +1,529 @@
+{
+ "audio": "assets/audio/v3-parte01.flac",
+ "duracao": 42.58,
+ "fonte": "faster-whisper medium (pt) com tempos encaixados nos trechos de fala do áudio",
+ "trechosDeFala": [
+  [
+   4.136,
+   6.674
+  ],
+  [
+   6.987,
+   8.442
+  ],
+  [
+   9.262,
+   10.704
+  ],
+  [
+   11.207,
+   12.431
+  ],
+  [
+   12.599,
+   13.544
+  ],
+  [
+   14.359,
+   14.83
+  ],
+  [
+   14.988,
+   16.167
+  ],
+  [
+   16.595,
+   18.784
+  ],
+  [
+   19.224,
+   20.552
+  ],
+  [
+   21.023,
+   22.021
+  ],
+  [
+   22.573,
+   23.6
+  ],
+  [
+   24.152,
+   25.082
+  ],
+  [
+   26.281,
+   26.888
+  ],
+  [
+   27.087,
+   28.232
+  ],
+  [
+   29.105,
+   30.47
+  ],
+  [
+   30.633,
+   30.698
+  ],
+  [
+   31.562,
+   33.349
+  ],
+  [
+   33.931,
+   34.852
+  ],
+  [
+   35.516,
+   36.401
+  ],
+  [
+   36.71,
+   38.549
+  ],
+  [
+   38.976,
+   41.153
+  ],
+  [
+   41.794,
+   42.266
+  ]
+ ],
+ "palavras": [
+  {
+   "id": "p01w0",
+   "text": "São",
+   "start": 4.136,
+   "end": 4.85
+  },
+  {
+   "id": "p01w1",
+   "text": "3h33",
+   "start": 4.85,
+   "end": 5.564
+  },
+  {
+   "id": "p01w2",
+   "text": "da",
+   "start": 5.564,
+   "end": 5.821
+  },
+  {
+   "id": "p01w3",
+   "text": "madrugada",
+   "start": 5.821,
+   "end": 6.674
+  },
+  {
+   "id": "p01w4",
+   "text": "quando",
+   "start": 6.987,
+   "end": 7.286
+  },
+  {
+   "id": "p01w5",
+   "text": "o",
+   "start": 7.286,
+   "end": 7.436
+  },
+  {
+   "id": "p01w6",
+   "text": "seu",
+   "start": 7.436,
+   "end": 7.531
+  },
+  {
+   "id": "p01w7",
+   "text": "celular",
+   "start": 7.531,
+   "end": 7.789
+  },
+  {
+   "id": "p01w8",
+   "text": "vibra.",
+   "start": 7.789,
+   "end": 8.442
+  },
+  {
+   "id": "p01w9",
+   "text": "Você",
+   "start": 9.262,
+   "end": 9.526
+  },
+  {
+   "id": "p01w10",
+   "text": "nem",
+   "start": 9.526,
+   "end": 9.825
+  },
+  {
+   "id": "p01w11",
+   "text": "acorda",
+   "start": 9.825,
+   "end": 10.247
+  },
+  {
+   "id": "p01w12",
+   "text": "direito,",
+   "start": 10.247,
+   "end": 10.704
+  },
+  {
+   "id": "p01w13",
+   "text": "só",
+   "start": 11.207,
+   "end": 11.456
+  },
+  {
+   "id": "p01w14",
+   "text": "vira",
+   "start": 11.456,
+   "end": 11.809
+  },
+  {
+   "id": "p01w15",
+   "text": "pro",
+   "start": 11.809,
+   "end": 12.016
+  },
+  {
+   "id": "p01w16",
+   "text": "lado",
+   "start": 12.016,
+   "end": 12.431
+  },
+  {
+   "id": "p01w17",
+   "text": "e",
+   "start": 12.599,
+   "end": 12.934
+  },
+  {
+   "id": "p01w18",
+   "text": "volta",
+   "start": 12.934,
+   "end": 13.102
+  },
+  {
+   "id": "p01w19",
+   "text": "a",
+   "start": 13.102,
+   "end": 13.148
+  },
+  {
+   "id": "p01w20",
+   "text": "dormir.",
+   "start": 13.148,
+   "end": 13.544
+  },
+  {
+   "id": "p01w21",
+   "text": "Mas",
+   "start": 14.359,
+   "end": 14.83
+  },
+  {
+   "id": "p01w22",
+   "text": "no",
+   "start": 14.988,
+   "end": 15.3
+  },
+  {
+   "id": "p01w23",
+   "text": "mesmo",
+   "start": 15.3,
+   "end": 15.682
+  },
+  {
+   "id": "p01w24",
+   "text": "segundo,",
+   "start": 15.682,
+   "end": 16.167
+  },
+  {
+   "id": "p01w25",
+   "text": "em",
+   "start": 16.595,
+   "end": 16.76
+  },
+  {
+   "id": "p01w26",
+   "text": "todos",
+   "start": 16.76,
+   "end": 17.049
+  },
+  {
+   "id": "p01w27",
+   "text": "os",
+   "start": 17.049,
+   "end": 17.4
+  },
+  {
+   "id": "p01w28",
+   "text": "celulares",
+   "start": 17.4,
+   "end": 17.813
+  },
+  {
+   "id": "p01w29",
+   "text": "do",
+   "start": 17.813,
+   "end": 18.102
+  },
+  {
+   "id": "p01w30",
+   "text": "planeta,",
+   "start": 18.102,
+   "end": 18.784
+  },
+  {
+   "id": "p01w31",
+   "text": "chega",
+   "start": 19.224,
+   "end": 19.272
+  },
+  {
+   "id": "p01w32",
+   "text": "o",
+   "start": 19.272,
+   "end": 19.533
+  },
+  {
+   "id": "p01w33",
+   "text": "mesmo",
+   "start": 19.533,
+   "end": 19.959
+  },
+  {
+   "id": "p01w34",
+   "text": "e",
+   "start": 19.959,
+   "end": 20.173
+  },
+  {
+   "id": "p01w35",
+   "text": "-mail,",
+   "start": 20.173,
+   "end": 20.552
+  },
+  {
+   "id": "p01w36",
+   "text": "sem",
+   "start": 21.023,
+   "end": 21.371
+  },
+  {
+   "id": "p01w37",
+   "text": "remetente,",
+   "start": 21.371,
+   "end": 22.021
+  },
+  {
+   "id": "p01w38",
+   "text": "sem",
+   "start": 22.573,
+   "end": 22.754
+  },
+  {
+   "id": "p01w39",
+   "text": "assinatura,",
+   "start": 22.754,
+   "end": 23.6
+  },
+  {
+   "id": "p01w40",
+   "text": "só",
+   "start": 24.152,
+   "end": 24.345
+  },
+  {
+   "id": "p01w41",
+   "text": "uma",
+   "start": 24.345,
+   "end": 24.643
+  },
+  {
+   "id": "p01w42",
+   "text": "frase.",
+   "start": 24.643,
+   "end": 25.082
+  },
+  {
+   "id": "p01w43",
+   "text": "No",
+   "start": 26.281,
+   "end": 26.495
+  },
+  {
+   "id": "p01w44",
+   "text": "seu",
+   "start": 26.495,
+   "end": 26.888
+  },
+  {
+   "id": "p01w45",
+   "text": "está",
+   "start": 27.087,
+   "end": 27.41
+  },
+  {
+   "id": "p01w46",
+   "text": "escrito",
+   "start": 27.41,
+   "end": 27.716
+  },
+  {
+   "id": "p01w47",
+   "text": "assim.",
+   "start": 27.716,
+   "end": 28.232
+  },
+  {
+   "id": "p01w48",
+   "text": "Você",
+   "start": 29.105,
+   "end": 29.305
+  },
+  {
+   "id": "p01w49",
+   "text": "tem",
+   "start": 29.305,
+   "end": 29.596
+  },
+  {
+   "id": "p01w50",
+   "text": "sete",
+   "start": 29.596,
+   "end": 30.142
+  },
+  {
+   "id": "p01w51",
+   "text": "dias.",
+   "start": 30.142,
+   "end": 30.47
+  },
+  {
+   "id": "p01w52",
+   "text": "Você",
+   "start": 31.562,
+   "end": 31.79
+  },
+  {
+   "id": "p01w53",
+   "text": "só",
+   "start": 31.79,
+   "end": 32.0
+  },
+  {
+   "id": "p01w54",
+   "text": "vai",
+   "start": 32.0,
+   "end": 32.175
+  },
+  {
+   "id": "p01w55",
+   "text": "ler",
+   "start": 32.175,
+   "end": 32.368
+  },
+  {
+   "id": "p01w56",
+   "text": "isso",
+   "start": 32.368,
+   "end": 32.648
+  },
+  {
+   "id": "p01w57",
+   "text": "de",
+   "start": 32.648,
+   "end": 32.858
+  },
+  {
+   "id": "p01w58",
+   "text": "manhã",
+   "start": 32.858,
+   "end": 33.349
+  },
+  {
+   "id": "p01w59",
+   "text": "e",
+   "start": 33.931,
+   "end": 34.181
+  },
+  {
+   "id": "p01w60",
+   "text": "ainda",
+   "start": 34.181,
+   "end": 34.331
+  },
+  {
+   "id": "p01w61",
+   "text": "vai",
+   "start": 34.331,
+   "end": 34.441
+  },
+  {
+   "id": "p01w62",
+   "text": "rir,",
+   "start": 34.441,
+   "end": 34.852
+  },
+  {
+   "id": "p01w63",
+   "text": "porque",
+   "start": 35.516,
+   "end": 35.712
+  },
+  {
+   "id": "p01w64",
+   "text": "ninguém,",
+   "start": 35.712,
+   "end": 36.401
+  },
+  {
+   "id": "p01w65",
+   "text": "absolutamente",
+   "start": 36.71,
+   "end": 37.137
+  },
+  {
+   "id": "p01w66",
+   "text": "ninguém,",
+   "start": 37.137,
+   "end": 38.549
+  },
+  {
+   "id": "p01w67",
+   "text": "acredita",
+   "start": 38.976,
+   "end": 39.494
+  },
+  {
+   "id": "p01w68",
+   "text": "aquilo",
+   "start": 39.494,
+   "end": 39.992
+  },
+  {
+   "id": "p01w69",
+   "text": "seja",
+   "start": 39.992,
+   "end": 40.406
+  },
+  {
+   "id": "p01w70",
+   "text": "verdade,",
+   "start": 40.406,
+   "end": 41.153
+  },
+  {
+   "id": "p01w71",
+   "text": "ainda.",
+   "start": 41.794,
+   "end": 42.266
+  }
+ ]
+}
