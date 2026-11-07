@@ -120,7 +120,7 @@ function caixilho(pai, nome, x, y, z, ry, w, h) {
 export const SALA = {
   sofa: { z: 1.4, assento: 0.42, encosto: 1.58 },
   // quadril de quem senta no sofá (x livre em -0.75 / 0 / 0.75)
-  sentado: (x) => [x, 0.505, 1.22],
+  sentado: (x) => [x, 0.47, 1.22],
   tv: { x: 0, y: 1.06, z: -2.27 },
   relogio: { x: -1.85, y: 1.85, z: -2.47 },
 };
@@ -168,7 +168,9 @@ export function criarSala(cena) {
   const sofa = obj(g, "sofa", 0, 0, SALA.sofa.z);
   const corSofa = 0x5d6670;
   caixa(sofa, 2.3, 0.28, 0.9, 0x4a525b, 0, 0.14, 0);
-  for (const x of [-0.74, 0, 0.74]) caixa(sofa, 0.72, 0.14, 0.62, corSofa, x, 0.35, -0.12);
+  // assentos macios (quem senta afunda uns centímetros: não conta como colisão)
+  const assentos = passavel(obj(g, "assentos", 0, 0, SALA.sofa.z));
+  for (const x of [-0.74, 0, 0.74]) caixa(assentos, 0.72, 0.14, 0.62, corSofa, x, 0.35, -0.12);
   caixa(sofa, 2.3, 0.62, 0.22, 0x4a525b, 0, 0.59, 0.34);
   for (const x of [-0.74, 0, 0.74]) caixa(sofa, 0.7, 0.4, 0.12, corSofa, x, 0.66, 0.2, { rx: -0.12 });
   for (const s of [-1, 1]) caixa(sofa, 0.2, 0.62, 0.9, 0x4a525b, s * 1.25, 0.31, 0);

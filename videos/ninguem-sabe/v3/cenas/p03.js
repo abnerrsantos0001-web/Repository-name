@@ -1,0 +1,149 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, trilha } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { SALA } from "./assets/js/mundo4.js";
+      import { PI, eixos, em, falar } from "./assets/js/v3.js";
+      import { tvJornal, tvJogo, tvMadrugada } from "./assets/js/telas3.js";
+      import { PALAVRAS } from "./assets/js/tempos/v3-parte03.js";
+
+      // Parte 3: à noite, a família vê o jornal ("ataque hacker?"; o mapa com os e-mails chegando no mesmo segundo).
+      // No dia seguinte, videogame e série com o Lucas; ele brinca o tempo todo: "faltam dois dias, me paga um lanche".
+      const T = tempos(PALAVRAS);
+      const FIM = 43.8333;
+      const t = {
+        tv: T("No jornal,") - 0.15,
+        rostos: T("governos") - 0.15,
+        tv2: T("empresas") - 0.15,
+        pai: T("elas") - 0.12,
+        mapa: T("porque") - 0.15,
+        desligados: T("até", 1) - 0.1,
+        decide: T("Você decide") - 0.2,
+        serie: T("vê") - 0.12,
+        lucas: T("ele brinca") - 0.15,
+        dois: T("me paga") - 0.12,
+        lanche: T("e você") - 0.1,
+      };
+      const presa = (quem, f, d, c, af = 0, ac = 0, fov = 38) => (tt, ctx) => {
+        const b = quem === "ele" ? ctx.boneco : ctx.outros[quem].boneco;
+        const { cabeca } = pontosDoBoneco(b);
+        const { frente, direita, cima } = eixos(b);
+        return { pos: em(cabeca, [frente, f], [direita, d], [cima, c]), alvo: em(cabeca, [frente, af], [cima, ac]), fov };
+      };
+      const sentado = { quadril: [[0, -PI / 2]], joelho: [[0, 1.5]], giro: [[0, PI]] };
+      // segurando o controle com as duas mãos na frente da barriga
+      const comControle = (pts, b) => {
+        const { frente, direita, cima } = eixos(b);
+        const c = em(pts.cabeca, [frente, 0.4], [cima, -0.55]);
+        return { alvoE: em(c, [direita, -0.07]), pesoE: 1, alvoD: em(c, [direita, 0.07]), pesoD: 1, centro: c };
+      };
+      const jogando = (tt) => tt >= t.decide && tt < t.serie || tt >= t.lucas;
+
+      iniciarParte({
+        host: "__parte03",
+        cenarios: ["sala"],
+        planos: [
+          { de: 0, cenario: "sala", nome: "abre", modo: "noiteTV" }, //                        (a família vendo o jornal)
+          { de: t.tv, cenario: "sala", nome: "tv", modo: "noiteTV" }, //                       No jornal... ataque hacker,
+          { de: t.rostos, cenario: "sala", nome: "rostos", modo: "noiteTV" }, //               governos pedem calma,
+          { de: t.tv2, cenario: "sala", nome: "tv2", modo: "noiteTV" }, //                     empresas de tecnologia prometem...
+          { de: t.pai, cenario: "sala", nome: "pai", modo: "noiteTV" }, //                     elas não descobrem,
+          { de: t.mapa, cenario: "sala", nome: "mapa", modo: "noiteTV" }, //                   porque os e-mails chegaram no mesmo segundo...
+          { de: t.decide, cenario: "sala", nome: "jogo", modo: "dia" }, //                     Você decide não pensar nisso, joga videogame com o Lucas,
+          { de: t.serie, cenario: "sala", nome: "serie", modo: "noiteTV" }, //                 vê série, dorme tarde,
+          { de: t.lucas, cenario: "sala", nome: "lucas", modo: "noiteTV" }, //                 ele brinca o tempo todo, faltam dois dias,
+          { de: t.dois, cenario: "sala", nome: "dois", modo: "noiteTV" }, //                   me paga um lanche, irmão,
+          { de: t.lanche, cenario: "sala", nome: "lanche", modo: "noiteTV" }, //               e você paga.
+        ],
+        cortesEscuros: [t.decide, t.serie],
+        preenchimento: { sala: 0.75 },
+        cameras: {
+          abre: { k: [[0, [0.25, 2.12, 2.42], [0, 0.85, -2.2], 46], [t.tv, [0.15, 2.05, 2.36], [0, 0.88, -2.2], 42]], tremor: 0.0015 },
+          tv: { k: [[t.tv, [0.12, 1.1, -0.05], [0, 1.04, -2.27], 40], [t.rostos, [0.1, 1.1, -0.25], [0, 1.04, -2.27], 40]], tremor: 0.0012 },
+          rostos: { k: [[t.rostos, [0.05, 1.22, -1.85], [0, 1.18, 1.25], 34], [t.tv2, [0.05, 1.22, -1.75], [0, 1.18, 1.25], 32]], tremor: 0.0015 },
+          tv2: { k: [[t.tv2, [-0.15, 1.1, -0.1], [0, 1.03, -2.27], 40], [t.pai, [-0.1, 1.08, -0.55], [0, 1.03, -2.27], 40]], tremor: 0.0012 },
+          pai: presa("pai", 1.05, -0.15, 0.0, 0, -0.12, 36),
+          mapa: { k: [[t.mapa, [0.0, 1.06, -0.4], [0, 1.0, -2.27], 40], [t.decide, [0.0, 1.05, -0.66], [0, 0.99, -2.27], 40]], tremor: 0.001 },
+          jogo: { k: [[t.decide, [-1.7, 1.4, -0.75], [0.1, 1.0, 1.2], 44], [t.serie, [-1.6, 1.38, -0.65], [0.1, 1.0, 1.2], 42]], tremor: 0.002 },
+          serie: { k: [[t.serie, [0.15, 2.15, 2.42], [0, 0.85, -2.2], 46], [t.lucas, [0.1, 2.1, 2.38], [0, 0.88, -2.2], 44]], tremor: 0.0015 },
+          lucas: presa("lucas", 1.15, -0.35, 0.0, 0, 0.04, 40),
+          dois: { k: [[t.dois, [0.05, 1.3, -0.45], [0, 1.12, 1.25], 42], [t.lanche, [0.05, 1.3, -0.35], [0, 1.12, 1.25], 40]], tremor: 0.0015 },
+          lanche: { k: [[t.lanche, [0.4, 1.05, 0.98], [-0.1, 0.42, 0.2], 40], [FIM, [0.35, 0.95, 0.85], [-0.1, 0.42, 0.2], 36]], tremor: 0.0012 },
+        },
+        personagem: {
+          semente: 23,
+          onde: [[0, "sala"]],
+          pos: [[0, SALA.sentado(0)], [t.decide, SALA.sentado(-0.37), "corte"]],
+          pose: {
+            ...sentado,
+            inclinar: [[0, -0.04], [t.decide, 0.18, "corte"], [t.serie, -0.08, "corte"], [t.lucas, 0.12, "corte"]],
+            cabecaInclina: [[0, 0.02], [t.decide, 0.08, "corte"], [t.serie, 0.05, "corte"], [t.dois, 0.05], [t.dois + 0.4, 0.0, "ambos"]],
+            cabecaGiro: [[0, 0], [t.dois, 0], [t.dois + 0.4, -0.45, "ambos"], [t.lanche, -0.45], [t.lanche + 0.6, -0.1, "ambos"]],
+            cabecaTomba: [[0, 0], [t.serie, 0.2, "corte"], [t.lucas, 0, "corte"]],
+            olhos: [[0, 1], [t.serie, 0.75, "corte"], [t.lucas, 1, "corte"]],
+            sobrancelhaMedo: [[0, 0.25], [t.decide, 0, "corte"]],
+            sorriso: [[0, 0], [t.decide, 0.25, "corte"], [t.dois, 0.2], [t.lanche, 0.55, "ambos"]],
+            boca: [[0, 0], [t.serie + 1.1, 0], [t.serie + 1.5, 0.75, "ambos"], [t.serie + 2.1, 0, "ambos"]],
+          },
+          maos: (tt, pts, ctx, b) => (jogando(tt) ? comControle(pts, b) : null),
+        },
+        outros: [
+          {
+            id: "mae", variante: "mae", semente: 33, onde: [[0, "sala"]], pos: [[0, SALA.sentado(-0.74)]],
+            pose: { ...sentado, giro: [[0, PI - 0.1]], inclinar: [[0, 0.06]], cabecaInclina: [[0, 0.04]], sobrancelhaMedo: [[0, 0.45]], cabecaTomba: [[0, 0.08]] },
+            visivel: (tt) => tt < t.decide,
+          },
+          {
+            id: "pai", variante: "pai", semente: 35, onde: [[0, "sala"]], pos: [[0, SALA.sentado(0.74)]],
+            pose: { ...sentado, giro: [[0, PI + 0.1]], inclinar: [[0, -0.05]], sobrancelha: [[0, -0.5]], apertar: [[0, 0.35]], cabecaGiro: [[0, 0], [t.pai + 0.4, 0], [t.pai + 0.8, 0.12, "ambos"], [t.pai + 1.2, -0.08, "ambos"], [t.pai + 1.6, 0, "ambos"]] },
+            visivel: (tt) => tt < t.decide,
+          },
+          {
+            id: "lucas", variante: "lucas", semente: 43, onde: [[0, "sala"]], pos: [[0, SALA.sentado(0.37)]],
+            pose: {
+              ...sentado,
+              inclinar: [[0, 0.18], [t.serie, -0.08, "corte"], [t.lucas, 0.1, "corte"], [T("faltam") + 0.2, -0.05, "ambos"], [t.dois, 0.1, "ambos"]],
+              cabecaGiro: [[0, 0], [T("faltam") - 0.3, 0], [T("faltam"), 0.5, "ambos"], [t.lanche + 0.5, 0.5], [t.lanche + 1.0, 0.1, "ambos"]],
+              cabecaTomba: [[0, 0], [t.serie, -0.15, "corte"], [t.lucas, 0, "corte"]],
+              sorriso: [[0, 0.5], [t.lucas, 0.9, "corte"]],
+              boca: falar([[T("faltam"), T.fim("dias,")], [T("me paga"), T.fim("irmão,")]], 0.3),
+              sobrancelha: [[0, 0.3]],
+            },
+            maos: (tt, pts, ctx, b) => (jogando(tt) ? comControle(pts, b) : null),
+            visivel: (tt) => tt >= t.decide,
+          },
+        ],
+        quadro: (tt, plano, ctx, fase) => {
+          const sala = ctx.cenarios.sala;
+          if (fase === "antes") {
+            sala.relogio.userData.mostrar(tt < t.decide ? "21:10" : tt < t.serie ? "16:40" : "1:20");
+            let k, fn, luz = [0x9fb8e0, 2.2];
+            if (tt < t.rostos) (k = "j1"), (fn = (g, W, H) => tvJornal(g, W, H, { manchete: "ATAQUE HACKER?", sub: "especialistas: o e-mail não tem remetente nem assinatura", t: tt }));
+            else if (tt < t.tv2) (k = "j2"), (fn = (g, W, H) => tvJornal(g, W, H, { manchete: "GOVERNOS PEDEM CALMA", sub: "\"não acreditem nas datas\", diz ministro", t: tt }));
+            else if (tt < t.mapa) (k = "j3"), (fn = (g, W, H) => tvJornal(g, W, H, { manchete: "ORIGEM DESCONHECIDA", sub: "empresas de tecnologia prometem resposta em poucas horas", t: tt }));
+            else if (tt < t.desligados) {
+              const m = Math.round(trilha([[t.mapa, 0.05], [T("mundo,") + 0.4, 1, "entra"]], tt) * 20) / 20;
+              k = "m" + m;
+              fn = (g, W, H) => tvJornal(g, W, H, { manchete: "NO MESMO SEGUNDO", sub: "e-mails chegaram em todos os aparelhos do mundo", mapa: m, t: 0 });
+            } else if (tt < t.decide) (k = "j4"), (fn = (g, W, H) => tvJornal(g, W, H, { manchete: "ATÉ EM CELULAR DESLIGADO", sub: "e em aparelhos sem internet", mapa: 1, t: 0 }));
+            else if (tt < t.serie || tt >= t.lucas) (k = "g" + Math.round(tt * 8)), (fn = (g, W, H) => tvJogo(g, W, H, tt)), (luz = [0xf0b070, 2.6]);
+            else (k = "s" + Math.round(tt * 4)), (fn = (g, W, H) => tvMadrugada(g, W, H, tt)), (luz = [0x8aa8e0, 2.0]);
+            sala.tv.userData.mostrar(k, fn);
+            sala.luzTV(luz[0], plano.modo === "dia" ? 0.8 : luz[1]);
+            return;
+          }
+          // controles nas mãos de quem está jogando (ou na mesa)
+          const quem = [ctx.boneco, ctx.outros.lucas.boneco];
+          quem.forEach((b, i) => {
+            const c = sala.controles[i];
+            if (jogando(tt) && b.visible) {
+              const pts = pontosDoBoneco(b);
+              const m = comControle(pts, b).centro.sub(sala.grupo.position);
+              c.position.copy(m).add(new THREE.Vector3(0, 0.02, 0));
+              c.rotation.set(0.5, b.rotation.y, 0);
+            } else {
+              c.position.set(0.25 - i * 0.5, 0.42, 0.28);
+              c.rotation.set(0, 0.3 * (i ? 1 : -1), 0);
+            }
+          });
+        },
+      });

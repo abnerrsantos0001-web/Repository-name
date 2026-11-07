@@ -294,6 +294,15 @@ export function criarPersonagem(variante = "ele") {
     const cinto = malha(new THREE.CylinderGeometry(0.275, 0.275, 0.05, 9), V.saia);
     cinto.position.y = 0.04;
     corpo.add(cinto);
+    // sentada: a saia vira um caimento sobre as coxas (gira junto com elas a partir do quadril)
+    const geoS = new THREE.BoxGeometry(0.5, 0.44, 0.22);
+    geoS.translate(0, -0.2, 0);
+    const saiaSentada = malha(geoS, V.saia);
+    saiaSentada.name = "saia";
+    saiaSentada.visible = false;
+    corpo.add(saiaSentada);
+    saia.name = "saia";
+    raiz.userData.saias = { em_pe: saia, sentada: saiaSentada };
   }
   if (V.botoes) {
     // cardigã aberto sobre a blusa clara: faixa da blusa na frente e botões
@@ -502,6 +511,14 @@ export function poseBoneco(raiz, p) {
     sb.rotation.z = lado * (0.38 * Math.max(0, -q.sobrancelha) - 0.32 * q.sobrancelhaMedo);
   }
 
+  // saia da mãe: em pé, o cilindro; sentada (coxas para a frente), o caimento que acompanha as coxas
+  if (raiz.userData.saias) {
+    const qm = (q.quadrilE + q.quadrilD) / 2;
+    const sentada = qm < -0.75;
+    raiz.userData.saias.em_pe.visible = !sentada;
+    raiz.userData.saias.sentada.visible = sentada;
+    raiz.userData.saias.sentada.rotation.x = qm;
+  }
   // lágrimas: descem do canto de baixo do olho pela superfície da face; cada gota tem o seu ciclo
   for (const g of r.lagrimas) {
     const on = q.choro > 0.02;
