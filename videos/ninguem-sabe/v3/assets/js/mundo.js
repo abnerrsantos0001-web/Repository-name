@@ -167,6 +167,7 @@ export function ceu(pai, corTopo, corHorizonte, raio = 600) {
     new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false, depthWrite: false }),
   );
   let atual = [corTopo, corHorizonte];
+  m.userData.passavel = true; // o céu envolve tudo: não conta na checagem de colisões
   m.userData.pintar = (novoTopo, novoHor) => {
     if (atual[0] === novoTopo && atual[1] === novoHor) return;
     atual = [novoTopo, novoHor];

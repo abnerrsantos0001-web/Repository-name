@@ -595,7 +595,9 @@ function montarParte(cfg, host) {
     const nomeDe = (o) => {
       const partes = [];
       for (let p = o; p && !(p.parent && p.parent.isScene); p = p.parent) if (p.name) partes.unshift(p.name);
-      return partes.join("/") || "?";
+      if (partes.length) return partes.join("/");
+      const w = o.getWorldPosition(new THREE.Vector3()).sub(DESLOCAMENTO[plano.cenario] || new THREE.Vector3());
+      return (o.geometry?.type || "?").replace("Geometry", "") + "@" + w.toArray().map((v) => v.toFixed(1)).join(",");
     };
     const pecaDe = (o) => {
       let p = o;
@@ -605,7 +607,7 @@ function montarParte(cfg, host) {
     for (const g of grupos) {
       g.updateMatrixWorld(true);
       g.traverseVisible((m) => {
-        if (!m.isMesh || m.userData.passavel || m.material?.transparent) return;
+        if (!m.isMesh || m.isInstancedMesh || m.userData.passavel || m.material?.transparent) return;
         for (let p = m; p; p = p.parent) if (p.userData.passavel || /^personagem-/.test(p.name) || p === celularDuble) return;
         if (!m.geometry.boundingBox) m.geometry.computeBoundingBox();
         solidos.push({ m, inv: new THREE.Matrix4().copy(m.matrixWorld).invert(), caixa: m.geometry.boundingBox, peca: pecaDe(m), nome: nomeDe(m) });

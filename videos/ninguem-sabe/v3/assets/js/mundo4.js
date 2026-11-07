@@ -1051,8 +1051,8 @@ export function criarNoite(cena) {
   cena.add(g);
   const api = { grupo: g, fundo: 0x2c3d60, nevoa: [0x3a4b6e, 50, 260] };
   const chao = passavel(obj(g, "chao"));
-  caixa(chao, 300, 0.1, 300, 0x3d4d3c, 0, -0.06, 0);
-  caixa(chao, 300, 0.06, 8, 0x2a2c30, 0, 0.0, 0);
+  caixa(chao, 300, 0.1, 300, 0x5a6c52, 0, -0.06, 0);
+  caixa(chao, 300, 0.06, 8, 0x3c3f46, 0, 0.0, 0);
   for (let x = -140; x < 140; x += 6) caixa(chao, 3, 0.01, 0.15, 0x8a8b8e, x, 0.035, 0, { sombra: false });
   for (const s of [-1, 1]) caixa(chao, 300, 0.14, 2.2, 0x6a6a68, 0, 0.07, s * 5.1);
   // casas dos dois lados, com janelas que acendem (planos emissivos por cima das janelas escuras)
@@ -1082,7 +1082,7 @@ export function criarNoite(cena) {
   for (let i = 0; i < 16; i++) {
     const w = 10 + r() * 8;
     const h = 22 + r() * 40;
-    criarPredio(g, jan, { x: -120 + i * 16, z: -70 - r() * 30, w, h, d: 10, cor: [0x2e3138, 0x353840, 0x2a2d33][i % 3], caixaDagua: r() < 0.4 });
+    criarPredio(g, jan, { x: -120 + i * 16, z: -70 - r() * 30, w, h, d: 10, cor: [0x4e5462, 0x5a5e6a, 0x464c58][i % 3], caixaDagua: r() < 0.4 });
   }
   jan.fechar();
   jan.luz.material.color.setHex(0xa9c6ff);
@@ -1098,7 +1098,7 @@ export function criarNoite(cena) {
   lua.position.set(60, 90, -300);
   lua.lookAt(0, 0, 0);
   g.add(lua);
-  const luar = new THREE.DirectionalLight(0xa9c0e8, 2.6);
+  const luar = new THREE.DirectionalLight(0xa9c0e8, 3.4);
   luar.position.set(30, 60, -40);
   luar.castShadow = true;
   luar.shadow.mapSize.set(2048, 2048);
@@ -1107,7 +1107,7 @@ export function criarNoite(cena) {
   luar.shadow.radius = 3;
   luar.shadow.normalBias = 0.02;
   g.add(luar, luar.target);
-  const hemi = new THREE.HemisphereLight(0x9aaedc, 0x3a3c42, 2.4);
+  const hemi = new THREE.HemisphereLight(0xa6b8e2, 0x4a4c52, 2.9);
   g.add(hemi);
   // nível 0..1: fração das janelas acesas; cada janela tem o seu limiar (onda que corre ao longo da rua)
   api.acender = (nivel, onda = 0) => {

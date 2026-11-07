@@ -1,0 +1,210 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 3 · Parte 01: 3:33, o celular vibra; o e-mail em todos os celulares; Você tem 7 dias
+  Motor em assets/js/cena.js; esqueleto gerado por tools/nova_parte.py.
+-->
+<html lang="pt-BR" data-composition-variables='[{"id":"inicio","type":"number","label":"Início dentro da parte (s)","default":0},{"id":"ate","type":"number","label":"Congela neste instante (s; -1 = não)","default":-1},{"id":"pausaEm","type":"number","label":"Pausa para o CTA neste instante (s; -1 = não)","default":-1},{"id":"pausaDur","type":"number","label":"Duração da pausa (s)","default":0}]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Parte 01</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #p01-raiz { position: absolute; inset: 0; overflow: hidden; background: #0c0d0f; }
+      #p01-tela { position: absolute; left: 0; top: 0; display: block; }
+      #p01-vinheta { position: absolute; inset: 0; background: radial-gradient(ellipse 72% 68% at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.6) 100%); }
+      #p01-escuro { position: absolute; inset: 0; background: #000; opacity: 0; }
+      #p01-fonte { position: absolute; left: 0; top: 0; opacity: 0; font-family: Inter; font-weight: 700; font-size: 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="p01-raiz" data-composition-id="parte01" data-width="1920" data-height="1080" data-duration="44.5667">
+      <canvas id="p01-tela" width="1920" height="1080"></canvas>
+      <div id="p01-vinheta"></div>
+      <div id="p01-escuro"></div>
+      <div id="p01-fonte" data-layout-ignore>Aa 0123456789</div>
+    </div>
+    <script>
+      (function () {
+        // relógio da parte: tween linear que chama host.render(t); o motor (cena.js) pendura a cena nele.
+        // O HyperFrames roda este script mais de uma vez (cópia escondida e cópia visível): cada passada avisa o motor.
+        var id = "parte01";
+        var raiz = document.getElementById("p01-raiz");
+        var duracao = parseFloat(raiz.dataset.duration) || 44.5667;
+        var relogio = { t: 0 };
+        var hv = (window.__hyperframes && window.__hyperframes.getVariables && window.__hyperframes.getVariables()) || {};
+        var host = {
+          relogio: relogio,
+          duracao: duracao,
+          tela: document.getElementById("p01-tela"),
+          escuro: document.getElementById("p01-escuro"),
+          // vertical quando o host que monta a cena é mais alto que largo (cortes 9:16)
+          vars: {
+            formato: (raiz.parentElement && Number(raiz.parentElement.dataset.height) > Number(raiz.parentElement.dataset.width)) || location.hash === "#vertical" ? "vertical" : "horizontal",
+            // cortes verticais por intervalo: começa "inicio" segundos dentro da parte e congela em "ate"
+            inicio: Number(hv.inicio) || 0,
+            ate: Number(hv.ate) >= 0 ? Number(hv.ate) : undefined,
+            pausaEm: Number(hv.pausaEm) >= 0 ? Number(hv.pausaEm) : -1,
+            pausaDur: Number(hv.pausaDur) || 0,
+          },
+          render: null,
+        };
+        window["__" + id] = host;
+        // no corte vertical a raiz da cena ocupa o quadro 1080x1920 inteiro
+        if (host.vars.formato === "vertical") {
+          raiz.dataset.width = "1080";
+          raiz.dataset.height = "1920";
+          raiz.style.width = "1080px";
+          raiz.style.height = "1920px";
+        }
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) {
+          host.pronto = resolve;
+        });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: duracao, duration: duracao, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } });
+        host.tl = tl;
+        if (window.__extras && window.__extras[id]) window.__extras[id](tl, raiz);
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+        if (window.__aoHost && window.__aoHost[id]) window.__aoHost[id](host);
+      })();
+    </script>
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, trilha } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { PI, ALT, eixos, em, segurandoCelular, cameraTela } from "./assets/js/v3.js";
+      import { telaBloqueio, telaEmail } from "./assets/js/telas3.js";
+      import { telaApagada } from "./assets/js/telas3.js";
+      import { PALAVRAS } from "./assets/js/tempos/v3-parte01.js";
+
+      // Parte 1: a rua dormindo (título) -> 3:33 no quarto, o celular vibra; ele nem acorda -> o e-mail chega em
+      // todos os celulares (as janelas acendem pela cidade) -> "Você tem 7 dias." -> de manhã ele lê e ri.
+      const T = tempos(PALAVRAS);
+      const FIM = 44.5667;
+      const t = {
+        relogio: T("São") - 0.12,
+        vibra: T("quando") - 0.1,
+        cama: T("Você nem") - 0.15,
+        mundo: T("Mas no") - 0.25,
+        tela: T("sem remetente,") - 0.2,
+        push: T("No seu") - 0.15,
+        sete: T("Você tem") - 0.05,
+        manha: T("Você só") - 0.12,
+        rosto: T("porque") - 0.15,
+      };
+      const VIBRA = [[T("vibra.") - 0.25, T("vibra.") + 0.75], [T("vibra.") + 0.95, T("vibra.") + 1.95]];
+      const vibrando = (tt) => VIBRA.some(([a, b]) => tt >= a && tt <= b);
+      // deitado de costas (cabeça no travesseiro, z -), um pouco inclinado para a cabeça não afundar no colchão
+      const DEITADO = [-1.78, 0.79, -0.84];
+      const SENTADO = [-1.44, 0.605, -0.7];
+      const CEL_CRIADO = [-1.13, 0.5555, -1.58];
+
+      iniciarParte({
+        host: "__parte01",
+        cenarios: ["noite", "quarto2"],
+        planos: [
+          { de: 0, cenario: "noite", nome: "abertura" }, //                                  (título)
+          { de: t.relogio, cenario: "quarto2", nome: "relogio", modo: "noite", preenchimento: 0.35 }, // São 3:33 da madrugada,
+          { de: t.vibra, cenario: "quarto2", nome: "vibra", modo: "noite", preenchimento: 0.35 }, //    quando o seu celular vibra.
+          { de: t.cama, cenario: "quarto2", nome: "cama", modo: "noite", preenchimento: 0.7 }, //      Você nem acorda direito...
+          { de: t.mundo, cenario: "noite", nome: "mundo" }, //                                   Mas no mesmo segundo, em todos os celulares...
+          { de: t.tela, cenario: "quarto2", nome: "tela", modo: "noite", preenchimento: 0.3 }, //      sem remetente, sem assinatura, só uma frase.
+          { de: t.push, cenario: "quarto2", nome: "push", modo: "noite", preenchimento: 0.3 }, //      No seu está escrito assim.
+          { de: t.sete, cenario: "quarto2", nome: "dorme", modo: "noite", preenchimento: 0.75 }, //   Você tem 7 dias. (o letreiro sobre a parede escura)
+          { de: t.manha, cenario: "quarto2", nome: "manha", modo: "manha" }, //                  Você só vai ler isso de manhã e ainda vai rir,
+          { de: t.rosto, cenario: "quarto2", nome: "rosto", modo: "manha" }, //                  porque ninguém... acredita... ainda.
+        ],
+        cortesEscuros: [t.relogio, t.mundo, t.tela, t.manha],
+        cameras: {
+          abertura: { k: [[0, [-34, 2.2, -1.2], [-20, 3.2, -6], 46], [t.relogio, [-25, 3.0, -0.6], [-10, 3.4, -6], 42]], tremor: 0.0015 },
+          relogio: { k: [[t.relogio, [-0.62, 0.8, -1.26], [-0.95, 0.6, -1.69], 30], [t.vibra, [-0.66, 0.77, -1.32], [-0.95, 0.6, -1.69], 26]], tremor: 0.0012,
+            v: [[t.relogio, [-0.55, 0.85, -1.1], [-0.95, 0.6, -1.69], 46], [t.vibra, [-0.6, 0.82, -1.18], [-0.95, 0.6, -1.69], 40]] },
+          vibra: { k: [[t.vibra, [-0.78, 1.0, -1.18], [-1.08, 0.57, -1.62], 32], [t.cama, [-0.82, 0.96, -1.24], [-1.08, 0.57, -1.62], 28]], tremor: 0.0015,
+            v: [[t.vibra, [-0.74, 1.05, -1.1], [-1.06, 0.57, -1.62], 48], [t.cama, [-0.78, 1.0, -1.16], [-1.06, 0.57, -1.62], 42]] },
+          cama: { k: [[t.cama, [-0.25, 1.75, 0.75], [-1.75, 0.72, -1.15], 44], [t.mundo, [-0.35, 1.65, 0.55], [-1.75, 0.72, -1.2], 40]], tremor: 0.0018 },
+          mundo: { k: [[t.mundo, [-40, 1.8, 2.5], [-24, 2.6, -8], 48], [t.mundo + 2.2, [-36, 5.5, 3.0], [-14, 3.5, -10], 50], [t.tela, [-30, 22, 8], [0, 4, -40], 56]], tremor: 0.002 },
+          tela: { k: [[t.tela, [-1.125, 1.0, -1.49], [-1.13, 0.556, -1.555], 30], [t.push, [-1.125, 0.96, -1.5], [-1.13, 0.556, -1.555], 28]], tremor: 0.0012 },
+          push: { k: [[t.push, [-1.128, 0.8, -1.55], [-1.13, 0.556, -1.578], 22], [t.sete, [-1.129, 0.74, -1.565], [-1.13, 0.556, -1.576], 18]], tremor: 0.0008 },
+          dorme: { k: [[t.sete, [-0.25, 0.95, -0.75], [-1.95, 0.85, -1.05], 50], [t.manha, [-0.35, 0.95, -0.8], [-1.95, 0.85, -1.1], 46]], tremor: 0.0015 },
+          manha: { k: [[t.manha, [0.15, 1.3, 0.25], [-1.42, 0.98, -0.72], 42], [t.rosto, [0.05, 1.28, 0.15], [-1.42, 1.0, -0.72], 38]], tremor: 0.002 },
+          rosto: (tt, ctx) => {
+            const { cabeca } = pontosDoBoneco(ctx.boneco);
+            const { frente, direita, cima } = eixos(ctx.boneco);
+            const k = trilha([[t.rosto, 0], [FIM, 1, "suave"]], tt);
+            return { pos: em(cabeca, [frente, 1.4 - 0.2 * k], [direita, -0.3 + 0.1 * k], [cima, 0.0]), alvo: em(cabeca, [cima, -0.13], [direita, -0.04]), fov: 40 - 2 * k };
+          },
+        },
+        personagem: {
+          semente: 11,
+          onde: [[0, "quarto2"]],
+          pos: [[0, DEITADO], [t.manha, SENTADO, "corte"]],
+          pose: {
+            giro: [[0, 0], [t.manha, PI / 2, "corte"]],
+            deitar: [[0, -1.45], [t.manha, 0, "corte"]],
+            quadril: [[0, 0], [t.manha, -PI / 2, "corte"]],
+            quadrilE: [[0, 0], [T("vira") - 0.1, 0], [T("vira") + 0.7, -0.55, "ambos"], [t.manha, -PI / 2, "corte"]],
+            joelho: [[0, 0], [t.manha, 1.5, "corte"]],
+            joelhoE: [[0, 0], [T("vira") - 0.1, 0], [T("vira") + 0.7, 0.95, "ambos"], [t.manha, 1.5, "corte"]],
+            cabecaGiro: [[0, 0.15], [T("vira") - 0.1, 0.15], [T("vira") + 0.6, 1.05, "ambos"], [t.manha, 0, "corte"], [T("rir,") - 0.3, 0], [T("rir,") + 0.2, 0.12, "ambos"]],
+            cabecaInclina: [[0, -0.1], [t.manha, 0.38, "corte"], [t.rosto, 0.3, "corte"], [t.rosto + 0.7, 0.1, "ambos"], [T("ainda.", 2) - 0.4, 0.1], [T("ainda.", 2) + 0.4, -0.02, "ambos"]],
+            cabecaTomba: [[0, 0], [T("vira") + 0.6, -0.15, "ambos"], [t.manha, 0, "corte"]],
+            inclinar: [[0, 0], [t.manha, 0.12, "corte"]],
+            olhos: [[0, 0.04], [t.manha, 1, "corte"]],
+            sorriso: [[0, 0], [t.manha, 0, "corte"], [T("rir,") - 0.6, 0.15], [T("rir,"), 0.85, "ambos"], [t.rosto, 0.8, "corte"], [T("acredita"), 0.55], [T("ainda.", 2) - 0.2, 0.05, "ambos"]],
+            boca: [[0, 0], [T("rir,") - 0.05, 0], [T("rir,") + 0.1, 0.32, "sai"], [T("rir,") + 0.35, 0.05], [T("rir,") + 0.5, 0.25], [T("rir,") + 0.8, 0]],
+            sobrancelha: [[0, 0], [t.manha, 0.15, "corte"], [T("ainda.", 2) - 0.3, 0.1], [T("ainda.", 2) + 0.3, 0.45, "ambos"]],
+            sobrancelhaMedo: [[0, 0], [T("ainda.", 2) - 0.3, 0], [T("ainda.", 2) + 0.4, 0.35, "ambos"]],
+          },
+          // dormindo: olhos fechados sem piscar; de manhã pisca normal
+          semPiscar: [[0, t.manha]],
+          maos: (tt, pts, ctx, b) => {
+            if (tt >= t.manha) {
+              // lendo na altura do peito; no "porque ninguém..." baixa o celular para o colo
+              const baixa = trilha([[t.rosto - 0.05, 0], [t.rosto + 0.5, 1, "ambos"]], tt);
+              return segurandoCelular(pts, b, 0.46 - 0.12 * baixa, 0.3 + 0.36 * baixa);
+            }
+            return null;
+          },
+        },
+        celular: (tt) => {
+          if (tt >= t.manha) return "mao";
+          const tremer = vibrando(tt) ? 0.0025 * Math.sin(tt * 190) : 0;
+          return { cenario: "quarto2", pos: [CEL_CRIADO[0] + tremer, CEL_CRIADO[1], CEL_CRIADO[2]], rot: [-PI / 2, 0, 0.15 + tremer * 8] };
+        },
+        tela: (g, tt, desenhar) => {
+          let k, fn;
+          if (tt < VIBRA[0][0]) (k = "apagada"), (fn = () => telaApagada(g, 600, 1302));
+          else if (tt < t.sete) (k = "notif"), (fn = () => telaBloqueio(g, 600, 1302, { hora: "3:33", data: "quinta-feira, 12 de novembro", notificacao: { texto: "1 mensagem nova" } }));
+          else if (tt < t.manha) (k = "sete"), (fn = () => telaBloqueio(g, 600, 1302, { hora: "3:33", data: "quinta-feira, 12 de novembro", notificacao: { texto: "Você tem 7 dias.", vermelho: true } }));
+          else (k = "email"), (fn = () => telaEmail(g, 600, 1302, { hora: "7:05", frase: "Você tem 7 dias." }));
+          if (desenhar) fn();
+          return k;
+        },
+        montar: (ctx) => {
+          const q = ctx.cenarios.quarto2;
+          q.cobertor.visible = false;
+          // brilho da tela do celular no criado-mudo (frio) quando ela acende
+          const brilho = new THREE.PointLight(0xbcd0ff, 0, 2.2, 1.6);
+          ctx.cena.add(brilho);
+          ctx.brilhoTela = brilho;
+        },
+        quadro: (tt, plano, ctx, fase) => {
+          if (fase !== "antes") return;
+          const q = ctx.cenarios.quarto2;
+          q.relogio.userData.mostrar(tt < t.manha ? "3:33" : "7:05");
+          const n = ctx.cenarios.noite;
+          // as janelas acendem: uma ou outra no título; no "em todos os celulares do planeta", a cidade inteira
+          const nivel = tt < t.mundo ? trilha([[0, 0], [4, 0.04]], tt) : trilha([[T("todos") - 0.2, 0.02], [T("planeta,") + 0.6, 1.0, "entra"]], tt);
+          n.acender(nivel, tt < t.mundo ? 0 : 1);
+          const ligada = tt >= VIBRA[0][0] && tt < t.manha && plano.cenario === "quarto2";
+          ctx.brilhoTela.position.set(CEL_CRIADO[0], CEL_CRIADO[1] + 0.25, CEL_CRIADO[2]).add(ctx.cenarios.quarto2.grupo.position);
+          ctx.brilhoTela.intensity = ligada ? (vibrando(tt) ? 1.8 : 1.2) : 0;
+        },
+      });
+
+    </script>
+  </body>
+</html>

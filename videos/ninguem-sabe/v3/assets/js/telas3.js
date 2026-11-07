@@ -41,8 +41,8 @@ function avatarLetra(g, x, y, r, letra, cor) {
 // tela bloqueada com a hora grande e a notificação do e-mail
 export function telaBloqueio(g, W, H, { hora = "3:33", data = "", notificacao = null, brilho = 1 } = {}) {
   const grad = g.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, "#1b2233");
-  grad.addColorStop(1, "#0b0d12");
+  grad.addColorStop(0, "#2c3a58");
+  grad.addColorStop(1, "#161b28");
   g.fillStyle = grad;
   g.fillRect(0, 0, W, H);
   barraDeStatus(g, W, hora);

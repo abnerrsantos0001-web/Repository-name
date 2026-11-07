@@ -7,3 +7,7 @@ renders/
 # prévias: só a folha de contato de cada parte entra no git
 previas/*/frame-*.jpg
 zz-*.html
+
+# quadros soltos de diagnóstico (tools/diag/quadros.mjs)
+previas/q/
+compositions/parte98.html
