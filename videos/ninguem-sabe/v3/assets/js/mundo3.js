@@ -643,7 +643,7 @@ export function caderno(pai, nome, x, y, z, ry, espelhado) {
     textoCentro(g, "CADERNO", w / 2, h * 0.3, h * 0.07, "#d9dee6", 700, "Inter");
     g.fillStyle = "#e9e6dd";
     g.fillRect(w * 0.12, h * 0.48, w * 0.76, h * 0.2);
-    textoCentro(g, "LUCAS", w / 2, h * 0.585, h * 0.12, "#1a1c22", 900);
+    textoCentro(g, "MATEMÁTICA", w / 2, h * 0.585, h * 0.075, "#1a1c22", 900);
     textoCentro(g, "8º ANO", w / 2, h * 0.8, h * 0.06, "#d9dee6", 700, "Inter");
   }, { espelhado, ppm: 2400 });
   capa.rotation.x = -Math.PI / 2;
