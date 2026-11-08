@@ -19,17 +19,17 @@ Tudo fica em `videos/ninguem-sabe/v3/`. Os MP4 estão em `renders/`. A pasta est
 | `renders/v3-parte11.mp4` | 1920x1080, 30 fps | 44,9 s |
 | `renders/v3-parte12.mp4` | 1920x1080, 30 fps | 47,5 s |
 | `renders/v3-parte13.mp4` | 1920x1080, 30 fps | 52,6 s |
-| `renders/v3-completo.mp4` | 1920x1080, 30 fps: gancho (7,1 s) + preto com grave (0,7 s) + as 13 partes | 10 min 3,0 s |
+| `renders/v3-completo.mp4` | 1920x1080, 30 fps: gancho (7,0 s) + preto com grave (0,7 s) + as 13 partes; 92 MB | 10 min 2,9 s |
 | `renders/v3-corte1.mp4` | 1080x1920, parte 01, capa "VOCÊ TEM 7 DIAS" | 46,9 s |
 | `renders/v3-corte2.mp4` | 1080x1920, parte 02, capa "ELE TINHA 3 DIAS" | 50,3 s |
 | `renders/v3-corte3.mp4` | 1080x1920, parte 04, capa "14:07" | 56,1 s |
 | `renders/v3-corte4.mp4` | 1080x1920, parte 05, capa "O MEU TAMBÉM TEM HORA" | 49,4 s |
-| `renders/v3-corte5.mp4` | 1080x1920, parte 07, capa "4.320 MINUTOS" | 47,0 s |
+| `renders/v3-corte5.mp4` | 1080x1920, parte 07, capa "4.320 MINUTOS" (1 quadro a mais no fim, sobre o cartão final, por arredondamento) | 47,0 s |
 | `renders/v3-corte6.mp4` | 1080x1920, parte 10, capa "A DATA MUDOU?" | 47,1 s |
 | `capa/capa-v3.png` | 1280x720, "VOCÊ TEM 7 DIAS" sobre o celular e o despertador às 3:33 | — |
 | `capa/corte1-capa.png` … `corte6-capa.png` | 1080x1920, o quadro de capa de cada corte | — |
 
-O final (partes 11, 12 e 13) fica só no vídeo completo do YouTube.
+O final (partes 11, 12 e 13) fica só no vídeo completo do YouTube. Todos os arquivos foram conferidos com ffprobe: resolução e número de quadros batem com `assets/audio/mix/partes.json`.
 
 ## Áudios
 - **Transcrição:** os 26 trechos foram transcritos com Whisper e ordenados pela história do HANDOFF. Ficaram 2 trechos por parte, 13 partes. Não faltou nem sobrou nenhum. Os detalhes estão em `ORDEM.md`.
@@ -38,7 +38,7 @@ O final (partes 11, 12 e 13) fica só no vídeo completo do YouTube.
   - `cta2.mp3` = "a história completa já está no canal" (2,7 s).
 
 ## As regras (REGRAS.md), uma por uma
-1. **Gancho.** O completo abre com 7,1 s da parte 4, no instante em que o Lucas encosta a cabeça às 14:07. Depois vem um corte seco para o preto, com um grave, e só então começa a parte 1.
+1. **Gancho.** O completo abre com 7,0 s da parte 4, no instante em que o Lucas encosta a cabeça às 14:07. Depois vem um corte seco para o preto, com um grave, e só então começa a parte 1.
 2. **Legendas.**
    - No 16:9 ficam no terço de baixo. Nos verticais ficam entre 65% e 70% da altura (uma frase de duas linhas começa um pouco mais alto).
    - Os letreiros vermelhos ficam no alto.
@@ -63,7 +63,7 @@ O final (partes 11, 12 e 13) fica só no vídeo completo do YouTube.
    - Mostra "A HISTÓRIA COMPLETA JÁ ESTÁ NO CANAL", "Toque no link aqui embaixo" e uma seta vermelha animada.
    - O áudio é o CTA2, sobre o último quadro congelado.
 9. **Saídas.**
-   - `v3-parteNN.mp4`, `v3-completo.mp4` (10 min 3 s), `v3-corteN.mp4` e `capa-v3.png`.
+   - `v3-parteNN.mp4`, `v3-completo.mp4` (10 min 2,9 s), `v3-corteN.mp4` e `capa-v3.png`.
    - O completo passa de 10 min sem esticar a voz. O tempo extra vem das aberturas de cada parte (com os letreiros "DIA N") e do final.
 10. **Commits.** Cada arquivo foi para o GitHub assim que ficou pronto.
 

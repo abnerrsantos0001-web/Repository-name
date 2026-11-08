@@ -19,7 +19,7 @@ Tudo o que uma conversa nova precisa para continuar o canal sem perder nada. Atu
 |---|---|---|
 | v1 | "E se você acordasse e TODO MUNDO tivesse sumido?" | **Pronto e enviado:** 11 partes, completo, 4 cortes, capa, REVIEW. |
 | v2 | "E se o seu reflexo parasse de te copiar?" | **Pronto e enviado:** 10 partes, completo (7 min, 88,9 MB), 4 cortes, capa, REVIEW. |
-| v3 | "E se você soubesse o dia da sua morte?" | **Produzido** (13 cenas, 6 cortes, capas, CTA). Partes 01–10 renderizadas; 11–13, a parte 01 de novo e os 6 cortes na fila de render; depois o completo. Detalhes na seção 10.2 e em `v3/REVIEW.md`. |
+| v3 | "E se você soubesse o dia da sua morte?" | **Pronto e enviado:** 13 partes, completo (10 min 2,9 s, 92 MB), 6 cortes com capa, CTA1 e cartão CTA2, capa-v3, REVIEW. |
 
 - **Branch de trabalho:** `claude/sharp-pasteur-25n0b1`. Ela **não** foi mergeada na `main`.
 - **PR:** nenhum foi aberto, e não abra sem pedido.
@@ -358,7 +358,7 @@ Os valores técnicos estão no PROMPT-MESTRE (seção REGRAS FIXAS) e o resumo n
   12. Celular vibra; e-mail "**Data atualizada**"; tela: "**A partir de agora, você não vai mais saber.**"; ele chorando em silêncio.
   13. Epílogo: a folha no bolso sendo riscada e reescrita; pergunta para os comentários; cartão "NINGUÉM SABE"; última imagem: celular vibrando às 3:33.
 
-### 10.2 Estado (08/11/2026): produzido; renders na fila
+### 10.2 Estado (08/11/2026): pronto e enviado
 
 O pedido da mensagem 2 (ver `REGRAS.md`, que vale para todos os próximos vídeos) foi feito inteiro. Tudo está em `videos/ninguem-sabe/v3/` e foi enviado nesta branch:
 
@@ -375,15 +375,9 @@ O pedido da mensagem 2 (ver `REGRAS.md`, que vale para todos os próximos vídeo
   - cartão final em `compositions/cartao-final.html`;
   - prévias verticais 720p em `previas/corteN/folha.jpg`.
 - **Capa do longo:** `capa/capa-v3.png` (1280x720).
-- **Renders prontos e enviados:** partes 01–10.
-- **Na fila (`$S/fila-v3c.txt`):** 11, 12, 13, 01 de novo (o e-mail desalinhado da manhã e o título agora em vermelho), corte1–corte6.
-  - Depois da fila: `tools/montar_completo.sh` → `renders/v3-completo.mp4` (~95 MB).
-  - Por último: conferir com ffprobe e fechar o `REVIEW.md` (durações e planos mais fracos).
-- **Se a fila morrer** (o limite é 2 h por tarefa em segundo plano), crie um arquivo de fila novo só com as linhas que faltam e rode:
-
-```bash
-cd videos/ninguem-sabe/v3 && TMPDIR=$S/rv3 RODAPE=$'Co-Authored-By: ...\nClaude-Session: ...' tools/rodar_fila.sh $S/fila-nova.txt $S/fila-nova.log
-```
-
+- **Renders prontos e enviados:** as 13 partes, `v3-completo.mp4` e `v3-corte1` a `v3-corte6`. Todos foram conferidos com ffprobe.
+- **Para mexer de novo:**
+  - render de uma parte ou de um corte: `tools/renderizar.sh` (ou a fila `tools/rodar_fila.sh`, que tem o limite de 2 h por tarefa em segundo plano);
+  - o completo: `tools/montar_completo.sh`.
   - O servidor das prévias precisa estar rodando: `nohup python3 -m http.server 8766` dentro de `v3/`.
   - O venv do áudio fica em `$S/audio-venv` (numpy, scipy, soundfile).
