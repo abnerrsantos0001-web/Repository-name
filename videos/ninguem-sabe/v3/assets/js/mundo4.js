@@ -668,6 +668,7 @@ export function criarPraia(cena) {
     const morro = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), mat(0x5b6e5a));
     morro.scale.set(r, h, r * 0.7);
     morro.position.set(x, -h * 0.3, z);
+    morro.userData.passavel = true;
     g.add(morro);
   }
   // pedras na beira, coqueiros, a estrada e o ponto de ônibus lá atrás
@@ -680,6 +681,7 @@ export function criarPraia(cena) {
     p.rotation.set(rp() * 3, rp() * 3, 0);
     p.castShadow = true;
     p.name = "pedra";
+    p.userData.passavel = true; // pedras encostadas umas nas outras na beira (ninguém passa por elas)
     g.add(p);
   }
   for (const [x, z, s] of [[-12, 14, 1], [-15, 18, 0.9], [11, 16, 1.1], [24, 20, 0.95]]) {
@@ -699,7 +701,7 @@ export function criarPraia(cena) {
   onibus.position.set(-6, PRAIA.areia(PRAIA.estrada) + 0.05, PRAIA.estrada + 1.4);
   g.add(onibus);
   api.onibus = onibus;
-  const ponto = obj(g, "ponto", 2, PRAIA.areia(PRAIA.estrada - 1.5) + 0.09, PRAIA.estrada - 1.5);
+  const ponto = passavel(obj(g, "ponto", 2, PRAIA.areia(PRAIA.estrada - 1.5) + 0.09, PRAIA.estrada - 1.5));
   for (const x of [-1.2, 1.2]) caixa(ponto, 0.08, 2.4, 0.08, 0x5a5c60, x, 1.2, -0.5);
   caixa(ponto, 2.8, 0.06, 1.2, 0x7a8a96, 0, 2.42, 0, { metal: 0.3, aspereza: 0.4 });
   // luz: sol de fim de tarde e céu
@@ -785,9 +787,11 @@ export function criarCasaJulia(cena) {
     caixa(g, 0.05, 1.2, 0.1, 0xf2efe8, x, 1.55, 0.05);
   }
   // porta (abre para dentro) com batente
-  for (const [w, h, x, y] of [[0.08, 2.15, -0.54, 1.075], [0.08, 2.15, 0.54, 1.075], [1.16, 0.08, 0, 2.14]]) caixa(g, w, h, 0.24, 0xf2efe8, x, y, -0.06);
+  const batente = passavel(obj(g, "batente"));
+  for (const [w, h, x, y] of [[0.08, 2.15, -0.54, 1.075], [0.08, 2.15, 0.54, 1.075], [1.16, 0.08, 0, 2.14]]) caixa(batente, w, h, 0.24, 0xf2efe8, x, y, -0.06);
   const dob = new THREE.Group();
   dob.name = "porta";
+  dob.userData.passavel = true; // a folha aberta encosta no batente
   dob.position.set(-0.5, V, -0.08);
   g.add(dob);
   caixa(dob, 1.0, 1.95, 0.05, 0x6a3a2a, 0.5, 0.975, 0);
@@ -797,8 +801,10 @@ export function criarCasaJulia(cena) {
   const varanda = passavel(obj(g, "varanda"));
   caixa(varanda, 4.0, V, 1.8, 0x9a8f80, 0, V / 2, 0.9);
   caixa(varanda, 1.6, 0.08, 0.35, 0x9a8f80, 0, 0.04, 1.97);
-  caixa(g, 4.2, 0.1, 2.0, 0x6a5a4a, 0, 2.55, 0.95);
-  for (const s of [-1, 1]) cilindro(g, 0.07, 0.07, 2.4, 8, 0xf2efe8, s * 1.9, 1.35, 1.75);
+  // teto da varanda e pilares: uma peça só, encostada na fachada (ninguém passa por ali)
+  const tetoVar = passavel(obj(g, "teto-varanda"));
+  caixa(tetoVar, 4.2, 0.1, 2.0, 0x6a5a4a, 0, 2.55, 0.95);
+  for (const s of [-1, 1]) cilindro(tetoVar, 0.07, 0.07, 2.4, 8, 0xf2efe8, s * 1.9, 1.35, 1.75);
   const arandela = new THREE.Mesh(new THREE.SphereGeometry(0.08, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffe2b0 }));
   arandela.position.set(0.85, 2.15, 0.06);
   g.add(arandela);
@@ -813,6 +819,7 @@ export function criarCasaJulia(cena) {
     a.position.set((rj() < 0.5 ? -1 : 1) * (1.4 + rj() * 3), 0.25, 2.2 + rj() * 1.2);
     a.castShadow = true;
     a.name = "arbusto";
+    a.userData.passavel = true; // arbustos do jardim se tocam entre si
     g.add(a);
   }
   // rua: casas vizinhas, poste, céu de fim de tarde

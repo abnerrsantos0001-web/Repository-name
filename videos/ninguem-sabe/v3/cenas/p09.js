@@ -1,0 +1,200 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, trilha } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { PRAIA } from "./assets/js/mundo4.js";
+      import { PI, ALT, eixos, em, no, noColo, falar, celularExtra } from "./assets/js/v3.js";
+      import { telaEmail } from "./assets/js/telas3.js";
+      import { PALAVRAS } from "./assets/js/tempos/v3-parte09.js";
+
+      // Parte 9: o primeiro ônibus para a praia; a porta abre, o cheiro do mar; parado na areia sem saber o que fazer com
+      // as mãos; é maior do que ele imaginava; entra de roupa e tudo. Na volta, a casa da Júlia: ele treme, fala tudo de
+      // uma vez; ela fica em silêncio, mostra a data dela (52 anos): "Eu queria que você tivesse falado isso antes". E abraça.
+      const T = tempos(PALAVRAS);
+      const FIM = 46.0;
+      const t = {
+        estrada: T("Você pega") - 0.15,
+        porta: T("Quando") - 0.15,
+        ve: T("E quando") - 0.12,
+        maior: T("É maior") - 0.12,
+        entra: T("Você entra") - 0.15,
+        volta: T("Na volta,") - 0.15,
+        treme: T("Treme") - 0.15,
+        fala: T("Fala") - 0.12,
+        silencio: T("Ela fica") - 0.12,
+        celular: T("Depois") - 0.12,
+        tela: T("te mostra") - 0.1,
+        queria: T("Eu queria") - 0.12,
+        abraca: T("te abraça.") - 0.25,
+      };
+      const BUS = [-0.5, 0.56, 0.84];
+      const A = (x, z) => [x, ALT + PRAIA.areia(z), z];
+      const V = 0.15; // varanda da Júlia
+      const ELE_V = [0.15, ALT + V, 1.32];
+      const JULIA_V = [-0.15, ALT + V, 0.55];
+      const presa = (quem, f, d, c, ac = 0, fov = 38) => (tt, ctx) => {
+        const b = quem === "ele" ? ctx.boneco : ctx.outros[quem].boneco;
+        const { cabeca } = pontosDoBoneco(b);
+        const { frente, direita, cima } = eixos(b);
+        return { pos: em(cabeca, [frente, f], [direita, d], [cima, c]), alvo: em(cabeca, [cima, ac]), fov };
+      };
+      const abracando = (tt) => tt >= t.abraca + 0.1;
+
+      iniciarParte({
+        host: "__parte09",
+        cenarios: ["onibus", "praia", "casaJulia"],
+        planos: [
+          { de: 0, cenario: "onibus", nome: "abre" }, //                                   (a estrada)
+          { de: t.estrada, cenario: "onibus", nome: "janela" }, //                         Você pega o primeiro ônibus pra praia, três horas de estrada.
+          { de: t.porta, cenario: "praia", nome: "porta", modo: "dia", preenchimento: 1.2 }, //                Quando a porta abre, você sente o cheiro do mar antes de ver.
+          { de: t.ve, cenario: "praia", nome: "ve", modo: "dia" }, //                      E quando vê, fica parado na areia, sem saber o que fazer com as mãos.
+          { de: t.maior, cenario: "praia", nome: "maior", modo: "dia" }, //                É maior do que você imaginava.
+          { de: t.entra, cenario: "praia", nome: "entra", modo: "tarde" }, //              Você entra de roupa e tudo.
+          { de: t.volta, cenario: "casaJulia", nome: "volta", modo: "noite" }, //          Na volta, você para na casa da Júlia.
+          { de: t.treme, cenario: "casaJulia", nome: "treme", modo: "noite" }, //          Treme mais do que no dia do Lucas.
+          { de: t.fala, cenario: "casaJulia", nome: "fala", modo: "noite" }, //            Fala tudo de uma vez, sem respirar.
+          { de: t.silencio, cenario: "casaJulia", nome: "silencio", modo: "noite" }, //    Ela fica um tempo em silêncio.
+          { de: t.celular, cenario: "casaJulia", nome: "celular", modo: "noite" }, //      Depois tira o celular do bolso e
+          { de: t.tela, cenario: "casaJulia", nome: "tela", modo: "noite" }, //            te mostra a data dela. 52 anos.
+          { de: t.queria, cenario: "casaJulia", nome: "queria", modo: "noite" }, //        Eu queria que você tivesse falado isso antes, ela diz.
+          { de: t.abraca, cenario: "casaJulia", nome: "abraca", modo: "noite" }, //        E te abraça.
+        ],
+        cortesEscuros: [t.porta, t.volta],
+        preenchimento: { casaJulia: 0.55, praia: 0 },
+        cameras: {
+          abre: { k: [[0, [1.0, 1.65, -0.35], [-0.7, 1.15, 0.85], 52], [t.estrada, [0.9, 1.62, -0.3], [-0.7, 1.15, 0.85], 50]], tremor: 0.003 },
+          janela: { k: [[t.estrada, [0.28, 1.42, 0.52], [-0.48, 1.34, 0.9], 40], [t.porta, [0.24, 1.42, 0.55], [-0.48, 1.34, 0.9], 36]], tremor: 0.003 },
+          porta: (tt, ctx) => {
+            const { cabeca } = pontosDoBoneco(ctx.boneco);
+            return { pos: cabeca.clone().add(new THREE.Vector3(0.9, -0.05, -1.3)), alvo: cabeca.clone().add(new THREE.Vector3(0, -0.15, 0)), fov: 40 };
+          },
+          ve: (tt, ctx) => {
+            const { cabeca } = pontosDoBoneco(ctx.boneco);
+            return { pos: cabeca.clone().add(new THREE.Vector3(0.6, 0.1, 2.4)), alvo: cabeca.clone().add(new THREE.Vector3(-0.2, -0.25, -3)), fov: 46 };
+          },
+          maior: { k: [[t.maior, [1.8, 0.75, 9.5], [-0.5, 2.0, -30], 58], [t.entra, [1.6, 0.9, 9.0], [-0.5, 2.0, -30], 60]], tremor: 0.0015 },
+          entra: (tt, ctx) => {
+            const b = ctx.boneco.position;
+            return { pos: b.clone().add(new THREE.Vector3(2.8, 0.85, 4.2)), alvo: b.clone().add(new THREE.Vector3(-0.3, 0.1, -1.5)), fov: 44 };
+          },
+          volta: { k: [[t.volta, [2.7, 1.5, 7.8], [0, 1.15, 2.4], 46], [t.treme, [2.4, 1.48, 7.2], [0, 1.15, 2.0], 44]], tremor: 0.002 },
+          treme: (tt, ctx) => {
+            const { cabeca } = pontosDoBoneco(ctx.boneco);
+            return { pos: no("casaJulia", 1.45, 1.45, 0.55), alvo: cabeca.clone().add(new THREE.Vector3(-0.15, -0.12, -0.2)), fov: 40 };
+          },
+          fala: { k: [[t.fala, [1.95, 1.45, 0.88], [0.0, 1.3, 0.86], 42], [t.silencio, [1.85, 1.43, 0.9], [0.0, 1.3, 0.86], 40]], tremor: 0.0018 },
+          silencio: presa("julia", 0.8, 0.55, -0.02, -0.12, 38),
+          celular: { k: [[t.celular, [1.95, 1.45, 0.88], [0.0, 1.22, 0.86], 42], [t.tela, [1.9, 1.43, 0.9], [0.0, 1.22, 0.86], 40]], tremor: 0.0018 },
+          tela: (tt, ctx) => {
+            const { cabeca } = pontosDoBoneco(ctx.boneco);
+            const c = ctx.celJulia.obj;
+            c.updateMatrixWorld(true);
+            const centro = c.localToWorld(new THREE.Vector3(0, 0, 0));
+            const alvo = c.localToWorld(new THREE.Vector3(0, -0.012, 0));
+            const dir = centro.clone().sub(cabeca).normalize();
+            return { pos: alvo.clone().addScaledVector(dir, -0.36), alvo, fov: 32 };
+          },
+          queria: presa("julia", 0.85, 0.55, -0.02, -0.12, 38),
+          abraca: { k: [[t.abraca, [1.85, 1.55, 0.95], [0.0, 1.45, 0.9], 42], [FIM, [1.7, 1.55, 0.95], [0.0, 1.45, 0.9], 39]], tremor: 0.0015 },
+        },
+        semCabeca: (tt, p) => p.nome === "tela",
+        personagem: {
+          semente: 37,
+          onde: [[0, "onibus"], [t.porta, "praia"], [t.volta, "casaJulia"]],
+          pos: [
+            [0, BUS], [t.porta, A(-1.6, 27.6), "corte"], [t.ve, A(0, 4.2), "corte"], [t.entra, A(0, 4.2)], [t.volta - 0.05, A(0, -8.5), "linear"],
+            [t.volta, [0.0, ALT + 0.13, 5.0], "corte"], [t.treme - 0.05, [0.12, ALT + 0.13, 2.2], "linear"], [t.treme, ELE_V, "corte"],
+          ],
+          passos: [[t.entra, t.volta - 0.05, 0.8, 0.6], [t.volta, t.treme - 0.05, 0.85, 0.6]],
+          pose: {
+            giro: [[0, PI / 2], [t.porta, PI, "corte"]],
+            quadril: [[0, -PI / 2], [t.porta, 0, "corte"]],
+            joelho: [[0, 1.5], [t.porta, 0, "corte"]],
+            inclinar: [[0, 0.0], [t.porta, -0.08, "corte"], [t.ve, 0.02, "corte"], [t.treme, 0.06, "corte"], [t.abraca, 0.06], [t.abraca + 0.6, 0.12, "ambos"]],
+            cabecaInclina: [[0, 0.05], [t.porta, -0.25, "corte"], [t.ve, -0.05, "corte"], [t.volta, 0.1, "corte"], [t.treme, 0.05, "corte"], [t.tela, 0.3, "corte"], [t.queria, 0.05, "corte"]],
+            cabecaGiro: [[0, -0.5], [t.porta, 0, "corte"], [t.abraca, 0], [t.abraca + 0.6, -0.85, "ambos"]],
+            cabecaTomba: [[0, 0.25], [t.porta, 0, "corte"], [t.abraca, 0], [t.abraca + 0.6, 0.25, "ambos"]],
+            olhos: [[0, 1], [t.porta, 1], [T("cheiro") - 0.2, 0.05, "ambos"], [T("ver."), 0.05], [t.ve, 1.15, "corte"], [t.abraca + 0.4, 1], [t.abraca + 0.9, 0.05, "ambos"]],
+            sorriso: [[0, 0], [t.porta, 0.35, "corte"], [t.ve, 0.5, "corte"], [t.maior, 0.85, "corte"], [t.volta, 0, "corte"], [t.queria, 0.2, "corte"], [t.abraca, 0.6]],
+            boca: [[0, 0], [t.ve, 0.25, "corte"], [t.maior, 0.2, "corte"], [t.volta, 0, "corte"], ...falar([[t.fala + 0.1, t.silencio - 0.2]], 0.32).slice(1)],
+            sobrancelha: [[0, 0], [t.ve, 0.6, "corte"], [t.volta, 0, "corte"], [t.treme, 0.3, "corte"]],
+            sobrancelhaMedo: [[0, 0], [t.treme, 0.75, "corte"], [t.tela, 0.4, "corte"], [t.queria, 0.3]],
+            ofegar: [[0, 0], [t.treme, 1.5, "corte"], [t.silencio, 0.6]],
+          },
+          semPiscar: [[T("cheiro") - 0.3, T("ver.") + 0.2]],
+          maos: (tt, pts, ctx, b) => {
+            const { frente, direita, cima } = eixos(b);
+            if (tt < t.porta) return noColo(b);
+            if (tt >= t.ve && tt < t.maior) {
+              // sem saber o que fazer com as mãos: esfrega uma na outra na frente da barriga
+              const k = Math.sin(tt * 5.5) * 0.03;
+              const c = em(pts.cabeca, [frente, 0.34], [cima, -0.62]);
+              return { alvoE: em(c, [direita, -0.06 + k]), pesoE: 1, alvoD: em(c, [direita, 0.06 - k]), pesoD: 1 };
+            }
+            if (tt >= t.treme && tt < t.fala) {
+              const k = Math.sin(tt * 31) * 0.008;
+              const c = em(pts.cabeca, [frente, 0.32], [cima, -0.58]);
+              return { alvoE: em(c, [direita, -0.07], [cima, k]), pesoE: 1, alvoD: em(c, [direita, 0.07], [cima, -k]), pesoD: 1 };
+            }
+            if (abracando(tt)) {
+              // abraço: as mãos nas costas/ombros dela
+              const j = ctx.outros.julia.boneco;
+              const pj = pontosDoBoneco(j);
+              const ej = eixos(j);
+              const k = trilha([[t.abraca + 0.1, 0], [t.abraca + 0.7, 1, "ambos"]], tt);
+              return { alvoE: em(pj.cabeca, [ej.direita, -0.36], [ej.cima, -0.8], [ej.frente, -0.02]), pesoE: k, alvoD: em(pj.cabeca, [ej.direita, 0.36], [ej.cima, -0.8], [ej.frente, -0.02]), pesoD: k };
+            }
+            return null;
+          },
+        },
+        outros: [
+          {
+            id: "julia", variante: "julia", semente: 51, onde: [[0, "casaJulia"]],
+            pos: [[0, [0.25, ALT + V, -1.2]], [T("Treme") + 1.0, [0.25, ALT + V, -1.2]], [t.fala - 0.1, JULIA_V, "suave"]],
+            passos: [[T("Treme") + 1.0, t.fala - 0.1, 0.8, 0.55]],
+            pose: {
+              giro: [[0, 0]],
+              inclinar: [[0, 0.02], [t.abraca, 0.02], [t.abraca + 0.6, 0.12, "ambos"]],
+              cabecaInclina: [[0, 0.05], [t.celular + 0.5, 0.3, "ambos"], [t.tela, 0.1, "ambos"], [t.queria, 0.08]],
+              cabecaGiro: [[0, 0], [t.abraca, 0], [t.abraca + 0.6, 0.85, "ambos"]],
+              cabecaTomba: [[0, 0], [t.abraca, 0], [t.abraca + 0.6, -0.25, "ambos"]],
+              sobrancelha: [[0, 0.3], [t.fala + 1, 0.55, "ambos"], [t.silencio, 0.1, "ambos"]],
+              sobrancelhaMedo: [[0, 0], [t.silencio, 0.45, "ambos"], [t.queria, 0.5]],
+              sorriso: [[0, 0], [t.queria, 0], [T("antes,") , 0.45, "ambos"], [t.abraca, 0.5]],
+              boca: falar([[T("Eu queria"), T.fim("antes,")]], 0.28),
+              olhos: [[0, 1], [t.abraca + 0.4, 1], [t.abraca + 0.9, 0.05, "ambos"]],
+              choro: [[0, 0], [t.queria, 0], [t.queria + 1.2, 0.7, "ambos"]],
+            },
+            maos: (tt, pts, ctx, b) => {
+              const { frente, direita, cima } = eixos(b);
+              if (tt >= t.celular && tt < t.queria) {
+                // tira o celular do bolso e mostra a tela para ele
+                const k = trilha([[t.celular, 0], [t.celular + 1.2, 1, "ambos"]], tt);
+                const vira = trilha([[t.tela - 0.6, 0], [t.tela, 1, "ambos"]], tt);
+                const a = em(pts.cabeca, [frente, 0.25 + 0.17 * k + 0.05 * vira], [cima, -0.7 + 0.36 * k], [direita, 0.06]);
+                return { alvoE: a, pesoE: 1, alvoD: em(a, [direita, 0.05]), pesoD: 0.7 * k };
+              }
+              if (abracando(tt)) {
+                const e = ctx.boneco;
+                const pe = pontosDoBoneco(e);
+                const ee = eixos(e);
+                const k = trilha([[t.abraca + 0.1, 0], [t.abraca + 0.7, 1, "ambos"]], tt);
+                return { alvoE: em(pe.cabeca, [ee.direita, 0.42], [ee.cima, -0.52], [ee.frente, 0.02]), pesoE: k, alvoD: em(pe.cabeca, [ee.direita, -0.42], [ee.cima, -0.52], [ee.frente, 0.02]), pesoD: k };
+              }
+              return null;
+            },
+          },
+        ],
+        montar: (ctx) => {
+          ctx.celJulia = celularExtra(ctx.cena);
+          ctx.celJulia.mostrar("52", (g, W, H) => telaEmail(g, W, H, { hora: "19:40", frase: "Você tem 52 anos." }));
+        },
+        quadro: (tt, plano, ctx, fase) => {
+          if (fase === "antes") {
+            ctx.cenarios.casaJulia.porta(trilha([[0, 0], [T("Treme") + 0.1, 0], [T("Treme") + 1.0, 1.25, "ambos"]], tt));
+            return;
+          }
+          const j = ctx.outros.julia.boneco;
+          if (plano.cenario === "casaJulia" && tt >= t.celular + 0.3 && tt < t.queria) ctx.celJulia.naMao(j, tt >= t.tela - 0.6 ? pontosDoBoneco(ctx.boneco).cabeca : pontosDoBoneco(j).cabeca);
+          else ctx.celJulia.esconder();
+        },
+      });
