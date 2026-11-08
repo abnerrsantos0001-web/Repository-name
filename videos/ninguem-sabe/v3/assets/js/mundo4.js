@@ -43,8 +43,8 @@ function sirene(pai, x, y, z, alcance = 14) {
   const a = luzPonto(pai, 0x2a5cff, 0, x, y, z - 1.2, alcance, 1.2);
   return (t, nivel) => {
     const f = ((t * 2.6) % 1 + 1) % 1;
-    v.intensity = nivel * (f < 0.5 ? 14 : 1.5);
-    a.intensity = nivel * (f >= 0.5 ? 14 : 1.5);
+    v.intensity = nivel * (f < 0.5 ? 46 : 3);
+    a.intensity = nivel * (f >= 0.5 ? 46 : 3);
   };
 }
 // planta em vaso

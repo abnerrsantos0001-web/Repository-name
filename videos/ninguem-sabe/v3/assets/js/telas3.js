@@ -79,7 +79,7 @@ export function telaBloqueio(g, W, H, { hora = "3:33", data = "", notificacao = 
 }
 
 // o e-mail aberto: sem remetente, sem assinatura, só uma frase (em vermelho); "pequenas" = letras miúdas lá embaixo
-export function telaEmail(g, W, H, { hora = "7:05", assunto = "(sem assunto)", frase = "Você tem 7 dias.", pequenas = null, destaquePequenas = false, extra = null } = {}) {
+export function telaEmail(g, W, H, { hora = "7:05", assunto = "(sem assunto)", frase = "Você tem 7 dias.", pequenas = null, destaquePequenas = false, extra = null, extraCor = "#1a1c22", extraTam = 52 } = {}) {
   g.fillStyle = "#f2f1ee";
   g.fillRect(0, 0, W, H);
   g.fillStyle = "#e4e2dd";
@@ -101,9 +101,9 @@ export function telaEmail(g, W, H, { hora = "7:05", assunto = "(sem assunto)", f
   g.font = fonte(900, 66);
   quebrar(g, frase, 40, 470, W - 80, 78);
   if (extra) {
-    g.fillStyle = "#1a1c22";
-    g.font = fonte(800, 52);
-    quebrar(g, extra, 40, 700, W - 80, 62);
+    g.fillStyle = extraCor;
+    g.font = fonte(900, extraTam);
+    quebrar(g, extra, 40, 700 + (extraTam - 52), W - 80, extraTam * 1.15);
   }
   if (pequenas) {
     g.fillStyle = destaquePequenas ? VERMELHO : "#9a9ca0";

@@ -111,6 +111,8 @@ const VARIANTES = {
   lucas: { moletom: 0x3e5878, moletomSombra: 0x31465f, calca: 0x2a2c31, cabelo: "curto", corCabelo: 0x2b211b, capuz: false, bone: 0x1d2c44, abaBone: 0x17233a },
   // Júlia: cabelo comprido castanho, blusa rosada apagada
   julia: { moletom: 0x8a6e72, moletomSombra: 0x70585c, calca: 0x2b2d36, cabelo: "comprido", corCabelo: 0x3b2a20, capuz: false },
+  // o professor (parte 5): paletó marrom, cabelo grisalho
+  professor: { moletom: 0x5b5446, moletomSombra: 0x4a4438, calca: 0x2e3036, cabelo: "curto", corCabelo: 0x8a8a86, capuz: false, blusa: 0xd9d6cf, botoes: 0x2e3036 },
   // colegas de sala e gente nas filas
   aluno: { moletom: 0x5a6670, moletomSombra: 0x48525a, calca: 0x2b2d33, cabelo: "curto", corCabelo: 0x241e1a, capuz: false },
   aluna: { moletom: 0x6f6458, moletomSombra: 0x5a5148, calca: 0x2a2b30, cabelo: "comprido", corCabelo: 0x2e231c, capuz: false },

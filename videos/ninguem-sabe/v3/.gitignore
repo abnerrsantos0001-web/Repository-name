@@ -11,3 +11,5 @@ zz-*.html
 # quadros soltos de diagnóstico (tools/diag/quadros.mjs)
 previas/q/
 compositions/parte98.html
+# raiz gerada por tools/gerar_raizes.py (prévias e renders)
+index.html
