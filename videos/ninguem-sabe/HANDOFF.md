@@ -1,12 +1,13 @@
 # HANDOFF — canal "Ninguém Sabe"
 
-Tudo o que uma conversa nova precisa para continuar o canal sem perder nada. Atualizado em 07/11/2026.
+Tudo o que uma conversa nova precisa para continuar o canal sem perder nada. Atualizado em 08/11/2026.
 
 > **Leia nesta ordem:**
 > 1. este arquivo;
 > 2. `videos/prompt-mestre/PROMPT-MESTRE.md` (o manual completo; a seção **REGRAS FIXAS DO CANAL** manda);
 > 3. o `CLAUDE.md` da raiz do repositório (fluxo do Instagram + resumo das regras fixas dos vídeos);
-> 4. `videos/ninguem-sabe/v2/REVIEW.md` (como o vídeo 2 foi feito, decisões e planos fracos).
+> 4. `videos/ninguem-sabe/REGRAS.md` (as regras mais novas, com prioridade);
+> 5. `videos/ninguem-sabe/v3/REVIEW.md` (como o vídeo 3 foi feito, decisões e planos fracos).
 >
 > O `CLAUDE.md` que fica dentro de cada `vN/` é o texto padrão do HyperFrames (como usar o CLI), não as regras do canal.
 
@@ -18,7 +19,7 @@ Tudo o que uma conversa nova precisa para continuar o canal sem perder nada. Atu
 |---|---|---|
 | v1 | "E se você acordasse e TODO MUNDO tivesse sumido?" | **Pronto e enviado:** 11 partes, completo, 4 cortes, capa, REVIEW. |
 | v2 | "E se o seu reflexo parasse de te copiar?" | **Pronto e enviado:** 10 partes, completo (7 min, 88,9 MB), 4 cortes, capa, REVIEW. |
-| v3 | "E se você soubesse o dia da sua morte?" | **Em preparação.** Kit adaptado em parte às regras fixas. **Os 26 áudios e os 2 CTAs já estão na `main`**, mas ainda não foram trazidos para a branch nem transcritos. Detalhes na seção 10. |
+| v3 | "E se você soubesse o dia da sua morte?" | **Produzido** (13 cenas, 6 cortes, capas, CTA). Partes 01–10 renderizadas; 11–13, a parte 01 de novo e os 6 cortes na fila de render; depois o completo. Detalhes na seção 10.2 e em `v3/REVIEW.md`. |
 
 - **Branch de trabalho:** `claude/sharp-pasteur-25n0b1`. Ela **não** foi mergeada na `main`.
 - **PR:** nenhum foi aberto, e não abra sem pedido.
@@ -357,148 +358,32 @@ Os valores técnicos estão no PROMPT-MESTRE (seção REGRAS FIXAS) e o resumo n
   12. Celular vibra; e-mail "**Data atualizada**"; tela: "**A partir de agora, você não vai mais saber.**"; ele chorando em silêncio.
   13. Epílogo: a folha no bolso sendo riscada e reescrita; pergunta para os comentários; cartão "NINGUÉM SABE"; última imagem: celular vibrando às 3:33.
 
-### 10.2 O que já foi feito (tudo em `videos/ninguem-sabe/v3/`, enviado nesta branch)
+### 10.2 Estado (08/11/2026): produzido; renders na fila
 
-- **Projeto criado** a partir do kit do v2:
-  - `assets/js/*` inteiro, `tools/*`, `.gitignore`, `hyperframes.json`, `package.json` e `meta.json` (id "v3");
-  - referências de nome trocadas de v2 para v3 (`v3-parteNN`, `v3-completo`, `render-v3-*`, "Vídeo 3").
-- **`tools/gerar_legendas.py` refeito para as regras fixas:**
-  - 16:9 com `bottom: 165px` e 66 px; vertical com `bottom: 600px` e 86 px;
-  - contorno preto (`-webkit-text-stroke` + `paint-order`);
-  - exceção por plano `LEGENDA_POR_PLANO`, limitada à faixa permitida;
-  - novo alvo **`corteN`**, que gera `legendas-corteN.html` com as frases das partes que o intervalo toca, já no tempo do corte (depois da capa);
-  - `PARTES` está **vazio**, esperando os grupos do v3.
-- **`assets/js/cena.js`:**
-  - `CLARIDADE = 1.3` (exposição × 1,3 e preenchimento × 1,3);
-  - `AMBIENTE = 1.3` (hemisféricas e ambiente × 1,3 a cada troca de modo, sem acumular);
-  - variável **`ate`**, que congela a cena num instante.
-- **`tools/nova_parte.py`:** as composições de parte declaram `data-composition-variables` (`inicio`, `ate`) e leem os valores com `window.__hyperframes.getVariables()`.
-- **`tools/gerar_raizes.py`:**
-  - **cortes por intervalo:** `<img>` da capa (`capa/corteN-capa.png`) na frente, depois um host de cena para cada parte que o intervalo toca (`inicio` = segundos dentro da parte; a última congela com `ate` sob o cartão), as legendas do corte e `compositions/cartao-final.html` no fim;
-  - lê `partes.json["cortes"]` (`quadro_inicio`, `quadro_fim`, `capa`, `cartao`);
-  - novo alvo **`capacorteN`** (capa vertical, quadro em t = 1 s).
-- **`compositions/cartao-final.html`: pronto e testado** em snapshot.
-  - "NINGUÉM SABE" pequeno no topo;
-  - "A HISTÓRIA / **COMPLETA** / JÁ ESTÁ / NO CANAL" (104 px, contorno preto, "COMPLETA" em vermelho);
-  - "Toque no link aqui embaixo";
-  - seta vermelha em SVG que entra com escala e quica 30 px (GSAP, `yoyo`, `repeat: 6`), sobre um véu de 80–90% (o último quadro congelado por baixo);
-  - os ~12% de baixo ficam livres.
-- **Scripts salvos no repositório** (antes estavam só na área temporária):
-  - `tools/commit_render.sh` (commit + push de cada MP4, genérico, com o rodapé em `RODAPE`);
-  - `tools/rodar_fila.sh`;
-  - `tools/diag/` (`qual.mjs`, `outro.mjs`, `maos.mjs`, `cabeca.mjs`, `erros.mjs`);
-  - os códigos-fonte das cenas dos vídeos anteriores: `v2/cenas/p01–p10.js`, `p10-extra.html`, `capa.js`, `capa-extra.html` e `v1/cenas/` (p03–p11 e capa; os miolos das partes 01–02 do v1 estão dentro de `v1/compositions/parte01.html` e `parte02.html`).
-- **Áudios:** **já estão na `main`**, mas ainda não na branch (seção 10.4).
+O pedido da mensagem 2 (ver `REGRAS.md`, que vale para todos os próximos vídeos) foi feito inteiro. Tudo está em `videos/ninguem-sabe/v3/` e foi enviado nesta branch:
 
-### 10.3 O que falta, em ordem
+- **Áudios.** Foram transcritos com Whisper e ordenados pela história: 26 trechos, 2 por parte, 13 partes. Os detalhes estão em `ORDEM.md`. Os dois CTAs estavam com os nomes trocados: `cta1.mp3` agora é "se inscreve no Ninguém Sabe" e `cta2.mp3` é "a história completa já está no canal".
+- **Cenas p01–p13** (`cenas/pNN.js`, que viram `compositions/parteNN.html` com `tools/nova_parte.py`):
+  - todas com colisões sem nada acima de 2 cm;
+  - todas com prévia 720p (`previas/pNN/folha.jpg`) e YAVG ≥ 70 em todos os quadros.
+  - Motor: `mundo4.js` (sala, escola, garagem, praia, casa da Júlia, aeroporto, igreja, cidade à noite), `telas3.js` (telas, TV e a folha do caderno) e `v3.js` (apoio comum).
+- **Som.** `tools/sons.py` é a biblioteca e `tools/audio.py` tem as pistas do v3 (149 efeitos). O gancho dura 7,0 s (parte 4, o Lucas às 14:07), seguido de 0,7 s de preto com um grave. O completo tem 602,9 s (18087 quadros).
+- **Cortes** (partes 1, 2, 4, 5, 7 e 10):
+  - capas em `capa/corteN-capa.png`, feitas por `tools/gerar_capas.py`, que gera `partecapacorteN` + snapshot;
+  - legendas em `compositions/legendas-corteN.html`;
+  - CTA1 em `compositions/cta-inscreva.html`: a cena para em ~70% com o botão INSCREVA-SE e o sininho;
+  - cartão final em `compositions/cartao-final.html`;
+  - prévias verticais 720p em `previas/corteN/folha.jpg`.
+- **Capa do longo:** `capa/capa-v3.png` (1280x720).
+- **Renders prontos e enviados:** partes 01–10.
+- **Na fila (`$S/fila-v3c.txt`):** 11, 12, 13, 01 de novo (o e-mail desalinhado da manhã e o título agora em vermelho), corte1–corte6.
+  - Depois da fila: `tools/montar_completo.sh` → `renders/v3-completo.mp4` (~95 MB).
+  - Por último: conferir com ffprobe e fechar o `REVIEW.md` (durações e planos mais fracos).
+- **Se a fila morrer** (o limite é 2 h por tarefa em segundo plano), crie um arquivo de fila novo só com as linhas que faltam e rode:
 
-**A. Kit (sem depender do áudio)**
-1. **`tools/audio.py`** (ainda com as pistas do v2, então **não rode como está**):
-   - separar os efeitos numa biblioteca (`tools/sons.py`, que já estava planejada) e deixar o `audio.py` só com o v3;
-   - **efeitos novos:**
-     - `grave_gancho()` (subgrave 35–45 Hz, ataque seco, ~0,7 s), `hit_capa()` (pancada curta da capa), `toque_cartao()` (sino ou bloom, quando não houver `cta.mp3`);
-     - sirene de ambulância, mar, sinal da escola, multidão (aeroporto e igreja), sino de igreja, videogame (bleeps quadrados com semente), cama de jornal na TV;
-     - ferramentas (impacto metálico), motor de carro velho tentando pegar, papel dobrando e caneta riscando;
-   - **gancho no completo:** ler `cortes.json["gancho"]` ({inicio, fim} em s globais, dentro de uma parte só), encaixar na grade de quadros e gravar `v3-completo.flac` = [trecho do gancho] + [grave + 0,7 s de preto] + [filme];
-   - **cortes por intervalo:** ler `cortes.json["cortes"]` ({corte, inicio, fim, capa_t, capa_texto}) e gravar `corteN.flac` = [`hit_capa`, 0,8 s] + [mix do intervalo] + [cartão de 4 s: `cta.mp3` se existir, senão a cauda da trilha + `toque_cartao`];
-   - avisar se um corte sair de 45–60 s ou cair nos 120 s finais;
-   - gravar em `partes.json`: `gancho` {quadro_inicio, quadro_fim, preto_quadros, parte} e `cortes` [{corte, quadro_inicio, quadro_fim, capa: 0.8, cartao: 4.0, quadros}].
-2. **`tools/montar_completo.sh`:** pôr o gancho (`trim` do MP4 da parte) + preto (`color=black:d=0.7`) antes das partes, calcular `KBPS` pela duração e usar `-tune animation` (código-modelo no PROMPT-MESTRE, seção 16).
-3. **`tools/previa.sh` e `previa_vertical.sh`:** imprimir o YAVG de cada quadro (`signalstats`) e marcar os que ficarem abaixo de 70.
-4. **`tools/juntar_partes.py`:** trocar a lista `PARTES` (que ainda tem os nomes do v2) pelos 13 pares do v3.
-5. **Personagens** (`personagem.js`):
-   - variante `ele` com **cordões vermelhos** (hoje os cordões vêm da cor fixa `COR_PERSONAGEM.cordao`; pôr a cor na variante);
-   - **`lucas`** com **boné** (aba + copa sobre a cabeça grande, cor viva para se distinguir);
-   - **`julia`** com **cabelo comprido** (reaproveitar o `cabelo: "comprido"` com outra cor de roupa e de cabelo);
-   - **parâmetro de choro** (`lagrimas`: gotas azuladas descendo do canto dos olhos), para o pai na parte 6 e para você na parte 12.
-6. **Cenários novos** (num `mundo4.js`, cada um com deslocamento próprio):
-   - **sala de estar:** sofá para a família deitar, TV com tela em canvas (jornal, mapa do mundo, videogame, sem som), rack, tapete, **relógio de parede** que vai de 3:30 a 3:33, abajur;
-   - **sala de aula:** carteiras com cadeiras em fileiras, alunos figurantes, quadro, **relógio de parede** com 14:05→14:07, janelas (ambulância **só com luzes** vermelho/azul piscando lá fora);
-   - **garagem:** **carro velho** com capô aberto, bancada, ferramentas, lâmpada pendurada;
-   - **praia:** areia, mar com shader de ondas (passável: ele entra de roupa até a cintura), céu, horizonte;
-   - **casa da Júlia:** fachada com porta e varanda (o abraço precisa de cabeças lado a lado, porque as cabeças são enormes);
-   - **aeroporto** (saguão com painel e fila de figurantes) e **igreja** (fachada com fila);
-   - **cidade/casas à noite** com janelas e celulares acendendo (para a parte 1).
-   - Reaproveitar: `quarto2` (quarto), `cozinha` (café, jantar e almoço), `onibus` (viagem à praia) e `rua`.
-7. **Telas** (canvas 600x1302, mais a tela da TV e a folha do caderno):
-   - **e-mails:**
-     - "Você tem 7 dias", recebido às 3:33;
-     - um com "14:07" em letras pequenas;
-     - um com "3:33" embaixo de "7 dias";
-     - "Faltam 3 dias", "Data atualizada" e "A partir de agora, você não vai mais saber.";
-   - **mensagens:** mãe "38 anos"; grupo da escola com números; Lucas "3 dias kkkkk"; "valeu por tudo, mano";
-   - **TV:** jornal "ataque hacker?" e mapa do mundo com e-mails chegando;
-   - **outras telas do celular:** perfis com datas; contas "72 h / 4.320 min"; Júlia "52 anos"; boato "a data mudou"; caixa de entrada sem abrir;
-   - **papel:** a lista no caderno (ver o mar, Júlia, pai, mãe) dobrada, depois riscada e reescrita.
+```bash
+cd videos/ninguem-sabe/v3 && TMPDIR=$S/rv3 RODAPE=$'Co-Authored-By: ...\nClaude-Session: ...' tools/rodar_fila.sh $S/fila-nova.txt $S/fila-nova.log
+```
 
-**B. Quando os áudios chegarem (ainda na mensagem 1)**
-
-8. Trazer os áudios (lista exata na seção 10.4):
-   1. `git fetch origin main && git merge origin/main`;
-   2. `git mv` dos 26 de narração para `v3/assets/audio/brutos/` e dos dois CTAs para `v3/assets/audio/` (o `cta1.mp3` e o `cta2.mp3`);
-   3. rodar o Whisper em todos;
-   4. **ordenar pela história**: só 3 têm nome V3P, os outros 23 têm o nome da ferramenta de voz, então o par "V3P01+V3P02 = parte 1" só vale depois de ordenar os 26;
-   5. escrever `ORDEM.md` e **avisar se faltar ou sobrar trecho**.
-9. Juntar as 13 partes, alinhar e gerar os tempos.
-10. Escrever os grupos de legenda (`PARTES` no `gerar_legendas.py`) com as correções do Whisper (por exemplo "3h33" vira "3:33", "14h07" vira "14:07").
-11. Escrever `CORTES.md` + `cortes.json`:
-    - o **gancho** (5–7 s do momento mais forte; candidatos: "A partir de agora, você não vai mais saber." ou "Faltam 3 dias");
-    - os **cortes** de 45–60 s terminando no suspense, nenhum nos ~2 min finais, cada um com o momento e o texto da capa.
-12. Rodar o `audio.py` (pistas e envelope do v3) e gerar `partes.json`. **Não renderizar.** Entregar o relatório da mensagem 1.
-
-**C. Depois da mensagem 2 ("pode renderizar")**
-
-13. Para cada uma das 13 partes: escrever `cenas/pNN.js` → `nova_parte.py` → `diag/erros.mjs` → auditoria de `T()` → colisões (0,25/0,1) → prévia 720p com YAVG e faixa de legenda livre → corrigir → fila de render → ffprobe → commit e push.
-14. Capas dos cortes (`partecapacorteN` + snapshot → `capa/corteX-capa.png`) → legendas dos cortes → prévia vertical → render dos cortes.
-15. `montar_completo.sh` (gancho + preto + partes, menos de 100 MB) → capa do longo `capa/capa-v3.png` → `REVIEW.md` (incluindo a tabela dos cortes, o gancho, o YAVG e qual áudio entrou no cartão) → mensagem final com a lista de arquivos, as durações e os planos mais fracos.
-
-**Estimativa de render** (10 min ou mais em 13 partes + 8 a 10 cortes de ~1 min): **10 a 14 h**, em filas de até 2 h.
-
-**Cuidados de tom** (pedidos do usuário):
-- Parte 4: Lucas só encosta a cabeça na carteira às 14:07, sem violência e sem mostrar mais nada.
-- Parte 5: da ambulância aparecem só as luzes.
-- Parte 12: ele chora em silêncio.
-
-### 10.4 Áudios do vídeo 3 que já estão na `main` (ainda não trazidos para a branch)
-
-Chegaram pelo site em dois commits "Add files via upload":
-- `3da022f` (06/11 16:47): **26 áudios de narração**;
-- `180f1d1` (07/11 11:39): **2 CTAs**.
-
-Todos estão na **raiz** do repositório, na `main`.
-
-**Narração (26 arquivos, 8 min 50 s no total):**
-- **3 com nome V3P:** `V3P01.mp3` (21,52 s), `V3P02.mp3` (16,40 s) e `V3P03.mp3` (16,27 s).
-- **23 com o nome gerado pela ferramenta de voz** (data/hora + tags de entonação + começo da frase). Estão **fora de ordem**; a ordem sai do texto transcrito:
-
-| Arquivo (começa assim) | Duração |
-|---|---|
-| `eu-2026-11-06-16-32-[pause]-[calm]-É-golpe,-ela-diz.-Apaga-isso.-No.mp3` | 24,95 s |
-| `eu-2026-11-06-16-34-[pause]-[serious]-Você-decide-não-pensar-nisso..mp3` | 13,95 s |
-| `eu-2026-11-06-16-34-[serious]-No-jornal,-especialistas-explicam-que.mp3` | 25,65 s |
-| `eu-2026-11-06-16-35-[tense]-No-terceiro-dia,-o-Lucas-vai-pra-escola.mp3` | 22,78 s |
-| `eu-2026-11-06-16-36-[low-voice,-slow]-O-resto-do-dia-é-sirene,-gente.mp3` | 26,02 s |
-| `eu-2026-11-06-16-36-[pause]-[serious]-Às-onze-da-noite,-ninguém-mais.mp3` | 14,42 s |
-| `eu-2026-11-06-16-36-[pause]-[tense]-Às-14-e-05,-ele-te-manda-uma-men.mp3` | 24,22 s |
-| `eu-2026-11-06-16-36-[tense]-No-quarto-dia,-o-mundo-vira-de-cabeça-pr.mp3` | 21,00 s |
-| `eu-2026-11-06-16-37-[anxious]-Você-se-tranca-no-quarto.-Fica-olhando.mp3` | 17,19 s |
-| `eu-2026-11-06-16-37-[calm,-slowly-getting-stronger]-No-quinto-dia,-v.mp3` | 21,34 s |
-| `eu-2026-11-06-16-37-[pause]-[anxious]-Às-3-e-33,-o-celular-vibra-de.mp3` | 21,11 s |
-| `eu-2026-11-06-16-37-[tense]-Nas-redes,-as-pessoas-colocam-a-data-no.mp3` | 18,78 s |
-| `eu-2026-11-06-16-38-[calm,-slowly-getting-stronger]-Pedir-desculpa-p.mp3` | 19,20 s |
-| `eu-2026-11-06-16-38-[calm]-À-noite,-você-encontra-o-seu-pai-na-garag.mp3` | 19,93 s |
-| `eu-2026-11-06-16-38-[pause]-[soft,-hopeful]-Na-volta,-você-para-na-c.mp3` | 22,86 s |
-| `eu-2026-11-06-16-38-[soft,-hopeful]-Você-pega-o-primeiro-ônibus-pra.mp3` | 19,07 s |
-| `eu-2026-11-06-16-39-[mysterious]-Algumas-pessoas-estão-dizendo-que-a.mp3` | 18,23 s |
-| `eu-2026-11-06-16-39-[pause]-[soft,-melancholic]-À-noite,-a-família-i.mp3` | 20,77 s |
-| `eu-2026-11-06-16-39-[soft,-melancholic]-O-sétimo-dia-amanhece-bonito.mp3` | 20,11 s |
-| `eu-2026-11-06-16-40-[calm,-reflective]-Até-hoje,-ninguém-descobriu-q.mp3` | 23,85 s |
-| `eu-2026-11-06-16-40-[long-pause]-[tense]-Você-abre.-E-não-tem-data-n.mp3` | 23,56 s |
-| `eu-2026-11-06-16-40-[whisper]-O-celular-vibra-no-seu-bolso.-[pause].mp3` | 19,85 s |
-| `eu-2026-11-06-16-41-[pause]-[friendly,-natural-tone]-Agora-me-fala-a.mp3` | 17,11 s |
-
-Os colchetes são **direção de voz** da ferramenta de TTS e fazem parte do nome do arquivo, não da fala. Na hora de mover, use aspas (os nomes têm colchetes, vírgulas e acentos). O `git` mostra os acentos como `\303…`; use `git -c core.quotepath=false` para ver os nomes legíveis.
-
-**CTAs:** `cta1.mp3` (6,84 s) e `cta2.mp3` (7,26 s). O que fazer com eles está na seção 7.
-
-**⚠️ Duração abaixo da regra fixa 1.** A narração soma **8 min 50 s**. Com a folga das partes (~12 s) e o gancho (~7 s + 0,7 s de preto), o completo fica em **~9 min 10 s**, **menos que os 10 min** da regra. **Não estique a narração** (pausas artificiais ou câmera lenta) para chegar lá. **Avise o usuário já no relatório da mensagem 1** e deixe ele decidir: gravar mais trechos ou aceitar ~9 min nesta história.
+  - O servidor das prévias precisa estar rodando: `nohup python3 -m http.server 8766` dentro de `v3/`.
+  - O venv do áudio fica em `$S/audio-venv` (numpy, scipy, soundfile).
