@@ -42,8 +42,8 @@ function avatarLetra(g, x, y, r, letra, cor) {
 // tela bloqueada com a hora grande e a notificação do e-mail
 export function telaBloqueio(g, W, H, { hora = "3:33", data = "", notificacao = null, brilho = 1 } = {}) {
   const grad = g.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, "#2c3a58");
-  grad.addColorStop(1, "#161b28");
+  grad.addColorStop(0, "#4a5c88");
+  grad.addColorStop(1, "#2e3854");
   g.fillStyle = grad;
   g.fillRect(0, 0, W, H);
   barraDeStatus(g, W, hora);
@@ -201,15 +201,18 @@ export function telaChat(g, W, H, { titulo = "8º ANO B", hora = "7:40", mensage
 
 // a conta no bloco de notas (parte 7)
 export function telaConta(g, W, H, { hora = "23:58", linhas = [] } = {}) {
-  g.fillStyle = "#16171a";
+  g.fillStyle = "#f6f2e6";
   g.fillRect(0, 0, W, H);
-  barraDeStatus(g, W, hora);
-  g.fillStyle = "#e9c46a";
+  g.fillStyle = "#1a1c22";
+  g.font = fonte(600, 30);
+  g.textAlign = "left";
+  g.fillText(hora, 46, 62);
+  g.fillStyle = "#c9a227";
   g.font = fonte(700, 34);
   g.textAlign = "left";
   g.fillText("‹ Notas", 34, 150);
   linhas.forEach((l, i) => {
-    g.fillStyle = l.vermelho ? VERMELHO : C.texto;
+    g.fillStyle = l.vermelho ? VERMELHO : "#1a1c22";
     g.font = fonte(l.vermelho ? 900 : 700, l.vermelho ? 78 : 58);
     g.fillText(l.texto, 40, 330 + i * 130);
   });
