@@ -269,7 +269,7 @@ for k in range(N):
     })
 
 # ------------------------------------------------------------ completo: gancho + preto com grave + filme
-GANCHO = {"parte": 4, "de": T(4, "O Lucas", 2) - 0.45 - G[3], "ate": T(4, "mais.", fim=True) + 0.3 - G[3]}
+GANCHO = {"parte": 4, "de": T(4, "O Lucas", 2) - 0.45 - G[3], "ate": T(4, "mais.", fim=True) + 0.2 - G[3]}
 g0 = quadros[3] + round(GANCHO["de"] * FPS)
 g1 = quadros[3] + round(GANCHO["ate"] * FPS)
 PRETO = 21  # 0,7 s

@@ -708,13 +708,13 @@
  "gancho": {
   "parte": 4,
   "quadro_inicio": 5338,
-  "quadro_fim": 5551,
-  "quadros": 213,
+  "quadro_fim": 5548,
+  "quadros": 210,
   "preto_quadros": 21,
   "inicio_na_parte": 43.8667,
-  "fim_na_parte": 50.9667
+  "fim_na_parte": 50.8667
  },
- "completo_quadros": 18090,
+ "completo_quadros": 18087,
  "cortes": [
   {
    "corte": 1,
