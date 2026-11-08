@@ -1,0 +1,38 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · Vídeo 3 · Capa do corte1: "VOCÊ TEM 7 DIAS" em vermelho sobre um quadro da cena. Gerado por tools/gerar_capas.py.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Capa do corte1</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #pccorte1-raiz { position: absolute; inset: 0; overflow: hidden; background: #0c0d0f; font-family: Montserrat; }
+      #pccorte1-fundo { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #pccorte1-vinheta { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 38%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0.5) 100%); }
+      #pccorte1-texto { position: absolute; left: 70px; right: 70px; top: 250px; text-align: center; font-weight: 900; font-size: 163px;
+        line-height: 0.96; letter-spacing: -0.01em; text-transform: uppercase; color: #e3121b; -webkit-text-stroke: 7px #0b0b0c;
+        paint-order: stroke fill; text-shadow: 0 10px 0 rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.65); }
+      .pccorte1-linha { display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="pccorte1-raiz" data-composition-id="partecapacorte1" data-width="1080" data-height="1920" data-duration="2">
+      <img id="pccorte1-fundo" src="capa/fundos/corte1.png" alt="" />
+      <div id="pccorte1-vinheta"></div>
+      <div id="pccorte1-texto"><span class="pccorte1-linha">VOCÊ TEM</span><span class="pccorte1-linha">7 DIAS</span></div>
+    </div>
+    <script>
+      (function () {
+        var raiz = document.getElementById("pccorte1-raiz");
+        var tl = gsap.timeline({ paused: true });
+        // parado: a capa é um quadro só (o snapshot é em t=1 s); o set dá duração à timeline
+        tl.set(raiz.querySelector("#pccorte1-texto"), { opacity: 1 }, 0).set({}, {}, 2);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["partecapacorte1"] = tl;
+      })();
+    </script>
+  </body>
+</html>

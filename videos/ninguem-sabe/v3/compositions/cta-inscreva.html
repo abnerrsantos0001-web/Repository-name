@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+  Ninguém Sabe · CTA1 no meio de cada corte vertical (1080x1920), perto de 70% do corte (REGRAS.md, regra 7).
+  A cena fica parada (variáveis pausaEm/pausaDur da parte) enquanto toca o áudio "se inscreve no Ninguém Sabe":
+  véu leve, o nome do canal e o botão vermelho INSCREVA-SE com o sininho balançando; um toque no botão e ele vira
+  INSCRITO. Fica entre 52% e 68% da altura, longe da faixa de interface de baixo. 2,6 s (o host corta no tempo do CTA).
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>CTA inscreva-se</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #cta-raiz { position: absolute; inset: 0; overflow: hidden; font-family: Montserrat; color: #f4f2ee; }
+      #cta-veu { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 50% 60%, rgba(6, 6, 8, 0.62) 0%, rgba(6, 6, 8, 0.38) 70%, rgba(6, 6, 8, 0.3) 100%); opacity: 0; }
+      #cta-canal { position: absolute; left: 0; right: 0; top: 1000px; text-align: center; font-weight: 900; font-size: 54px; letter-spacing: 0.12em; opacity: 0; -webkit-text-stroke: 5px #000; paint-order: stroke fill; text-shadow: 0 6px 0 rgba(0, 0, 0, 0.55); }
+      #cta-botao { position: absolute; left: 50%; top: 1100px; width: 700px; height: 150px; margin-left: -350px; border-radius: 26px; background: #d4161d; box-shadow: 0 12px 0 #5c0a0d, 0 18px 40px rgba(0, 0, 0, 0.55); opacity: 0; transform-origin: 50% 50%; }
+      #cta-botao-cinza { position: absolute; inset: 0; border-radius: 26px; background: #3a3b40; opacity: 0; }
+      #cta-texto, #cta-inscrito { position: absolute; left: 150px; right: 30px; top: 0; height: 150px; line-height: 150px; font-weight: 900; font-size: 76px; letter-spacing: 0.02em; text-align: center; }
+      #cta-inscrito { opacity: 0; font-size: 70px; color: #e8e6e1; }
+      #cta-sino { position: absolute; left: 44px; top: 25px; width: 100px; height: 100px; transform-origin: 50% 12%; }
+      #cta-dedo { position: absolute; left: 640px; top: 1220px; width: 150px; height: 180px; opacity: 0; transform-origin: 30% 10%; }
+      #cta-onda { position: absolute; left: 50%; top: 1100px; width: 700px; height: 150px; margin-left: -350px; border-radius: 26px; border: 8px solid #ff3b42; opacity: 0; transform-origin: 50% 50%; }
+    </style>
+  </head>
+  <body>
+    <div id="cta-raiz" data-composition-id="cta-inscreva" data-width="1080" data-height="1920" data-duration="3">
+      <div id="cta-veu"></div>
+      <div id="cta-canal">NINGUÉM SABE</div>
+      <div id="cta-onda"></div>
+      <div id="cta-botao">
+        <div id="cta-botao-cinza"></div>
+        <svg id="cta-sino" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 10 c-4 0 -6 3 -6 6 v2 c-13 3 -20 14 -20 28 v16 l-8 10 v4 h68 v-4 l-8 -10 v-16 c0 -14 -7 -25 -20 -28 v-2 c0 -3 -2 -6 -6 -6 z" fill="#ffffff" />
+          <circle cx="50" cy="84" r="9" fill="#ffffff" />
+        </svg>
+        <div id="cta-texto">INSCREVA-SE</div>
+        <div id="cta-inscrito">INSCRITO</div>
+      </div>
+      <svg id="cta-dedo" viewBox="0 0 150 180" aria-hidden="true">
+        <path d="M46 14 c0 -10 18 -10 18 0 v62 c4 -8 18 -6 18 4 v6 c4 -8 18 -6 18 4 v6 c4 -8 18 -6 18 4 v38 c0 26 -18 42 -42 42 h-10 c-16 0 -26 -8 -34 -22 l-26 -44 c-6 -10 8 -18 16 -10 l24 24 z" fill="#f4f2ee" stroke="#0b0b0c" stroke-width="8" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <script>
+      (function () {
+        var raiz = document.getElementById("cta-raiz");
+        var q = function (s) { return raiz.querySelector(s); };
+        var tl = gsap.timeline({ paused: true });
+        tl.fromTo(q("#cta-veu"), { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 0);
+        tl.fromTo(q("#cta-canal"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.05);
+        tl.fromTo(q("#cta-botao"), { opacity: 0, scale: 0.55 }, { opacity: 1, scale: 1, duration: 0.42, ease: "back.out(2.2)" }, 0.08);
+        // o sininho balança (como quem toca), duas vezes
+        tl.fromTo(q("#cta-sino"), { rotation: 0 }, { rotation: 22, duration: 0.09, ease: "sine.out" }, 0.45);
+        tl.to(q("#cta-sino"), { keyframes: [{ rotation: -20, duration: 0.11 }, { rotation: 16, duration: 0.1 }, { rotation: -12, duration: 0.1 }, { rotation: 7, duration: 0.09 }, { rotation: 0, duration: 0.09 }], ease: "sine.inOut" }, 0.54);
+        // o dedo entra, toca o botão (o botão afunda e vira INSCRITO) e sai
+        tl.fromTo(q("#cta-dedo"), { opacity: 0, x: 120, y: 140 }, { opacity: 1, x: 0, y: 0, duration: 0.35, ease: "power3.out" }, 0.9);
+        tl.to(q("#cta-dedo"), { scale: 0.9, y: -12, duration: 0.1, ease: "power2.in" }, 1.28);
+        tl.to(q("#cta-botao"), { scale: 0.94, duration: 0.1, ease: "power2.in" }, 1.28);
+        tl.to(q("#cta-botao"), { scale: 1, duration: 0.25, ease: "back.out(3)" }, 1.38);
+        tl.to(q("#cta-dedo"), { scale: 1, y: 0, duration: 0.2, ease: "power2.out" }, 1.38);
+        tl.fromTo(q("#cta-onda"), { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.25, duration: 0.55, ease: "power2.out" }, 1.36);
+        tl.fromTo(q("#cta-botao-cinza"), { opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.36);
+        tl.fromTo(q("#cta-texto"), { opacity: 1 }, { opacity: 0, duration: 0.1 }, 1.36);
+        tl.fromTo(q("#cta-inscrito"), { opacity: 0 }, { opacity: 1, duration: 0.14 }, 1.4);
+        tl.fromTo(q("#cta-sino"), { rotation: 0 }, { keyframes: [{ rotation: 18, duration: 0.08 }, { rotation: -14, duration: 0.1 }, { rotation: 8, duration: 0.09 }, { rotation: 0, duration: 0.09 }], ease: "sine.inOut", immediateRender: false }, 1.45);
+        tl.to(q("#cta-dedo"), { opacity: 0, x: 80, y: 120, duration: 0.3, ease: "power2.in" }, 1.85);
+        // sai junto com o fim da pausa
+        tl.to([q("#cta-botao"), q("#cta-canal")], { opacity: 0, y: -10, duration: 0.22, ease: "power2.in" }, 2.36);
+        tl.to(q("#cta-veu"), { opacity: 0, duration: 0.22, ease: "power2.in" }, 2.38);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["cta-inscreva"] = tl;
+      })();
+    </script>
+  </body>
+</html>

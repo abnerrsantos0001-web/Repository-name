@@ -111,8 +111,8 @@ def corte(c):
         data-track-index="4" style="position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 6" />"""]
     blocos.append(host(f"parte{n:02d}", f"compositions/parte{n:02d}.html", capa, total - capa, 1, "graphics", 1080, 1920, 1, variaveis))
     blocos.append(host(f"legendas-corte{c}", f"compositions/legendas-corte{c}.html", 0, capa + historia, 2, "captions", 1080, 1920, 2))
-    blocos.append(host("cta", "compositions/cta-inscreva.html", capa + (m - a), cta, 3, "graphics", 1080, 1920, 3))
-    blocos.append(host("cartao", "compositions/cartao-final.html", capa + historia, total - capa - historia, 3, "graphics", 1080, 1920, 4))
+    blocos.append(host("cta-inscreva", "compositions/cta-inscreva.html", capa + (m - a), cta, 3, "graphics", 1080, 1920, 3))
+    blocos.append(host("cartao-final", "compositions/cartao-final.html", capa + historia, total - capa - historia, 3, "graphics", 1080, 1920, 4))
     blocos.append(audio(f"audio-corte{c}", f"assets/audio/mix/corte{c}.flac", 0, total))
     desc = f"Corte vertical {c}: capa + parte {n:02d} ({a:.2f}–{b:.2f} s) com o CTA em {m:.2f} s + cartão final."
     return CABECA.format(descricao=desc, resolucao="portrait", w=1080, h=1920, dur=f"{total:.4f}", corpo="\n".join(blocos))
