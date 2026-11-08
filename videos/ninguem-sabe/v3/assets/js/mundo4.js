@@ -522,7 +522,7 @@ export function criarGaragem(cena) {
   caixa(capo, 1.15, 0.04, 1.74, 0x9a8a6a, 0.575, 0.0, 0);
   dobra.rotation.z = 1.15;
   // vareta segurando o capô
-  cilindro(carro, 0.008, 0.008, 0.72, 5, 0x8a8b8e, 1.95, 1.25, 0.6, { rz: -0.5 });
+  api.vareta = cilindro(carro, 0.008, 0.008, 0.72, 5, 0x8a8b8e, 1.95, 1.25, 0.6, { rz: -0.5 });
   api.carro = carro;
 
   // bancada com morsa, caixa de ferramentas e o painel de ferramentas na parede oeste
