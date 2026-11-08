@@ -1,0 +1,174 @@
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.184.0/+esm";
+      import { iniciarParte, tempos, trilha } from "./assets/js/cena.js";
+      import { pontosDoBoneco } from "./assets/js/personagem.js";
+      import { SALA } from "./assets/js/mundo4.js";
+      import { PI, eixos, em, noColo, segurandoCelular } from "./assets/js/v3.js";
+      import { tvMadrugada, telaBloqueio, telaEmail } from "./assets/js/telas3.js";
+      import { PALAVRAS } from "./assets/js/tempos/v3-parte12.js";
+
+      // Parte 12: 3:33. O celular vibra no bolso; ele ainda está respirando; abre os olhos; a TV ligada; a mãe ronca.
+      // Pega o celular tremendo: um e-mail novo, "Data atualizada". Abre: não tem data nenhuma, só uma frase: "A partir de
+      // agora, você não vai mais saber." Ele chora sem barulho, para não acordar ninguém. Afinal, ninguém sabe.
+      const T = tempos(PALAVRAS);
+      const FIM = 47.5;
+      const t = {
+        bolso: T("O celular") - 0.15,
+        respira: T("Você ainda") - 0.15,
+        olhos: T("Você abre os") - 0.12,
+        tv: T("A TV") - 0.1,
+        mae: T("A sua") - 0.12,
+        pega: T("Você pega") - 0.12,
+        pov1: T("Um e") - 0.15,
+        abre: T("Você abre e") - 0.15,
+        frase: T("A partir") - 0.05,
+        chora: T("Você começa") - 0.15,
+        largo: T("porque") - 0.15,
+        fim: T("Afinal,") - 0.15,
+      };
+      const ELE = SALA.sentado(0);
+      const presa = (quem, f, d, c, ac = 0, fov = 38) => (tt, ctx) => {
+        const b = quem === "ele" ? ctx.boneco : ctx.outros[quem].boneco;
+        const { cabeca } = pontosDoBoneco(b);
+        const { frente, direita, cima } = eixos(b);
+        return { pos: em(cabeca, [frente, f], [direita, d], [cima, c]), alvo: em(cabeca, [cima, ac]), fov };
+      };
+      // a tela vista do lugar dele: "sobe" > 0 desce o celular no quadro
+      const pov = (perto, sobe) => (tt, ctx) => {
+        const { cabeca } = pontosDoBoneco(ctx.boneco);
+        const c = ctx.celular;
+        c.updateMatrixWorld(true);
+        const centro = c.localToWorld(new THREE.Vector3(0, 0, 0));
+        const alvo = c.localToWorld(new THREE.Vector3(0, sobe, 0));
+        const dir = centro.clone().sub(cabeca).normalize();
+        return { pos: alvo.clone().addScaledVector(dir, -perto), alvo, fov: 32 };
+      };
+      const vibra = (tt) => tt >= T("vibra") - 0.4 && tt < T("vibra") + 1.0;
+      const sentado = { quadril: [[0, -PI / 2]], joelho: [[0, 1.5]], giro: [[0, PI]] };
+      const dorme = (tomba) => ({ olhos: [[0, 0.05]], cabecaTomba: [[0, tomba]], cabecaInclina: [[0, 0.22]], inclinar: [[0, -0.06]] });
+
+      iniciarParte({
+        host: "__parte12",
+        cenarios: ["sala"],
+        planos: [
+          { de: 0, cenario: "sala", nome: "abre", modo: "madrugada" }, //                     (3:33, silêncio)
+          { de: t.bolso, cenario: "sala", nome: "bolso", modo: "madrugada" }, //              O celular vibra no seu bolso.
+          { de: t.respira, cenario: "sala", nome: "respira", modo: "madrugada" }, //          Você ainda está respirando.
+          { de: t.olhos, cenario: "sala", nome: "olhos", modo: "madrugada" }, //              Você abre os olhos.
+          { de: t.tv, cenario: "sala", nome: "tv", modo: "madrugada" }, //                    A TV continua ligada.
+          { de: t.mae, cenario: "sala", nome: "mae", modo: "madrugada" }, //                  A sua mãe ronca baixinho.
+          { de: t.pega, cenario: "sala", nome: "pega", modo: "madrugada" }, //                Você pega o celular com as mãos tremendo.
+          { de: t.pov1, cenario: "sala", nome: "pov1", modo: "madrugada", preenchimento: 5.5 }, //                Um e-mail novo. Assunto: Data atualizada.
+          { de: t.abre, cenario: "sala", nome: "pov2", modo: "madrugada", preenchimento: 5.5 }, //                Você abre... A partir de agora, você não vai mais saber.
+          { de: t.chora, cenario: "sala", nome: "chora", modo: "madrugada" }, //              Você começa a chorar sem fazer barulho, pra não acordar ninguém,
+          { de: t.largo, cenario: "sala", nome: "largo", modo: "madrugada" }, //              porque depois de sete dias... quanto tempo ainda tem.
+          { de: t.fim, cenario: "sala", nome: "fim", modo: "madrugada" }, //                  Afinal, ninguém sabe.
+        ],
+        preenchimento: { sala: 1.15 },
+        cameras: {
+          abre: { k: [[0, [0.45, 1.4, -1.5], [0, 1.0, 1.3], 50], [t.bolso, [0.4, 1.38, -1.35], [0, 1.0, 1.3], 48]], tremor: 0.0012 },
+          bolso: (tt, ctx) => {
+            const c = ctx.celular.getWorldPosition(new THREE.Vector3());
+            return { pos: c.clone().add(new THREE.Vector3(0.18, 0.2, -0.55)), alvo: c.clone().add(new THREE.Vector3(0, 0.05, 0)), fov: 38 };
+          },
+          respira: presa("ele", 1.0, 0.12, -0.02, -0.12, 38),
+          olhos: presa("ele", 0.85, 0.08, -0.02, -0.1, 36),
+          tv: { k: [[t.tv, [0.1, 1.1, -0.4], [0, 1.04, -2.27], 40], [t.mae, [0.08, 1.09, -0.6], [0, 1.03, -2.27], 40]], tremor: 0.001 },
+          mae: presa("mae", 0.85, 0.2, -0.05, -0.1, 38),
+          pega: presa("ele", 1.25, 0.3, -0.05, -0.25, 40),
+          pov1: pov(0.48, -0.008),
+          pov2: (tt, ctx) => pov(trilha([[t.abre, 0.46], [t.frase, 0.6, "ambos"]], tt), trilha([[t.abre, 0.0], [t.frase, 0.014, "ambos"]], tt))(tt, ctx),
+          chora: presa("ele", 0.95, 0.12, -0.02, -0.12, 38),
+          largo: { k: [[t.largo, [0.35, 1.35, -0.9], [0, 1.0, 1.3], 46], [t.fim, [0.45, 1.5, -1.6], [0, 1.0, 1.3], 52]], tremor: 0.001 },
+          fim: (tt, ctx) => {
+            const k = trilha([[t.fim, 0], [FIM, 1]], tt);
+            return presa("ele", 1.25 - 0.3 * k, 0.1, -0.02, -0.12, 38)(tt, ctx);
+          },
+        },
+        semCabeca: (tt, p) => p.nome === "pov1" || p.nome === "pov2",
+        personagem: {
+          semente: 45,
+          onde: [[0, "sala"]],
+          pos: [[0, ELE]],
+          pose: {
+            ...sentado,
+            inclinar: [[0, -0.04], [t.pega, 0.06, "corte"], [t.chora, 0.18, "corte"]],
+            cabecaInclina: [[0, 0.1], [t.olhos, 0.05], [t.pega, 0.3, "corte"], [t.chora, 0.25, "corte"], [t.largo, 0.3, "corte"], [t.fim, 0.12, "corte"]],
+            olhos: [[0, 0.05], [T("os olhos.") - 0.1, 0.05], [T("os olhos.") + 0.25, 1.15, "sai"], [t.chora, 0.7, "corte"], [t.fim, 0.9, "corte"]],
+            sobrancelhaMedo: [[0, 0.3], [t.olhos, 0.6, "corte"], [t.frase, 0.95, "ambos"]],
+            sobrancelha: [[0, 0], [t.olhos, 0.3, "corte"]],
+            ofegar: [[0, 0.8], [t.respira, 1.5, "corte"], [t.chora, 1.2, "corte"]],
+            choro: [[0, 0], [t.chora - 0.01, 0], [t.chora, 1, "corte"]],
+            boca: [[0, 0], [t.chora, 0.12, "corte"]],
+            sorriso: [[0, 0], [t.fim, 0.12, "corte"]],
+          },
+          semPiscar: [[0, T("os olhos.") + 0.3], [t.pega, t.chora]],
+          maos: (tt, pts, ctx, b) => {
+            if (tt < t.pega) return noColo(b);
+            const treme = 0.006;
+            if (tt < t.chora) {
+              const r = segurandoCelular(pts, b, 0.42, 0.33);
+              const d = new THREE.Vector3(Math.sin(tt * 41) * treme, Math.sin(tt * 37 + 1) * treme, 0);
+              r.alvoE.add(d);
+              r.alvoD.add(d);
+              return r;
+            }
+            // chorando: a mão direita na boca; a esquerda com o celular no colo
+            const { frente, cima, direita } = eixos(b);
+            const q = b.position.clone();
+            const k = trilha([[t.chora, 0], [t.chora + 0.8, 1, "ambos"], [t.largo + 2.0, 1], [t.largo + 3.0, 0, "ambos"]], tt);
+            const colo = em(q, [frente, 0.3], [direita, -0.1]).setY(q.y + 0.12);
+            const naBoca = em(pts.cabeca, [frente, 0.3], [cima, -0.14], [direita, 0.03]);
+            return { alvoE: colo, pesoE: 1, alvoD: em(q, [frente, 0.3], [direita, 0.1]).setY(q.y + 0.12).lerp(naBoca, k), pesoD: 1 };
+          },
+        },
+        celular: (tt, plano, ctx) => {
+          if (tt >= t.pega + 0.5) return "mao";
+          // no bolso do moletom, metade para fora, tremendo quando vibra
+          const p = new THREE.Vector3(0.06, 0.2, 0.3);
+          ctx.boneco.userData.rig.tronco.localToWorld(p);
+          const o = ctx.cenarios.sala.grupo.position;
+          const tr = vibra(tt) ? 0.003 * Math.sin(tt * 180) : 0;
+          return { cenario: "sala", pos: [p.x - o.x + tr, p.y - o.y, p.z - o.z], rot: [0.25, PI, 0.15 + tr * 5] };
+        },
+        tela: (g, tt, desenhar) => {
+          let k, fn;
+          if (tt < T("Um e") - 0.2) (k = "nova"), (fn = () => telaBloqueio(g, 600, 1302, { hora: "3:33", data: "sexta-feira, 20 de novembro", notificacao: { texto: "1 mensagem nova" } }));
+          else if (tt < T("Data") - 0.1) (k = "assunto"), (fn = () => telaBloqueio(g, 600, 1302, { hora: "3:33", data: "sexta-feira, 20 de novembro", notificacao: { texto: "Assunto:" } }));
+          else if (tt < t.abre + 0.4) (k = "data"), (fn = () => telaBloqueio(g, 600, 1302, { hora: "3:33", data: "sexta-feira, 20 de novembro", notificacao: { texto: "Data atualizada", vermelho: true } }));
+          else if (tt < t.frase) (k = "vazio"), (fn = () => telaEmail(g, 600, 1302, { hora: "3:34", assunto: "Data atualizada", frase: " " }));
+          else (k = "frase"), (fn = () => telaEmail(g, 600, 1302, { hora: "3:34", assunto: "Data atualizada", frase: "A partir de agora, você não vai mais saber." }));
+          if (desenhar) fn();
+          return k;
+        },
+        outros: [
+          {
+            id: "mae", variante: "mae", semente: 45, onde: [[0, "sala"]], pos: [[0, SALA.sentado(-0.74)]],
+            pose: { ...sentado, ...dorme(-0.38), boca: [[0, 0.08], [12.9, 0.08], [13.5, 0.2, "ambos"], [14.3, 0.06, "ambos"], [15.0, 0.2, "ambos"], [15.8, 0.06, "ambos"]] },
+            semPiscar: [[0, FIM]],
+            maos: (tt, pts, ctx, b) => noColo(b),
+          },
+          {
+            id: "pai", variante: "pai", semente: 47, onde: [[0, "sala"]], pos: [[0, SALA.sentado(0.74)]],
+            pose: { ...sentado, ...dorme(0.38) },
+            semPiscar: [[0, FIM]],
+            maos: (tt, pts, ctx, b) => noColo(b),
+          },
+        ],
+        montar: (ctx) => {
+          const brilho = new THREE.PointLight(0xbcd0ff, 0, 2.0, 1.6);
+          ctx.cena.add(brilho);
+          ctx.brilhoTela = brilho;
+        },
+        quadro: (tt, plano, ctx, fase) => {
+          const sala = ctx.cenarios.sala;
+          if (fase === "antes") {
+            sala.relogio.userData.mostrar(tt < t.abre ? "3:33" : "3:34");
+            sala.tv.userData.mostrar("m" + Math.round(tt * 3), (g, W, H) => tvMadrugada(g, W, H, tt + 45));
+            sala.luzTV(0x8aa8e0, 2.4);
+            return;
+          }
+          const p = ctx.celular.getWorldPosition(new THREE.Vector3());
+          ctx.brilhoTela.position.copy(p).add(new THREE.Vector3(0, 0.08, -0.12));
+          ctx.brilhoTela.intensity = 1.6;
+        },
+      });
