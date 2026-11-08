@@ -551,6 +551,8 @@ function montarParte(cfg, host) {
     camera.updateProjectionMatrix();
     luzDaCamera.position.copy(camera.position).add(_b.set(0, 0.3, 0));
     luzDaCamera.intensity = ((plano.preenchimento ?? PREENCHIMENTO[plano.cenario]) || 0) * CLARIDADE;
+    // exposição por plano (planos abertos à noite, onde a luz da câmera não alcança): o padrão é o da parte
+    renderer.toneMappingExposure = (plano.exposicao ?? cfg.exposicao ?? 1.1) * CLARIDADE;
 
     for (const c of Object.values(cenarios)) if (c.atualizar) c.atualizar(t, plano);
 

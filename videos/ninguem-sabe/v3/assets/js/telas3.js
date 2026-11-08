@@ -118,7 +118,7 @@ export function telaEmail(g, W, H, { hora = "7:05", assunto = "(sem assunto)", f
 }
 
 // caixa de entrada: lista de e-mails; o primeiro pode estar sem abrir (negrito, ponto azul)
-export function telaCaixa(g, W, H, { hora = "21:10", emails = [], naoLidos = 1 } = {}) {
+export function telaCaixa(g, W, H, { hora = "21:10", emails = [], naoLidos = 1, vazio = null } = {}) {
   g.fillStyle = "#f2f1ee";
   g.fillRect(0, 0, W, H);
   barraDeStatus(g, W, hora);
@@ -126,6 +126,14 @@ export function telaCaixa(g, W, H, { hora = "21:10", emails = [], naoLidos = 1 }
   g.font = fonte(800, 48);
   g.textAlign = "left";
   g.fillText("Caixa de entrada", 40, 160);
+  // caixa vazia: a frase grande no meio (lida de longe na câmera)
+  if (vazio && !emails.length) {
+    g.fillStyle = "#6a6c72";
+    g.font = fonte(900, 72);
+    g.textAlign = "center";
+    vazio.split("|").forEach((l, i) => g.fillText(l, W / 2, H * 0.36 + i * 86));
+    g.textAlign = "left";
+  }
   emails.forEach((e, i) => {
     const y = 220 + i * 150;
     g.fillStyle = i % 2 ? "#ebe9e4" : "#f2f1ee";

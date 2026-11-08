@@ -64,7 +64,7 @@ LETREIROS = {
     "10": [("sexto", 1, "DIA 6", 1.8), ("mudou,", 1, "A DATA MUDOU?", 2.1)],
     "11": [(0.5, 1, "DIA 7", 2.5), ("3:33.", 1, "3:33", 1.5)],
     "12": [("Data", 1, "DATA ATUALIZADA", 1.9), ("A partir", 1, "A PARTIR DE AGORA,|VOCÊ NÃO VAI MAIS SABER.", 3.4)],
-    "13": [("o que você", 1, "O QUE VOCÊ FARIA|NOS SEUS 7 DIAS?", 3.2), ("Se inscreve", 1, "INSCREVA-SE", 2.0), (45.0, 1, "NINGUÉM SABE", 7.4, "centro")],
+    "13": [("o que você", 1, "O QUE VOCÊ FARIA|NOS SEUS 7 DIAS?", 3.2), ("Se inscreve", 1, "INSCREVA-SE", 2.0), (0.4, 1, "MESES DEPOIS", 2.6), (45.0, 1, "NINGUÉM SABE", 3.6, "centro")],
 }
 LETREIRO = {
     False: {"top": 92, "fonte": 100, "contorno": 7, "lados": 80, "centro_top": 380, "centro_fonte": 92},
@@ -189,8 +189,19 @@ def montar_grupos(n):
     return grupos, dados["duracao"]
 
 
+def duracao_da_parte(n, padrao):
+    """duração total da parte (com a abertura e a folga do fim), de partes.json; sem ele, a da fala"""
+    try:
+        info = json.loads((RAIZ / "assets" / "audio" / "mix" / "partes.json").read_text())
+        return max(padrao, next(p["duracao"] for p in info["partes"] if p["parte"] == int(n)))
+    except (OSError, StopIteration, KeyError, ValueError):
+        return padrao
+
+
 def letreiros_da_parte(n, grupos, duracao):
-    """[(t, texto, dur, centro)] da parte, com o instante de cada âncora"""
+    """[(t, texto, dur, centro)] da parte, com o instante de cada âncora (um letreiro pode passar do fim da fala,
+    como o cartão do fim da parte 13, mas não do fim da parte)"""
+    duracao = duracao_da_parte(n, duracao)
     plano = [it for g in grupos for it in g]
     saida = []
     for item in LETREIROS.get(n, []):
@@ -303,7 +314,6 @@ def escrever(comp_id, prefixo, cronogramas, vertical, ajuste=lambda t: None, let
     .lt-centro {{
       top: {lt["centro_top"]}px;
       font-size: {lt["centro_fonte"]}px;
-      color: #f4f2ee;
     }}
   </style>
   <div id="root" data-composition-id="{comp_id}" data-width="{e["w"]}" data-height="{e["h"]}">
