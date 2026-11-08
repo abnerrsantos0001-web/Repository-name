@@ -343,6 +343,8 @@ function montarParte(cfg, host) {
       sobrancelha: p.sobrancelha ?? 0,
       sobrancelhaMedo: p.sobrancelhaMedo ?? 0,
       respirar: t * (1.9 + 0.8 * (p.ofegar ?? 0)),
+      choro: p.choro ?? 0,
+      choroFase: p.choroFase ?? t,
     };
     // caminhada / corrida: trechos [t0, t1, amplitude, meioPasso]
     const posPassos = sobre?.pos || def.pos;

@@ -987,7 +987,7 @@ export function criarIgreja(cena) {
   const rosacea = new THREE.Mesh(new THREE.CircleGeometry(0.75, 20), new THREE.MeshStandardMaterial({ color: 0x5a3a2a, emissive: 0xffc070, emissiveIntensity: 0.6 }));
   rosacea.position.set(0, 6.5, 0.02);
   fach.add(rosacea);
-  const torre = obj(g, "torre", 4.2, 0, -1.6);
+  const torre = obj(g, "torre", 4.2, 0, -1.72);
   caixa(torre, 2.2, 13, 2.2, corIg, 0, 6.5, 0);
   caixa(torre, 2.5, 0.25, 2.5, 0xc9c3b6, 0, 13.1, 0);
   const vaoSino = caixa(torre, 1.2, 1.6, 0.05, 0x1a1c20, 0, 11.4, 1.11, { sombra: false });

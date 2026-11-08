@@ -405,10 +405,10 @@ export function criarPersonagem(variante = "ele") {
   }
   // lágrimas: duas gotas por olho descendo pela bochecha (pose.choro = intensidade, pose.choroFase = tempo)
   const lagrimas = [];
-  const matLagrima = new THREE.MeshBasicMaterial({ color: 0x9cc4e4, transparent: true, opacity: 0.9 });
+  const matLagrima = new THREE.MeshBasicMaterial({ color: 0x8fc4ff, transparent: true, opacity: 0.95 });
   for (const lado of [1, -1]) {
     for (let k = 0; k < 2; k++) {
-      const gota = new THREE.Mesh(new THREE.SphereGeometry(0.017, 8, 6), matLagrima);
+      const gota = new THREE.Mesh(new THREE.SphereGeometry(0.026, 8, 6), matLagrima);
       gota.scale.set(0.8, 1.35, 0.6);
       gota.visible = false;
       gota.userData = { lado, k };
