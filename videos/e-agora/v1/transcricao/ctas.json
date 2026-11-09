@@ -1,0 +1,191 @@
+[
+ {
+  "arquivo": "cta1.mp3",
+  "duracao": 7.079,
+  "texto": "Se você tá curtindo, se inscreve no canal. Aqui quem decide o final é você!",
+  "palavras": [
+   {
+    "text": "Se",
+    "start": 0.0,
+    "end": 0.3
+   },
+   {
+    "text": "você",
+    "start": 0.3,
+    "end": 0.64
+   },
+   {
+    "text": "tá",
+    "start": 0.64,
+    "end": 0.9
+   },
+   {
+    "text": "curtindo,",
+    "start": 0.9,
+    "end": 1.72
+   },
+   {
+    "text": "se",
+    "start": 1.98,
+    "end": 2.22
+   },
+   {
+    "text": "inscreve",
+    "start": 2.22,
+    "end": 2.56
+   },
+   {
+    "text": "no",
+    "start": 2.56,
+    "end": 2.72
+   },
+   {
+    "text": "canal.",
+    "start": 2.72,
+    "end": 3.3
+   },
+   {
+    "text": "Aqui",
+    "start": 3.94,
+    "end": 4.28
+   },
+   {
+    "text": "quem",
+    "start": 4.28,
+    "end": 4.6
+   },
+   {
+    "text": "decide",
+    "start": 4.6,
+    "end": 5.1
+   },
+   {
+    "text": "o",
+    "start": 5.1,
+    "end": 5.32
+   },
+   {
+    "text": "final",
+    "start": 5.32,
+    "end": 5.64
+   },
+   {
+    "text": "é",
+    "start": 5.64,
+    "end": 6.2
+   },
+   {
+    "text": "você!",
+    "start": 6.2,
+    "end": 6.6
+   }
+  ]
+ },
+ {
+  "arquivo": "cta2.mp3",
+  "duracao": 7.131,
+  "texto": "O que você faria no lugar dele? Comenta A ou B. E o vídeo completo tá no link aqui embaixo.",
+  "palavras": [
+   {
+    "text": "O",
+    "start": 0.0,
+    "end": 0.26
+   },
+   {
+    "text": "que",
+    "start": 0.26,
+    "end": 0.4
+   },
+   {
+    "text": "você",
+    "start": 0.4,
+    "end": 0.78
+   },
+   {
+    "text": "faria",
+    "start": 0.78,
+    "end": 1.08
+   },
+   {
+    "text": "no",
+    "start": 1.08,
+    "end": 1.26
+   },
+   {
+    "text": "lugar",
+    "start": 1.26,
+    "end": 1.56
+   },
+   {
+    "text": "dele?",
+    "start": 1.56,
+    "end": 1.88
+   },
+   {
+    "text": "Comenta",
+    "start": 2.24,
+    "end": 2.68
+   },
+   {
+    "text": "A",
+    "start": 2.68,
+    "end": 3.22
+   },
+   {
+    "text": "ou",
+    "start": 3.22,
+    "end": 3.48
+   },
+   {
+    "text": "B.",
+    "start": 3.48,
+    "end": 3.98
+   },
+   {
+    "text": "E",
+    "start": 4.36,
+    "end": 4.46
+   },
+   {
+    "text": "o",
+    "start": 4.46,
+    "end": 4.58
+   },
+   {
+    "text": "vídeo",
+    "start": 4.58,
+    "end": 4.8
+   },
+   {
+    "text": "completo",
+    "start": 4.8,
+    "end": 5.28
+   },
+   {
+    "text": "tá",
+    "start": 5.28,
+    "end": 5.5
+   },
+   {
+    "text": "no",
+    "start": 5.5,
+    "end": 5.64
+   },
+   {
+    "text": "link",
+    "start": 5.64,
+    "end": 5.88
+   },
+   {
+    "text": "aqui",
+    "start": 5.88,
+    "end": 6.16
+   },
+   {
+    "text": "embaixo.",
+    "start": 6.16,
+    "end": 6.6
+   }
+  ]
+ }
+]

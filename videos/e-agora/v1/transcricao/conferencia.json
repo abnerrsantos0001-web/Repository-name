@@ -1,0 +1,149 @@
+[
+ {
+  "codigo": "Z1P01",
+  "duracao": 34.064,
+  "cobertura": 0.986,
+  "faltam": [
+   "vinte"
+  ],
+  "sobram": [
+   "20"
+  ],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P02",
+  "duracao": 28.474,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P03",
+  "duracao": 33.646,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P04",
+  "duracao": 32.105,
+  "cobertura": 0.958,
+  "faltam": [
+   "dez vinte cem"
+  ],
+  "sobram": [
+   "10 20 100",
+   "um"
+  ],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P05",
+  "duracao": 32.47,
+  "cobertura": 0.971,
+  "faltam": [
+   "um",
+   "pra"
+  ],
+  "sobram": [
+   "o",
+   "para"
+  ],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P06",
+  "duracao": 31.817,
+  "cobertura": 0.984,
+  "faltam": [
+   "pra"
+  ],
+  "sobram": [
+   "para"
+  ],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P07",
+  "duracao": 32.522,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P08",
+  "duracao": 32.287,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P09",
+  "duracao": 35.736,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P10",
+  "duracao": 24.634,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P11",
+  "duracao": 37.12,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P12",
+  "duracao": 31.19,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P13",
+  "duracao": 34.247,
+  "cobertura": 0.985,
+  "faltam": [
+   "solta"
+  ],
+  "sobram": [
+   "volta"
+  ],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P14",
+  "duracao": 30.145,
+  "cobertura": 1.0,
+  "faltam": [],
+  "sobram": [],
+  "trechos_faltando": []
+ },
+ {
+  "codigo": "Z1P15",
+  "duracao": 32.81,
+  "cobertura": 0.973,
+  "faltam": [
+   "por que"
+  ],
+  "sobram": [
+   "porque"
+  ],
+  "trechos_faltando": []
+ }
+]

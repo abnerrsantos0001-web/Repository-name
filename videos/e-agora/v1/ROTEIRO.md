@@ -66,4 +66,4 @@ Os colchetes são direções de voz para o Fish e não são falados. Servem para
 15. **Z1P15 · A escolha.** Então me fala, porque o que acontece depois depende de você. Opção A: você manda os zumbis soltarem o grupo, perdoa todo mundo e vocês descobrem juntos por que você é assim. Opção B: você deixa o grupo com eles, vai embora sozinho e nunca mais olha pra trás. Comenta A ou B aqui embaixo. A opção mais votada vira a parte 2. E se inscreve no canal... porque essa história está só começando.
 
 ## Áudios
-Ainda não chegaram: em 09/11/2026 a `main` não tem nenhum Z1P01–Z1P15. Quando chegarem, cada um vai para `assets/audio/brutos/`, é transcrito com Whisper e conferido com o texto acima. Se faltar ou sobrar algum trecho, o usuário fica sabendo antes de qualquer outro passo.
+Chegaram em 09/11/2026: os 15 (`assets/audio/brutos/Z1P01.mp3` … `Z1P15.mp3`, 8 min 3 s no total) e os dois CTAs. Todos foram transcritos e conferidos com o texto acima, e não faltou nem sobrou trecho. Os detalhes estão em `ORDEM.md`.
