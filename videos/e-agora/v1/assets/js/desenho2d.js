@@ -145,6 +145,14 @@ export function elipse(g, x, y, rx, ry, cor, { contorno = 6, t = 0, id = "e", n 
 }
 
 // ---------------------------------------------------------------- personagens
+// aparência por tipo; a "variante" de cada personagem sobrescreve o que quiser (pessoas do grupo, zumbis variados)
+export const PRESET = {
+  protagonista: { pele: COR.pele, peleSombra: COR.peleSombra, camisa: COR.jaqueta, calca: COR.jeans, sapato: COR.tenis, listra: true,
+    jaqueta: true, mochila: true, curativo: true, cabelo: { estilo: "curto", cor: COR.cabelo } },
+  pessoa: { pele: "#C08A62", peleSombra: "#9E6E4A", camisa: "#6A6F86", calca: "#34384A", sapato: "#2A2A30", cabelo: { estilo: "curto", cor: "#2A1A12" } },
+  zumbi: { pele: COR.zumbiPele, peleSombra: COR.zumbiSombra, camisa: "#7A6E62", calca: "#4A4F5E", sapato: "#3A3530" },
+};
+
 // rig: {x, y (chão), escala, lado (1 = virado para a direita), fase (do passo, rad), andar (0..1), cabeca (giro, rad),
 //       inclinar (rad), bracoFrente/bracoTras: [ombro, cotovelo] (rad, 0 = para baixo), olho: "aberto"|"fechado"|"assustado"|"vazio",
 //       olhar: [dx, dy] (-1..1), boca: "neutra"|"sorriso"|"aberta"|"grito"|"torta", piscar (0..1), respira (0..1)}
@@ -154,7 +162,8 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
   const lado = rig.lado ?? 1;
   const id = rig.id ?? tipo;
   const zumbi = tipo === "zumbi";
-  const pele = zumbi ? COR.zumbiPele : COR.pele;
+  const V = { ...(PRESET[tipo] || PRESET.pessoa), ...variante };
+  const pele = V.pele;
   const andar = rig.andar ?? 0;
   const fase = rig.fase ?? 0;
   const resp = Math.sin(t * 2.1 + (rig.semente ?? 0)) * 3 * (rig.respira ?? 1);
@@ -181,14 +190,14 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
   };
   const tras = perna(-1, "pt");
   const frente = perna(1, "pf");
-  const calca = zumbi ? (variante.calca ?? "#4A4F5E") : COR.jeans;
+  const calca = V.calca;
   const desenharPerna = (p, escuro) => {
     membro(g, [[quadril[0] + (escuro ? -8 : 8), quadril[1]], p.joelho, p.pe], 46, escuro ? sombra(calca) : calca, { contorno, t, id: id + p.nome });
     // tênis / pé descalço do zumbi
-    const corPe = zumbi ? (variante.sapato ?? "#3A3530") : COR.tenis;
+    const corPe = V.sapato;
     forma(g, [[p.pe[0] - 22, p.pe[1] - 4], [p.pe[0] - 20, p.pe[1] - 30], [p.pe[0] + 18, p.pe[1] - 26], [p.pe[0] + 46, p.pe[1] - 8], [p.pe[0] + 44, p.pe[1] + 6], [p.pe[0] - 22, p.pe[1] + 6]],
       { cor: escuro ? sombra(corPe) : corPe, contorno, t, id: id + p.nome + "pe", amp: 0.9 });
-    if (!zumbi) {
+    if (V.listra) {
       g.strokeStyle = "#D23B3B";
       g.lineWidth = 5;
       g.beginPath();
@@ -208,18 +217,18 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
   const balanco = Math.sin(fase) * 0.5 * andar;
   const bT = braco(rig.bracoTras ?? (zumbi ? [1.25 - balanco * 0.3, 0.15] : [balanco, -0.25]), "bt", true);
   const bF = braco(rig.bracoFrente ?? (zumbi ? [1.35 + balanco * 0.3, 0.1] : [-balanco, -0.3]), "bf", false);
-  const manga = zumbi ? (variante.camisa ?? "#7A6E62") : COR.jaqueta;
+  const manga = V.manga ?? V.camisa;
   const desenharBraco = (b) => {
     const corManga = b.escuro ? sombra(manga) : manga;
     if (zumbi) {
       // manga curta rasgada: pele a partir do meio do braço
       const meio = [(b.base[0] + b.cot[0]) / 2, (b.base[1] + b.cot[1]) / 2];
-      membro(g, [meio, b.cot, b.mao], 34, b.escuro ? COR.zumbiSombra : pele, { contorno, t, id: id + b.nome + "p" });
+      membro(g, [meio, b.cot, b.mao], 34, b.escuro ? V.peleSombra : pele, { contorno, t, id: id + b.nome + "p" });
       membro(g, [b.base, meio], 44, corManga, { contorno, t, id: id + b.nome });
     } else {
       membro(g, [b.base, b.cot, b.mao], 44, corManga, { contorno, t, id: id + b.nome });
       // curativo no antebraço do braço da frente (ESTILO: curativo no braço)
-      if (!b.escuro) {
+      if (!b.escuro && V.curativo) {
         const k = 0.45;
         const c1 = [b.cot[0] + (b.mao[0] - b.cot[0]) * k, b.cot[1] + (b.mao[1] - b.cot[1]) * k];
         const c2 = [b.cot[0] + (b.mao[0] - b.cot[0]) * (k + 0.32), b.cot[1] + (b.mao[1] - b.cot[1]) * (k + 0.32)];
@@ -238,7 +247,12 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
       }
     }
     // mão
-    elipse(g, b.mao[0], b.mao[1], 21, 19, b.escuro && !zumbi ? COR.peleSombra : b.escuro ? COR.zumbiSombra : pele, { contorno, t, id: id + b.nome + "m", n: 10 });
+    elipse(g, b.mao[0], b.mao[1], 21, 19, b.escuro ? V.peleSombra : pele, { contorno, t, id: id + b.nome + "m", n: 10 });
+    // bengala na mão da frente (o senhor do grupo)
+    if (!b.escuro && V.bengala) {
+      membro(g, [[b.mao[0] + 6, b.mao[1] - 8], [b.mao[0] + 30, 0]], 10, "#6B4A2E", { contorno: contorno * 0.7, t, id: id + "beng" });
+      membro(g, [[b.mao[0] - 14, b.mao[1] - 10], [b.mao[0] + 8, b.mao[1] - 12]], 10, "#6B4A2E", { contorno: contorno * 0.7, t, id: id + "beng2" });
+    }
   };
 
   // ordem: braço de trás, perna de trás, mochila, tronco, perna da frente, cabeça, braço da frente
@@ -248,13 +262,13 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
   const dy = ombro[1] - quadril[1];
   const lx = (f) => quadril[0] + dx * f;
   const ly = (f) => quadril[1] + dy * f;
-  if (!zumbi) {
+  if (V.mochila) {
     // mochila nas costas
     forma(g, [[lx(0.15) - 66, ly(0.15)], [lx(0.95) - 74, ly(0.95)], [lx(1.0) - 38, ly(1.0) - 10], [lx(0.15) - 30, ly(0.1)]], { cor: COR.mochila, contorno, t, id: id + "moc" });
     forma(g, [[lx(0.3) - 80, ly(0.3)], [lx(0.6) - 84, ly(0.6)], [lx(0.6) - 60, ly(0.6)], [lx(0.3) - 58, ly(0.3)]], { cor: COR.mochilaSombra, contorno: contorno * 0.8, t, id: id + "moc2" });
   }
   // tronco (jaqueta / camisa rasgada)
-  const corTronco = zumbi ? (variante.camisa ?? "#7A6E62") : COR.jaqueta;
+  const corTronco = V.camisa;
   const largQ = 54;
   const largO = 64;
   const tronco = zumbi
@@ -262,7 +276,25 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
        [ombro[0] + largO - 6, ombro[1] + 10], [ombro[0] + 20, ombro[1] - 10], [ombro[0] - largO + 12, ombro[1] + 4]]
     : [[quadril[0] - largQ, quadril[1] + 8], [quadril[0] + largQ, quadril[1] + 8], [ombro[0] + largO - 4, ombro[1] + 14], [ombro[0] + 18, ombro[1] - 8], [ombro[0] - largO + 6, ombro[1] + 8]];
   forma(g, tronco, { cor: corTronco, contorno, t, id: id + "tr", amp: 1.2 });
-  if (!zumbi) {
+  if (V.colete) {
+    // colete escuro por cima da camisa (o Rui, ex-policial)
+    forma(g, [[lx(0.02) - 50, ly(0.02) + 4], [lx(0.02) + 52, ly(0.02) + 4], [lx(0.92) + 48, ly(0.92) + 6], [lx(0.98) + 14, ly(0.98) - 2], [lx(0.98) - 10, ly(0.98) + 10], [lx(0.92) - 54, ly(0.92)]],
+      { cor: V.colete, contorno, t, id: id + "colete" });
+    for (const f of [0.28, 0.55]) forma(g, [[lx(f) + 10, ly(f)], [lx(f) + 44, ly(f)], [lx(f) + 44, ly(f) - 26], [lx(f) + 10, ly(f) - 26]], { cor: sombra(V.colete, 0.8), contorno: 4, t, id: id + "bol" + f, amp: 0.5 });
+  }
+  if (V.estetoscopio) {
+    g.strokeStyle = COR.contorno;
+    g.lineWidth = 10;
+    g.beginPath();
+    g.moveTo(ombro[0] - 26, ombro[1] + 10);
+    g.quadraticCurveTo(lx(0.55) + 20, ly(0.55), ombro[0] + 34, ombro[1] + 14);
+    g.stroke();
+    g.strokeStyle = "#8C9CA8";
+    g.lineWidth = 5;
+    g.stroke();
+    elipse(g, lx(0.55) + 24, ly(0.55) + 8, 10, 10, "#B8C4CC", { contorno: 4, t, id: id + "est", n: 8 });
+  }
+  if (V.jaqueta) {
     // zíper, bolso e gola da jaqueta; alça da mochila
     g.strokeStyle = COR.contorno;
     g.lineWidth = 4;
@@ -271,9 +303,9 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
     g.lineTo(lx(0.92) + 30, ly(0.92));
     g.stroke();
     forma(g, [[lx(0.18) + 34, ly(0.18)], [lx(0.36) + 36, ly(0.36)], [lx(0.36) + 54, ly(0.36)], [lx(0.18) + 52, ly(0.18)]], { cor: COR.jaquetaSombra, contorno: 4, t, id: id + "bolso", amp: 0.6 });
-    membro(g, [[lx(1.0) - 10, ly(1.0) + 6], [lx(0.45) - 30, ly(0.45)]], 13, COR.mochilaSombra, { contorno: 4, t, id: id + "alca" });
+    if (V.mochila) membro(g, [[lx(1.0) - 10, ly(1.0) + 6], [lx(0.45) - 30, ly(0.45)]], 13, COR.mochilaSombra, { contorno: 4, t, id: id + "alca" });
     forma(g, [[ombro[0] - 34, ombro[1] + 8], [ombro[0] + 2, ombro[1] - 14], [ombro[0] + 44, ombro[1] + 2], [ombro[0] + 30, ombro[1] + 22], [ombro[0] - 20, ombro[1] + 24]], { cor: COR.jaquetaSombra, contorno: 5, t, id: id + "gola" });
-  } else {
+  } else if (zumbi) {
     // rasgos na camisa
     g.strokeStyle = COR.contorno;
     g.lineWidth = 4;
@@ -292,16 +324,20 @@ export function personagem(g, rig, t, tipo = "protagonista", variante = {}) {
   g.save();
   g.translate(cab[0], cab[1]);
   g.rotate((rig.cabeca ?? 0) + (zumbi ? Math.sin(t * 1.3 + (rig.semente ?? 0)) * 0.08 + 0.12 : 0));
-  cabeca(g, rig, t, zumbi, pele, contorno, id, variante);
+  cabeca(g, rig, t, zumbi, pele, contorno, id, V);
   g.restore();
   desenharBraco(bF);
   g.restore();
 }
 
-function cabeca(g, rig, t, zumbi, pele, contorno, id, variante) {
+function cabeca(g, rig, t, zumbi, pele, contorno, id, V) {
   const R = 86;
   // orelha (atrás)
-  elipse(g, -30, 10, 16, 22, zumbi ? COR.zumbiSombra : COR.peleSombra, { contorno, t, id: id + "orelha", n: 9 });
+  const cab = V.cabelo || {};
+  // cabelo comprido / rabo: atrás da cabeça
+  if (cab.estilo === "comprido") forma(g, [[-70, -50], [-92, 20], [-84, 110], [-40, 128], [-6, 100], [-20, 40], [20, -40]], { cor: cab.cor, contorno, t, id: id + "cabtras", amp: 1.2 });
+  if (cab.estilo === "rabo") forma(g, [[-70, -40], [-118, -10], [-128, 50], [-104, 70], [-96, 20], [-66, 0]], { cor: cab.cor, contorno, t, id: id + "rabo", amp: 1.2 });
+  elipse(g, -30, 10, 16, 22, V.peleSombra, { contorno, t, id: id + "orelha", n: 9 });
   // crânio: um pouco mais largo embaixo (bochecha), queixo para a frente
   const pts = [];
   for (let i = 0; i < 16; i++) {
@@ -323,12 +359,21 @@ function cabeca(g, rig, t, zumbi, pele, contorno, id, variante) {
       g.quadraticCurveTo((x0 + x1) / 2 - 6, (y0 + y1) / 2, x1, y1);
       g.stroke();
     }
-    void variante;
+  } else if (cab.estilo === "careca") {
+    // careca com os lados grisalhos
+    forma(g, [[-84, 20], [-90, -24], [-70, -40], [-58, -10], [-62, 18]], { cor: cab.cor, contorno, t, id: id + "lado", amp: 0.9 });
+  } else if (cab.estilo === "comprido" || cab.estilo === "rabo" || cab.estilo === "coque") {
+    // franja e topo lisos
+    forma(g, [[-84, 0], [-86, -50], [-56, -90], [-10, -104], [40, -96], [78, -66], [90, -34], [60, -50], [20, -58], [-20, -48], [-50, -30], [-64, -4]], { cor: cab.cor, contorno, t, id: id + "cabelo", amp: 1.1 });
+    if (cab.estilo === "coque") elipse(g, -46, -96, 30, 26, cab.cor, { contorno, t, id: id + "coque", n: 10 });
+  } else if (cab.estilo === "raspado") {
+    forma(g, [[-84, -6], [-80, -54], [-40, -92], [10, -100], [56, -86], [82, -56], [60, -60], [10, -72], [-40, -58], [-66, -30]], { cor: cab.cor, contorno, t, id: id + "cabelo", amp: 0.9 });
   } else {
     // cabelo: mecha bagunçada por cima
     forma(g, [[-82, 6], [-88, -48], [-60, -88], [-26, -100], [4, -112], [22, -96], [52, -104], [70, -80], [88, -56], [60, -60], [40, -46], [10, -62], [-14, -46], [-40, -40], [-56, -14]],
-      { cor: COR.cabelo, contorno, t, id: id + "cabelo", amp: 1.2 });
+      { cor: cab.cor || COR.cabelo, contorno, t, id: id + "cabelo", amp: 1.2 });
   }
+  if (V.barba) forma(g, [[-30, 20], [-20, 70], [20, 96], [70, 90], [94, 50], [96, 26], [80, 40], [40, 62], [0, 50]], { cor: V.barba, contorno, t, id: id + "barba", amp: 1.0 });
   // olhos (perfil 3/4 para a direita)
   const olhar = rig.olhar ?? [0.5, 0];
   const piscar = rig.piscar ?? 0;
@@ -360,6 +405,21 @@ function cabeca(g, rig, t, zumbi, pele, contorno, id, variante) {
       g.arc(ox + olhar[0] * rx * 0.45 - 3, -12 + olhar[1] * ry * 0.4, 3, 0, Math.PI * 2);
       g.fill();
     }
+  }
+  if (V.oculos) {
+    g.strokeStyle = COR.contorno;
+    g.lineWidth = 5;
+    for (const [ox, rx] of [[30, 26], [70, 22]]) {
+      g.beginPath();
+      g.ellipse(ox, -10, rx, 24, 0, 0, Math.PI * 2);
+      g.stroke();
+    }
+    g.beginPath();
+    g.moveTo(50, -12);
+    g.lineTo(52, -12);
+    g.moveTo(4, -14);
+    g.lineTo(-26, -6);
+    g.stroke();
   }
   // sobrancelhas
   g.strokeStyle = COR.contorno;

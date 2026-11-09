@@ -1,0 +1,157 @@
+<!doctype html>
+<!--
+  E Agora? · Vídeo 1 · prévias em imagem (um quadro parado, t = 1 s), escolhidas pela variável "qual":
+  "capa" (1920x1080 -> capa.png 1280x720: você no meio dos zumbis, ELES NÃO ME VEEM e as placas A/B),
+  "elenco" (1920x1080: você e o grupo do supermercado, com os nomes) e "corte" (1080x1920: capa vertical do corte 2).
+-->
+<html lang="pt-BR" data-composition-variables='[{"id":"qual","type":"string","label":"Qual prévia","default":"capa"}]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Prévias</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #pv-raiz { position: absolute; inset: 0; overflow: hidden; background: #2b1b4a; }
+      #pv-tela { position: absolute; left: 0; top: 0; display: block; }
+      #pv-titulo { position: absolute; font-family: "Archivo Black"; color: #ffd23f; line-height: 0.95; -webkit-text-stroke: 11px #0b0b0c; paint-order: stroke fill;
+        text-shadow: 0 12px 0 rgba(0, 0, 0, 0.6); }
+      .pv-linha { display: block; }
+      #pv-placas { position: absolute; display: flex; gap: 26px; }
+      .pv-placa { width: 150px; height: 150px; border-radius: 22px; background: #ffd23f; border: 9px solid #0b0b0c; box-shadow: 0 10px 0 rgba(0, 0, 0, 0.55);
+        font-family: "Archivo Black"; font-size: 104px; line-height: 132px; text-align: center; color: #0b0b0c; }
+      #pv-nomes { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+      .pv-nome { position: absolute; top: 992px; transform: translateX(-50%); padding: 6px 22px; border-radius: 14px; background: #ffd23f; border: 6px solid #0b0b0c;
+        font-family: "Archivo Black"; font-size: 34px; color: #0b0b0c; white-space: nowrap; box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5); }
+    </style>
+  </head>
+  <body>
+    <div id="pv-raiz" data-composition-id="previa" data-width="1920" data-height="1080" data-duration="2">
+      <canvas id="pv-tela" width="1920" height="1080"></canvas>
+      <div id="pv-titulo"></div>
+      <div id="pv-placas"><div class="pv-placa">A</div><div class="pv-placa">B</div></div>
+      <div id="pv-nomes"></div>
+    </div>
+    <script>
+      (function () {
+        var id = "previa";
+        var raiz = document.getElementById("pv-raiz");
+        var hv = (window.__hyperframes && window.__hyperframes.getVariables && window.__hyperframes.getVariables()) || {};
+        var qual = hv.qual || (location.hash ? location.hash.slice(1) : "capa");
+        var relogio = { t: 0 };
+        var host = { relogio: relogio, tela: document.getElementById("pv-tela"), qual: qual, render: null };
+        if (qual === "corte") {
+          raiz.dataset.width = "1080";
+          raiz.dataset.height = "1920";
+          raiz.style.width = "1080px";
+          raiz.style.height = "1920px";
+          host.tela.width = 1080;
+          host.tela.height = 1920;
+        }
+        window["__" + id] = host;
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) { host.pronto = resolve; });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: 2, duration: 2, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } }, 0);
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+      })();
+    </script>
+    <script type="module">
+      import { COR, personagem } from "./assets/js/desenho2d.js";
+      import { criarRua, desenharRua, desenharMercado } from "./assets/js/cidade2d.js";
+      import { ELENCO } from "./assets/js/elenco.js";
+
+      const host = window.__previa;
+      const g = host.tela.getContext("2d");
+      const titulo = document.getElementById("pv-titulo");
+      const placas = document.getElementById("pv-placas");
+      const nomes = document.getElementById("pv-nomes");
+
+      const sombraChao = (x, y, e) => {
+        g.fillStyle = "rgba(20, 10, 40, 0.45)";
+        g.beginPath();
+        g.ellipse(x + 6 * e, y + 4, 70 * e, 14 * e, 0, 0, Math.PI * 2);
+        g.fill();
+      };
+      const desenhar = (lista, t) => {
+        lista.sort((a, b) => a.rig.y - b.rig.y);
+        for (const p of lista) {
+          sombraChao(p.rig.x, p.rig.y, p.rig.escala);
+          personagem(g, p.rig, t, p.tipo, p.variante || {});
+        }
+      };
+      // zumbi de passagem: braços caídos, cabeça baixa ou olhando para longe (ninguém olha pra ele)
+      const zumbi = (x, y, e, lado, sem, camisa, calca, t, extra = {}) => ({
+        tipo: "zumbi", variante: { camisa, calca },
+        rig: { id: "z" + sem, semente: sem, x, y, escala: e, lado, andar: 0.55, fase: 1.1 + sem * 1.7,
+          olhar: [0.5, 0.5], cabeca: 0.22, bracoFrente: [0.35, 0.12], bracoTras: [-0.12, 0.1], ...extra },
+      });
+
+      const rua = criarRua({ semente: 11, chao: 820 });
+      const ruaV = criarRua({ semente: 19, chao: 1390 });
+
+      function capa(t) {
+        // a câmera em cima dele: texto à esquerda, ele grande à direita, a multidão em volta
+        desenharRua(g, rua, t, { cam: 520, lua: [1640, 150], poste: null, carro: 300 });
+        const ele = { tipo: "protagonista", rig: { id: "ele", x: 1240, y: 1050, escala: 1.28, lado: 1, andar: 1, fase: 0.95,
+          olho: "aberto", olhar: [-0.5, 0.05], boca: "torta", sobrancelha: 0.45, cabeca: -0.05 } };
+        desenhar([
+          zumbi(860, 905, 0.74, 1, 3, "#7A7060", "#353845", t),
+          zumbi(1560, 900, 0.72, -1, 4, "#5C6B4E", "#3B3446", t, { cabeca: 0.34, olhar: [0.3, 0.8] }),
+          zumbi(1020, 985, 0.98, 1, 2, "#8A5A4E", "#40404C", t),
+          zumbi(1720, 1010, 1.04, 1, 7, "#4F6A73", "#3E3848", t, { bracoFrente: [1.15, 0.2], bracoTras: [0.95, 0.25], olhar: [0.7, 0] }),
+          zumbi(1890, 930, 0.8, -1, 8, "#7E5E5E", "#34343E", t, { cabeca: 0.3, olhar: [0.2, 0.9] }),
+          ele,
+        ], t);
+        titulo.innerHTML = '<span class="pv-linha">ELES</span><span class="pv-linha">NÃO ME</span><span class="pv-linha">VEEM</span>';
+        Object.assign(titulo.style, { left: "80px", top: "70px", fontSize: "176px" });
+        Object.assign(placas.style, { left: "90px", top: "640px" });
+      }
+
+      function elenco(t) {
+        desenharMercado(g, t, { chao: 860 });
+        const ordem = ["voce", "rui", "bia", "irmao1", "irmao2", "senhor", "casalEle", "casalEla"];
+        const xs = [190, 430, 650, 870, 1040, 1270, 1520, 1700];
+        const lista = ordem.map((k, i) => {
+          const p = ELENCO[k];
+          const e = 0.66 * p.escala;
+          return { tipo: p.tipo, variante: p.variante, rig: { id: k, semente: i * 3, x: xs[i], y: 960, escala: e, lado: 1, andar: 0, fase: 0,
+            olho: "aberto", olhar: [0.6, 0.05], boca: p.boca, sobrancelha: p.sobrancelha, inclinar: p.inclinar,
+            bracoFrente: k === "voce" ? [0.12, -0.25] : k === "senhor" ? [0.42, -0.1] : [0.08, -0.12], bracoTras: [-0.06, -0.1] } };
+        });
+        desenhar(lista, t);
+        // nomes embaixo (os irmãos e o casal dividem uma placa)
+        const placasNome = [["VOCÊ", 190], ["RUI", 430], ["BIA", 650], ["OS IRMÃOS", 955], ["O SENHOR", 1270], ["O CASAL", 1610]];
+        nomes.innerHTML = placasNome.map(([n, x]) => `<div class="pv-nome" style="left:${x + 30}px">${n}</div>`).join("");
+        titulo.innerHTML = '<span class="pv-linha">O GRUPO DO SUPERMERCADO</span>';
+        Object.assign(titulo.style, { left: "0px", right: "0px", top: "34px", fontSize: "60px", textAlign: "center", WebkitTextStroke: "7px #0b0b0c" });
+        placas.style.display = "none";
+      }
+
+      function corte(t) {
+        desenharRua(g, ruaV, t, { W: 1080, H: 1920, cam: 300, lua: [880, 760], poste: null, carro: null });
+        const ele = { tipo: "protagonista", rig: { id: "ele", x: 520, y: 1690, escala: 1.25, lado: 1, andar: 1, fase: 0.95,
+          olho: "aberto", olhar: [-0.5, 0.05], boca: "torta", sobrancelha: 0.45, cabeca: -0.05 } };
+        desenhar([
+          zumbi(170, 1500, 0.86, 1, 3, "#7A7060", "#353845", t),
+          zumbi(900, 1480, 0.84, -1, 4, "#5C6B4E", "#3B3446", t, { cabeca: 0.34, olhar: [0.3, 0.8] }),
+          zumbi(60, 1760, 1.1, 1, 2, "#8A5A4E", "#40404C", t),
+          zumbi(1000, 1800, 1.12, -1, 8, "#7E5E5E", "#34343E", t, { cabeca: 0.3, olhar: [0.2, 0.9] }),
+          ele,
+        ], t);
+        titulo.innerHTML = '<span class="pv-linha">ELES NÃO</span><span class="pv-linha">ME VEEM</span>';
+        Object.assign(titulo.style, { left: "0px", right: "0px", top: "260px", fontSize: "150px", textAlign: "center" });
+        placas.style.display = "none";
+      }
+
+      host.render = (t) => {
+        if (host.qual === "elenco") elenco(t);
+        else if (host.qual === "corte") corte(t);
+        else capa(t);
+      };
+      host.render(host.relogio.t);
+      if (host.pronto) host.pronto();
+    </script>
+  </body>
+</html>
