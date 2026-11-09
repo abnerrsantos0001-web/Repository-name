@@ -29,6 +29,16 @@ Não usar Publora nem outro serviço de publicação: publicar é sempre pelo `p
 - Site: usar a skill `taste-skill` (design-taste-frontend) para criar, revisar e tirar a "cara de IA". Arquivos de trabalho dela ficam em `.taste-skill/` (fora do git).
 - Vídeo/Reels: skills `hyperframes` e `hyperframes-cli`. O `publicar.py` ainda não publica vídeo.
 
+## Canal "E Agora?" (2D, separado do Ninguém Sabe)
+
+Todo vídeo do canal segue `videos/e-agora/ESTILO.md`:
+- 2D cartoon desenhado por código, com contorno preto grosso e cores chapadas;
+- cores roxo-noite, verde-tóxico e amarelo;
+- protagonista de jaqueta amarela;
+- final com votação A ou B.
+
+Das regras do Ninguém Sabe, vale o que couber. O kit de desenho fica em `videos/e-agora/v1/assets/js/desenho2d.js`.
+
 ## Vídeos do Ninguém Sabe (regras fixas)
 
 Todo vídeo novo segue `videos/ninguem-sabe/REGRAS.md` (regras mais novas, com prioridade) e `videos/prompt-mestre/PROMPT-MESTRE.md`. A seção "REGRAS FIXAS DO CANAL" de lá tem prioridade sobre o resto do prompt e sobre o jeito dos vídeos 1 e 2. Em resumo:

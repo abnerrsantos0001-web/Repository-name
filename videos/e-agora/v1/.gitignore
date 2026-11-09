@@ -1,0 +1,18 @@
+# arquivos temporários do render; o MP4 final de cada parte entra com git add -f
+renders/
+# caches do preview do HyperFrames
+.thumbnails/
+.waveform-cache/
+
+# prévias: só a folha de contato de cada parte entra no git
+previas/*/frame-*.jpg
+zz-*.html
+
+# quadros soltos de diagnóstico (tools/diag/quadros.mjs)
+previas/q/
+compositions/parte98.html
+# raiz gerada por tools/gerar_raizes.py (prévias e renders)
+index.html
+
+# artefatos do CLI (snapshots, renders de teste)
+.hyperframes/

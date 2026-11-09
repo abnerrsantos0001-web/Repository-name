@@ -1,0 +1,269 @@
+<!doctype html>
+<!--
+  E Agora? · Vídeo 1 · teste de estilo (5 s, 1920x1080): a cidade roxa à noite em três camadas com parallax, a multidão de
+  zumbis andando e o protagonista (jaqueta amarela, mochila, curativo no braço) atravessando no meio, sem ninguém olhar
+  pra ele. No começo, uma legenda de exemplo; depois, o texto de capa em amarelo e as placas A/B. Kit em assets/js/desenho2d.js.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Teste de estilo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      #est-raiz { position: absolute; inset: 0; overflow: hidden; background: #2b1b4a; }
+      #est-tela { position: absolute; left: 0; top: 0; display: block; }
+      #est-legenda { position: absolute; left: 160px; right: 160px; bottom: 150px; text-align: center; font-family: Nunito; font-weight: 900; font-size: 64px;
+        color: #ffffff; -webkit-text-stroke: 9px #0b0b0c; paint-order: stroke fill; text-shadow: 0 6px 0 rgba(0, 0, 0, 0.55); }
+      #est-legenda b { color: #ffd23f; }
+      #est-capa { position: absolute; left: 90px; top: 70px; font-family: "Archivo Black"; font-size: 150px; line-height: 0.95; color: #ffd23f;
+        -webkit-text-stroke: 10px #0b0b0c; paint-order: stroke fill; text-shadow: 0 12px 0 rgba(0, 0, 0, 0.6); }
+      .est-linha { display: block; }
+      #est-placas { position: absolute; right: 90px; top: 80px; display: flex; gap: 26px; }
+      .est-placa { width: 150px; height: 150px; border-radius: 22px; background: #ffd23f; border: 9px solid #0b0b0c; box-shadow: 0 10px 0 rgba(0, 0, 0, 0.55);
+        font-family: "Archivo Black"; font-size: 104px; line-height: 132px; text-align: center; color: #0b0b0c; }
+    </style>
+  </head>
+  <body>
+    <div id="est-raiz" data-composition-id="estilo" data-width="1920" data-height="1080" data-duration="5">
+      <canvas id="est-tela" width="1920" height="1080"></canvas>
+      <div id="est-legenda" class="clip" data-start="0.3" data-duration="2.2" data-track-index="2"><span id="est-leg-in">Ele olha pra você. Cheira o ar. E <b>passa reto.</b></span></div>
+      <div id="est-capa" class="clip" data-start="2.6" data-duration="2.4" data-track-index="3"><span class="est-linha">ELES NÃO</span><span class="est-linha">ME VEEM</span></div>
+      <div id="est-placas" class="clip" data-start="2.9" data-duration="2.1" data-track-index="3"><div class="est-placa">A</div><div class="est-placa">B</div></div>
+    </div>
+    <script>
+      (function () {
+        // relógio da cena: tween linear que chama host.render(t); o módulo de desenho pendura a cena nele
+        var id = "estilo";
+        var raiz = document.getElementById("est-raiz");
+        var duracao = 5;
+        var relogio = { t: 0 };
+        var host = { relogio: relogio, duracao: duracao, tela: document.getElementById("est-tela"), render: null };
+        window["__" + id] = host;
+        window.__hf = window.__hf || {};
+        window.__hf.buildReady = window.__hf.buildReady || {};
+        window.__hf.buildReady[id] = new Promise(function (resolve) { host.pronto = resolve; });
+        var tl = gsap.timeline({ paused: true });
+        tl.to(relogio, { t: duracao, duration: duracao, ease: "none", onUpdate: function () { if (host.render) host.render(relogio.t); } }, 0);
+        var q = function (s) { return raiz.querySelector(s); };
+        tl.fromTo(q("#est-leg-in"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0.3);
+        tl.fromTo(q("#est-capa"), { opacity: 0, scale: 0.7, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, 2.6);
+        raiz.querySelectorAll(".est-placa").forEach(function (el, i) {
+          tl.fromTo(el, { opacity: 0, y: -40, rotation: i ? 8 : -8 }, { opacity: 1, y: 0, rotation: i ? 4 : -4, duration: 0.4, ease: "back.out(2.6)" }, 2.9 + i * 0.12);
+        });
+        window.__timelines = window.__timelines || {};
+        window.__timelines[id] = tl;
+      })();
+    </script>
+    <script type="module">
+      import { COR, rng, forma, poligono, elipse, personagem } from "./assets/js/desenho2d.js";
+
+      const host = window.__estilo;
+      const g = host.tela.getContext("2d");
+      const W = 1920;
+      const H = 1080;
+      const CHAO = 820; // onde a calçada encontra os prédios
+      const VEL = 150; // px/s da câmera (acompanha o passo dele)
+      const ELE_X = 760; // posição dele na tela
+
+      // camadas geradas uma vez, com semente (determinístico)
+      const longe = [];
+      {
+        const r = rng(11);
+        let x = -300;
+        while (x < 3200) {
+          const w = 90 + r() * 120;
+          const h = 240 + r() * 300;
+          const jan = [];
+          for (let jy = CHAO - 60 - h + 30; jy < CHAO - 80; jy += 34) for (let jx = x + 14; jx < x + w - 18; jx += 26) jan.push([jx, jy, r() < 0.1]);
+          longe.push({ x, w, h, jan, antena: r() < 0.3 });
+          x += w + 6 + r() * 30;
+        }
+      }
+      const meio = [];
+      {
+        const r = rng(23);
+        let x = -200;
+        const placas = ["FARMÁCIA", "", "MERCADO", "", "", "HOTEL", ""];
+        let k = 0;
+        while (x < 3600) {
+          const w = 230 + r() * 160;
+          const h = 330 + r() * 260;
+          const jan = [];
+          for (let jy = CHAO - h + 40; jy < CHAO - 150; jy += 70) for (let jx = x + 28; jx < x + w - 50; jx += 62) jan.push([jx, jy, r() < 0.09, r() < 0.12]);
+          meio.push({ x, w, h, jan, placa: placas[k % placas.length], cor: ["#5C4194", "#553B8A", "#62479C"][k % 3] });
+          x += w + 18 + r() * 40;
+          k++;
+        }
+      }
+      const estrelas = [];
+      {
+        const r = rng(5);
+        for (let i = 0; i < 70; i++) estrelas.push([r() * W, r() * 430, 1.5 + r() * 2.2, r() * 6]);
+      }
+      // a multidão: [x no mundo, y do chão, escala, velocidade px/s, camisa, calça, lado se parado, semente]
+      // quase todos andam no mesmo sentido dele, mais devagar (ele vai passando por eles); dois vêm na contramão, de
+      // cabeça baixa, em outras faixas de profundidade. Braços caídos; só dois com os braços para a frente.
+      const ZUMBIS = [
+        [120, 900, 0.6, 40, "#6E7F8C", "#3E3A48", 1, 1, 0],
+        [380, 1006, 0.86, 55, "#8A5A4E", "#40404C", 1, 2, 1],
+        [980, 884, 0.58, 50, "#7A7060", "#353845", 1, 3, 0],
+        [1250, 1000, 0.84, 60, "#6B5A7A", "#2F3340", 1, 5, 0],
+        [1560, 905, 0.64, -32, "#5C6B4E", "#3B3446", -1, 4, 0],
+        [1820, 960, 0.78, 45, "#4F6A73", "#3E3848", 1, 7, 1],
+        [2150, 880, 0.56, 38, "#8C7A5A", "#3A3A44", 1, 6, 0],
+        [2420, 1004, 0.85, -26, "#7E5E5E", "#34343E", -1, 8, 0],
+        [2700, 915, 0.66, 52, "#5E6E5A", "#3A3644", 1, 9, 0],
+      ];
+
+      function render(t) {
+        const cam = t * VEL;
+        // céu e lua (bem longe: não se move)
+        g.fillStyle = COR.noite;
+        g.fillRect(0, 0, W, H);
+        for (const [x, y, s, f] of estrelas) {
+          g.fillStyle = "#9C8AD0";
+          g.globalAlpha = 0.55 + 0.45 * Math.sin(t * 2 + f);
+          g.fillRect(x, y, s, s);
+        }
+        g.globalAlpha = 1;
+        elipse(g, 1240, 170, 78, 78, "#FFF1B8", { contorno: 6, t, id: "lua", n: 18, amp: 1.2 });
+        elipse(g, 1216, 150, 15, 12, "#EADB98", { contorno: 0, t, id: "cr1", n: 9 });
+        elipse(g, 1268, 194, 10, 9, "#EADB98", { contorno: 0, t, id: "cr2", n: 9 });
+        // prédios distantes (parallax 0,15)
+        const cl = cam * 0.15;
+        for (const [i, b] of longe.entries()) {
+          const x = b.x - cl;
+          if (x > W || x + b.w < 0) continue;
+          poligono(g, [[x, CHAO - 50], [x, CHAO - 50 - b.h], [x + b.w, CHAO - 50 - b.h], [x + b.w, CHAO - 50]], { cor: "#3E2A6B", contorno: 5, t, id: "l" + i });
+          if (b.antena) {
+            g.strokeStyle = COR.contorno;
+            g.lineWidth = 4;
+            g.beginPath();
+            g.moveTo(x + b.w * 0.6, CHAO - 50 - b.h);
+            g.lineTo(x + b.w * 0.6, CHAO - 50 - b.h - 50);
+            g.stroke();
+          }
+          for (const [jx, jy, acesa] of b.jan) {
+            g.fillStyle = acesa ? "#B98E3C" : "#4D3880";
+            g.fillRect(jx - cl, jy, 12, 16);
+          }
+        }
+        // prédios do meio (parallax 0,45), com janelas, placas e uma fachada lateral mais escura
+        const cm = cam * 0.45;
+        for (const [i, b] of meio.entries()) {
+          const x = b.x - cm;
+          if (x > W + 40 || x + b.w < -40) continue;
+          poligono(g, [[x + b.w, CHAO], [x + b.w, CHAO - b.h], [x + b.w + 28, CHAO - b.h + 18], [x + b.w + 28, CHAO]], { cor: "#47306F", contorno: 5, t, id: "ml" + i });
+          poligono(g, [[x, CHAO], [x, CHAO - b.h], [x + b.w, CHAO - b.h], [x + b.w, CHAO]], { cor: b.cor, contorno: 6, t, id: "m" + i });
+          for (const [k, [jx, jy, acesa, quebrada]] of b.jan.entries()) {
+            const X = jx - cm;
+            poligono(g, [[X, jy], [X + 36, jy], [X + 36, jy + 46], [X, jy + 46]], { cor: acesa ? "#D9A43C" : "#3A2862", contorno: 4, t, id: `j${i}-${k}`, amp: 0.5 });
+            if (quebrada && !acesa) {
+              g.strokeStyle = "#7E68B4";
+              g.lineWidth = 3;
+              g.beginPath();
+              g.moveTo(X + 6, jy + 8);
+              g.lineTo(X + 20, jy + 26);
+              g.lineTo(X + 14, jy + 40);
+              g.stroke();
+            }
+          }
+          if (b.placa) {
+            const px = x + b.w / 2 - 110;
+            const py = CHAO - 128;
+            poligono(g, [[px, py], [px + 220, py], [px + 220, py + 54], [px, py + 54]], { cor: b.placa === "FARMÁCIA" ? "#2E4A3A" : "#3A2A5C", contorno: 5, t, id: "pl" + i });
+            g.fillStyle = b.placa === "FARMÁCIA" ? COR.toxico : "#C9B8F0";
+            g.font = '900 30px "Archivo Black"';
+            g.textAlign = "center";
+            g.fillText(b.placa, px + 110, py + 39);
+            // porta
+            poligono(g, [[x + b.w / 2 - 50, CHAO], [x + b.w / 2 - 50, CHAO - 66], [x + b.w / 2 + 50, CHAO - 66], [x + b.w / 2 + 50, CHAO]], { cor: "#21163A", contorno: 5, t, id: "pt" + i });
+          }
+        }
+        // chão: calçada e rua (acompanham a câmera)
+        poligono(g, [[-20, CHAO], [W + 20, CHAO], [W + 20, 872], [-20, 872]], { cor: "#5A4790", contorno: 6, t, id: "calc", amp: 0.6 });
+        g.fillStyle = "#3B2C61";
+        g.fillRect(0, 872, W, H - 872);
+        g.strokeStyle = COR.contorno;
+        g.lineWidth = 6;
+        g.beginPath();
+        g.moveTo(0, 872);
+        g.lineTo(W, 872);
+        g.stroke();
+        for (let k = -1; k < 14; k++) {
+          const x = k * 300 - (cam % 300);
+          poligono(g, [[x, 1040], [x + 150, 1040], [x + 150, 1054], [x, 1054]], { cor: "#8E7CC3", contorno: 0, t, id: "faixa" + k });
+        }
+        // juntas da calçada
+        g.strokeStyle = "#47377A";
+        g.lineWidth = 4;
+        for (let k = -1; k < 22; k++) {
+          const x = k * 110 - (cam % 110);
+          g.beginPath();
+          g.moveTo(x, CHAO + 4);
+          g.lineTo(x - 12, 868);
+          g.stroke();
+        }
+        // poste com luz fraca e um carro largado
+        const poste = 1250 - cam;
+        g.fillStyle = "rgba(255, 210, 63, 0.10)";
+        g.beginPath();
+        g.moveTo(poste + 70, 350);
+        g.lineTo(poste - 120, 880);
+        g.lineTo(poste + 260, 880);
+        g.closePath();
+        g.fill();
+        poligono(g, [[poste - 8, 872], [poste - 8, 340], [poste + 8, 340], [poste + 8, 872]], { cor: "#2C2148", contorno: 5, t, id: "poste" });
+        poligono(g, [[poste - 8, 340], [poste + 90, 330], [poste + 90, 350], [poste - 8, 356]], { cor: "#2C2148", contorno: 5, t, id: "braco" });
+        elipse(g, poste + 74, 356, 22, 10, "#FFE58A", { contorno: 4, t, id: "lamp", n: 10 });
+        const carro = 320 - cam;
+        forma(g, [[carro, 900], [carro + 20, 840], [carro + 110, 836], [carro + 160, 790], [carro + 330, 790], [carro + 390, 838], [carro + 450, 846], [carro + 460, 900]], { cor: "#6F6890", contorno: 7, t, id: "carro" });
+        forma(g, [[carro + 176, 840], [carro + 196, 806], [carro + 260, 806], [carro + 262, 840]], { cor: "#2A2246", contorno: 5, t, id: "vid1" });
+        forma(g, [[carro + 280, 840], [carro + 278, 806], [carro + 320, 806], [carro + 352, 840]], { cor: "#2A2246", contorno: 5, t, id: "vid2" });
+        elipse(g, carro + 100, 902, 34, 34, "#1E1830", { contorno: 6, t, id: "r1", n: 12 });
+        elipse(g, carro + 370, 902, 34, 34, "#1E1830", { contorno: 6, t, id: "r2", n: 12 });
+
+        // personagens, de trás para a frente (y menor = mais longe)
+        const gente = ZUMBIS.map(([x, y, s, v, camisa, calca, lado, sem, ergue]) => ({
+          tipo: "zumbi",
+          y,
+          rig: {
+            id: "z" + sem, semente: sem,
+            x: x + v * t - cam, y, escala: s,
+            lado: v === 0 ? lado : Math.sign(v),
+            andar: v === 0 ? 0.08 : 0.55, fase: t * (v === 0 ? 1.2 : 3.4) + sem * 1.7,
+            // ninguém olha pra ele: os da contramão vêm de cabeça baixa, os outros olham para a frente
+            olhar: v < 0 ? [0.3, 0.8] : [0.6, 0.1], cabeca: v < 0 ? 0.32 : 0.08 + 0.05 * Math.sin(sem),
+            bracoFrente: ergue ? [1.15 + 0.12 * Math.sin(t * 1.4 + sem), 0.2] : [0.32 + 0.1 * Math.sin(t * 3.4 + sem), 0.12],
+            bracoTras: ergue ? [0.95 + 0.1 * Math.sin(t * 1.1 + sem * 2), 0.25] : [-0.1 + 0.1 * Math.sin(t * 3.4 + sem + 2), 0.1],
+          },
+          variante: { camisa, calca },
+        }));
+        const piscar = (tt) => Math.max(0, 1 - Math.abs(tt - 1.6) / 0.08) + Math.max(0, 1 - Math.abs(tt - 3.9) / 0.08);
+        gente.push({
+          tipo: "protagonista",
+          y: 965,
+          rig: {
+            id: "ele", x: ELE_X, y: 965, escala: 0.8, lado: 1, andar: 1, fase: t * 5.9,
+            olho: "aberto", olhar: [-0.15 + 0.35 * Math.sin(t * 0.9), 0.05], piscar: piscar(t),
+            boca: "torta", sobrancelha: 0.35, cabeca: -0.04 + 0.04 * Math.sin(t * 5.9 * 2),
+          },
+        });
+        gente.sort((a, b) => a.y - b.y);
+        for (const p of gente) {
+          // sombra no chão
+          g.fillStyle = "rgba(20, 10, 40, 0.45)";
+          g.beginPath();
+          g.ellipse(p.rig.x + 6 * p.rig.escala, p.y + 4, 70 * p.rig.escala, 14 * p.rig.escala, 0, 0, Math.PI * 2);
+          g.fill();
+          personagem(g, p.rig, t, p.tipo, p.variante || {});
+        }
+      }
+
+      host.render = render;
+      render(host.relogio.t);
+      if (host.pronto) host.pronto();
+    </script>
+  </body>
+</html>
